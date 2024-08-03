@@ -1,0 +1,149 @@
+\chapter*{The course} \label{chp:course}
+
+\section*{Grading} \label{sec:grading}
+This is tentative.
+\begin{itemize}
+    \item Quizzes: 30\%
+    \item Midterm: 30\%
+    \item Final: 40\%
+\end{itemize}
+
+\lecture{2024-08-02}{}
+
+\chapter{Groups} \label{chp:group}
+
+\begin{definition}[Binary operation] \label{def:binop}
+    A \emph{binary operation} $\cdot$ on a set $A$ is any map
+    from $A \times A \to A$, written $(a, b) \mapsto a \cdot b$.
+
+    We say that $\cdot$ is \emph{associative} if for all $a, b, c \in A$, \[
+        (a \cdot b) \cdot c = a \cdot (b \cdot c)
+    \]
+    and \emph{commutative} if for all $a, b \in A$, \[
+        a \cdot b = b \cdot a.
+    \]
+\end{definition}
+\begin{examples}
+    \item Addition and multiplication are associative and commutative
+        binary operations on $\R$.
+    \item Subtraction, division and exponentiation are
+        non-associative and non-commutative binary operations.
+    \item Composition is an associative but non-commutative
+        binary operation on $X^X$.
+\end{examples}
+
+\begin{definition}[Group] \label{def:group}
+    A \emph{group} is a set $G$ equipped with a binary operation $\cdot$
+    satisfying the following properties:
+    \begin{enumerate}[label=\small(G\arabic*)]
+        \item \textbf{associativity:} $\cdot$ is associative;
+        \item \textbf{identity:} there exists an element $1_G = e \in G$
+            such that $1_G \cdot x = x \cdot 1_G = x$ for all $x \in G$;
+        \item \textbf{inverse:} for every $x \in G$, there exists an element
+            $y \in G$ such that $x \cdot y = y \cdot x = 1_G$.
+            We write $y$ as $x^{-1}$.
+    \end{enumerate}
+
+    If $\cdot$ is also commutative, we say that $G$ is an
+    \emph{abelian group}.
+
+    A subset $H \subseteq G$ is a \emph{subgroup} of $G$ if $H$ is a group
+    with respect to the same binary operation $\cdot$.
+    We write $H \le G$.
+\end{definition}
+
+\begin{examples}
+    \item $(\Z, +)$, $(\Q, +)$, $(\R, +)$ and $(\C, +)$ are abelian groups.
+    \item $(\R^\times, \cdot)$ is a group but $(\R, \cdot)$ is not.
+    \item $(\GL_n(\R), \cdot)$ is a non-abelian group, where \[
+        \GL_n(\R) = \set{A \in M_n(\R) \mid \det A \neq 0}.
+    \]
+    \item For any $n \in \N^+$, $(S_n, \circ)$ is a group, where \[
+        S_n = \set{\sigma\colon [n] \to [n]
+                \mid \sigma \text{ is bijective}}.
+    \] \begin{align*}
+        S_1 &= \set{1}, \\
+        S_2 &= \set{1, (12)}, \\
+        S_3 &= \set{1, (12), (13), (23), (123), (132)}.
+    \end{align*}
+    $S_1$ and $S_2$ are abelian, but $S_3$ is not.
+    Let $x = (12)$ and $y = (13)$, then \[
+        (x \circ y)(1) = x(3) = 3, \quad
+        (x \circ y)(2) = x(2) = 1, \quad
+        (x \circ y)(3) = x(1) = 2,
+    \] but \[
+        (y \circ x)(1) = y(2) = 2, \quad
+        (y \circ x)(2) = y(1) = 3, \quad
+        (y \circ x)(3) = y(3) = 1.
+    \]
+    \item Let $H = \set*{\begin{pmatrix}
+        1 & x \\
+        0 & 1
+    \end{pmatrix} \mid x \in \R}$.
+    Then $H$ is an abelian subgroup of the non-abelian $\GL_2(\R)$.
+\end{examples}
+
+\begin{remarks}[New groups from old]
+    \item Let $(A, \cdot)$ and $(B, \ast)$ be groups.
+        The cartesian product $A \times B$ is a group with respect to the
+        operation \[
+            (a_1, b_1) \star (a_2, b_2) = (a_1 \cdot a_2, b_1 \ast b_2).
+        \] defined componentwise.
+    \item Let $X$ be a set and $S = \R^X$.
+        Then $S$ is an abelian group under addition (pointwise).
+        In fact, if $(G, \cdot)$ is a group, then $G^X$ is a group
+        under the operation \[
+            (f \cdot g)(x) = f(x) \cdot g(x).
+        \] If $G$ is abelian, then so is $G^X$.
+    \item Given any set $A$, we can form the group $S(A)$ of all bijections
+        from $A$ to itself, under composition.
+\end{remarks}
+
+\begin{proposition}
+    Let $(G, \cdot)$ be a group. Then
+    \begin{enumerate}
+        \item the identity element $1_G$ is unique;
+        \item the inverse of each element $x \in G$ is unique;
+        \item $(x^{-1})^{-1} = x$ for all $x \in G$;
+        \item $(x \cdot y)^{-1} = y^{-1} \cdot x^{-1}$ for all $x, y \in G$;
+        \item The product $a_1 a_2 \dots a_n$ does not depend on bracketing.
+    \end{enumerate}
+\end{proposition}
+\begin{proof} \leavevmode
+    \begin{enumerate}
+        \item Suppose $e$ and $f$ are both identities of $G$.
+            Then \[
+                e = e \cdot f = f.
+            \]
+        \item Suppose $y$ and $y'$ are both inverses of $x$.
+            Then \[
+                xy = 1_G \implies y'xy = y' \implies y' = y.
+            \]
+        \item We have \[
+            x \cdot x^{-1} = 1_G = x^{-1} \cdot x.
+        \] reinterpreted in the context of $x^{-1}$.
+        \item Checking \[
+            (xy)(y^{-1}x^{-1}) = x(y y^{-1})x^{-1} = xx^{-1} = 1_G.
+        \] Alternatively, let $z = (xy)^{-1}$.
+        Then \begin{align*}
+            (xy)z &= 1_G \\
+            (x^{-1}x)yz &= x^{-1} \\
+            yz &= x^{-1} \\
+            (y^{-1}y)z &= y^{-1}x^{-1} \\
+            z &= y^{-1}x^{-1}.
+        \end{align*}
+        \item Induct on $n$.
+        Look at the rightmost left bracket \[
+            a_1 \dots a_n = (a_1 \dots a_k) \cdot (a_{k+1} \dots a_n).
+                \qedhere
+        \]
+    \end{enumerate}
+\end{proof}
+
+\begin{corollary}[Cancellation law] \label{thm:group:cancel}
+    Let $(G, \cdot)$ be a group.
+    If $x, y, z \in G$ and $xy = xz$, then $y = z$.
+\end{corollary}
+\begin{proof}
+    Multiply by $x^{-1}$ on the left.
+\end{proof}

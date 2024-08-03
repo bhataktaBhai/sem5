@@ -1,0 +1,9 @@
+% \usepackage{parskip}
+\usepackage{lmodern} % https://tex.stackexchange.com/a/58088/295755
+\renewcommand\bfdefault{b}
+\usepackage{microtype}
+
+\usepackage{amsmath}
+\newcommand\yesnumber{\stepcounter{equation}\tag{\theequation}}
+
+\ifundef{\chapter}{}{\providecommand\thechapter{\Roman{chapter}}}

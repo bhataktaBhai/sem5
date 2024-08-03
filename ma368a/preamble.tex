@@ -1,0 +1,27 @@
+\input{../preamble}
+\usepackage{tikz}
+\usepackage{physics}
+\usetikzlibrary{automata,positioning,arrows}
+\tikzset{
+    >=stealth', % makes the arrow heads bold
+    node distance=3cm, % specifies the minimum distance between two nodes. Change if necessary.
+    every state/.style={thick, fill=gray!10}, % sets the properties for each 'state' node
+    initial text=$ $, % sets the text that appears on the start arrow
+    auto,
+    shorten >=1pt
+}
+
+\DeclareMathOperator{\E}{\mathrm{E}}
+\newcommand\F{\mcF}
+% \usepackage{bbm}
+\newcommand\1[1]{\bm{1}_{#1}}
+\newcommand\given\mid
+\newcommand\otto{\leftrightarrow}
+\newcommand\eqd{\overset{d}{=}}
+\DeclareMathOperator\Var{Var}
+% almost sure convergence
+\newcommand\asto{\xrightarrow{\text{a.s.}}}
+% convergence in probability
+\newcommand\pto{\leadsto}
+% convergence in distribution
+\newcommand\dto{\xrightarrow{\text{d}}}

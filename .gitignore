@@ -1,0 +1,19 @@
+**/*.log
+**/*.out
+**/*.toc
+**/*.lec
+**/*.hw
+**/*.fdb_latexmk
+**/*.fls
+**/*.synctex.gz
+**/*.aux
+**/*.dvi
+**/main.pdf
+# **/*.pdf
+**/*.synctex*
+.DS_Store
+**/texts/
+**/prof/
+
+# ass
+ma200/assignments/

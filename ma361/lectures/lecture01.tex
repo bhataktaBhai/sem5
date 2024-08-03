@@ -1,0 +1,166 @@
+\chapter*{The course} \label{chp:course}
+\lecture{2024-08-01}{}
+
+\section*{Grading} \label{sec:grading}
+\begin{itemize}
+    \item Homework: 20\%
+    \item Two midterms: 15\% each
+    \item Final: 50\%
+\end{itemize}
+
+\chapter{Review} \label{chp:review}
+
+\section{Discrete probability} \label{sec:discrete}
+
+\begin{definition}[Discrete probability space] \label{def:discrete}
+    A discrete probability space is a pair $(\Omega, p)$ where
+    $\Omega$ is a finite or countable set called \emph{sample space} and
+    $p: \Omega \to [0, 1]$ is a function giving the \emph{elementary probabilities}
+    of each $\omega \in \Omega$ such that \[
+        \sum_{\omega \in \Omega} p(\omega) = 1.
+    \]
+\end{definition}
+\begin{examples}
+    \item ``Toss a fair $n$ times'' is modeled as \[
+        \Omega = \set{0, 1}^n
+    \] with \[
+        p(\omega) \equiv \frac{1}{2^n}.
+    \]
+    \item ``Throw $r$ balls randomly into $m$ bins'' is modeled as \[
+        \Omega = [m]^r
+    \] with $p$ given by the multinomial distribution (assuming
+    uniformity).
+    \item ``A box has $N$ coupons, draw one of them.''
+    \begin{align*}
+        \Omega &= [N] \\
+        p &= \omega \mapsto \frac{1}{N}.
+    \end{align*}
+    \item ``Toss a fair coin countably many times.''
+    The set of outcomes is clear: $\Omega = \set{0, 1}^\N$.
+    What about the elementary probabilities?
+
+    Probabilities of some events are also fairly intuitive.
+    For example, the event \[
+        A = \set{\ubar{\omega} \in \Omega
+                \mid \omega_1 = 1, \omega_2 = 1, \omega_3 = 0}
+    \] has probability $1/8$.
+    Similarly $B = \set{\ubar{\omega} \in \Omega \mid
+                    \omega_1 = 1, \omega_2 = 0}$ has probability $1/4$.
+    Where does this come from?
+
+    What about this event: \[
+        C = \set{\ubar{\omega} \in \Omega
+                \Bigm\vert \frac1n \sum_{i=1}^n \omega_i \to 0.6}
+    \]
+    What about: \[
+        D = \set{\ubar{\omega} \in \Omega
+                \Bigm\vert \sum_{i=1}^n \omega_i = \frac{n}{2}
+                \text{ for infinitely many } n}\footnotemark
+    \] \footnotetext{$\Pr(C) = 0$ and $\Pr(D) = 1$.}
+    \item ``Draw a number uniformly at random from $[0, 1]$.''
+    $\Omega$ is obviously $[0, 1]$.
+    Again some events have obvious probabilities.
+    \[
+        A = [0.1, 0.3] \implies \Pr(A) = 0.2
+    \] Similarly \[
+        B = [0.1, 0.2] \cup (0.7, 1) \implies \Pr(B) = 0.4
+    \] What about $C = \Q \cap [0, 1]$?
+    What about $D$, the $\frac13$-Cantor set?
+
+    The $\frac13$-Cantor set is given by the limit of the following
+    sequence of sets. \begin{align*}
+        K_0 &= [0, 1] \\
+        K_1 &= [0, 1/3] \cup [2/3, 1] \\
+        K_2 &= [0, 1/9] \cup [2/9, 1/3] \cup [2/3, 7/9] \cup [8/9, 1] \\
+        &\vdots
+    \end{align*}
+    where each $K_{n+1}$ is obtained by removing the middle third of each
+    interval in $K_n$.\footnote{$\Pr(C) = \Pr(D) = 0$.}
+\end{examples}
+
+The resolution for the above examples is achieved by taking the `obvious'
+cases as definitions.
+
+\vspace{2em}
+\begin{minipage}{0.4\textwidth}
+    \textbf{What we agree on:}
+    \begin{itemize}
+        \item[(\#)] $\Pr([a, b]) = b - a$ for all $0 \le a \le b \le 1$.
+    \end{itemize}
+\end{minipage}%
+\quad%
+\begin{minipage}{0.5\textwidth}
+    \textbf{What we wish for:}
+    \begin{itemize}
+        \item[($*$)] If $A \cap B = \O$, then
+            $\Pr(A \cup B) = \Pr(A) + \Pr(B)$.
+        \item[($**$)] If $A_n \downarrow A$, then
+            $\Pr(A_n) \downarrow \Pr(A)$.
+    \end{itemize}
+\end{minipage}
+
+\vspace{1em}
+\textbf{Question:} Does there exist a $\Pr\colon 2^{[0, 1]} \to [0, 1]$
+that satisfies (\#), ($*$) and ($**$)?
+\textbf{No.}
+
+\textbf{Question:} Does there exist a $\Pr\colon 2^{[0, 1]} \to [0, 1]$
+that satisfies (\#) and ($*$) and even \emph{translational invariance}?
+\textbf{Yes.} \\
+However, it is not unique.
+
+What about the same for a probability measure on $[0, 1]^2$ that is
+translation and rotation invariant? \\
+What about $[0, 1]^3$?%
+\footnote{The Banach-Tarski paradox gives a ``no'' for the 3D case.}
+
+Lack of uniqueness is a huge issue.
+The way out is the following: restrict the class of sets on which $\Pr$ is
+defined to a $\sigma$-algebra.
+
+\begin{definition*}[$\sigma$-algebra] \label{def:sigma-algebra}
+    Given a set $\Omega$, a collection $\F \subseteq 2^\Omega$ is called a
+    $\sigma$-algebra if
+    \begin{enumerate}
+        \item $\O \in \F$.
+        \item $A \in \F \implies A^c \in \F$.
+        \item If $A_1, A_2, \ldots \in \F$, then
+            $\bigcup_{n=1}^\infty A_n \in \F$.
+    \end{enumerate}
+\end{definition*}
+
+This gives us a modified question. \\
+\textbf{Question:} Does there exist \emph{any} $\sigma$-algebra $\F$ on
+$[0, 1]$ and a function $\Pr\colon \F \to [0, 1]$ that satisfies
+(\#), ($*$) and ($**$)?%
+
+\textbf{Answer:} Yes, and it is sort-of unique.
+
+\begin{exercise}
+    Prove that ($**$) is equivalent to the following:
+    if $(B_n)_\N$ are pairwise disjoint, then \[
+        \Pr(\bigcup B_n) = \sum \Pr(B_n).
+    \]
+\end{exercise}
+
+A $\sigma$-algebra that works for our case is the \emph{smallest}
+one that contains all intervals.
+
+\begin{exercise}
+    If $\set{\F_i}_{i \in I}$ are $\sigma$-algebras on $\Omega$, then
+    $\bigcap_{i \in I} \F_i$ is also a $\sigma$-algebra.
+\end{exercise}
+
+This allows us to make sense of the word `smallest' above.
+\begin{definition}
+    Let $S \subseteq 2^\Omega$.
+    The \emph{smallest} $\sigma$-algebra containing $S$ is given by the
+    intersection of all $\sigma$-algebras on $\Omega$ that contain $S$.
+\end{definition}
+This will contain $S$ since $2^\Omega$ itself is a $\sigma$-algebra.
+
+\begin{definition}[Borel $\sigma$-algebra] \label{def:borel}
+    The \emph{Borel $\sigma$-algebra} on $[0, 1]$ is the smallest
+    $\sigma$-algebra containing all intervals in $[0, 1]$.
+    It is denoted by $\mcB_{[0, 1]}$.
+\end{definition}

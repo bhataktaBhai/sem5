@@ -1,0 +1,140 @@
+\chapter*{The course} \label{chp:course}
+\lecture{2024-08-02}{}
+
+\section*{Grading} \label{sec:grading}
+\begin{itemize}
+    \item Homework: 20\%
+    \item Quizzes: 20\%
+    \item Midterm: 20\%
+    \item Final: 40\%
+\end{itemize}
+
+\section*{Textbooks} \label{sec:books}
+\begin{itemize}
+    \item 
+\end{itemize}
+
+\chapter{Sth}
+
+\section{st}
+
+\begin{definition}[homogeneous function] \label{def:home}
+    Let $V$ be a vector space over $\R$.
+    A function $f\colon V \setminus \set{0} \to \R$ is called
+    a \emph{homogeneous function} of degree $k$ if \[
+        f(r x) = r^k f(x)
+    \] for each $x \in V \setminus \set{0}$ and $r > 0$.
+\end{definition}
+\begin{remarks}
+    \item If $f$ and $g$ are homogeneous functions of degree $k$ and $l$
+    respectively, then $f \cdot g$ is homogeneous of degree $k + l$
+    and $f / g$ is homogeneous of degree $k - l$
+    (provided $g$ is never zero).
+    \item $f \equiv 0$ is homogeneous of any degree.
+\end{remarks}
+
+\begin{definition}[norm] \label{def:norm}
+    Let $V$ be a vector space over $\R$.
+    A norm $\norm{\cdot}$ on $V$ is a function from $V$ to $\R$ that
+    satisfies
+    \begin{enumerate}[label=(N\arabic*)]
+        \item (Positivity) $\norm{x} \ge 0$ for any $x \in V$.
+        \item (Definiteness) $\norm{x} = 0$ iff $x = 0$.
+        \item (Homogeneity) $\norm{r x} = \abs{r} \norm{x}$
+            for any $x \in V$ and $r \in \R$.
+        \item (Triangle inequality) $\norm{x + y} \le \norm{x} + \norm{y}$
+            for any $x, y \in V$.
+    \end{enumerate}
+\end{definition}
+
+\begin{definition}[normed linear space] \label{def:nls}
+    A vector space $V$ equipped with a norm $\norm{\cdot}$ is called
+    a \emph{normed linear space}.
+\end{definition}
+
+\begin{remark}
+    Any normed linear space $(V, \norm{\cdot})$ can be given a metric
+    space structure by defining the distance $d(x, y)$ between $x, y \in V$
+    as $\norm{x - y}$.
+
+    The set $B(x, r) \coloneq \set{y \in V \mid \norm{x - y} < r}$ is called
+    the open ball of radius $r$ centered at $x$.
+
+    The set $S(x, r) \coloneq \set{y \in V \mid \norm{x - y} = r}$ is called
+    the sphere of radius $r$ centered at $x$.
+\end{remark}
+
+\begin{exercise}[reverse triangle inequality] \label{thm:rti}
+    Let $V$ be a normed linear space.
+    Show that \[
+        \abs[\big]{\norm{x} - \norm{y}} \le \norm{x - y}
+    \] for any $x, y \in V$.
+\end{exercise}
+
+This shows that $f = x \mapsto \norm{x}$ is a (Lipschitz) continuous
+function on $V$.
+
+\begin{definition}[continuity] \label{def:continuity}
+    Let $(X, d)$ and $(Y, \rho)$ be metric spaces.
+    A function $f\colon X \to Y$ is called \emph{continuous} at $a \in X$
+    iff \begin{align*}
+        x_n \to a &\implies f(x_n) \to f(a), \text{ or} \\
+        d(x_n, a) \to 0 &\implies \rho(f(x_n), f(a)) \to 0
+    \end{align*}
+\end{definition}
+
+\begin{exercise}[product metric spaces]
+    Let $(X_1, d_1)$ and $(X_2, d_2)$ be metric spaces.
+    Let $d\colon X_1 \times X_2 \to \R$ be defined by \[
+        d((x_1, x_2), (y_1, y_2)) \coloneq d_1(x_1, y_1) + d_2(x_2, y_2).
+    \] Show that $d$ is a metric on $X_1 \times X_2$.
+
+    Let $(z_n)_{n \in \N} = ((x_n, y_n))_{n \in \N}$ be a sequence in
+    $X_1 \times X_2$.
+    Show that $z_n \to (x, y)$ iff $x_n \to x$ and $y_n \to y$.
+\end{exercise}
+
+\begin{remark}
+    $\wtld{d}$ given by \[
+        \wtld{d}((x_1, x_2), (y_1, y_2)) \coloneq
+            \min\set{d_1(x_1, y_1), d_2(x_2, y_2)}
+    \] is \emph{not} a metric on $X_1 \times X_2$.
+
+    It disobeys definiteness.
+\end{remark}
+
+\begin{exercise}
+    Let $(V, \norm{\cdot})$ be a normed linear space.
+    \begin{itemize}
+        \item The addition map $(x, y) \mapsto x + y$ is a continuous map
+        from $V \times V$ to $V$.
+        \item The scalar multiplication map $(\alpha, x) \mapsto \alpha x$
+        is continuous from $\R \times V$ to $V$.
+    \end{itemize}
+\end{exercise}
+
+\begin{examples}
+    \item ($\ell^p$ norm) $\R^n$ with $p \in [1, \infty]$ and \begin{align*}
+        \norm{x}_p &\coloneq
+            \paren[\Big]{\abs{x_1}^p + \cdots + \abs{x_n}^p}^{1/p}
+        \shortintertext{where}
+        \norm{x}_\infty &\coloneq \max\set{\abs{x_1}, \ldots, \abs{x_n}}
+    \end{align*} is the limit of the $l^p$ norms as $p \to \infty$.
+\end{examples}
+
+\begin{exercise}
+    Check that $\norm{\cdot}_p$ is a norm on $\R^n$,
+    and that its limit as $p \to \infty$ is $\norm{\cdot}_\infty$.
+\end{exercise}
+
+\begin{definition}[norm equivalence] \label{def:norm_equivalence}
+    Let $\norm{\cdot}_a$ and $\norm{\cdot}_b$ be two norms on $V$.
+    We say that $\norm{\cdot}_a$ and $\norm{\cdot}_b$ are \emph{equivalent}
+    if these exist $c_1, c_2 > 0$ such that \[
+        c_1 \norm{x}_a \le \norm{x}_b \le c_2 \norm{x}_a
+    \] for all $x \in V$.
+    We write $\norm{\cdot}_a \sim \norm{\cdot}_b$.
+\end{definition}
+\begin{exercise}
+    Check that $\sim$ is an equivalence relation.
+\end{exercise}

@@ -1,0 +1,235 @@
+\chapter*{The course} \label{chp:course}
+\lecture{2024-08-01}{}
+
+\href{https://math.iisc.ac.in/~arvind/ma368a}{Course webpage}
+
+\section*{Grading} \label{sec:grading}
+\begin{itemize}
+    \item Class participation: 5\%
+    \item Homework: 15\%
+    \item Midterm: 30\%
+    \item Final: 50\%
+\end{itemize}
+
+\chapter{Review} \label{chp:review}
+\begin{definition}[Stochastic process] \label{def:stoch}
+    A \emph{stochastic process} is a family of random variables
+    $\set{X(t)}_{t \in T}$, where $T$ is the index set
+    (usually thought of as time).
+
+    $X(t)$ is said to be the \emph{state} at time $t$.
+    The set where $X(t)$ takes its values is called the \emph{state space},
+    usually denoted $S$ or $\Omega$.
+\end{definition}
+
+\begin{examples}
+    \item (Boring) $X(t)$'s are independent, as in the case of coin flips.
+    \item (Gambler's ruin) A gambler walks into a casino with $k$ coins.
+        and wants to go home with $n > k$ coins.
+        In each round, they bet a coin and either loses it or gains one.
+        Their current bank balance is $X(t)$.
+        The process stops when $X(t) = 0$ or $X(t) = n$.
+        Suppose $T = \N$.
+        Then we write $(X_n)_{n \in \N}$ to denote the process.
+\end{examples}
+
+\section{Discrete time Markov chains} \label{sec:dtmc}
+\begin{definition*}[DTMC] \label{def:dtmc}
+    A \emph{discrete time Markov chain} (DTMC) is a stochastic process
+    $(X_n)_{n \in \N}$ with the Markov property: \[
+        \Pr(X_{n+1} = x \mid X_0 = x_0, \dots, X_n = x_n)
+            = \Pr(X_{n+1} = x \mid X_n = x_n)
+    \] for each $n \in \N$ and $x_0, \dots, x_n, x \in S$.
+\end{definition*}
+That is, the future depends on the past only through the present.
+Equivalently, the future and the past are independent when conditioning on
+the present.
+
+We will assume $S$ is countable.
+\begin{definition}[Transition probabilities] \label{def:dtmc:trans}
+    For any DTMC, we define for each $i, j \in S$ the quantity \[
+        p_{ij} = \Pr(X_{n+1} = j \mid X_n = i)
+    \] as the \emph{one-step transition probability} from $i$ to $j$.
+
+    The matrix \[
+        P = (p_{ij})_{i, j \in S}
+    \] is called the \emph{transition matrix} of the DTMC.
+
+    We write $P_{ij}^n = \Pr(X_n = j \mid X_0 = i)$ for the $n$-step
+    transition probability from $i$ to $j$.
+\end{definition}
+The transition matrix obeys the following properties:
+\begin{enumerate}
+    \item $p_{ij} \geq 0$ for all $i, j \in S$.
+    \item (row stochastic property)
+        $\sum_{j \in S} p_{ij} = 1$ for all $i \in S$.
+\end{enumerate}
+
+\begin{remark}
+    In principle, the transition probabilities can depend on $n$.
+    For the most part, we will keep $p_{ij}$'s free of any $n$'s.
+    This makes the process \emph{time-homogeneous}.
+\end{remark}
+
+\begin{theorem*}[Chapman-Kolmogorov equation] \label{thm:chapman-kolmogorov}
+    For any DTMC, we have \[
+        P_{ij}^{n+m} = \sum_{k \in S} P_{ik}^n P_{kj}^m
+    \] for all $i, j \in S$ and $n, m \in \N$.
+\end{theorem*}
+\begin{corollary}
+    For any DTMC with transition matrix $P$, the $n$-step transition matrix
+    is given by $P^n$.
+\end{corollary}
+This justifies the notation $P_{ij}^n$ instead of $p_{ij}^n$.
+
+\subsection{Classification of states} \label{sec:dtmc:states}
+\begin{definition*} \leavevmode
+    \begin{itemize}
+        \item We say that $j$ is \emph{accessible} from $i$ if there exists
+            $n \in \N$ such that $P_{ij}^n > 0$, and write $i \to j$.
+            In particular, $i$ is always accessible from itself.
+        \item We say that $i$ and $j$ \emph{communicate}
+            if $i \to j$ and $j \to i$,
+            and write $i \otto j$.
+    \end{itemize}
+\end{definition*}
+
+\begin{exercise}
+    Commincation is an equivalence relation.
+\end{exercise}
+
+Thus the state space $S$ can be partitioned into
+\emph{communication classes}.
+
+\begin{definition*} \leavevmode
+    \begin{itemize}
+        \item If there is a single communication class,
+            the chain is said to be \emph{irreducible}.
+        \item We define $T_i$ to be the first return time of state $i$
+            and $f_i = \Pr(T_i < \infty)$.
+        \item A state $i$ is \emph{recurrent} if $f_i = 1$,
+            and \emph{transient} if $f_i < 1$.
+    \end{itemize}
+\end{definition*}
+\begin{examples}
+    \item Consider the following DTMC.
+    \begin{center}
+        \begin{tikzpicture}
+            \node[state] (1) {$1$};
+            \node[state, right=of 1] (2) {$2$};
+            \path[->]
+                (1) edge[loop left] node {$p$} (1)
+                (2) edge[loop right] node {$q$} (2)
+                (1) edge[bend left, above] node {$1-p$} (2)
+                (2) edge[bend left, below] node {$1-q$} (1);
+        \end{tikzpicture}
+    \end{center}
+    \begin{itemize}
+        \item $p = 0, q = 1$ makes $1$ transient and $2$ recurrent.
+        \begin{center}
+            \begin{tikzpicture}
+                \node[state] (1) {$1$};
+                \node[state, right=of 1] (2) {$2$};
+                \path[->]
+                    (1) edge node {$1$} (2)
+                    (2) edge[loop right] node {$1$} (2);
+            \end{tikzpicture}
+        \end{center}
+        \item $p = 0, q = \frac12$ makes both states recurrent.
+        \begin{center}
+            \begin{tikzpicture}
+                \node[state] (1) {$1$};
+                \node[state, right=of 1] (2) {$2$};
+                \path[->]
+                    (1) edge node {$1$} (2)
+                    (2) edge[loop right] node {$\frac12$} (2)
+                    (2) edge[bend left, below] node {$\frac12$} (1);
+            \end{tikzpicture}
+        \end{center}
+        \item $p = \frac12, q = 1$ makes $1$ transient and $2$ recurrent.
+        \begin{center}
+            \begin{tikzpicture}
+                \node[state] (1) {$1$};
+                \node[state, right=of 1] (2) {$2$};
+                \path[->]
+                    (1) edge[loop left] node {$\frac12$} (1)
+                    (2) edge[loop right] node {$1$} (2)
+                    (1) edge node {$\frac12$} (2);
+            \end{tikzpicture}
+        \end{center}
+    \end{itemize}
+\end{examples}
+
+\begin{exercise}
+    State $i$ is recurrent iff $\sum_{n=1}^\infty P_{ii}^n = \infty$.
+\end{exercise}
+
+\begin{exercise}
+    Recurrence is a class property.
+\end{exercise}
+
+\begin{example}[Simple random walk on $\Z$]
+    For each $i$, let $p_{i, i+1} = p$ and $p_{i, i-1} = 1-p$.
+    Suppose $p \in (\frac12, 1)$.
+    \begin{itemize}
+        \item Every state is accessible from every other state.
+            Thus there is a single communication class.
+        \item Every state is transient.
+    \end{itemize}
+    If $p = \frac12$, then every state is recurrent.
+\end{example}
+
+\begin{exercise}
+    For a finite DTMC, there is at least one recurrent state.
+\end{exercise}
+
+\begin{definition*}
+    Let $m_i = \E[T_i]$ be the expected return time of state $i$.
+    A recurrent state $i$ is said to be \emph{positive recurrent} if
+    $m_i < \infty$, and \emph{null recurrent} if $m_i = \infty$.
+\end{definition*}
+
+\begin{exercise}
+    Positive recurrence is a class property.
+\end{exercise}
+
+\begin{exercise*}[SSRW on $\Z$]
+    For the simple random walk on $\Z$ with $p = \frac12$,
+    all states are null recurrent.
+\end{exercise*}
+\begin{solution}
+    Suppose each state is positive recurrent.
+    Using translational invariance with \cref{thm:dtmc:stationary},
+    the stationary distribution of the chain is uniform.
+    This is not possible, since it would force
+    $\sum_{i \in \Z} \pi_i = \infty$.
+\end{solution}
+
+\begin{definition*}[Stationarity] \label{def:dtmc:stationarity}
+    We say that a probability distribution $\pi$ on $S$ is a
+    \emph{stationary} or \emph{steady state} distribution if \[
+        \sum_{i \in S} \pi_i p_{ij} = \pi_j
+    \] for all $j \in S$.
+    Equivalently, $\pi P = \pi$ (where $\pi$ is treated as a row vector).
+\end{definition*}
+
+\begin{exercise*}
+    Let $\pi_0$ be the initial distribution of the chain.
+    Then the distribution at time $n$ is given by $\pi_0 P^n$.
+\end{exercise*}
+Thus, the definition of stationarity says that if the chain starts with
+distribution $\pi$, it will always stay in distribution $\pi$.
+
+\begin{theorem*} \label{thm:dtmc:stationary}
+    Suppose a DTMC $(X_n)_{n \in \N}$ is irreducible and positive
+    (that is, each state is positive recurrent).
+    Then \[
+        \pi_i = \frac1{m_i} \quad \text{for all $i \in S$}
+    \] is the unique stationary distribution.
+\end{theorem*}
+\begin{remarks}
+    \item A stationary distribution exists and is unique if the chain is
+        irreducible and positive.
+    \item If $i$ is positive recurrent, then $\pi_i > 0$.
+        If $i$ is null recurrent, then $\pi_i = 0$.
+\end{remarks}

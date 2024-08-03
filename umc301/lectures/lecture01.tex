@@ -1,0 +1,65 @@
+\chapter*{The course} \label{chp:course}
+\lecture{2024-08-02}{}
+
+\chapter{Data science / AI} \label{chp:aids}
+How does Siri process the query
+    ``Show me a good breakfast restaurant near me''?
+\begin{enumerate}
+    \item Convert speech to text.
+    \item Understand the semantics of the query (for example,
+        understand keywords like ``breakfast'', ``restaurant'') and
+        formulate a structured query
+        (place type = restaurant, meal type = breakfast, rating 3--5,
+        distance 0--3 km).
+        \begin{itemize}
+            \item Also needs your current location!
+        \end{itemize}
+    \item Search for restaurants filtered by the structure above and rank
+        based on some metric
+        \begin{itemize}
+            \item star rating,
+            \item go through all reviews and understand the sentiments
+            \item check your own past history, and try to give you a
+                personalized recommendation
+                \begin{itemize}
+                    \item either recommend similar restaurants,
+                    \item or recommend something completely different
+                        with a message like ``would you like to try
+                        something new?''
+                \end{itemize}
+        \end{itemize}
+        or some combination of these (by another model).
+\end{enumerate}
+
+\section*{An AI system for predicting cricket} \label{sec:cricket}
+
+The data comes from
+\begin{itemize}
+    \item past performance of the player;
+    \item weather, pitch conditions;
+    \item other \emph{factors}.
+\end{itemize}
+
+Data is usually stored in a tabular format representing
+\begin{itemize}
+    \item each factor as a column,
+    \item each data point as a row.
+\end{itemize}
+
+Another piece of data one could analyze is the net practice \emph{videos}.
+An easier version of this is, read the \emph{text} commentary from some
+source.
+Alternatively, record the \emph{audio} commentary and analyze that.
+Could also look at the final pose of a batter once they have completed
+a shot as a single \emph{image}.
+
+Thus we can categorize data as
+\begin{itemize}
+    \item tabular,
+    \item timeseries (collection of tabular data),
+    \item image (table of pixel values),
+    \item video (time series of images),
+    \item text (list of tokens),
+    \item audio (time series of sound waves, or a
+        \href{https://en.wikipedia.org/wiki/Spectrogram}{spectrogram}).
+\end{itemize}

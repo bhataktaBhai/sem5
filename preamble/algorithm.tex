@@ -1,0 +1,66 @@
+% recommended font bitstream charter
+\usepackage{algorithmicx}
+\usepackage[indLines=false, italicComments=false]{algpseudocodex}
+\newcommand\Varr[1]{\textit{#1}}
+
+% Jeff's close underlining -- \smash collapses the text box to size 0
+\newcommand\textul[1]{\underline{\smash{#1}\vphantom{.}}}
+\algdef{SxNi}[fn]{Fn}{EndFn}{1em}%
+[2]{\textul{\textsc{#1}(#2):}}%
+
+% non-bold keywords, and no ``do'' or ``then''
+\algrenewcommand\algorithmicfor{for}
+\algrenewcommand\algorithmicwhile{while}
+\algrenewcommand\algorithmicdo{}
+\algrenewcommand\algorithmicend{end}
+\algrenewcommand\algorithmicif{if}
+\algrenewcommand\algorithmicthen{}
+\algrenewcommand\algorithmicelse{else}
+\algrenewcommand\algorithmicreturn{return}
+
+\usepackage{varwidth}
+\newenvironment{algo}
+{\fontfamily{bch}\selectfont
+\begin{center}\begin{tabular}{|l|}
+    \hline
+    \hspace{-0.85em} \begin{varwidth}{0.9\textwidth}
+        \small\;\\[-1.6em]
+        \begin{algorithmic}}
+{       \end{algorithmic}\;\\[-2em]
+    \end{varwidth} \\
+    \hline
+\end{tabular}\end{center}}
+
+% % ---------------------------------------------------------------------
+% %  Algorithm and code environments -- Algorithms are set in normal
+% %  text, with 2em indenting, surrounded by a box.  Code is set in
+% %  typewriter text, with 4 space indenting, and no box.  I've never
+% %  actually used the code environment.
+% %
+% %  WARNING!  The true width of the minipage environment is determined
+% %  by the contents of the longest line, because the minipage environment
+% %  contains a tabbing environment and nothing else.  It's a HaX!
+% %
+% %  Both environments really need optional line numbering and a better
+% %  comment macros.  But bold keywords are just distracting, so if you
+% %  want them, you're on you own,
+% % ----------------------------------------------------------------------
+% \makeatletter
+% \def\begin@lgo{\begin{minipage}{1in}\begin{tabbing}
+%         \quad\=\qquad\=\qquad\=\qquad\=\qquad\=\qquad\=\qquad\=\qquad\=\qquad\=\qquad\=\qquad\=\qquad\=\qquad\=\kill}
+% \def\end@lgo{\end{tabbing}\end{minipage}}
+%
+% \newenvironment{algorithm}
+% {\begin{tabular}{|l|}\hline\begin@lgo}
+% {\end@lgo\\\hline\end{tabular}}
+%
+% \newenvironment{algo}
+% {\begin{center}\small\begin{algorithm}}
+% {\end{algorithm}\end{center}}
+% \makeatother
+% %
+% %  These only work with <1 line of text.  Use sparingly!!
+% %
+% \def\textul#1{\underline{\smash{#1}\vphantom{.}}}
+% \def\strike#1{\ensuremath{\overline{\text{\smash{#1}\vphantom{.}}}}}
+

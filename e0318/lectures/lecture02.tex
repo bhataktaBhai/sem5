@@ -1,0 +1,177 @@
+\lecture{2024-08-13}{}
+\section{$\eps$-nets} \label{sec:eps-nets}
+
+\begin{definition}
+    Let $(X, \mcR)$ be a range space.
+    Let $A \subseteq X$ be finite.
+    A set $N \subseteq A$ is a combinatorial $\eps$-net for $A$ if
+    $N$ has non-empty intersection with every $R \in \mcR$ which satisfies
+    $\abs{R \cap A} \ge \eps \abs{A}$.
+\end{definition}
+
+\begin{definition}
+    Let $(X, \mcR)$ be a range space and let $\mcD$ be a probability
+    distribution on $X$.
+    A set $N \subseteq X$ is an $\eps$-net for $X$ wrt $\mcD$ if
+    for every $R \in \mcR$ with $\Pr_\mcD(R) \ge \eps$,
+    $N \cap R \ne \O$.
+\end{definition}
+\begin{example}
+    Consider the uniform distribution on $[0, 1]^2$, with $\mcR$ being the
+    collection of all axis-aligned rectangles.
+    Then, for $\eps = 1/4$, the set \[
+        N = \set{(i/4, j/4) \mid i, j \in [3]}
+            \setminus \set{(1/2, 1/2)}
+    \] is an $\eps$-net.
+\end{example}
+
+Last class: If there are $k$ sets of mass at least $\eps$,
+then the probability that $m$ samples miss all given sets is at most
+$k (1 - \eps)^m$.
+For this to be bounded by $\delta$, we need \[
+    m \ge \frac1{\eps} \ln \frac{k}{\delta}.
+\] Using the Sauer-Shelah lemma, we can bound $k$ by $n^d$, which gives \[
+    m \ge \frac{d}{\eps} \ln \frac{n}{\delta}
+\] which still depends on $n$.
+
+\begin{theorem*}[$\eps$-net theorem] \label{thm:eps-nets}
+    Let $(X, \mcR)$ be a range space with VC-dimension $d$.
+    Let $\mcD$ be a probability distribution on $X$.
+    For any $0 < \delta, \eps \le \frac12$,
+    there is an \[
+        m = O\ab(\frac{d}{\eps} \ln \frac{d}{\eps} + \frac1{\eps} \ln \frac1{\delta})
+    \] such that a random sample from $\mcD$ of size $m$ is an $\eps$-net
+    for $X$ wrt $\mcD$ with probability at least $1 - \delta$.
+\end{theorem*}
+\begin{proof}
+    Let $M$ be a set of $m$ independent samples from $X$ according to
+    $\mcD$.
+    Define \[
+        E_1 \coloneq \set{\exists S \in \mcR \mid \Pr_\mcD(S) \ge \eps
+                    \land S \cap M = \O}
+    \] We wish to have $\Pr[E_1] \le \delta$.
+
+    Choose a second set $T$ of $m$ independent samples from $X$ according to
+    $\mcD$.
+    Define \[
+        E_2 \coloneq \set*{\exists S \in \mcR \mid \Pr_\mcD(S) \ge \eps
+            \land S \cap M = \O \land \abs{S \cap T} \ge \frac12 \eps m}
+    \]
+    \begin{lemma}
+        For $m \ge \frac{8}{\eps}$, $\Pr[E_2] \le \Pr[E_1] \le 2 \Pr[E_2]$.
+    \end{lemma}
+    \begin{proof}
+        The left inequality is simply because $E_2 \subseteq E_1$.
+
+        If $E_1$ occurs, then there exists a set $S'$ with probability
+        at least $\eps$ such that $S' \cap M = \O$.
+        Now \begin{align*}
+            \frac{\Pr[E_2]}{\Pr[E_1]} &= \frac{\Pr[E_2 \cap E_1]}{\Pr[E_1]} \\
+            &= \Pr[E_2 \mid E_1] \\
+            &\ge \Pr(\abs{T \cap S'} \ge \frac12 \eps m)
+        \end{align*}
+        For a fixed $S'$ and a random sample $T$, $\abs{T \cap S'}$ is
+        a $\Bin(m, \Pr_\mcD(S'))$ random variable.
+
+        We will use the Chernoff bound
+        \begin{align*}
+            \Pr(\abs{T \cap S'} \ge (1 - \beta) E[\abs{T \cap S'}])
+            &\le e^{-} \\
+            &\vdotswithin{\le}
+        \end{align*}
+    \end{proof}
+    Now define \[
+        E_3 \coloneq \set{\exists S \in \mcR \mid
+            S \cap M = \O \land \abs{S \cap T} \ge \frac12 \eps m}
+            \supseteq E_2
+    \] Thus we have \[
+        \Pr[E_1] \le 2 \Pr[E_2] \le 2 \Pr[E_3].
+    \]
+
+    Let $k = \frac12 \eps m$.
+    For a fixed $S \in \mcR$, define
+    $E_S \coloneq \set{S \cap M = \O, \abs{S \cap T} \ge k}$.
+
+    There are $\binom{2m}{m}$ possible partitions of $M \cup T$, but only
+    in $\binom{2m-k}{m}$ of them does $S \cap M = \O$.
+    \begin{lemma}
+        For $m \ge \frac8{\eps}$,
+        $\Pr[E_S] \le \Pr[E_1] \le 2 \Pr[E_S]$.
+    \end{lemma}
+    \begin{proof}
+        \begin{align*}
+            \Pr(E_S) &\le \Pr(M \cap S = \O \mid S \cap (M \cup T) \ge k) \\
+            &\le \frac{\binom{2m-k}{m}}{\binom{2m}{m}} \\
+            &= \frac{(2m-k)!m!}{2m!(m-k)!} \\
+            &= \frac{m(m-1)\dots(m-k+1)}{2m(2m-1)\dots(2m-k+1)} \\
+            &\le \frac12^k \\
+            &\le 2^{-\eps m / 2} \qedhere
+        \end{align*}
+
+        By Sauer-Shelah, the projection of $\mcR$ on $M \cup T$ has at most
+        $(2m)^d$ ranges and \[
+            \Pr[E_S] \le (2m)^d 2^{-\frac12 \eps m} \le \delta.
+        \]
+    \end{proof}
+\end{proof}
+
+\section{Set cover} \label{sec:set-cover}
+\begin{question*}[Set cover]
+    Given $m$ sets $S_1, S_2, \dots, S_m$ and $n$ elements
+    $e_1, e_2, \dots, e_n$,
+    find the minimum number of sets such that all elements are covered.
+\end{question*}
+
+\begin{question*}[Hitting set]
+    Given $m$ sets $S_1, S_2, \dots, S_m$ and $n$ elements
+    $e_1, e_2, \dots, e_n$,
+    find the minimum number of elements such that all sets are hit.
+\end{question*}
+
+These are equivalent in the general setting, by switching the roles of
+sets and elements.
+However, this may lose some nice properties of the problem.
+For example, if the sets are rectangles, the dual hitting set problem
+has no such rectangle structure.
+
+We first rephrase the hitting set problem as an integer program.
+\begin{question*}
+    \textbf{Minimize:} $\sum_{u \in X} X_u$ \\
+    \textbf{Subject to:} $\sum_{u \in S} X_u \ge 1$ for all $S \in \mcR$.
+\end{question*}
+Here $X_u$ indicates if element $u$ is chosen.
+
+Define \begin{align*}
+    \eps &\coloneq \frac1{\sum_{u \in X} X_u} \\
+    \mu_u &\coloneq \eps X_u
+\end{align*}
+\begin{question*}
+    \textbf{Maximize:} $\eps$ \\
+    \textbf{Subject to:} $\sum_{i \in S} \mu_i \ge \eps$ for each
+    $S \in \mcR$ and $\sum_{u \in X} \mu_u = 1$.
+\end{question*}
+
+\begin{solution} \leavevmode
+    \begin{enumerate}
+        \item Solve the LP for $(\eps^*, \mu^*)$.
+        \item Find $\eps^*$-net in \[
+            O\ab(\frac{d}{\eps} \ln \frac{d}{\eps} + \frac1{\eps} \ln \frac1{\delta})
+        \] time.
+        Since $\eps^* = \frac1{\OPT}$, we can rewrite this as \[
+            O\ab(d \OPT \ln (d \OPT) + \OPT) % TODO: ???
+        \]
+    \end{enumerate}
+    We claim that the $\eps^*$-net is a hitting set.
+\end{solution}
+
+\section{Art gallery} \label{sec:art-gallery}
+\begin{question*}[Art gallery]
+    Given a polygon $P$ with $n$ sides, find the minimum number of guards
+    needed to see all of $P$.
+\end{question*}
+The range space is $(P, \mcR)$ where $P$ is the set of points inside the
+polygon,
+and $\mcR$ is the set of all visibility regions from a point in $P$.
+The \emph{visibility region} from a point $p$ is \[
+    V_P(p) = \set{q \in P \mid \wbar{pq} \subseteq P}.
+\]

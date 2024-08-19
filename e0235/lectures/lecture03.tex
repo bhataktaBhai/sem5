@@ -1,0 +1,55 @@
+\lecture{2024-08-13}{}
+\textbf{Announcement:} Class on Friday from 9:30--11:00 am.
+
+\begin{theorem*}[Shannon's theorem] \label{thm:shannon}
+    A scheme $(\Gen, \Enc, \Dec)$ with
+    $\abs{\mcK} = \abs{\mcC} = \abs{\mcM}$ is perfectly secure
+    if and only if
+    \begin{enumerate}
+        \item $Gen$ is a uniform distribution over $\mcK$.
+        \item For every $m \in \mcM$ and $c \in \mcC$,
+            there is a unique key $k \in \mcK$ such that
+            $\Enc_k(m) = c$.
+    \end{enumerate}
+\end{theorem*}
+Why do we care about $\abs \mcK = \abs \mcC = \abs \mcM$?
+We will see $\abs \mcK \ge \abs \mcM$ is necessary for security.
+% TODO: (\cref{}).
+Equality is the optimal case.
+
+Since $\Enc_k$ needs to be injective for each $k \in \mcK$,
+$\abs \mcM \le \abs \mcC$.
+Equality is the optimal case.
+
+\begin{proof}
+    Suppose $(\Gen, \Enc, \Dec)$ satisfies the conditions.
+    We need to show $\Pr[C = c \mid M = m] = \Pr[C = c \mid M = m']$.
+    Since there is a unique key for which $\Enc_k(m) = c$,
+    $\Pr[C = c \mid M = m] = \Pr[K = k] = 1/\abs \mcK$.
+    This is independent of $M$, so the two probabilities are equal.
+
+    Now suppose $(\Gen, \Enc, \Dec)$ is perfectly secure.
+    Fix a $c \in \mcC$.
+    Let $\mcK_m = \set{k \in \mcK \mid \Enc_k(m) = c}$.
+
+    \begin{claim}
+        $\mcK_m \ne \O$ and $\mcK_m \cap \mcK_{m'} = \O$ for $m \ne m'$.
+    \end{claim}
+    Suppose there is some message $m_0$ for which
+    $\Pr[C = c \mid M = m_0] > 0$.
+    By perfect security, $\Pr[C = c \mid M = m] > 0$ for each $m \in \mcM$.
+    If $\mcK_m = \O$ for some $m$, then $\Pr[C = c \mid M = m] = 0$.
+
+    Since $\Enc_k$ is injective for each $k \in \mcK$,
+    the same key cannot encrypt two different messages to the same
+    ciphertext.
+    Thus $\mcK_m \cap \mcK_{m'} = \O$ for $m \ne m'$.
+
+    Since \[
+        \Pr[K = k_m] = \Pr[C = c \mid M = m] = \Pr[C = c \mid M = m']
+        = \Pr[K = k_{m'}],
+    \] we have $\Pr[K = k_m] = 1/\abs \mcK$.
+\end{proof}
+
+We now have three equivalent definitions of perfect security:
+\cref{def:ske:perfect,thm:ske:perfect,thm:shannon}.

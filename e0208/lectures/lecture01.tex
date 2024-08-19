@@ -1,0 +1,158 @@
+\chapter*{The course} \label{chp:course}
+\lecture{2024-08-07}{The Skyline problem}
+
+\href{https://www.csa.iisc.ac.in/~saladi/e0208/fa2024}{Course webpage}
+
+\textbf{MS Teams:} 9ng333s
+
+\section*{Grading}
+Tentatively
+\begin{itemize}
+    \item[(15\%)] 4 assignments
+    \item[(25\%)] 2 midterms
+    \item[(35\%)] Final / project
+    \item[(???)] Class participation
+\end{itemize}
+
+\section*{Overview}
+Applications to
+\begin{itemize}
+    \item Robotics
+    \item VLSI
+    \item Databases (spatial)
+    \item Machine learning
+\end{itemize}
+\begin{examples}
+    \item \textbf{Robotics:} Path planning
+    \item \textbf{Databases:} Given a set of restaurants with ratings,
+        find the top $k$ restaurants within a distance $r$ from a given
+        location.
+        \begin{itemize}
+            \item Processing a single query takes $O(n)$,
+            \item and preprocessing leads to space issues.
+        \end{itemize}
+        It seems we are fed.
+    \item \textbf{Nearest-neighbour query:} Given a set of $n$ points and
+        a query point $q$, return the point closest to $q$.
+        (Voronoi diagram)
+\end{examples}
+The first half focuses on these data structure based problems.
+The second half focuses on geometric optimization queries.
+\begin{examples}
+    \item \textbf{Travelling salesman} in the Euclidean setting.
+    \item \textbf{Set cover:} Given a set of points and a set of disks,
+        find the smallest set of disks that covers all points.
+    \item \textbf{Convex hull/Skyline points/Arrangement of lines}
+\end{examples}
+
+\section*{Conferences} \label{sec:conferences}
+\begin{itemize}
+    \item \textbf{SoCG:} Symposium on Computational Geometry
+    \item \textbf{CCCG:} Canadian Conference on Computational Geometry
+\end{itemize}
+
+\chapter{Skyline points} \label{chp:skyline}
+% \begin{center}
+%     \begin{tikzpicture}
+%         \begin{axis}[
+%             xlabel=$x_1$,
+%             ylabel=$x_2$,
+%             xmin=-1, xmax=9,
+%             ymin=-1, ymax=9,
+%             axis lines=middle,
+%             % legend pos=north west,
+%             ]
+%             \addplot[only marks, mark=*, Red] table {
+%                 1 4
+%                 2 5
+%                 2.5 5.5
+%                 3 4.2
+%                 2.6 4.8
+%                 3.2 5.2
+%                 1.6 3.6
+%                 5 2.5
+%                 5.5 3
+%                 6 3.2
+%                 5.3 3.4
+%                 5.8 2.3
+%                 6.2 3.5
+%             };
+%             \addplot[domain=-1:10, samples=2, blue] {0.7*x+1};
+%         \end{axis}
+%     \end{tikzpicture}
+% \end{center}
+
+\begin{definition*}[Domination and skyline] \label{def:skyline}
+    A point $p = (p_1, p_2, \dots, p_d)$ \emph{dominates}
+    another point $q = (q_1, q_2, \dots, q_d)$ if
+    $p_i > q_i$ for all $i \in [d]$.
+
+    A point $p$ in a set $S$ is a \emph{skyline point} if no other point in
+    $S$ dominates it.
+\end{definition*}
+
+\begin{question*}
+    Given a set of points in $\R^2$, find the set of skyline points.
+\end{question*}
+\begin{solution}
+    Sort the points by decreasing $x$-coordinate.
+    Iterate through the list keeping track of the maximum $y$-coordinate
+    seen so far (sweep left).
+    If the current point has a $y$-coordinate less than the maximum,
+    it is a skyline point.
+    \begin{algo}
+        \Fn{Skyline}{$P$}
+            \State sort $P$ by decreasing $x$-coordinate
+            \State $S \gets \O$
+            \State $y_{\max} \gets -\infty$
+            \For{$p \in P$}
+                \If{$p_2 > y_{\max}$}
+                    \State $S \gets S \cup \{p\}$
+                    \State $y_{\max} \gets p_2$
+                \EndIf
+            \EndFor
+        \EndFn
+    \end{algo} \vspace{-1.3em}
+\end{solution}
+
+\begin{question*}
+    Given a set of points in $\R^3$, find the set of skyline points.
+\end{question*}
+\begin{solution}
+    Sort $P$ by decreasing $z$-coordinate.
+    Whether a point is a skyline point depends only on points before it.
+    Sweep through $P$, while maintaining the solution set $S$, and the
+    2D skyline for the projection of each point in $S$ onto the $xy$-plane.
+
+    This 2D skyline is to be stored in a (balanced) binary search tree
+    according to the $x$-coordinate.
+    Each time a new point $p_i$ is seen, we query the tree for the successor
+    $a_j$ of $p_i$.
+    Then $p_i$ is a skyline point iff $(p_i)_y > (a_j)_y$.
+
+    If $p_i$ is a skyline point, insert it into the tree, and delete all
+    points dominated by $p_i$.
+    $O((1 + k) \log n)$ time for deleting $k$ points.
+
+    Time complexity is \begin{align*}
+        \sum_{i=1}^n O(\log n) + k_i \cdot O(\log n)
+            &= O\ab(\sum_{i=1}^n \log n) + \ab(\sum_{i=1}^n k_i) O(\log n)\\
+            &= O(n \log n + n \log n) = O(n \log n)
+    \end{align*}
+    \begin{algo}
+        \Fn{3DSkyline}{$P$}
+            \State sort $P$ by decreasing $z$-coordinate
+            \State $S \gets \O$, $T \gets \O$
+            \For{$p \in P$}
+                \State $p^+ \gets \operatorname{next}(T, p)$
+                \If{$(p^+)_y < p_y$}
+                \EndIf
+            \EndFor
+        \EndFn
+    \end{algo}
+    \begin{algo}
+        \Fn{create}{$P$}
+            \State huh
+        \EndFn
+    \end{algo}
+\end{solution}

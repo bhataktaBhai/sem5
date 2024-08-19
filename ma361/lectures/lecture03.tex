@@ -1,0 +1,35 @@
+\lecture{2024-08-08}{}
+
+\begin{definition}
+    Let $(\Omega, \F)$ and $(\Omega', \F')$ be two sets with
+    $\sigma$-algebras.
+    A function $T\colon \Omega \to \Omega'$ is \emph{measurable}
+    if \[
+        T^{-1}(B) \in \F \quad \text{for all } B \in \F'.
+    \]
+\end{definition}
+
+\subsection{Push forward} \label{sec:push_forward}
+\begin{lemma}
+    Let $(\Omega, \F, P)$ be a probability space and
+    $(\Omega', \F')$ be a measurable space.
+    Let $T\colon \Omega \to \Omega'$ be measurable.
+    Then $Q \coloneq P \circ T^{-1}$ is a probability measure on
+    $\F'$.
+\end{lemma}
+\begin{proof}
+    Notice that $T^{-1}(B)^c = T^{-1}(B^c)$
+    and that if $B_1$ and $B_2$ are disjoint,
+    so are $T^{-1}(B_1)$ and $T^{-1}(B_2)$.
+\end{proof}
+
+\begin{definition}[cumulative distributive function] \label{def:cdf}
+    A \emph{cumulative distributive function} (CDF) is a function
+    $F\colon \R \to [0, 1]$ such that
+    \begin{enumerate}
+        \item (increasing) $x \le y \implies F(x) \le F(y)$
+        \item (right-continuous) $\lim_{h \searrow 0} F(x + h) = F(x)$
+        \item $\lim_{x \to -\infty} F(x) = 0$ and
+            $\lim_{x \to \infty} F(x) = 1$
+    \end{enumerate}
+\end{definition}

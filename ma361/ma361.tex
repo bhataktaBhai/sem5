@@ -1,4 +1,6 @@
 \documentclass[12pt]{report}
+\renewcommand{\thechapter}{\Roman{chapter}}
+\newcommand\theoremnumberwithin{chapter}
 \input{preamble}
 \usepackage{geometry}
 \geometry{a4paper, margin=1.5in}
@@ -11,4 +13,7 @@
 \maketitle
 \tableofcontents
     \input{lectures/lecture01}
+    \input{lectures/lecture02}
+    \input{lectures/lecture03}
+    \input{lectures/lecture04}
 \end{document}

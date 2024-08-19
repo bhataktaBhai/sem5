@@ -1,18 +1,21 @@
-\newcommand\theoremnumberwithin{chapter}
-\input{../preamble}
+\input{~/IISc/sem5/preamble}
 \usepackage{multicol}
+\usepackage{physics2}
+\usephysicsmodule{ab}
 
-\DeclareMathOperator{\E}{\mathrm{E}}
-\newcommand\F{\mcF}
-% \usepackage{bbm}
-\newcommand\1[1]{\bm{1}_{#1}}
-\newcommand\given\mid
-\newcommand\otto{\leftrightarrow}
-\newcommand\eqd{\overset{d}{=}}
-\DeclareMathOperator\Var{Var}
-% almost sure convergence
-\newcommand\asto{\xrightarrow{\text{a.s.}}}
-% convergence in probability
-\newcommand\pto{\leadsto}
-% convergence in distribution
-\newcommand\dto{\xrightarrow{\text{d}}}
+% \makeatletter
+% \newmathcommand{\l}{\@ifstar\@l\@@l}
+% \makeatother
+
+\DeclareMathOperator\id{id}
+\DeclareMathOperator\GL{GL}
+\DeclareMathOperator\Tr{Tr}
+\DeclareMathOperator\adj{adj}
+\newcommand\T{\top\!}
+\DeclareMathOperator\argmax{argmax}
+
+\makeatletter
+\newcommand\@hsn[1]{{\norm{#1}_{HS}}}
+\newcommand\@@hsn[1]{{\norm*{#1}}_{HS}}
+\newcommand\hsn{\@ifstar\@hsn\@@hsn}
+\makeatother

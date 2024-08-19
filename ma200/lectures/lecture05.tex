@@ -1,0 +1,110 @@
+\lecture{2024-08-12}{Differentiation}
+
+\begin{exercise}
+    Let $Z$ be as in 
+    $(I - Z)^{-1} = I + Z + O(Z^2)$ and also
+    $(I - Z)^{-1} = I + Z + o(Z^2)$.
+\end{exercise}
+
+\begin{proposition} \label{thm:inv-cont}
+    Let $A \in M_n(\R)$ be such that $\norm{I - A} < 1$.
+    Then $A \in \GL_n(\R)$.
+
+    Let $A \in \GL_n(\R)$ be fixed and let $B \in M_n(\R)$ be such that
+    $\norm{B - A} < \norm{A^{-1}}^{-1}$.
+    Then $B \in \GL_n(\R)$.
+
+    $A \mapsto A^{-1}$ is continuous on $\GL_n(\R)$.
+\end{proposition}
+\begin{proof}
+    We proved the first part earlier.
+    For the second part, let $A \in \GL_n(\R)$ be fixed and
+    let $\norm{B - A} < {\norm{A^{-1}}}^{-1}$.
+
+    We can write $B - A$ as $A(A^{-1}B - I)$.
+    Now \begin{align*}
+        \norm{A^{-1}B - I} &= \norm{A^{-1} (B - A)} \\
+        &\leq \norm{A^{-1}} \norm{B - A} \\
+        &< 1.
+    \end{align*}
+    Then by the first part, $A^{-1}B \in \GL_n(\R)$, so that
+    $B \in \GL_n(\R)$.
+
+    For the last part, we want $B^{-1} \to A^{-1}$ as $B \to A$.
+    \begin{equation}
+        B^{-1} - A^{-1} = A^{-1}(A - B)B^{-1} \label{eq:com-denom}
+    \end{equation}
+    We need to bound $\norm{B^{-1}}$.
+    let $W$ be an open neighbourhood of $A$ of radius
+    $\frac12 \norm{A^{-1}}^{-1}$.
+    Then $W \subseteq \GL_n(\R)$.
+
+    For any $B \in W$, $\norm{A - B} \norm{A^{-1}} < \frac12$
+    and \begin{align*}
+        \norm{B^{-1}} - \norm{A^{-1}}
+            &\le \norm{B^{-1} - A^{-1}} \\
+            &\le \norm{B^{-1}} \norm{A - B} \norm{A^{-1}}
+                \tag{by \cref{eq:com-denom}} \\
+            &\le \frac12 \norm{B^{-1}}.
+    \end{align*}
+    This bounds $\norm{B^{-1}}$ above by $2\norm{A^{-1}}$.
+    From \cref{eq:com-denom}, we have \begin{align*}
+        \norm{B^{-1} - A^{-1}}
+            &\le \norm{A^{-1}} \norm{A - B} \norm{B^{-1}} \\
+            &\le 2 {\norm{A^{-1}}}^2 \cdot \norm{A - B}.
+    \end{align*}
+    As $B \to A$, $B^{-1} \to A^{-1}$.
+\end{proof}
+\begin{remark}
+    This is similar in spirit to \cref{thm:reciprocal-cont}.
+    \begin{itemize}
+        \item \Cref{eq:com-denom} is similar to taking the common
+        denominator in $\frac1x - \frac1a$.
+        \item The choice of $W$ is similar to choosing
+        $\delta \le \frac12\abs{a}$.
+    \end{itemize}
+\end{remark}
+
+\chapter{Differentiation} \label{chp:diff}
+\begin{definition}
+    Let $f\colon \R \to \R$ be a function.
+    We say that $f$ is \emph{differentiable} at $a \in \R$ if \[
+        \lim_{h \to 0} \frac{f(a + h) - f(a)}{h}
+    \] exists.
+    We denote this limit by $f'(a)$ and call it the \emph{derivative}
+    of $f$ at $a$.
+\end{definition}
+This doesn't make sense for $f\colon \R^n \to \R^m$ when $n > 2$
+(for $n = 2$ we can identify $\R^2$ with $\C$).
+
+\begin{theorem}[Hurwitz' theorem] \label{thm:diff:hurwitz}
+    $\R^n$ is a 
+\end{theorem}
+
+We will redefine differentiability for real functions.
+\begin{proposition*}
+    Let $U$ be an open subset of $\R$ and $f\colon U \to \R$.
+    Let $a \in U$.
+    Then $f$ is differentiable at $a$ if and only if there exists
+    a linear map $T \in L(\R, \R)$ such that \[
+        f(a + h) - f(a) = Th + o(h).
+    \]
+\end{proposition*}
+\begin{proof}
+    Suppose $f$ is differentiable at $a \in U$. \[
+        \lim_{h \to 0} \frac{f(a + h) - f(a)}h = f'(a)
+    \]
+    We can rewrite this as \begin{align*}
+        \lim_{h \to 0} \frac{f(a + h) - f(a) - f'(a)h}h &= 0 \\
+        \implies \lim_{h \to 0} \frac{\abs{f(a + h) - f(a) - T_{f'(a)}h}}{\abs h} &= 0
+    \end{align*} where $T_\alpha \in L(\R, \R)$ is the linear map
+    $x \mapsto \alpha x$.
+
+    Conversely, suppose there exists a linear map $T$ such that
+    $f(a + h) - f(a) - Th = o(h)$.
+    Then \begin{align*}
+        \lim_{h \to 0} \frac{\abs{f(a + h) - f(a) - Th}}{\abs h} &= 0 \\
+        \implies \lim_{h \to 0}\;\abs*{\frac{f(a+h) - f(a)}h - T(1)} &= 0 \\
+        \implies \lim_{h \to 0} \frac{f(a + h) - f(a)}h &= T(1). \qedhere
+    \end{align*}
+\end{proof}

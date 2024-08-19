@@ -1,0 +1,150 @@
+\lecture{2024-08-05}{One norm to rule them all}
+\begin{proposition}
+    Equivalent norms induce the same topology.
+    That is, let ${\norm\cdot}_a \sim {\norm\cdot}_b$.
+    Then a set is open (resp. compact) under ${\norm\cdot}_a$ iff it is
+    open (resp. compact) under ${\norm\cdot}_b$.
+\end{proposition}
+\begin{proof}
+    Suppose $c_1 {\norm x}_a \le {\norm x}_b \le c_2 {\norm x}_a$.
+
+    Let $U \subseteq V$ be open under ${\norm\cdot}_a$.
+    Let $x \in U$.
+    There exists $\eps > 0$ such that
+    ${\norm{y - x}}_a < \eps \implies y \in U$.
+    But then ${\norm{y - x}}_b < c_1 \eps \implies y \in U$.
+    Thus $U$ is open under ${\norm\cdot}_b$.
+
+    Compactness follows from openness.
+\end{proof}
+
+\begin{proposition}
+    Every $\ell^p$ norm is equivalent to $\ell^\infty$.
+\end{proposition}
+\begin{proof}
+    Let $x \in \R^n$.
+    Then $\norm{x}_\infty \le \norm{x}_p \le n^{\frac1p} \norm{x}_\infty$.
+\end{proof}
+
+The usual topology on $\R^n$ is the one induced by the Euclidean norm.
+This norm itself is induced by the inner product
+$\innerp{x}{y} = \sum_{i=1}^n x_i y_i$. % \ip
+Using Cauchy-Schwarz, we can define the angle between two vectors
+$x, y \in \R^n$ to be \[
+    \cos^{-1} \ab(\frac{\innerp{x}{y}}{\norm{x} \norm{y}}).
+\]
+
+\begin{proposition*} \label{thm:norm:cont}
+    Let $\norm\cdot$ be any norm on $\R^n$.
+    Then the function $x \mapsto \norm{x}$ is Lipschitz continuous
+    with respect to the Euclidean topology.
+\end{proposition*}
+\begin{proof}
+    \begin{align*}
+        \norm{x} &= \norm*{\sum x_i e_i} \\
+            &\le \sum \abs{x_i} \norm{e_i} \\
+            &\le M {\norm x}_2
+    \end{align*} where $M = \sum \norm{e_i}$.
+
+    The reverse triangle inequality \cref{thm:rti} gives
+    \begin{align*}
+        \abs[\big]{\norm{x} - \norm{y}} &\le \norm{x - y} \\
+            &\le M {\norm{x - y}}_2. \qedhere
+    \end{align*}
+\end{proof}
+
+\begin{theorem*} \label{thm:norm:eq}
+    Any two norms on $\R^n$ are equivalent.
+\end{theorem*}
+\begin{proof}
+    Let $\norm\cdot$ be any norm on $\R^n$.
+    Then $x \mapsto \norm x$ is continuous with respect to ${\norm\cdot}_2$.
+    Let \[
+        S(0, 1)_{{\norm\cdot}_2} = \set{x \in \R^n : {\norm x}_2 = 1}
+                      = S^{n-1}.
+    \] $\norm\cdot$ attains a minimum and a maximum on $S^{n-1}$.
+    Thus there exist positive constants $c_1, c_2$ such that \[
+        c_1 \le \norm{x} \le c_2
+    \] for all $x \in S^{n-1}$.
+
+    Now for any $x \in \R^n \setminus \set{0}$,
+    dividing by $\norm{x}_2$ gives a point that lies on $S^{n-1}$.
+    Thus \[
+        c_1 \le \norm*{\frac{x}{{\norm x}_2}} \le c_2.
+    \] By homogeneity \labelcref{def:norm:hom}, \[
+        c_1 {\norm x}_2 \le \norm{x} \le c_2 {\norm x}_2.
+    \] This is also trivially true for $x = 0$.
+
+    Thus $\norm\cdot \sim {\norm\cdot}_2$.
+\end{proof}
+\begin{remark}
+    The idea of the proof is as follows.
+
+    Any homogenous function is determined by its value on the unit sphere.
+    A homogenous function of degree \emph{zero} is essentially nothing but
+    a function on the unit sphere ($f(v) = f(\what{v})$).
+
+    The function $x \mapsto \frac{\norm x}{{\norm x}_2}j$ is a
+    continuous homogenous function on degree $0$.
+    The unit sphere is known to be compact under the Euclidean norm
+    (and every other, but not before we complete the proof).
+    Thus \[
+        c_1 \le \frac{\norm x}{{\norm x}_2} \le c_2
+    \] for some positive constants $c_1, c_2$.
+
+    Definiteness and $\triangle$ are required for the ratio to be
+    continuous.
+    Homogeneity is required for it to be homogenous.
+    Is positivity required? % TODO
+\end{remark}
+\begin{remark}
+    We technically only need to show $c_1 \norm{x}_2 \le \norm{x}$,
+    since the other inequality is proven in the previous proof.
+    It is nonetheless clearer to show both inequalities.
+\end{remark}
+
+\begin{exercise}[Self]
+    Show that \labelcref{def:norm:pos} follows from
+    \labelcref{def:norm:hom,def:norm:tri}.
+\end{exercise}
+\begin{solution}
+    Let $v \in V$.
+    By triangle inequality,
+    $\norm v = \norm{-v + 2v} \le \norm{-v} + \norm{2v}$.
+    By homogeneity, this is $3\norm v$.
+    Thus $\norm v \le 3\norm v$, so $\norm v \ge 0$.
+\end{solution}
+
+\begin{remarks}[Finite-dimensional vector spaces]
+    \item Let $V$ be a vector space over $\R$ with dimension $n < \infty$.
+    Using a basis for $V$, any norm on $V$ induces a norm on $\R^n$,
+    and vice versa.
+    Norms on $V$ are in a one-to-one correspondence with norms on $\R^n$.
+    \item Thus any two norms on $V$ are equivalent.
+    \item Any two inner products on $V$ will also be equivalent due to this.
+    \item Any finite-dimensional vector space over $\R$ is complete.
+\end{remarks}
+
+\begin{exercise} \label{thm:reciprocal-cont}
+    Let $f\colon \R \setminus \set{0} \to \R$ be given by $f(x) = \frac1x$.
+    Show that $f$ is continuous.
+    What is the key idea of your proof?
+\end{exercise}
+\begin{solution}
+    Let $x_0 \in \R \setminus \set{0}$ and $\eps > 0$.
+    Choose $\delta
+    = \min\set{\eps \cdot \frac12\abs{x_0}^2, \frac12 \abs{x_0}}$.
+    Then for any $x$ in the $\delta$-neighbourhood of $x_0$, \begin{align*}
+        \abs{f(x) - f(x_0)}
+            &= \abs*{\frac1x - \frac1{x_0}} \\
+            &= \frac{\abs{x_0 - x}}{\abs{x} \abs{x_0}} \\
+            &< \frac{\delta}{\abs{x} \abs{x_0}} \\
+            &< \frac{2\delta}{\abs{x_0}^2} \\
+            &\le \eps. \qedhere
+    \end{align*}
+\end{solution}
+\begin{remark}
+    The proof works by bounding $\frac1{\abs{x}}$.
+    The rest goes to zero as $x \to a$.
+    We will do a similar proof in \cref{thm:inv-cont}.
+\end{remark}

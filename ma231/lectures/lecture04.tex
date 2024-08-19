@@ -1,0 +1,121 @@
+\lecture{2024-08-09}{}
+
+\begin{lemma}
+    The standard topology on $\R$ has a countable basis.
+\end{lemma}
+\begin{proof}
+    \[
+        \mcB \coloneq \set{(p, q) \in \Q^2 \mid p < q}.
+    \] For any interval $(a, b) \subseteq \R$, with $a < b$, there exists
+    a decreasing sequence $(p_n)_n \subseteq \Q$ and an increasing sequence
+    $(q_n)_n \subseteq \Q$ such that $p_n \downto a$ and $q_n \upto b$.
+    Then \[
+        (a, b) = \bigcup_{n \in \N} (p_n, q_n). \qedhere
+    \]
+\end{proof}
+
+\begin{lemma}
+    Any basis of $\T'$ is uncountable.
+\end{lemma}
+\begin{proof}
+    For each $x \in \R$ consider the open set $[x, x + 1) \in \T'$.
+    Since $\mcB'$ is a basis, there is a $B_x \in \mcB'$ such that
+    $x \in B_x \subseteq [x, x + 1)$.
+    Note that $\inf B_x = x$.
+    Thus $x \mapsto B_x$ is injective ($B_x$ and $B_y$ have different
+    infimums for $x \ne y$).
+    This shows that $\abs{\mcB'} \ge \abs{\R}$.
+\end{proof}
+\begin{corollary}
+    $\T'$ is strictly finer than $\T$.
+\end{corollary}
+We will soon see that $\T'$ is not even metrizable.
+
+\begin{definition}[Hausdorff] \label{def:hausdorff}
+    A topological space $(X, \T)$ is called \emph{Hausdorff} if for
+    any distinct $x, y \in X$, there exist disjoint open sets
+    $U, V \in \T$ such that $U \ni x$ and $V \ni y$.
+\end{definition}
+
+\begin{lemma}
+    Every metric space is Hausdorff.
+\end{lemma}
+\begin{proof}
+    Separate two points by open balls of radius half the distance
+    between them.
+\end{proof}
+
+\begin{definition}[closed] \label{def:closed}
+    A subset $A \subseteq X$ is called \emph{closed} if its
+    complement $X \setminus A$ is open.
+\end{definition}
+\begin{examples}
+    \item $\R \setminus (0, 1) = (-\infty, 0] \cup [1, \infty)$ is closed.
+    \item For any topological space $(X, \T)$,
+        $\O$ and $X$ are clopen.
+    \item For the discrete topology, every subset is clopen.
+\end{examples}
+
+\begin{corollary}
+    Closed sets are closed under arbitrary intersections and finite unions.
+\end{corollary}
+\begin{proof}
+    De Morgan on \cref{def:topo}.
+\end{proof}
+
+\begin{definition}
+    Let $A \subseteq (X, \T)$.
+    \begin{itemize}
+        \item The \emph{interior} of $A$, denoted $A^\circ$ is the union
+            of all open sets contained in $A$.
+        \item The \emph{closure} of $A$, denoted $\wbar{A}$, is the
+            intersection of all closed sets containing $A$.
+    \end{itemize}
+\end{definition}
+\begin{remarks}
+    \item $A^\circ \subseteq A \subseteq \wbar{A}$.
+    \item $A^\circ$ is open and $\wbar{A}$ is closed.
+    \item If $A$ is open, $A^\circ = A$.
+    If $A$ is closed, $\wbar{A} = A$.
+\end{remarks}
+
+\begin{lemma}
+    $x \in \wbar{A}$ iff any open set containg $x$ intersects $A$.
+\end{lemma}
+\begin{proof}
+    \begin{align*}
+        x \in \wbar{A}
+            &\iff \forall U \in \T (A \subseteq X \setminus U
+                \rightarrow x \in X \setminus U) \\
+            &\iff \forall U \in \T (x \in U \rightarrow A \cap U \ne \O)
+    \end{align*}
+    More verbosely, \begin{align*}
+        x \in \wbar{A}
+            &\iff \forall V \in 2^X (V \text{ is closed }
+                \land A \subseteq V \rightarrow x \in V) \\
+            &\iff \forall V \in 2^X (X \setminus V \text{ is open} \land
+                X \setminus V \subseteq X \setminus A \rightarrow x \notin (X \setminus V)) \\
+            &\iff \forall U \in \T (U \subseteq X \setminus A \rightarrow
+                x \notin U) \\
+            &\iff \forall U \in \T (U \cap A = \O \rightarrow x \notin U) \\
+            &\iff \forall U \in \T (x \in U \rightarrow U \cap A \ne \O)
+                \qedhere
+    \end{align*}
+\end{proof}
+
+\begin{definition}
+    A point $x \in X$ is a \emph{limit point} of $A$ is any open set
+    containing $x$ intersects $A \setminus \set{x}$.
+\end{definition}
+
+\begin{lemma} \label{thm:closure}
+    $\wbar{A} = A \cup A'$,
+    where $A'$ is the set of all limit points of $A$.
+\end{lemma}
+\begin{proof}
+    \begin{align*}
+        x \in \wbar{A}
+            &\iff \forall U \in \T (x \in U \rightarrow U \cap A \ne \O) \\
+            &\iff \forall U \in \T (x \in U \rightarrow (x \in A \lor U \cap (A \setminus \set{x}) \ne \O)) \\
+    \end{align*}
+\end{proof}

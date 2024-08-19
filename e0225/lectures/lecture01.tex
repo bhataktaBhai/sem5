@@ -1,0 +1,87 @@
+\chapter*{The course} \label{chp:course}
+\lecture{2024-08-07}{}
+
+\textbf{MS Teams:} 
+
+\section*{Coverage}
+\begin{itemize}
+    \item Algorithmic paradigms
+    \item Flows and applications
+    \item \NP-completeness and reductions
+    \item Approximation algorithms
+    \item Randomized algorithms
+    \item Linear programming
+\end{itemize}
+The last three are dependent on time.
+
+\section*{References}
+\begin{itemize}
+    \item \textit{Algorithm Design} by Jon Kleinberg and Éva Tardos
+    \item \textit{Introduction to Algorithms}
+        by Cormen, Leiserson, Rivest, and Stein
+    \item \textit{\href{http://jeffe.cs.illinois.edu/teaching/algorithms/}
+        {Algorithms}} by Jeff Erickson
+\end{itemize}
+
+\section*{Prerequisites}
+At least one UG course in algorithms/data structures.
+MaTheMaTiCal maTUrItY.
+
+\section*{Evaluation}
+\begin{itemize}
+    \item[(50\%)] 2 midterms: 3rd/4th week of September and 1st/2nd week of
+        November
+    \item[(40\%)] Final: end of November
+    \item[(10\%)] 7--8 assignments
+\end{itemize}
+
+\chapter{Introduction} \label{chp:intro}
+\begin{question}
+    \textbf{Input:} A list of $n$ numbers $a_1, a_2, \dots, a_n$ and
+    an integer $k \le n$.
+
+    \textbf{Output:} The $k$ smallest numbers in the list (in any order).
+\end{question}
+\begin{itemize}
+    \item Sort: $O(n \log n)$
+    \item Iterative min-max: Find the minimum, remove it, repeat $k$ times.
+        This takes $O(kn)$ time.
+    \item Min heap: building a heap takes $O(n)$ time,
+        each extract-min takes $O(\log n)$ time,
+        so the total time is $O(n + k \log n)$.
+    \item Max heap: build a heap from the first $k$ elements in $O(k)$ time.
+        For each remaining element, compare it with the maximum element in
+        the heap.
+        If it is smaller, replace the maximum element with the new element.
+        This takes $O(k + (n-k) \log k)$ time.
+        Worst case is $O(n \log n)$ when $k = n/2$.
+    \item $k$-selection: Find the $k$th smallest element in $O(n)$ time.
+        Partition the list around the $k$th element.
+        This takes $O(n)$ time.
+\end{itemize}
+
+Thus we have the following new question:
+\begin{question}
+    \textbf{Input:} A list of $n$ numbers $a_1, a_2, \dots, a_n$ and
+    an integer $k \le n$.
+
+    \textbf{Output:} The $k$th smallest number in the list.
+\end{question}
+\begin{solution}
+    Select the median of the list in $O(n)$ time.
+    Use this as the pivot to partition the list.
+    Recurse on the appropriate half.
+    \[
+        T(n) = n + T(n/2) = O(n) \qedhere
+    \]
+\end{solution}
+This of course requires finding the median in $O(n)$ time.
+\begin{question}
+    \textbf{Input:} A list of $n$ numbers $a_1, a_2, \dots, a_n$ and an
+    integer $k \le n$.
+
+    \textbf{Output:} The median element.
+\end{question}
+\begin{solution}
+    
+\end{solution}

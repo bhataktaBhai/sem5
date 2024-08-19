@@ -1,0 +1,189 @@
+\lecture{2024-08-08}{}
+\subsubsection{Learnings from classical SKE} \label{sec:classical:learning}
+\begin{itemize}
+    \item Algorithms of secure key encryption (SKE), and in all of
+        cryptography, must be public.
+    \item The key space must be huge.
+    \item Definitions and proofs.
+\end{itemize}
+
+Today, we will formulate a formal definition (the threat and break model)
+and 
+
+\chapter{Secret Key Encryption} \label{chp:ske}
+\begin{definition*} \label{def:ske}
+    A \emph{secret key encryption scheme} is a tuple of algorithms
+    $(\Gen, \Enc, \Dec)$ together with three sets $\mcK, \mcM, \mcC$
+    called the \emph{key space}, \emph{message space} and
+    \emph{ciphertext space} where:
+    \begin{itemize}
+        \item $\Gen\colon 1 \to \mcK$ is a probabilistic algorithm;
+        \item $\Enc\colon \mcK \times \mcM \to \mcC$ and
+            $\Dec\colon \mcK \times \mcC \to \mcM$
+            are deterministic algorithms
+    \end{itemize}
+    such that \[
+        \forall m \in \mcM(\Dec_k (\Enc_k(m))) = m.
+    \]
+    We write $\Enc_k$ and $\Dec_k$ to denote $\Enc$ and $\Dec$
+    partially applied to the key $k$.
+\end{definition*}
+\begin{remark}
+    Notice that this implies $\Enc_k$ is injective for each $k \in \mcK$.
+\end{remark}
+
+\section{A formal definition of security} \label{sec:defining-security}
+
+We consider the computationally omnipotent adversary $\mcR$ (for Ravana).
+Suppose they have a capability to listen to all ciphertexts.
+This is called \emph{ciphertext only attack} (COA).
+
+We will also assume that $\mcR$ can use randomness.
+Encryption schemes often use randomness, so why not the adversary?
+
+Thus, the adversary has the following characteristics:
+\begin{itemize}
+    \item Randomized
+    \item All-powerful
+    \item Ciphertext only
+\end{itemize}
+
+Let us attempt to define ``security''.
+Here are some possibilities:
+\begin{itemize}
+    \item A scheme is secure if it does not leak the secret key.
+        Nope, $m \mapsto m$ would be considered secure.
+    \item A scheme is secure if it does not leak the \emph{entire} message.
+        Nope, revealing even a single bit is bad.
+    \item A scheme is secure if it does not leak \emph{any} bit.
+        Nope. It could be that the scheme reveals the parity of the message
+        modulo $3$.
+    \item A scheme is secure if it does not leak \emph{any} digit in
+        \emph{any} base.
+        Hmm, interesting.
+    \item A scheme is secure if it does not leak \emph{any} reasonable
+        information about the message.
+        How do we formalize this?
+\end{itemize}
+
+\subsection{Probability review} \label{sec:prob-review}
+\begin{theorem}[Law of total probability] \label{thm:prob-review:lotp}
+    Let $E_1, E_2, \dots, E_n$ be a partition of the sample space.
+    Then for any event $A$, \[
+        \Pr(A) = \sum_{i=1}^n \Pr(A \mid E_i) \Pr(E_i).
+    \]
+\end{theorem}
+
+\begin{theorem}[Bayes' theorem] \label{thm:prob-review:bayes}
+    Let $A$ and $B$ be events with $\Pr(B) > 0$.
+    Then \[
+        \Pr(A \mid B) = \frac{\Pr(B \mid A) \Pr(A)}{\Pr(B)}.
+    \]
+\end{theorem}
+
+\section{Formalizing SKE} \label{sec:formalizing-ske}
+% \begin{table}
+%     \centering
+%     \begin{tabular}{|c|L|c|L|}
+%         % \toprule
+%         \hline
+%         & $\mcK$ & $\mcM$ & $\mcC$ \\
+%         \hline
+%         \textbf{Random variable} & $K$ & $M$ & $C$ \\
+%         \textbf{Distribution} & Depends on $\Gen$ & Depends on the use-case
+%         & Depends on $\Enc$ and the distribution of $M$ and $K$. \\
+%         \hline
+%     \end{tabular}
+% \end{table}
+
+\begin{exercise}
+    Consider the encryption scheme in \cref{tab:enc1}
+    with distributions \[
+        K \sim \begin{pmatrix}
+            0 & 1 & 2 \\
+            1/2 & 1/4 & 1/4
+        \end{pmatrix} \qquad
+        M \sim \begin{pmatrix}
+            a & b & c & d \\
+             &  &  & 
+        \end{pmatrix}
+    \]
+\end{exercise}
+\begin{table}
+    \centering
+    \begin{tabular}{ccccc}
+        \toprule
+        & $a$ & $b$ & $c$ & $d$ \\
+        \midrule
+        $0$ & \\
+        $1$ & \\
+        $2$ & \\
+        \bottomrule
+    \end{tabular}
+    \caption{Example encryption scheme}
+    \label{tab:enc1}
+\end{table}
+
+\begin{definition*}[Perfect security] \label{def:ske:perfect}
+    \;\\
+    An encryption scheme $(\Gen, \Enc, \Dec)$ is \emph{perfectly secure}
+    if for every random variable $M$ over $\mcM$ and
+    every $m \in \mcM$, $c \in \mcC$, \[
+        \Pr[M = m \mid C = c] = \Pr[M = m].
+    \]
+\end{definition*}
+\begin{remark}
+    This is probabily the first formal definition of security,
+    by Claude~E.~Shannon in
+    Bell Systems Technical Journal, 28(4): 656--715, 1949.
+\end{remark}
+
+\begin{theorem*}[Vernam cipher] \label{thm:vernem}
+    Let $\mcK = \mcM = \mcC = \set{0, 1}^n$.
+    Let $\Gen$ draw uniformly at random from $\mcK$, and
+    let $\Enc = \Dec = \oplus$ (bitwise XOR).
+
+    Then $(\Gen, \Enc, \Dec)$ is perfectly secure.
+\end{theorem*}
+\begin{proof}
+    It is easy to see that $\Dec_k \circ \Enc_k = \id$.
+
+    Now for any $c \in \mcC, m \in \mcM$, we have \[
+        \Pr[C = c \mid M = m] = \Pr[K = c \oplus m] = 2^{-n}.
+    \] Thus \[
+        \Pr[C = c] = \sum_{m \in \mcM} \Pr[C = c \mid M = m] \Pr[M = m]
+                   = 2^{-n}.
+    \]
+    This gives $\Pr[C = c \mid M = m] = \Pr[C = c]$
+    and so $C$ and $M$ are independent.
+\end{proof}
+
+\noindent\textbf{Problems with the Vernam cipher:}
+\begin{itemize}
+    \item Can we reuse the key for multiple messages?
+        Nope. We can XOR two consecutive messages to get the XOR of the
+        two messages.
+    \item The key is as long as the message.
+    \item Coin tossing does not scale well.
+\end{itemize}
+\begin{fact}
+    Key length and key reusability is an issue in
+    \emph{any} perfectly secure encryption scheme.
+\end{fact}
+
+\begin{exercise} \label{thm:ske:perfect}
+    Prove that \cref{def:ske:perfect} is equivalent to the following:
+    \[
+        \Pr[C = c \mid M = m] = \Pr[C = c \mid M = m'] \quad
+        \forall\; m, m' \in \mcM, c \in \mcC.
+    \]
+\end{exercise}
+\begin{solution}
+    Suppose \cref{def:ske:perfect} holds.
+    Then
+    \[
+        \Pr[C = c \mid M = m]
+        = \frac{\Pr[M = m \mid C = c] \Pr[C = c]}{\Pr[M = m]}
+        = \Pr[C = c]
+    \] Thus the given condition holds.
+\end{solution}

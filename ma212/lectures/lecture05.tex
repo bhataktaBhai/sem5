@@ -1,0 +1,210 @@
+\lecture{2024-08-12}{}
+
+\section{Generation of groups} \label{sec:groups:gen}
+
+\begin{lemma}
+    Let $G$ be a group and let $a, b \in G$ commute.
+    Let $\ord a = m$, $\ord b = n$, $\lcm(m, n) = \ell$.
+    Then $\ord ab \mid \ell$.
+    If $(m, n) = 1$, then $\ord ab = \ell$.
+\end{lemma}
+\begin{proof}
+    $(ab)^\ell = a^\ell b^\ell = 1$.
+
+    Now suppose that $(m, n) = 1$.
+    Let $d = \ord ab \implies d \mid \ell$.
+    Now \begin{align*}
+        (ab)^d = 1 &\implies a^d b^d = 1 \\
+        &\implies a^d = b^{-d}.
+    \end{align*}
+    Raising to the power $m$ gives $a^{dm} = 1 = b^{-dm}$.
+    Thus $n \mid m d \implies n \mid d$ (coprime).
+    Similarly $m \mid d$.
+    Thus $nm = \ell \mid d$.
+    Together with $d \mid \ell$, we get $d = \ell$.
+\end{proof}
+
+\begin{examples}
+    \item If $(a, b) \ne 1$, we can't say anything.
+        For example, $b = a^{-1}$ gives $\ord ab = 1$.
+    \item If $ab \ne ba$, things can go crazy.
+        For example, $a = \begin{pmatrix}
+            0 & 1 \\
+            1 & 0
+        \end{pmatrix}$, $b = \begin{pmatrix}
+            0 & 1 / 2 \\
+            2 & 0
+        \end{pmatrix}$.
+        Then $a^2 = b^2 = 1$ but $ab = \begin{pmatrix}
+            1 / 2 & 0 \\
+            0 & 2
+        \end{pmatrix}$ has infinite order.
+\end{examples}
+
+\begin{definition}[Presentation] \label{def:groups:presentation}
+    
+\end{definition}
+
+\begin{definition}[the dihedral group] \label{def:groups:dihedral}
+    For $n \ge 3$, the dihedral group $D_{2n}$ is the group of rigid
+    motions of a regular $n$-gon $R_n$ in $\R^2$.
+\end{definition}
+\begin{remark}
+    A ``rigid motion'' is an isoemtry: a distance preserving bijection.
+    For example, reflections and rotations.
+    Note how rigid motions being a bijection (when restricted to the
+    $n$-gon) implies that only those isometries that preserve the
+    $n$-gon are allowed.
+\end{remark}
+\begin{center}
+    \begin{tikzpicture}
+        \node[draw,minimum size=2cm,regular polygon,regular polygon sides=6] (a) {};
+    \end{tikzpicture}
+\end{center}
+
+Rigid motions in $\R^n$ are given by $x \mapsto Ax + b$ where $A \in O_n$,
+the set of orthogonal matrices in $M_n$.
+\[
+    (A_1, b_1) \circ (A_2, b_2) = (A_1 A_2, A_1 b_2 + b_1).
+\] $A_1 A_2 \in O_n$ so the product is closed.
+Associativity is inherited from function composition.
+The identity is $(1, 0)$ and the inverse of $(A, b)$ is $(A^\T, -A^\T b)$.
+
+\begin{lemma}
+    Every point $P$ on $R_n$ is determined, among all other points on $R_n$,
+    by its distance from \emph{any} two fixed adjacent vertices of $R_n$.
+
+    That is, let $A$ and $B$ be adjacent vertices of $R_n$.
+    Then for any $d_A, d_B \in \R^+$, there is at most one point $P$
+    on $R_n$ such that $d(P, A) = d_A$ and $d(P, B) = d_B$.
+\end{lemma}
+\begin{proof}
+    Look at the edge $\wbar{AB}$.
+    \begin{center}
+        \begin{tikzpicture}
+            \node[draw,minimum size=3cm,regular polygon,regular polygon sides=5] (a) {};
+            \draw[fill] (a.corner 5) circle (1pt) node[above right] {$A$};
+            \draw[fill] (a.corner 1) circle (1pt) node[above] {$B$};
+        \end{tikzpicture}
+    \end{center}
+    Draw a circle of radius $d_A$ around $A$ and a circle of radius $d_B$
+    around $B$.
+    They intersect in at most two points, but they are on opposite sides
+    of $\wbar{AB}$.
+    $R_n$ is convex, so every point on $R_n$ lies on one of only one
+    side of $\wbar{AB}$.
+    Thus only one of these two points can lie on $R_n$.
+    \begin{center}
+        \begin{tikzpicture}
+            \node[draw,minimum size=3cm,regular polygon,regular polygon sides=5] (a) {};
+            \draw[fill] (a.corner 5) circle (1pt) node[above right] {$A$};
+            \draw[fill] (a.corner 1) circle (1pt) node[above] {$B$};
+            \draw (a.corner 5) circle (1cm);
+
+            % \draw[fill] (a.corner 5) ++(:1) circle (1pt) node[above right] {$P$};
+            \coordinate (P) at ($(a.corner 5)!1cm!(a.corner 4)$);
+            \coordinate (Q) at ($(a.corner 5) + (36:1cm)$);
+            \node[draw] at (a.corner 1) [circle through={(P)}] {};
+            \draw[fill] (P) circle (1pt) node[below right] {$P$};
+            \draw[fill] (Q) circle (1pt) node[right] {$Q$};
+        \end{tikzpicture}
+    \end{center}
+\end{proof}
+
+\begin{proposition}
+    $\abs{D_{2n}} = 2n$.
+\end{proposition}
+\begin{proof}
+    We first show that $\abs{D_{2n}} \le 2n$.
+    Start with any two vertices $A$ and $B$ of $R_n$.
+    Let $g \in D_{2n}$.
+
+    \begin{claim}
+        $g$ takes vertices to vertices.
+    \end{claim}
+    To see this, note that the vertices are special in that they are
+    distinguised from all other points on $R_n$ as follows:
+    \begin{quotation}
+        Let $P \in \R_n$ and $r > 0$ be small.
+        We can find two points $P'_r$ and $P''_r$ on $R_n$ such that
+        $d(P, P'_r) = d(P, P''_r) = r$.
+        If $P$ is \emph{not} a vertex, then $d(P'_r, P''_r) = 2r$.
+        If $P$ \emph{is} a vertex, then $d(P'_r, P''_r) < 2r$.
+    \end{quotation}
+    Thus we can distinguish between $P$ being a vertex or not solely by the
+    distance function.
+    Since $g$ is an isometry (even Lipschitz), this property is preserved.
+    % even some particular $r$ will do
+    Thus $g$ takes vertices to vertices.
+
+    \begin{claim}
+        $g$ preserves adjacency of vertices.
+    \end{claim}
+    Fix a vertex $A$ on $R_n$.
+    Then $d(P, A)$ for a vertex distinct from $A$ is minimized when $P$
+    is adjacent to $A$.
+    Since $g$ preserves distances, $g$ must take adjacent vertices to
+    adjacent vertices.
+
+    Combining these two claims, we have proven that for any $P \in R_n$,
+    $g(P)$ is uniquely determined by its distance from $g(A)$ and $g(B)$,
+    where $A$ and $B$ are any two adjacent vertices.
+    Thus $g$ is determined by $g(A)$ and $g(B)$.
+
+    By the first claim, there are $n$ possible choices for $g(A)$.
+    By the second claim, there are $2$ possible choices for $g(B)$.
+    Thus there are at most $2n$ possible $g$'s.
+
+    Finally, we can produce $2n$ distinct elements as follows.
+    \begin{itemize}
+        \item Consider the $n$ rotations: rotate by $2\pi k / n$ for
+            $k \in n$.
+        \item The $n$ reflections:
+        \begin{itemize}
+            \item For odd $n$, reflect over the line through a vertex and
+                the midpoint of the opposite edge.
+            \item For even $n$, reflect over the line through two opposite
+                vertices or through two opposite midpoints.
+        \end{itemize}
+    \end{itemize}
+    Each reflection fixes exactly two points.
+    Any non-trivial rotation fixes no points.
+    Thus the $2n$ elements are distinct.
+\end{proof}
+
+\begin{notation}
+    Let $r$ denote the counter-clockwise rotation by $2\pi / n$ and
+    let $s$ denote the reflection over the line through some fixed vertex
+    $V_0$.
+
+    Then $r^n = s^2 = 1$.
+
+    Observe that $\set{1, r, r^2, \dots, r^{n-1}}$ gives all the rotations
+    in $D_{2n}$.
+\end{notation}
+
+\begin{lemma} \label{thm:d2n:reflections}
+    All reflections in $D_{2n}$ are given by
+    $\set{s, rs, r^2s, \dots, r^{n-1}s}$.
+\end{lemma}
+\begin{proof}
+    All of these elements are distinct, since $r^k \ne 1$ for $0 < k < n$.
+    None of these elements are rotations, since if $r^k s = r^m$ for some
+    $k, m \in n$, then $s = r^{m-k}$, which is a contradiction.
+\end{proof}
+
+\begin{theorem}
+    $\abs{D_{2n}} = 2n$ and
+    $D_{2n} = \set{1, r, \dots, r^{n-1}, s, rs, \dots, r^{n-1}s}$.
+\end{theorem}
+
+\begin{proposition}
+    In $D_{2n}$, $sr = r^{-1}s$.
+\end{proposition}
+\begin{proof}
+    From \cref{thm:d2n:reflections}, we know that $rs$ is a reflection.
+    Thus $(rs)(rs) = 1$, which immediately gives $sr = r^{-1}s$.
+\end{proof}
+
+\textbf{Next lecture:}
+$D_{2n} = \angled{r, s \mid r^n = s^2 = 1, sr = r^{-1}s}$.

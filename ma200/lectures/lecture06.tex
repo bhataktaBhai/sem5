@@ -1,0 +1,81 @@
+\lecture{2024-08-19}{}
+
+\begin{definition*}
+    Let $U \subseteq \R^n$ be an open set containing $a$.
+    Let $f\colon U \to \R^m$.
+    We say that $f$ is \emph{differentiable} at $a$ if there exists a
+    linear map $T \in L(\R^n, \R^m)$ such that \[
+        \lim_{h \to 0} \frac{\norm{f(a + h) - f(a) - Th}}{\norm h} = 0.
+    \]
+    We say that $T$ is the \emph{derivative} of $f$ at $a$ and write
+    $f'(a) = T$.
+
+    If $f$ is differentiable at every point in $U$, we say that $f$ is
+    differentiable on $U$.
+\end{definition*}
+Writing $f'(a)$ requires the derivative to be unique.
+\begin{proposition}
+    Let $T_1, T_2 \in L(\R^n, \R^m)$ be satisftying the definition of
+    differentiability at $a$ for $f\colon U \to \R^m$.
+    Then $T_1 = T_2$.
+\end{proposition}
+\begin{proof}
+    Let $T = T_1 - T_2$.
+    Then \begin{align*}
+        Th &= T_1h - T_2h \\
+            &= (f(a + h) - f(a) - T_2h) - (f(a + h) - f(a) - T_1h) \\
+            &= o(h) - o(h) = o(h).
+    \end{align*}
+    We have $\lim\limits_{h \to 0} \frac{\norm{Th}}{\norm h} = 0$.
+    Let $v \in \R^n \setminus \set{0}$.
+    As $t \to 0$, $tv \to 0$.
+    Thus \begin{align*}
+        \lim_{t \to 0} \frac{\norm{T(tv)}}{\norm{tv}}
+            &= \lim_{t \to 0} \frac{\abs t \norm{Tv}}{\abs t \norm v} \\
+            &= \frac{\norm{Tv}}{\norm v} = 0.
+    \end{align*}
+    Thus $Tv = 0$ for all $v \in \R^n$.
+\end{proof}
+
+\begin{proposition}
+    Differentiability at a point implies continuity at that point.
+\end{proposition}
+\begin{proof}
+    Suppose $f$ is differentiable at $a$ with $f'(a) = T$.
+    Let \[
+        q(h) = f(a + h) - f(a) - Th.
+    \]
+    \begin{align*}
+        \norm{f(a + h) - f(a)}
+            &= \norm{f(a+h) - f(a) - Th + Th} \\
+            &\le \norm{q(h)} + \norm{Th} \\
+            &\le \frac{\norm{q(h)}}{\norm h} \norm h + \norm T \norm h.
+    \end{align*}
+    As $h \to 0$, each term goes to $0$.
+\end{proof}
+
+For \emph{finding} the derivative, it is helpful to do the following:
+\begin{itemize}
+    \item Use little-$o$ notation.
+    \item Identify the linear map $T$.
+    \item Ignore the little-$o$ terms.
+\end{itemize}
+If $f(a + h) = f(a) + Th + o(h)$, then $f'(a) = T$.
+
+\begin{examples}
+    \item Let $f\colon \R^n \to \R^m$ be given by $f(x) = c$
+        for some constant $c \in \R^m$.
+        For any $a \in \R^n$, we can write
+        $f(a + h) = f(a) + 0 + 0$.
+        Thus $f'(a) = 0$.
+    \item Let $f \in L(\R^n, \R^m)$.
+        Then $f(a + h) = f(a) + f(h) + 0$.
+        Thus $f'(a) = f$.
+    \item Let $f\colon \R \to \R$ be given by $f(x) = x$.
+        This is a special case of the previous example.
+        $f'(a) = \id$.
+\end{examples}
+
+Even though we are developing calculus on $\R^n$, it is trivially extended
+to all finite-dimensional normed linear spaces over $\R$ via the natural
+identification with $\R^n$.

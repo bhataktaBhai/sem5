@@ -1,5 +1,5 @@
 \chapter*{The course} \label{chp:course}
-\lecture{2024-08-02}{}
+\lecture{2024-08-02}{Norms and equivalence}
 
 \section*{Grading} \label{sec:grading}
 \begin{itemize}
@@ -14,9 +14,7 @@
     \item 
 \end{itemize}
 
-\chapter{Sth}
-
-\section{st}
+\chapter{Linear algebra} \label{chp:linalg}
 
 \begin{definition}[homogeneous function] \label{def:home}
     Let $V$ be a vector space over $\R$.
@@ -37,13 +35,17 @@
     Let $V$ be a vector space over $\R$.
     A norm $\norm{\cdot}$ on $V$ is a function from $V$ to $\R$ that
     satisfies
-    \begin{enumerate}[label=(N\arabic*)]
+    \begin{enumerate}[label=\small(N\arabic*)]
         \item (Positivity) $\norm{x} \ge 0$ for any $x \in V$.
+            \label{def:norm:pos}
         \item (Definiteness) $\norm{x} = 0$ iff $x = 0$.
+            \label{def:norm:def}
         \item (Homogeneity) $\norm{r x} = \abs{r} \norm{x}$
             for any $x \in V$ and $r \in \R$.
+            \label{def:norm:hom}
         \item (Triangle inequality) $\norm{x + y} \le \norm{x} + \norm{y}$
             for any $x, y \in V$.
+            \label{def:norm:tri}
     \end{enumerate}
 \end{definition}
 
@@ -70,9 +72,50 @@
         \abs[\big]{\norm{x} - \norm{y}} \le \norm{x - y}
     \] for any $x, y \in V$.
 \end{exercise}
+\begin{proof}
+    First observe from homogeneity \labelcref{def:norm:hom} that
+    $\norm{x} = \norm{-x}$ for any $x \in V$.
+    Next, from the triangle inequality \labelcref{def:norm:tri} we have \[
+        \norm{x} \le \norm{x - y} + \norm{y}
+    \] so that \[
+        \norm{x} - \norm{y} \le \norm{x - y}.
+    \] Similarly, \[
+        \norm{y} \le \norm{y - x} + \norm{x}
+    \] so that \[
+        -\norm{x - y} \le \norm{x} - \norm{y}.
+    \] Combining these gives the result.
+\end{proof}
 
 This shows that $f = x \mapsto \norm{x}$ is a (Lipschitz) continuous
 function on $V$.
+
+\begin{definition}[metric space] \label{def:metric}
+    A \emph{metric space} is a set $X$ equipped with a function
+    $d\colon X \times X \to \R$ called a \emph{metric} that satisfies
+    the following properties:
+    \begin{enumerate}[label=\small(M\arabic*)]
+        \item $d(x, y) \ge 0$ for any $x, y \in X$.
+            \label{def:metric:pos}
+        \item $d(x, y) = 0$ iff $x = y$.
+            \label{def:metric:def}
+        \item $d(x, y) = d(y, x)$ for any $x, y \in X$.
+            \label{def:metric:sym}
+        \item $d(x, z) \le d(x, y) + d(y, z)$ for any $x, y, z \in X$.
+            \label{def:metric:tri}
+    \end{enumerate}
+\end{definition}
+
+\begin{exercise}[self]
+    Show that any normed linear space $(V, \norm{\cdot})$ is a metric space
+    under the distance $d(x, y) = \norm{x - y}$.
+\end{exercise}
+\begin{proof}
+    \labelcref{def:metric:pos} and \labelcref{def:metric:def} are immediate
+    from \labelcref{def:norm:pos} and \labelcref{def:norm:def}.
+    \labelcref{def:norm:hom} implies \labelcref{def:metric:sym} by
+    scaling by $-1$.
+    Triangle implies triangle.
+\end{proof}
 
 \begin{definition}[continuity] \label{def:continuity}
     Let $(X, d)$ and $(Y, \rho)$ be metric spaces.
@@ -93,14 +136,22 @@ function on $V$.
     $X_1 \times X_2$.
     Show that $z_n \to (x, y)$ iff $x_n \to x$ and $y_n \to y$.
 \end{exercise}
+\begin{proof}
+    Suppose $x_n \to x$ and $y_n \to y$.
+    That is, $d_1(x_n, x) \to 0$ and $d_2(y_n, y) \to 0$.
+    Thus $d_1(x_n, x) + d_2(y_n, y) \to 0$.
+
+    Conversely if $d_1(x_n, x) + d_2(y_n, y) \to 0$ and each is nonnegative,
+    then $d_1(x_n, x) \to 0$ and $d_2(y_n, y) \to 0$.
+\end{proof}
 
 \begin{remark}
     $\wtld{d}$ given by \[
         \wtld{d}((x_1, x_2), (y_1, y_2)) \coloneq
             \min\set{d_1(x_1, y_1), d_2(x_2, y_2)}
-    \] is \emph{not} a metric on $X_1 \times X_2$.
+    \] is \emph{not} a metric on $X_1 \times X_2$ as it fails definiteness.
 
-    It disobeys definiteness.
+    However, $\max\set{d_1, d_2}$ \emph{is} a metric.
 \end{remark}
 
 \begin{exercise}
@@ -112,6 +163,21 @@ function on $V$.
         is continuous from $\R \times V$ to $V$.
     \end{itemize}
 \end{exercise}
+\begin{solution} \leavevmode
+    \begin{itemize}
+        \item $\norm{x' + y' - (x + y)} \le \norm{x' - x} + \norm{y' - y}
+        = \norm{(x', y') - (x, y)}$.
+        \item $\norm{\alpha' x' - \alpha x} \le \norm{\alpha' x' - \alpha x'}
+        + \norm{\alpha x' - \alpha x} = \abs{\alpha' - \alpha} \norm{x'}
+        + \abs{\alpha} \norm{x' - x}$.
+
+        Thus choosing $\delta = \varepsilon / \max\set{\abs{\alpha}, \norm{x}}$
+        gives \[
+            \norm{\alpha' x' - \alpha x} \le \max\set{\abs{\alpha}, \norm{x}}
+                (\abs{\alpha' - \alpha} + \norm{x' - x}) < \varepsilon
+        \] whenever $\abs{\alpha' - \alpha} + \norm{x' - x} < \delta$. \qedhere
+    \end{itemize}
+\end{solution}
 
 \begin{examples}
     \item ($\ell^p$ norm) $\R^n$ with $p \in [1, \infty]$ and \begin{align*}
@@ -123,18 +189,31 @@ function on $V$.
 \end{examples}
 
 \begin{exercise}
-    Check that $\norm{\cdot}_p$ is a norm on $\R^n$,
-    and that its limit as $p \to \infty$ is $\norm{\cdot}_\infty$.
+    See \refifdef{prb:lp}{\cref}{assignment 1, problem 5}.
 \end{exercise}
 
 \begin{definition}[norm equivalence] \label{def:norm_equivalence}
-    Let $\norm{\cdot}_a$ and $\norm{\cdot}_b$ be two norms on $V$.
+    Let ${\norm\cdot}_a$ and ${\norm\cdot}_b$ be two norms on $V$.
     We say that $\norm{\cdot}_a$ and $\norm{\cdot}_b$ are \emph{equivalent}
     if these exist $c_1, c_2 > 0$ such that \[
-        c_1 \norm{x}_a \le \norm{x}_b \le c_2 \norm{x}_a
+        c_1 {\norm x}_a \le {\norm x}_b \le c_2 {\norm x}_a
     \] for all $x \in V$.
-    We write $\norm{\cdot}_a \sim \norm{\cdot}_b$.
+    We write ${\norm\cdot}_a \sim {\norm\cdot}_b$.
 \end{definition}
 \begin{exercise}
     Check that $\sim$ is an equivalence relation.
 \end{exercise}
+\begin{solution}
+    Reflexivity is obvious.
+    Symmetry is since \[
+        c_1 {\norm x}_a \le {\norm x}_b \le c_2 {\norm x}_a \implies
+        \frac{1}{c_2} {\norm x}_b \le {\norm x}_a \le \frac{1}{c_1} {\norm x}_b.
+    \]
+    For transitivity, let \begin{align*}
+        c_1 {\norm x}_a &\le {\norm x}_b \le c_2 {\norm x}_a, \\
+        c_3 {\norm x}_b &\le {\norm x}_c \le c_4 {\norm x}_b.
+    \end{align*}
+    Then \[
+        c_1 c_3 {\norm x}_a \le {\norm x}_c \le c_2 c_4 {\norm x}_a. \qedhere
+    \]
+\end{solution}

@@ -1,0 +1,239 @@
+\lecture{2024-08-07}{Big-Oh and matrix norms}
+On $\R^n$, we will always fix the $\ell^2$-norm
+
+\begin{notation}
+    \[
+        L(\R^n, \R^m) = \set{T\colon \R^n \to \R^m \mid T \text{ is linear}}
+    \] and \[
+        M_{m \times n}(\R) = L(\R^n, \R^m)
+    \] using the isomorphism $A \mapsto T_A$ where \begin{align*}
+    T_A\colon \R^n &\to \R^m \\
+          v &\mapsto Av,
+    \end{align*} where $v$ is interpreted as a column vector.
+    We will also write $L(\R^n)$ for $L(\R^n, \R^n)$.
+\end{notation}
+
+
+\begin{definition*}[$O$ notation] \label{def:o}
+    Let $f\colon \R^n \to \R^m$ and $g\colon \R^n \to \R^k$.
+    We say that
+    \begin{enumerate}
+        \item $f(x) = o(g(x))$ as $x \to a$ if \[
+            \lim_{x \to a} \frac{\norm{f(x)}}{\norm{g(x)}} = 0,
+        \]
+        \item $f(x) = O(g(x))$ as $x \to a$ if \[
+            \limsup_{x \to a} \frac{\norm{f(x)}}{\norm{g(x)}} < c
+        \] for some $c > 0$.
+    \end{enumerate}
+    where the assumption is that $g$ is non-zero in some
+    neighbourhood of $a$.
+\end{definition*}
+
+\begin{exercise}
+    Show that the definition of $O$ is equivalent to the following:
+
+    We say that $f(x) = O(g(x))$ as $x \to a$ if there exists an open
+    neighbourhood $V$\/ of $a$ such that $\frac{\norm{f(x)}}{\norm{g(x)}}$
+    is bounded on $V$.
+\end{exercise}
+
+\begin{exercise}
+    
+\end{exercise}
+
+\section{Matrix norms} \label{sec:matrix-norms}
+
+\begin{definition*}[Hilbert-Schmidt norm] \label{def:hsn}
+    For a matrix $A \in M_{m \times n}(\R)$, we define the
+    \emph{Hilbert-Schmidt} or \emph{Frobenius} norm by \[
+        \hsn A = \Big(\sum_{i,j} a_{ij}^2\Big)^{1/2}
+    \]
+\end{definition*}
+
+\begin{exercise}
+    Show that $\hsn A^2 = \Tr(A^\T A) = \Tr(AA^\T)$.
+\end{exercise}
+Since the trace is independent of the basis, so is the Hilbert-Schmidt norm.
+\begin{proposition}
+    Any linear transformation is continuous.
+\end{proposition}
+\begin{proof}
+    Let $T \in L(\R^n, \R^m)$.
+    Then \begin{align*}
+        \norm{Tx} &= \norm*{T\ab(\sum x_i e_i)} \\
+                 &= \norm*{\sum x_i Te_i} \\
+                 &\le \sum \abs{x_i} \norm{T e_i} \\
+                 &\le \norm{x} \sum \norm{T e_i} \\
+                 &= M \norm{x} \yesnumber \label{eq:operator_norm}
+    \end{align*} where $M = \norm{Te_1} + \cdots + \norm{Te_n}$.
+
+    Now \[
+        \norm{Tx - Ty} = \norm{T(x - y)} \le M \norm{x - y}
+    \] says that $T$ is Lipschitz continuous with Lipschitz constant $M$.
+\end{proof}
+
+We temporarity define two norms on $M_{m \times n}(\R)$:
+\begin{align*}
+    {\norm T}_S &= \sup_{\norm{x} = 1} \norm{Tx} \\
+    {\norm T}_B &= \sup_{\norm{x} \le 1} \norm{Tx}
+\end{align*}
+\begin{lemma} \label{lem:operator_norm}
+    ${\norm T}_S = {\norm T}_B$.
+\end{lemma}
+\begin{proof}
+    From the definition it is obvious that ${\norm T}_S \le {\norm T}_B$.
+    Now for any $x \in \R^n \setminus \set{0}$, let $y = x/\norm{x}$.
+    \begin{align*}
+        \norm{Ty} &\le {\norm T}_S \\
+        \frac{\norm{Tx}}{\norm{x}} &\le {\norm T}_S \\
+        \implies \norm{Tx} &\le {\norm T}_S \norm{x}
+    \end{align*} Thus for $\norm{x} \le 1$,
+    we have $\norm{Tx} \le {\norm T}_S$ (check $0$ separately).
+    So ${\norm T}_B \le {\norm T}_S$.
+\end{proof}
+
+\begin{definition*}[Operator norm] \label{def:operator_norm}
+    For any $T \in L(\R^n, \R^m)$, we define the \emph{operator norm} by \[
+        \norm{T} = \sup_{\norm{x} = 1} \norm{Tx}
+    \]
+\end{definition*}
+From the previous lemma, we can also write
+\[
+    \norm{T} = \sup_{\norm{x} \le 1} \norm{Tx}
+        = \sup_{x \ne 0} \frac{\norm{Tx}}{\norm{x}}.
+\]
+From \cref{eq:operator_norm}, we have \[
+    \norm{T} \le \norm{Te_1} + \cdots + \norm{Te_n}.
+\] So the operator norm is finite.
+
+\begin{proposition}
+    The operator norm is a norm on $L(\R^n, \R^m)$.
+\end{proposition}
+\begin{proof}
+    Let $T, S \in L(\R^n, \R^m)$.
+    \begin{enumerate}[label=\small(N\arabic*)]
+        \item Positivity is by positivity of the vector norm.
+        \item Suppose $T$ is not identically zero.
+            Let $v \ne 0$ be such that $\norm{Tv} \ne 0$.
+            Then \[
+                \norm T = \sup_{x \ne 0} \frac{\norm{Tx}}{\norm{x}}
+                    \ge \frac{\norm{Tv}}{\norm{v}}
+                    > 0.
+            \]
+        \item $\abs{\lambda T} = \sup_{\norm{x} = 1} \norm{\lambda Tx}
+            = \abs{\lambda} \sup_{\norm{x} = 1} \norm{Tx}
+            = \abs{\lambda} \norm{T}$.
+        \item \begin{align*}
+            \norm{T + S} &= \sup_{\norm{x} = 1} \norm{(T + S)x} \\
+                &\le \sup_{\norm{x} = 1} \norm{Tx} + \norm{Sx} \\
+                &\le \sup_{\norm{x} = 1} \norm{Tx}
+                        + \sup_{\norm{x} = 1} \norm{Sx} \\
+                &= \norm{T} + \norm{S}. \qedhere
+        \end{align*}
+    \end{enumerate}
+\end{proof}
+
+\begin{proposition}
+    Let $T_2 \in L(\R^m, \R^n)$ and $T_1 \in L(\R^n, \R^k)$.
+    Then \[
+        \norm{T_1 \circ T_2} \le \norm{T_1} \norm{T_2}
+    \]
+\end{proposition}
+\begin{proof}
+    Let $x \in \R^m$ with $\norm{x} = 1$.
+    Then \[
+        \norm{T_1T_2 x} \le \norm{T_1} \norm{T_2 x}
+                    \le \norm{T_1} \norm{T_2}. \qedhere
+    \]
+\end{proof}
+
+Since $M_{m \times n}(\R) \cong \R^{mn}$, we can conclude that
+the Hilbert-Schmidt norm and the operator norm are equivalent,
+as are any two norms on $M_{m \times n}(\R)$.
+Thus we can talk about openness and continuity without specifying
+the norm.
+
+\begin{proposition}
+    $\GL_n(\R)$ is open in $M_n(\R)$.
+\end{proposition}
+\begin{proof}
+    $\det \colon M_n(\R) \to \R$ is continuous because
+    it is a polynomial in the entries of the matrix.
+    Note that $\GL_n(\R) = \det^{-1}(\R \setminus \set{0})$,
+    so it is the preimage of an open set, which is open
+    by \cref{prp:cont-open}.
+\end{proof}
+\begin{proof}[Rudin's proof]
+    $\GL_n(\R)$ is open in $M_n(\R)$ iff for any $X \in \GL_n(\R)$,
+    there is some $r_X > 0$ such that \[
+        \norm{X - A} < r_X \implies A \in \GL_n(\R).
+    \]
+    Let us do this for $X = I$.
+
+    A reasonable guess is $r_I = 1$ (intuiting from the $1$D case).
+    Let $A \in M_n(\R)$ with $\norm{A - I} < 1$.
+
+    Suppose $Av = 0$ for some $v \ne 0$.
+    Then $\norm{(A - I)v} = \norm{v}$.
+    But $\norm{A - I} < 1$ implies that $\norm{(A - I)v} < \norm{v}$,
+    a contradiction.
+    Thus $A$ is invertible.
+\end{proof}
+The subclaim $\norm{A - I} < 1 \implies A \in \GL_n(\R)$
+can be proven by borrowing the following result from $\C$. \[
+    \frac1{1-z} = 1 + z + z^2 + \ldots \quad \text{for} \quad \abs{z} < 1.
+\]
+\begin{lemma}
+    Let $Z \in M_n(\R)$ be such that $\norm{Z} < 1$.
+    Then
+    \begin{enumerate}
+        \item $\sum_{n=0}^\infty Z^n$ converges.
+        \item $I - Z$ is invertible.
+        \item $(I - Z)^{-1} = \sum_{n=0}^\infty Z^n$.
+    \end{enumerate}
+\end{lemma}
+\begin{proof}
+    By $\norm{A \circ B} \le \norm{A} \norm{B}$,
+    $\norm{Z^k} \le \norm{Z}^k$.
+
+    It is easy to see that the series converges by the Cauchy criterion.
+    For any $\varepsilon > 0$, there is some $n$ such that
+    \[
+        \norm*{\sum_{k=n}^m Z^k} \le \sum_{k=n}^m \norm{Z^k} < \varepsilon
+    \]
+    for all $m > n$.
+
+    To see that $I - Z$ is invertible, note that \[
+        \norm{I - Z} \ge \abs[\big]{\norm{I} - \norm{Z}} = 1 - \norm{Z} > 0.
+    \]
+    Finally, let $S_n = \sum_{k=0}^n Z^k$ and
+    $S_\infty = \lim_{n \to \infty} S_n$.
+    Then $(I - Z)S_n = I - Z^{n+1}$ and so
+    $(I - Z)S_n \to I$ as $n \to \infty$.
+    % Thus \begin{align*}
+    %     (I - Z)(S_\infty - S_n) &= (I - Z)S_\infty - (I - Z)S_n
+    %     &\to (I - Z)S_\infty - I
+    % \end{align*}
+    % But \begin{align*}
+    %     \norm{(I - Z)(S_\infty - S_n)} &\le \norm{I - Z} \norm{S_\infty - S} \\
+    %     &\to 0
+    % \end{align*}
+    % Thus $(I - Z)(S_\infty - S_n) \to 0$.
+    % Equating the two limits, we get $(I - Z)S_\infty = I$.
+    Since matrix multiplication is continuous, we can take the limit
+    inside the product and get $(I - Z)S_\infty = I$.
+\end{proof}
+\begin{remark}
+    For infinite-dimensional spaces, we also need to show
+    $S_\infty (I - Z) = I$, which will be done in the exact same way.
+\end{remark}
+
+\begin{proposition}
+    $A \mapsto A^{-1}$ is continuous on $\GL_n(\R)$.
+\end{proposition}
+\begin{proof}
+    Let $A \in \GL_n(\R)$.
+    Then $A^{-1} = \frac1{\det A} \adj A$.
+    Each entry of $A^{-1}$ is a rational function in the entries of $A$,
+    so $A \mapsto A^{-1}$ is continuous by \cref{thm:cont:Rn}.
+\end{proof}

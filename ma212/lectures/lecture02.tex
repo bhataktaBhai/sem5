@@ -1,0 +1,174 @@
+\lecture{2024-08-05}{}
+
+\begin{definition}[Order] \label{def:group:order}
+    The order of an element $x \in G$ is the smallest $n \in \N$ such that
+    $x^n = 1_G$ if it exists, and $\infty$ otherwise.
+\end{definition}
+\begin{examples}
+    \item $G = \Z/n\Z = \set{\wbar{a} \mid 0 \le a < n}$ where
+        $\wbar{a} = \set{a + kn \mid k \in \Z}$
+        under the operation $\wbar{a} + \wbar{b} = \wbar{a + b}$.
+    \item $G = \C^\times$. All roots of unity have finite order.
+    \item $G = \GL_2(\R)$. The matrix \[
+        \alpha_\theta = \begin{pmatrix}
+            \cos \theta & -\sin \theta \\
+            \sin \theta & \cos \theta
+        \end{pmatrix}
+    \] has order $n$ if $\theta = \frac{2\pi}{n}$.
+    [This is a homomorphism from $(\R, +)$ to $(G, \cdot)$]
+    \item $G = \GL_2(R)$ where $R$ is a ring.
+        Elements of the following set may have finite order. \[
+            \set{g \in M_2(R) \mid \det(g) \text{ is a unit in } R}
+            % TODO: is this sufficient?
+        \]
+\end{examples}
+\begin{proposition}[Crystallographic restriction] \label{thm:group:crystal}
+    Let $x \in \GL_2(\Z)$.
+    Then $\ord x \in \set{1, 2, 3, 4, 6, \infty}$.
+\end{proposition}
+
+\begin{definition}[Subgroup] \label{def:group:sub}
+    A set $H \subseteq G$ is a \emph{subgroup} of $G$ if it is a group
+    under the same operation.
+    We write $H \le G$.
+\end{definition}
+\begin{examples}
+    \item $G = \Z$. Then $H \le G \iff H = n\Z$ for some $n \in \N$.
+    \begin{proof}
+        Ignore the trivial case $H = \set{0}$.
+        Let $n$ be the smallest positive element of $H$.
+        Then $n\Z \subseteq H$ by closure under addition.
+        For any $m \in H$, write $m = qn + r$ with $0 \le r < n$.
+        Then $r = m - qn \in H$.
+        Since $n$ is the smallest positive element of $H$, $r = 0$.
+        Thus $H \subseteq n\Z$.
+    \end{proof}
+    \item Let $\abs{G} = 2k < \infty$.
+    Then $G$ has an element of order $2$.
+    \begin{proof}
+        Suppose not.
+        Then for any $x \in G \setminus \set{1}$, $x^{-1} \ne x$.
+        Thus $G \setminus \set{1}$ is a disjoint union of pairs
+        $\set{x, x^{-1}}$.
+        This would imply $\abs{G}$ is odd.
+    \end{proof}
+    \item Let $G$ be a group such that $x^2 = 1$ for all $x \in G$.
+    Then $G$ is abelian.
+    \begin{proof}
+        Let $x, y \in G$.
+        Then \begin{align*}
+            (xy)^2 &= 1 \\
+            \implies xyxy &= 1 \\
+            \implies xy &= y^{-1} x^{-1} = yx \qedhere
+        \end{align*}
+    \end{proof}
+    \item Let $G$ be a finite group where each element is its own inverse.
+    What can be said about $\abs{G}$?
+
+    $(G, \cdot)$ can be viewed as a vector space over $(\F_2, +, \cdot)$
+    with the scalar product of $x \in G$ and $c \in \F_2$ given by
+    $x^c$.
+    Let $n = \dim_{\F_2} G$ (possibly zero).
+    Then $(G, \cdot) \cong (\F_2^n, +)$ and thus $\abs{G} = 2^n$.
+    (ref. structure theorem for finitely generated abelian groups)
+
+    Furthermore, $\F_2^n$ is a group of this form for all $n$.
+    Thus the groups of this form are precisely $\set{\F_2^n \mid n \in \N}$
+    (up to isomorphism).
+\end{examples}
+
+\begin{proposition}
+    Let $H \subseteq G$.
+    Then $H \le G$ iff $H \ne \O$ and $H$ is closed under the operation
+    $(x, y) \mapsto xy^{-1}$.
+\end{proposition}
+\begin{proof}
+    The ``only if'' direction is trivial.
+
+    Suppose $H \ne \O$ and $H$ is closed under the operation.
+    Let $x$ be any element of $H$.
+    Then $1 = xx^{-1} \in H$.
+    Now for any $y \in H$, $y^{-1} = 1y^{-1} \in H$.
+    Now for any $x, y \in H$, $xy = x(y^{-1})^{-1} \in H$.
+\end{proof}
+
+\begin{proposition}
+    Let $H \subseteq G$ be finite.
+    Then $H \le G$ iff $H \ne \O$ and $H$ is closed under multiplication.
+\end{proposition}
+\begin{proof}
+    Let
+\end{proof}
+
+\section{Cyclic groups} \label{sec:group:cyclic}
+Given $x \in G$, look at the set $\angled{x} = \set{x^n \mid n \in \Z}$.
+This is a cyclic subgroup of $G$.
+
+We wish to classify all cyclic subgroups (up to isomorphism).
+
+\begin{example}
+    Let $H \le G$ with $\abs{G} = n > 2$, $\abs{H} = n-1$.
+    Is this possible?
+
+    No. Let $G \setminus H = \set{x}$.
+    Then $x^{-1} = x$.
+    Let $h \ne 1 \in H$.
+    Then $xh = h' \in H$, so $x \in H$ (closure).
+\end{example}
+
+Generalising gives the following proposition.
+\begin{proposition}
+    No group can be the union of two proper subgroups.
+\end{proposition}
+\begin{proof}
+    Suppose $G = H_1 \cup H_2$ where $H_1, H_2 \le G$.
+    Pick an $x \in H_1 \setminus H_2$ and $y \in H_2 \setminus H_1$.
+    WLOG assume $xy \in H_1$.
+    Then $y \in H_1$.
+    This means at least one of $H_1 \setminus H_2$ and $H_2 \setminus H_1$
+    is empty.
+\end{proof}
+
+\begin{definition*}[Homomorphism] \label{def:group:homo}
+    Let $G$ and $H$ be groups.
+    A map $\varphi\colon G \to H$ is a \emph{homomorphism} from
+    $G$ to $H$ if it respects the group operation.
+    That is, \[
+        \varphi(xy) = \varphi(x)\varphi(y)
+    \] for all $x, y \in G$.
+
+    \begin{itemize}
+        \item If $\varphi$ is bijective, it is called an \emph{isomorphism}.
+        \item If $H = G$, it is an \emph{automorphism}.
+    \end{itemize}
+
+    $G$ and $H$ are \emph{isomorphic} ($G \cong H$) if there exists an
+    isomorphism from $G$ to $H$.
+\end{definition*}
+
+\begin{definition}[Kernel] \label{def:group:kernel}
+    The \emph{kernel} of a homomorphism $\varphi\colon G \to H$ is the set \[
+        \ker \varphi = \set{x \in G \mid \varphi(x) = 1_H}.
+    \] The \emph{image} of $\varphi$ is the set \[
+        \im \varphi = \set{\varphi(x) \mid x \in G}.
+    \]
+\end{definition}
+
+\begin{examples}
+    \item $\det\colon \GL_2(\R) \to \R^\times$ is a homomorphism.
+    \item $\mu\colon \Z/n\Z \to \mu_n$ given by \[
+        \mu\ab(\wbar{k}) = \exp(\frac{2\pi k}{n})
+    \] is an isomorphism, where \[
+        \mu_n = \set{n\text{th roots of unity}} \subseteq \C.
+    \]
+    \item $\varphi$ is injective iff $\ker \varphi = \set{1_G}$.
+    \item $\exp\colon (\R, +) \to (\R^+, \cdot)$ is an isomorphism.
+    \item $\R^\times \ncong \C^\times$.
+    \item Let $A, B$ be nonempty sets.
+    Then $S_A \cong S_B$ iff $A$ and $B$ are in bijection.
+    \begin{proof}
+        Suppose $\tau$ is a bijection from $A$ to $B$.
+        Then $\sigma \mapsto \tau \sigma \tau^{-1}$ is an isomorphism
+        from $S_A$ to $S_B$.
+    \end{proof}
+\end{examples}

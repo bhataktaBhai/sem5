@@ -1,0 +1,57 @@
+\chapter{Machine learning} \label{chp:ml}
+\lecture{2024-08-05}{}
+
+\begin{definition}[Training] \label{def:ml:training}
+    Given a family of functions $\mcH = \set{h_\theta}_{\theta \in \Theta}$
+    from $X$ to $Y$ and a loss function $L\colon \mcH \to \R$,
+    \emph{training} is the process of finding a $\theta \in \Theta$
+    that minimizes the loss $L(h_\theta)$.
+\end{definition}
+
+\section{Continuous \& categorical data} \label{sec:ml:cont-cat}
+The amount of rainfall tomorrow in millilitres is a continuous variable.
+Whether or not it will rain is considered a categorical variable.
+
+Catergorical data can further be divided into ordinal and nominal data.
+If $X$ takes values in $\set{1, 2, 3}$, it is an ordinal variable.
+If it takes values in $\set{\text{red}, \text{green}, \text{blue}}$,
+it is a nominal variable.
+
+Predicting continuous data is called \emph{regression}.
+Predicting categorical data is called \emph{classification}.
+
+\section{Types of models} \label{sec:ml:models}
+\begin{itemize}
+    \item Linear regression
+    \item Gradient boosted tree model, best for tabular and time series data
+    \begin{itemize}
+        \item Extreme gradient boosting (XGBoost)
+        \item Light gradient boosting (LightGBM)
+        \item Catetgorical gradient boosting (CatBoost)
+    \end{itemize}
+    \item Neural networks, best for image, video, text and audio.
+    \begin{itemize}
+        \item Convolutional neural networks (CNN) for image and video
+        \item Recurrent neural networks (RNN)
+        \item Transformers
+    \end{itemize}
+\end{itemize}
+
+\subsection{Predictive \& generative models} \label{sec:pred-gen}
+\subsubsection*{Predictive AI}
+\begin{itemize}
+    \item Input: Any data modality
+    \item Output: Continuous or categorical data
+\end{itemize}
+\subsubsection*{Generative AI}
+\begin{itemize}
+    \item Input: Any data modality
+    \item Output: Text, image, video, audio
+\end{itemize}
+
+\section{Foundational model} \label{sec:found}
+A foundational model is one that has a broad knowledge and capability.
+We interact with it using prompts.
+Can be fine-tuned to specialize in a particular domain.
+
+\textbf{Examples:} GPT, BERT, T5

@@ -1,0 +1,119 @@
+\lecture{2024-08-05}{}
+We saw that $\abs{\R} = \abs{\R^2}$, even though both behave very
+differently in a lot of ways.
+We need a notion of ``proximity''.
+
+\begin{definition*}[Topology] \label{def:topo}
+    Let $X$ be a set.
+    A \emph{topology} on $X$ is a collection $\T \subseteq 2^X$ that
+    \begin{enumerate}[label=\small(T\arabic*)]
+        \item contains $\O$ and $X$,
+        \item is closed under finite intersections, and
+        \item is closed under arbitrary unions.
+    \end{enumerate}
+    $(X, \T)$ is called a \emph{topological space}.
+    Elements of $\T$ are called \emph{open sets}.
+\end{definition*}
+
+\begin{remark}
+    A collection $\set{U_\alpha}_{\alpha \in J}$ is an \emph{indexed}
+    collection of sets.
+    We will sometimes not mention the index set $J$.
+\end{remark}
+
+\begin{examples}
+    \item $\T = \set{\O, X}$ is called the trivial or \emph{indiscrete}
+        topology.
+    \item $\T = 2^X$ is called the \emph{discrete} topology.
+    \item $X = \set{a, b}$ has topologies
+    \begin{itemize}
+        \item $\T = \set{\O, \set{a, b}}$,
+        \item $\T = \set{\O, \set{a}, \set{a, b}}$ and
+            $\T = \set{\O, \set{b}, \set{a, b}}$,
+        \item $\T = \set{\O, \set{a}, \set{b}, \set{a, b}}$.
+    \end{itemize}
+    \item $X = \set{a, b, c}$ has topologies
+    \begin{itemize}
+        \item $\set{\O, \set{a, b, c}}$, \\
+            $\set{\O, \set{a, b}, \set{a, b, c}}$,
+            $\set{\O, \set{b, c}, \set{a, b, c}}$,
+            $\set{\O, \set{c, a}, \set{a, b, c}}$,
+        \item $\set{\O, \set{a}, \set{a, b, c}}$,
+            $\set{\O, \set{b}, \set{a, b, c}}$,
+            $\set{\O, \set{c}, \set{a, b, c}}$,
+        \item $\set{\O, }$
+    \end{itemize}
+    \item For any $X$, the set \[
+        \T = \set{A \in 2^X \mid X \setminus A \text{ is finite}}
+                \cup \set{\O}
+    \] is the \emph{cofinite} topology.
+    This is a topology because
+    \begin{enumerate}[label=\small(T\arabic*)]
+        \item $\O$ is by definition, and the complement of $X$ is finite,
+        \item Let $U, V \in \T$.
+            If either is $\O$, then $U \cap V = \O$.
+            Otherwise, $X \setminus (U \cap V) = (X \setminus U) \cup (X \setminus V)$
+            is finite.
+        \item Let $\set{U_\alpha} \subseteq \T$.
+            Then $X \setminus (\bigcup_\alpha U_\alpha)
+                = \bigcap_\alpha (X \setminus U_\alpha)$ is finite.
+    \end{enumerate}
+    \item The \emph{cocountable} topology on $X$ is what you would expect.
+    \item \Cref{thm:topo:metric}.
+\end{examples}
+
+\begin{definition*}[Metric] \label{def:metric}
+    A \emph{metric} on a set $X$ is a map $d\colon X \times X \to \R$
+    satisfying
+    \begin{enumerate}[label=\small(M\arabic*)]
+        \item (positive definiteness) $d(x, y) \ge 0$ for all $x, y \in X$,
+            and $d(x, y) = 0$ iff $x = y$,
+        \item (symmetry) $d(x, y) = d(y, x)$ for all $x, y$,
+        \item (triangle inequality)
+            $d(x, y) + d(y, z) \ge d(x, z)$ for all $x, y, z$.
+    \end{enumerate}
+    $(X, d)$ is called a \emph{metric space}.
+\end{definition*}
+\begin{examples}
+    \item $(\R, \abs{\ccdot})$.
+    \item $(\R^n, {\norm{\ccdot}}_2)$ and in general
+        $(\R^n, {\norm{\ccdot}}_p)$.
+    \item $d(x, y) = \bm{1}_{x \ne y}$ on any set $X$.
+\end{examples}
+
+\begin{definition}[Open sets] \label{def:metric:open}
+    An \emph{open ball} in a metric space $(X, d)$ is a subset \[
+        B(x_0, r) = \set{x \in X \mid d(x, x_0) < r}
+    \] where $x_0 \in X$ and $r > 0$.
+
+    An \emph{open set} is a subset $U \subseteq X$ if for any $x \in U$,
+    there is an open ball $B(x, r) \subseteq U$.
+\end{definition}
+
+\begin{theorem} \label{thm:topo:metric}
+    Let $(X, d)$ be a metric space.
+    The collection of open sets \[
+        \T = \set{U \subseteq X \mid \text{$U$ is open}}
+    \] is a topology on $X$.
+\end{theorem}
+\begin{proof}
+    $\O$ is vacuously open, $X$ is trivially so.
+
+    A ball here and a ball there, the smaller one is everywhere.
+
+    Going to a party, without your friends? \\
+    That attitude's not good. \\
+    QED, leaving no dead ends, \\
+    Take along your entire neighbourhood.
+\end{proof}
+
+\begin{theorem*}
+    The co-finite topology on an infinite set is not metrizable.
+\end{theorem*}
+\begin{proof}
+    A metric space is a \href{https://en.wikipedia.org/wiki/Hausdorff_space}
+    {Hausdorff space}.
+    But in the co-finite topology, any two (non-empty) open sets intersect.
+\end{proof}
+
+\textbf{Question:} When is a topology metrizable?

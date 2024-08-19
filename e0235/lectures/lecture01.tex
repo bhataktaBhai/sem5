@@ -1,0 +1,173 @@
+\chapter*{The course} \label{chp:course}
+\lecture{2024-08-06}{}
+
+\href{https://www.csa.iisc.ac.in/~cris/e0_235_2020.html}{Course webpage}
+
+\textbf{MS Teams:} % TODO on the part of the professors
+
+\section*{Timeline} \label{sec:timeline}
+\textbf{Symmetric/Private/Shared key cryptography} will be covered by
+Prof.~Arpita Patra till 18th September, and then resume near the end of
+November.
+\textbf{Asymmetric/Public key cryptography} will be covered by
+Prof.~Sanjit Chatterjee in the middle.
+
+\section*{Evaluation} \label{sec:evaluation}
+Both professors may have different evaluation techniques, each with a 50\%
+weightage.
+
+\subsubsection{Prof.~Arpita~Patra} \label{subsec:arpita}
+TBD
+
+\subsubsection{Prof.~Sanjit~Chatterjee} \label{subsec:sanjit}
+\begin{itemize}
+    \item Midterm:
+    \item Two assignments:
+    \item Endterm:
+\end{itemize}
+
+\chapter{Introduction} \label{chp:intro}
+
+\section{History} \label{sec:history}
+The 1980s mark a transition from classical to modern cryptography.
+Classical cryptography dealt only with secure communication,
+with ad-hoc codes and ciphers.
+When a code is broken, it is fixed, or another one is created.
+Creative, intellectually challenging, but not scientifically rigorous.
+
+Modern cryptographic problems:
+\begin{itemize}
+    \item Authenticated message transmission:
+        An adversary tries to tamper with the message.
+        The receiver should be able to detect tampering.
+    \item Electronic voting and auctions:
+        Return the highest bid without revealing the other bids.
+        In elections, make the votes anonymous and secret till the end.
+    \item Activism with safety:
+        \href{https://en.wikipedia.org/wiki/Deniable_encryption}
+        {Deniable encryption}
+    \item Secure storage, secret sharing, broadcast, zero-knowledge proofs
+    \item Secure information retrieval
+    \item Secure outsourcing to the cloud
+    \item \textbf{Secure computation:} The holy grail of cryptography.
+        An abstraction of everything else.
+\end{itemize}
+\begin{table}
+    \centering
+    \begin{tabular}{cc}
+        \toprule
+        \textbf{Year} & \textbf{Technique} \\
+        \midrule
+        110 BC & Caesar Cipher \\
+        WWII   & Enigma \\
+        1980s  & Boom! \\
+        \bottomrule
+    \end{tabular}
+    \caption{Timeline of cryptography}
+    \label{tab:timeline}
+\end{table}
+
+\section{Secure (multiparty) computation} \label{sec:mpc}
+\begin{setting*}
+    There are $n$ parties, $P_1, P_2, \dots, P_n$,
+    who do not trust each other.
+    Each party $P_i$ has a private input $x_i$ to a common
+    $n$-input function $f$.
+
+    The goal is to compute $f(x_1, x_2, \dots, x_n)$
+    while revealing nothing about the inputs except the output.
+\end{setting*}
+Applications:
+\begin{itemize}
+    \item Satellite collision avoidance
+    \item Secure set intersection
+    \item Privacy-preserving everything
+\end{itemize}
+
+Modern cryptography follows three principles:
+\begin{itemize}
+    \item A \emph{formal definition} of security capturing requirement.
+    \item \emph{Precise} and \emph{well-studied} assumptions.
+    \item Mathematical proof of security.
+\end{itemize}
+
+\begin{examples}
+    \item Prime factorization
+    \item Subset sum: Given a set of integers $S$ and a target $t$,
+        is there a subset of $S$ that sums to $t$?
+\end{examples}
+
+Our primary objective will be secure communication:
+turning insecure channels into secure ones.
+We expect (i) privacy, (ii) integrity and (iii) authenticity.
+
+Integrity is the ability to detect tampering.
+Authenticity is the ability to detect impersonation.
+
+\section{Classical examples} \label{sec:classical-examples}
+In the private key setting, a message $m$ is encrypted with a key $k$
+to get a ciphertext $c$.
+The ciphertext is decrypted with the same key $k$ to get the message $m$.
+We will use the following notation:
+\begin{itemize}
+    \item The key-generation algorithm $\Gen$ is a randomized algorithm
+        that outputs a key $k$ according to some probability distribution.
+    \item The encryption algorithm $\Enc_k$ is parameterized by the key $k$,
+        and takes a message $m$ to output a ciphertext $c$.
+        This may be deterministic or randomized.
+    \item The decryption algorithm $\Dec_k$ is parameterized by the key $k$,
+        and takes a ciphertext $c$ to output a message $m$.
+    \item The key space $\mcK$ is the set of all possible keys.
+    \item The message space $\mcM$ is the set of all possible messages.
+    \item The cipher-text space $\mcC$ is the set of all possible
+        ciphertexts.
+\end{itemize}
+
+\begin{example}[Caesar cipher]
+    The Caesar cipher has $\mcM = \mcC = \set{0, 1, \dots, 25}$.
+    $\Enc(m) = m + 3 \bmod 26$ and $\Dec(c) = c - 3 \bmod 26$.
+    It is a keyless cipher.
+\end{example}
+A keyed cipher needs to be private.
+
+\begin{quotation}
+    The security of a cryptographic system should not depend on the
+    secrecy of the algorithm, but only on the secrecy of the key.
+    -- Kerckhoffs, 1883
+\end{quotation}
+
+Here are some arguments for Kerckhoffs' principle:
+\begin{itemize}
+    \item Maintaining the secrecy of the algorithm is far more difficult
+        than maintaining the secrecy of the key.
+    \item Replacing the algorithm is infinitely harder than replacing
+        the key.
+    \item For cryptography to be an everyday tool, secret algorithms
+        would need to be devised for every pair of communicating parties.
+\end{itemize}
+
+\begin{example}[Shift cipher]
+    The obvious generalization of the Caesar cipher using a key $k$.
+\end{example}
+$26$ is an embarrassing size for a key space.
+
+\begin{example}[Mono-alphabetic substitution]
+    The key is a permutation of the alphabet.
+    $\Enc_k = k$ and $\Dec_k = k^{-1}$.
+\end{example}
+The key space has size $26!$.
+Brute force is infesible, but \emph{frequency analysis} destroys it.
+
+\begin{example}[Vigenère cipher]
+    The key is a random $t$-tuple of shifts.
+    The message is divided into blocks of length $t$,
+    and the key is applied to each block using the shift cipher.
+\end{example}
+The key space has size $26^t$, but if $t$ is known,
+the key can be broken by frequency analysis.
+Consider all the characters at positions $i \pmod t$.
+These are all encrypted with the same key, so frequency analysis works.
+Repeat to get the entire word.
+
+Even if we take the key to be a tuple of $t$ permutations,
+the same method works.

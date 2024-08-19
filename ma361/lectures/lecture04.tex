@@ -1,0 +1,131 @@
+\lecture{2024-08-13}{}
+
+Let $P(\R)$ be the set of all probability measures on $(\R, \mcB_\R)$.
+If $\mu \in P(\R)$, then $F_\mu(x) \coloneq \mu (-\infty, x]$ is a CDF
+(increasing, right-continuous with $F(-\infty) = 0$, $F(\infty) = 1)$).
+
+\begin{theorem*}
+    Given a CDF $F\colon \R \to [0, 1]$, there exists a unique
+    probability measure $\mu \in P(\R)$ such that
+    $\mu(-\infty, x] = F(x)$ for all $x \in \R$.
+\end{theorem*}
+
+\begin{proof}
+    Consider $((0, 1), \mcB, \lambda)$ and define \begin{align*}
+        T\colon (0, 1) &\to \R \\
+        u &\mapsto \inf\set{x \in \R : F(x) \ge u}
+    \end{align*}
+    The set is non-empty since $F(x) \to 1$ as $x \to \infty$.
+    Moreover, $T$ is increasing since \[
+        \set{x \in \R : F(x) \ge u} \subseteq \set{x \in \R : F(x) \ge v}
+    \] whenever $u \le v$.
+    % TODO: check that $T$ is left-continuous
+    $T$ is left-continuous.
+
+    Finally, $T(u) \le x \iff F(x) \ge u$.
+    (This is reminiscent of the inverse property: $T(u) = x \iff F(x) = u$.)
+    If $F(x) \ge u$, then $x \in F^{-1}[u, 1)$, so $T(u) \le x$.
+    If $T(u) \le x$, then $x + \frac1n \in F^{-1}[u, 1)$ for all $n \in \N$.
+    By right-continuity, $F(x) \ge u$.
+
+    Now $T$ is Borel-measurable, so \[
+        \mu \coloneq \lambda \circ T^{-1} % TODO: push-forward measure
+    \] is a probability measure on $(\R, \mcB_\R)$.
+
+    Further, $\mu(-\infty, x] = \lambda(T^{-1}(-\infty, x])
+    = \lambda(0, F(x)] = F(x)$.
+
+    Uniqueness if by the $\pi$-system thingy. % TODO
+\end{proof}
+
+\begin{examples}
+    \item Take $f\colon \R \to [0, \infty)$ measurable whose total integral
+        is $1$. Then $F = x \mapsto \int_{-\infty}^x f(u) \dd u$ is a CDF.
+    \item (Cantor measure) Consider the $\frac13$-Cantor set
+        $K = K_1 \cap K_2 \cap \dots$ where
+        \begin{align*}
+            K_1 &= \ab[0, \frac13] \cup \ab[\frac23, 1] \\
+            K_2 &= \ab[0, \frac19] \cup \ab[\frac29, \frac13]
+                \cup \ab[\frac23, \frac79] \cup \ab[\frac89, 1] \\
+            &\vdotswithin{=}
+        \end{align*}
+        Notice that \[
+            K = \set{x \in [0, 1] : x = \sum_{n=1}^\infty \frac{x_n}{3^n},
+                                    x_n = 0 \text{ or } 2}.
+        \]
+        We can construct the measurable function \begin{align*}
+            T\colon [0, 1] &\to \R \\
+            \sum_{n=1}^\infty \frac{x_n}{2^n}
+                &\mapsto \sum_{n=1}^\infty \frac{2x_n}{3^n}
+        \end{align*} where we are considering the non-terminating binary
+        expansion of $x$ on the left.
+        It is obvious that $T$ maps only to $K$.
+        Since $T^{-1}(K) = [0, 1]$, we have that $\mu(K) = 1$.
+        However, $\lambda(K) = 0$.
+        Thus the CDF cannot arise from a density.
+        However, the CDF is continuous! % TODO: wtf draw this
+    \item (just for fun) Fix a $\theta > 2$ and define \begin{align*}
+            T_\theta\colon [0, 1] &\to [0, 1] \\
+            \sum_{n=1}^\infty \frac{x_n}{2^n}
+                &\mapsto \sum_{n=1}^\infty \frac{x_n}{\theta^n}
+        \end{align*}
+        define $\mu_\theta = \lambda \circ T_\theta^{-1}$.
+        $\mu_2 = \lambda$.
+        It is known that for $\theta > 2$, $\mu_\theta$ has no density.
+        % TODO
+        What about $1 < \theta < 2$?
+        This is an open problem.
+        ``Bernoulli convolution problem''.
+\end{examples}
+
+\subsection{Structure of $P(\Omega, \F)$} \label{sec:structure-measures}
+What is the structure of $P(\Omega, \F)$?
+Is it a vector space? A group?
+
+One thing to note is that $P(\Omega, \F)$ is convex.
+That is, given any $\mu, \nu \in P(\Omega, \F)$ and $0 \le t \le 1$,
+$(1 - t)\mu + t\nu \in P(\Omega, \F)$.
+This is called a \emph{mixture} of $\mu$ and $\nu$.
+
+We would like to study \emph{closeness} of probability measures.
+Consider a computer generating a random number between $0$ and $1$,
+by generating a sequence of $8$ random bits.
+The computer is actually sampling from the uniform distribution \[
+    \mu_{2^8} = \text{Unif} \set*{\frac{0}{2^8}, \frac{1}{2^8}, \dots,
+                            \frac{2^8 - 1}{2^8}}.
+\] However, we do accept $\mu$ as an approximation of $\lambda$.
+We will thus attempt to define a \emph{metric} on $P(\R)$.
+
+\begin{enumerate}[label=Attempt \arabic*.]
+    \item (total variation distance) Define \[
+        d(\mu, \nu) = \sup_{A \in \mcB_\R} \abs{\mu(A) - \nu(A)}.
+    \] This does not work for out for our use case, as \[
+        d(\mu_{2^8}, \lambda) = 1.
+    \]
+    \item (Kolmogorov-Smirnov metric) Choose a suitable $\mcC \in \mcB_\R$
+    and define \[
+        d(\mu, \nu) = \sup_{A \in \mcC} \abs{\mu(A) - \nu(A)}.
+    \] $\mcC$ should be ``measure-determining''.
+    \item (L\'evy metric)  \begin{multline*}
+        d(\mu, \nu) = \inf\{\eps > 0 : F_\mu(x + \eps) + \eps \ge F_\nu(x)
+            \text{ and} \\
+        F_\nu(x + \eps) + \eps \ge F_\mu(x)
+                            \text{ for all } x \in \R\}.
+    \end{multline*}
+    This is symmetric by sheer obviousness.
+    For $\triangle$, consider three measures $\mu, \nu, \rho$.
+    \begin{align*}
+        t &> d(\mu, \nu) &\implies F_\mu(x + t) + t &\ge F_\nu(x) \\
+        s &> d(\nu, \rho) &\implies F_\nu(x + s) + s &\ge F_\rho(x)
+    \end{align*} Thus \begin{align*}
+        F_\mu(x + t + s) + t + s &\ge F_\nu(x + s) + t \ge F_\rho(x)
+    \end{align*}
+    Thus $t + s \ge d(\mu, \rho)$.
+    $\triangle$ holds.
+
+    Finally, suppose $d(\mu, \nu) = 0$.
+    Let $\eps_n \downarrow 0$ be a sequence such that
+    $F_\mu(x + \eps_n) + \eps_n \ge F_\nu(x)$ for all $x$ for all $n$.
+    Taking limits, we have $F_\mu(x) \ge F_\nu(x)$ by right-continuity.
+    By symmetry, $F_\mu(x) = F_\nu(x)$.
+\end{enumerate}

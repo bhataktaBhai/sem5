@@ -1,0 +1,42 @@
+\lecture{2024-08-12}{}
+
+\subsection{Topological proof of the infinitude of primes} \label{sec:primes}
+
+\begin{lemma}
+    Arithmetic progressions form a basis of a topology on $\Z$.
+\end{lemma}
+\begin{proof}
+    Let $S(a, b) = \set{an + b \mid n \in \Z}$.
+
+    $S(1, 0) = \Z$.
+    Suppose $x \in S(a_1, x) \cap (a_2, x)$.
+    Then $x \in S(a_1a_2, x) \subseteq S(a_1, x) \cap S(a_2, x)$.
+\end{proof}
+
+\begin{theorem}
+    There are infinitely many primes.
+\end{theorem}
+\begin{proof}
+    Notice that $\Z \setminus S(a, b) = \bigcup_{i=1}^{a-1} S(a, b + i)$.
+    Thus $S(a, b)$ is clopen.
+
+    Now notince that
+    $\bigcup_{p \text{ prime}} S(p, 0) = \Z \setminus \set{\pm 1}$.
+
+    The union of finitely many closed sets is closed, so if there were
+    a finite number of primes, then $\Z \setminus \set{\pm 1}$ would be
+    closed.
+    Thus $\set{\pm 1}$ would be open, which is impossible, since each
+    basis is infinite.
+\end{proof}
+
+From \cref{thm:closure}, we can say that a set is closed iff it contains all
+its limit points.
+\begin{example}
+    In $\R_L$, the lower-limit topology on $\R$, $\wbar{\Q} = \R$.
+    Let $x \in \R \setminus \Q$.
+    We need to show that any basis element containing $x$ intersects $\Q$.
+    But basis elements are of the form $[a, b)$, so every basis element
+    intersects $\Q$.
+    Thus $x \in \wbar{\Q}$.
+\end{example}

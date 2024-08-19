@@ -1,0 +1,29 @@
+\lecture{2024-08-13}{}
+\chapter{}
+
+\begin{definition}[Range space] \label{def:range-space}
+    For any set $X$ of points and a collection $\mcR$ of subsets of $X$,
+    the pair $(X, \mcR)$ is a \emph{range space}.
+\end{definition}
+
+\begin{definition}[Projection] \label{def:projection}
+    Given a range space $(X, \mcR)$ and a set $S \subseteq X$, the
+    \emph{projection} of $\mcR$ onto $S$ is the collection \[
+        \mcR\vert_S \coloneq \set{R \cap S \mid R \in \mcR}.
+    \]
+\end{definition}
+
+\begin{definition}[Shattering] \label{def:shattering}
+    A set $S \subseteq X$ is \emph{shattered} by $\mcR$ if
+    $\abs{\mcR\vert_S} = 2^{\abs S}$.
+\end{definition}
+
+\begin{definition}[VC-dimension] \label{def:vc-dimension}
+    The \emph{VC-dimension} of a range space $(X, \mcR)$ is the size of the
+    largest set $S \subseteq X$ which is shattered by $\mcR$.
+\end{definition}
+
+\begin{theorem}[Sauer-Shelah] \label{thm:sauer-shelah}
+    Let $(X, \mcR)$ be a range space with VC-dimension $d$.
+    Then $\abs{\mcR} \le n^d$.
+\end{theorem}

@@ -1,0 +1,62 @@
+\lecture{2024-08-09}{Topology?}
+\begin{exercise} \label{thm:cont:Rn}
+    Let $U \subseteq \R^n$ be an open set.
+    Let $f\colon U \to \R^m$ be such that \[
+        f(x) \coloneq (f_1(x), f_2(x), \dots, f_n(x)), \quad x \in U
+    \] Show that $f$ is continuous at $a \in U$ iff each $f_i$ is continuous
+    at $a$.
+\end{exercise}
+\begin{solution}
+    Consider the $\ell^1$ norm on $\R^m$.
+
+    Suppose $f$ is continuous.
+    Since $\abs{f_1(x) - f_1(y)} \le \norm{f(x) - f(y)}$, so is
+    each $f_i$.
+
+    Suppose each $f_i$ is continuous at $a$.
+    For any $\varepsilon > 0$, there exists $\delta_i > 0$ such that
+    $\abs{f_i(x) - f_i(a)} < \frac1m \varepsilon$ in a
+    $\delta_i$-neighbourhood of $a$.
+    Let $\delta = \min\set{\delta_1, \delta_2, \dots, \delta_n}$.
+\end{solution}
+
+\begin{exercise}
+    Let $f(x) = o(g(x))$ and $g(x) = O(h(x))$.
+    Then show that $f(x) = o(h(x))$.
+\end{exercise}
+\begin{solution}
+    \[
+        \limsup_{x \to a} \frac{\norm{f(x)}}{\norm{h(x)}} < c
+        \quad \text{and} \quad
+        \lim_{x \to a} \frac{\norm{g(x)}}{\norm{h(x)}} = 0
+    \] Thus \[
+        \limsup_{x \to a} \frac{\norm{f(x)}}{\norm{h(x)}} = 0. \qedhere
+    \]
+\end{solution}
+
+\begin{proposition} \label{prp:cont-open}
+    Suppose $X$ and $Y$ are metric spaces.
+    Then the following are equivalent.
+    \begin{enumerate}
+        \item $f$ is continuous.
+        \item $f^{-1}(V)$ is open whenever $V$ is open in $Y$.
+    \end{enumerate}
+\end{proposition}
+\begin{solution}
+    Suppose $f$ is continuous.
+    Let $V \subseteq Y$ be open.
+
+    Let $x \in f^{-1}(V)$.
+    Then $f(x) \in V$.
+    There is some $\varepsilon > 0$ such that
+    $B(f(x), \varepsilon) \subseteq V$.
+    But by continuity, there is some $\delta > 0$ such that
+    $f(B(x, \delta)) \subseteq B(f(x), \varepsilon) \subseteq V$.
+    Thus $B(x, \delta) \subseteq f^{-1}(V)$.
+
+    Conversely, suppose $f^{-1}(V)$ is open whenever $V$ is open.
+    Then for any $x \in X$ and $\varepsilon > 0$, we have
+    that $f^{-1}(B(f(x), \varepsilon))$ is open.
+    So some $\delta$-neighbourhood of $x$ in $X$ that is contained
+    in $f^{-1}(B(f(x), \varepsilon))$.
+\end{solution}

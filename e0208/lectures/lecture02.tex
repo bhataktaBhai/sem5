@@ -1,0 +1,162 @@
+\lecture{2024-08-12}{Skyline in $O(n \log k)$ (Chan's algorithm)}
+
+We will figure out an $O(n \log k)$ algorithm for the skyline problem,
+where $k$ is the number of skyline points in the input.
+
+\textbf{Warm-up:} If $k = 1$, is there a better algorithm than $O(n \log n)$? \\
+\textbf{Answer:} Yes. Simply pick the maximum $x$-coordinate.
+
+\section{A slow algorithm} \label{sec:slow}
+\begin{question*}
+    Can we find an $O(n k)$ algorithm for the skyline problem?
+    (assuming $d$ to be constant)
+\end{question*}
+\begin{solution}
+    Pick the largest $x$-coordinate,
+    and remove all points that are dominated by it.
+    Repeat until the set is exhausted.
+
+    The next point chosen is not dominated by the previous one,
+    hence it is not dominated by any other deleted point.
+    Since it has the largest $x$-coordinate of the remaining points,
+    it cannot be dominated by those either.
+\end{solution}
+We will try to make this faster later.
+
+\section{Chan's algorithm} \label{sec:chan}
+\begin{question*}
+    Can we find an $O(n \log k)$ algorithm for the skyline problem in
+    $\R^2$?
+\end{question*}
+
+We will first solve the following decision problem:
+\begin{question*}
+    Given a set of points $P$ having $k$ skyline points and an integer
+    $\what{k}$, decide
+    \begin{itemize}
+        \item if $\what{k} \ge k$, output the skyline,
+        \item if $\what{k} < k$, output \textbf{failure}.
+    \end{itemize}
+\end{question*}
+\begin{solution}
+    Partition $P$ into roughly $\what{k}$ slabs of roughly equal size
+    using the median of medians algorithm.
+    \begin{enumerate}
+        \item Compute the median and partition the elements in $O(n)$ time.
+        \item Repeat recursively on the two halves, upto a depth of
+            $\log k$.
+    \end{enumerate}
+    In total, this takes $O(n \log k)$ time.
+    (One remarked that it's like quicksort, but stopping once we have
+    exhausted our time budget.)
+
+    Visit each slab in order of decreasing $x$-coordinate.
+    \begin{algo}
+        \Fn{Chan-Decision-2D}{$P$, $\what{k}$}
+            \State $P_1, \ldots, P_{\what{k}} \gets
+                \operatorname{partition}(P)$
+            \State $S \gets \O$
+            \State $y(p^*) \gets -\infty$
+            \For{$i = \what{k}$ downto $1$}
+                \If{$\abs{S} > \what{k}$}
+                    \State \Return Failure
+                \Else
+                    \State $P_i' \gets \set{p \in P_i \mid y(p) > y(p^*)}$
+                    \State $S(P_i') \gets \operatorname{Skyline}(P_i')$
+                        \Comment{using the slow algorithm}
+                    \State report $S(P_i')$
+                    \State $S \gets S \cup S(P_i')$
+                \EndIf
+            \EndFor
+            \State \Return $S$
+        \EndFn
+    \end{algo}
+    Failure is not because of our inability to output the correct answer,
+    but because the runtime would be too large.
+\end{solution}
+\begin{proof}[Analysis]
+    Constructing the slabs took $O(n \log \what{k})$ time.
+
+    Running the slow algorithm on $P_i$ takes $\frac{n}{\what{k}} \cdot k_i$
+    time, where $k_i$ is the number of skyline points in $P_i$.
+    In total, this step takes \[
+        \sum_{i=1}^{\what{k}} O\ab(\frac{n}{\what{k}} \cdot k_i)
+            = O\ab(\frac{n}{\what{k}} \cdot \sum_{i=1}^{\what{k}} k_i)
+            = O(n)
+    \] time.
+    Thus the total runtime is $O(n \log \what{k})$.
+\end{proof}
+
+We are now prepared to solve the original problem.
+\begin{solution}
+    Guess $\what{k} = 1, 2, 4, \ldots, 2^{\ceil{\log k}}$.
+    This will take \[
+        \sum_{i=0}^{\ceil{\log k}} O(n \log 2^i)
+            = \sum_{i=0}^{\ceil{\log k}} O(n i)
+            = O(n (\log k)^2)
+    \] time.
+    We can be even more aggressive and guess
+    $\what{k}_i = 2^{2^i}$ (square the previous guess).
+    This takes \[
+        \sum_{i=0}^{\ceil{\log \log k}} O(n \log 2^{2^i})
+            = \sum_{i=0}^{\ceil{\log \log k}} O(n 2^i)
+            = O\ab(n 2^{\ceil{\log \log k}})
+            = O(n \log k)
+    \] time.
+    \begin{algo}
+        \Fn{Chan-2D}{$P$}
+            \State $\what{k} \gets 2$
+            \For{ever}
+                \State $S \gets\operatorname{Chan-Decision-2D}(P, \what{k})$
+                \If{$S \ne \text{Failure}$}
+                    \State \Return $S$
+                \EndIf
+                \State square $\what{k}$
+            \EndFor
+        \EndFn
+    \end{algo}
+\end{solution}
+
+\begin{question*}
+    Can we generalize this to $\R^3$?
+\end{question*}
+It suffices to generalize the decision problem.
+
+\begin{solution}
+    We construct $\what{k}$ slabs based on the $x$-coordinate.
+    The invariants are the following:
+    \begin{itemize}
+        \item $S_i$ will store the skyline of the first $i$ slabs.
+        \item $S_i^{yz}$ will store the 2D skyline of the projection of
+            $S_i$ onto the $yz$-plane.
+        \item Each $S_i$ and $S_i^{yz}$ is sorted according to the
+            $y$-coordinate.
+    \end{itemize}
+    The deletion step now takes $\abs{P_i} \log \abs{S_i^{yz}}$ time,
+    (as opposed to $\abs{P_i}$ earlier)
+    which is still fine.
+
+    We now run the slow algorithm and report the elements added to $S_i$.
+    This takes $O(n)$ time, and they are naturally reported in decreasing
+    order of the $y$-coordinates.
+    \begin{algo}
+        \Fn{Chan-Decision}{$P$, $\what{k}$}
+            \State $P_1, \ldots, P_{\what{k}} \gets
+                \operatorname{partition}(P)$
+            \State $S \gets \O$, $S^{yz} \gets \O$
+            \State $y(p^*) \gets -\infty$
+            \For{$i = \what{k}$ downto $1$}
+                \If{$\abs{S} > \what{k}$}
+                    \State \Return Failure
+                \Else
+                    \State $P_i' \gets \operatorname{filter}(P_i, S^{yz})$
+                    \State $S(P_i') \gets \operatorname{Skyline}(P_i')$
+                        \Comment{using the slow algorithm}
+                    \State report $S_(P_i')$
+                    \State $S \gets S \cup S(P_i')$
+                \EndIf
+            \EndFor
+            \State \Return $S$
+        \EndFn
+    \end{algo}
+\end{solution}

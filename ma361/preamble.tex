@@ -1,13 +1,19 @@
-\newcommand\theoremnumberwithin{chapter}
-\input{../preamble}
+\input{~/IISc/sem5/preamble}
 \usepackage{multicol}
 
-\DeclareMathOperator{\E}{\mathrm{E}}
-\newcommand\F{\mcF}
+\DeclareMathOperator{\E}{E}
+\let\P\relax
+\DeclareMathOperator{\P}{\mathbf{P}}
+
+\newcommand\F{\mathcal F}
+\newcommand\B{\mathcal B}
+
 % \usepackage{bbm}
 \newcommand\1[1]{\bm{1}_{#1}}
 \newcommand\given\mid
 \newcommand\otto{\leftrightarrow}
+\newcommand\upto{\uparrow}
+\newcommand\downto{\downarrow}
 \newcommand\eqd{\overset{d}{=}}
 \DeclareMathOperator\Var{Var}
 % almost sure convergence
@@ -16,3 +22,13 @@
 \newcommand\pto{\leadsto}
 % convergence in distribution
 \newcommand\dto{\xrightarrow{\text{d}}}
+
+\makeatletter
+\newcount\my@repeat@count
+\newcommand{\myrepeat}[2]{%
+  \begingroup
+  \my@repeat@count=\z@
+  \@whilenum\my@repeat@count<#1\do{#2\advance\my@repeat@count\@ne}%
+  \endgroup
+}
+\makeatother

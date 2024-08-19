@@ -1,5 +1,6 @@
 \documentclass[12pt]{report}
 \input{preamble}
+\usepackage{docmute}
 \usepackage{geometry}
 \geometry{a4paper, margin=1.5in}
 
@@ -10,5 +11,14 @@
 \begin{document}
 \maketitle
 \tableofcontents
+\newpage
+\listoflecture
+\listofhw
     \input{lectures/lecture01}
+    \input{lectures/lecture02}
+    \input{lectures/lecture03}
+    \input{lectures/lecture04}
+    \assignment[1]{assignments/assignment01}{2024-08-02}{2024-08-12}{2024-08-14}
+    \input{lectures/lecture05}
+    \input{lectures/lecture06}
 \end{document}

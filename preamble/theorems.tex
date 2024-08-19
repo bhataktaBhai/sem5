@@ -56,18 +56,20 @@
     rightmargin = 7,
     backgroundcolor = yellow!10
 }
-\providecommand\theoremnumberwithin{section}
-\ifundef{\chapter}{%
+\ifundef\chapter{%
+    \providecommand\theoremnumberwithin{section}
     \theoremstyle{mddefinition}
     \newmdtheoremenv[nobreak=true, style=axiomstyle]{axiom}{Axiom}[section]
     \theoremstyle{plain}
     \newtheorem{theorem}{Theorem}[\theoremnumberwithin]
 
+    \newcounter{assignment}
     \theoremstyle{plain}
     \newtheorem{problem}{Problem}
     \theoremstyle{mddefinition}
     \newmdtheoremenv[nobreak=true, outerlinewidth=0.7]{problem*}[problem]{Problem}
 }{
+    \providecommand\theoremnumberwithin{chapter}
     \theoremstyle{mddefinition}
     \newmdtheoremenv[nobreak=true, style=axiomstyle]{axiom}{Axiom}[chapter]
     \theoremstyle{plain}
@@ -89,6 +91,7 @@
 \newmdtheoremenv[nobreak=true]{corollary*}[theorem]{Corollary}
 \newmdtheoremenv[nobreak=true, style=thmstyle]{fact*}[theorem]{Fact}
 \newmdtheoremenv[nobreak=true]{exercise*}[theorem]{Exercise}
+\newmdtheoremenv[nobreak=true]{question*}[theorem]{Question}
 
 \theoremstyle{definition}
 \newtheorem{definition}[theorem]{Definition}
@@ -99,12 +102,14 @@
 \newtheorem{corollary}[theorem]{Corollary}
 \newtheorem{fact}[theorem]{Fact}
 \newtheorem{exercise}[theorem]{Exercise}
+\newtheorem{question}[theorem]{Question}
 
 \theoremstyle{remark}
 \newtheorem*{remark}{Remark}
 \newtheorem*{remarkx}{Remarks}
 \newtheorem*{example}{Example}
 \newtheorem*{examplex}{Examples}
+\newtheorem*{idea}{Idea}
 %%%% HAXXXXXX %%%%
 % \def\innerqed{\qedsymbol}
 % \def\outerqed{$\blacksquare$}
@@ -139,6 +144,7 @@
 \crefname{problem}{problem}{problems}
 \crefname{exercise}{exercise}{exercises}
 \crefname{fact}{fact}{facts}
+\crefname{question}{question}{questions}
 \crefname{remark}{remark}{remarks}
 \crefname{example}{example}{example}
 \crefname{notation}{notation}{notations}
@@ -152,6 +158,7 @@
 \crefname{problem*}{problem}{problems}
 \crefname{exercise*}{exercise}{exercises}
 \crefname{fact*}{fact}{facts}
+\crefname{question*}{question}{questions}
 % </cref>
 
 % <hyperlinks>
@@ -161,7 +168,7 @@
     urlcolor={blue!80!black}}
 % </hyperlinks>
 
-\usepackage{enumitem}
+\usepackage[shortlabels]{enumitem}
 % change default label for enumerate, and fix long labels popping out
 \setenumerate{label*=(\roman*),ref=(\roman*),leftmargin=*}
 % casework list using https://tex.stackexchange.com/a/30035
@@ -198,3 +205,13 @@
 \crefname{enumii}{part}{parts}
 \crefname{enumiii}{part}{parts}
 % \setlist[itemize]{itemsep=2pt}
+\newcounter{dummy}
+\makeatletter
+\newcommand\myitem[1][]{\item[#1]\refstepcounter{dummy}\def\@currentlabel{#1}}
+\makeatother
+
+\makeatletter
+\newcommand*{\refifdef}[3]{%label,command,fallback
+    \@ifundefined{r@#1}{#3}{#2{#1}}%
+}
+\makeatother

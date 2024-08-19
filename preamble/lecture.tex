@@ -3,20 +3,11 @@
 \usepackage{calc}
 \usepackage{xifthen}
 \usepackage{tocloft}
-\addtolength{\cftchapnumwidth}{15pt}
-\addtolength{\cftsecnumwidth}{10pt}
+
+% https://tex.stackexchange.com/a/454168
+\newcommand\monthday[1]{\DTMmonthname{\DTMfetchmonth{#1}}~\number\DTMfetchday{#1}}
+
 \newlistof{lecture}{lec}{Lectures} % what is this file extension business?
-% \def\@lecture{}%
-% \newcommand*{\lecture}[3]{
-%     \ifthenelse{\isempty{#3}}{%
-%         \def\@lecture{Lecture #1}%
-%     }{%
-%         \def\@lecture{Lecture #1: #3}%
-%     }%
-%     {\large\@lecture}%
-%     \marginpar{\raggedright\small\textsf{#2}}%
-%     \vskip 6pt
-% }
 \makeatletter
 \setlength\marginparwidth{1in}
 \newcommand*{\lecture}[3][]{
@@ -29,7 +20,7 @@
     \def\lecdow{\DTMweekdayname{\DTMfetchdow{lecdate}}}
     \def\lecshortdow{\DTMshortweekdayname{\DTMfetchdow{lecdate}}}
     \def\lecmonth{\DTMmonthname{\DTMfetchmonth{lecdate}}}
-    \def\lecday{\DTMfetchday{lecdate}}
+    \def\lecday{\number\DTMfetchday{lecdate}}
     % \marginpar{\raggedright\small \textsf{\textbf{Lecture \thelecture.}%
     %             \footnotesize\DTMusedate{lecdate}}}%
     \marginnote{\raggedright\small%
@@ -65,4 +56,45 @@
 \fancyhead[LO]{\nouppercase\rightmark}
 \providecommand\@lecture{}
 \fancyfoot[R]{\small\@lecture}
+\makeatother
+
+% homeworks
+\newlistof{hw}{hw}{Assignments} % counter `assignment' already defined
+\makeatletter
+\newcommand*{\assignment}[5][]{%[number]{file}{date posted}{date due}{date quiz}
+    \ifthenelse{\isempty{#1}}{%
+        \refstepcounter{hw}%
+        \stepcounter{assignment}%
+    }{%
+        \setcounter{hw}{#1}%
+        \setcounter{assignment}{#1}%
+    }%
+    \pagebreak
+    \ifthenelse{\isempty{#3}}{}{\DTMsavedate{posted}{#3}}%
+    \ifthenelse{\isempty{#4}}{}{\DTMsavedate{due}{#4}}%
+    \ifthenelse{\isempty{#5}}{}{\DTMsavedate{quiz}{#5}}%
+    \section*{Assignment \thehw}
+    \ifthenelse{\isempty{#4}}{
+        \ifthenelse{\isempty{#5}}{
+            \ifthenelse{\isempty{#3}}{
+                \def\hw@toc{}
+            }{
+                \def\hw@toc{posted \monthday{up}}
+            }
+        }{
+            \def\hw@toc{quiz \monthday{quiz}}
+        }
+    }{
+        \def\hw@toc{due \monthday{due}}
+    }
+    \addcontentsline{hw}{hw}{\protect\numberline{\thehw}\hw@toc}\par
+    \marginpar{\raggedright\footnotesize\textsf{%
+        \ifthenelse{\isempty{#3}}{}{\makebox[\widthof{quiz}][l]{up} \monthday{posted} \\}%
+        \ifthenelse{\isempty{#4}}{}{\makebox[\widthof{quiz}][l]{due} \monthday{due} \\}%
+        \ifthenelse{\isempty{#5}}{}{quiz \monthday{quiz}}%
+    }}
+    \def\@lecture{Assignment \thehw\ifx\hw@toc\empty{}\else\ --- \hw@toc\fi}
+    \input{#2}
+    \newpage
+}
 \makeatother

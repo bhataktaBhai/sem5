@@ -221,7 +221,63 @@
     Is the same conclusion valid if $\N$ is replaced by any set $\Omega$?
 \end{problem}
 \begin{solution}
-    
+    Let $\F$ be a $\sigma$-algebra that separates any two natural numbers.
+    Fix an $n \in \N$.
+    Let $B_m \in \F$ contain $n$ but not $m$ for each $m \ne n$.
+    Then $\bigcap_{m \ne n} B_m = \set n \in \F$.
+    Thus $\F = 2^\N$.
+
+    This argument would not work for any arbitrary set,
+    since the intersection may not be countable.
 \end{solution}
+
+% Problem 7
+\begin{problem}
+    Let $X$ be an arbitrary set.
+    \begin{enumerate}[(1)]
+        \item Suppose $S$ is a collection of subsets of $X$ and $a, b$ are
+        two elements of $X$ that are not separated by any element of $S$.
+        Let $\F = \sigma(S)$.
+        Show that no set in $\F$ separates $a$ and $b$.
+        \item Let $S = \set{(a, b] \cup[-b, -a) : a < b \in \R}$.
+        Show that $\sigma(S)$ is strictly smaller than the Borel
+        $\sigma$-algebra on $\R$.
+    \end{enumerate}
+\end{problem}
+\begin{solution} \leavevmode
+    \begin{enumerate}[(1)]
+        \item Consider the collection \[
+            \mcG = \set{A \in 2^\F : a \in A \iff b \in A}.
+        \] This is a $\sigma$-algebra containing $S$, since
+        \begin{enumerate}[\small$(\varsigma 1)$]
+            \item $a \in \O \iff b \in \O$;
+            \item if $A \in \mcG$, then $a \in A \iff b \in A$,
+                so $a \in A^c \iff b \in A^c$;
+            \item if $A_1, A_2, \dots \in \mcG$, then in the case that some
+            $A_j$ contains both $a$ and $b$,
+            the union contains both $a$ and $b$, and in the case that no
+            $A_j$ contains either $a$ or $b$,
+            the union similarly contains neither.
+        \end{enumerate}
+        Since $\F = \sigma(S)$ is the intersection of all $\sigma$-algebras
+        containing $S$, $\F \subseteq \mcG$.
+        Thus no set in $\F$ separates $a$ and $b$.
+        \item $S \in \mcB(\R)$, so $\sigma(S) \subseteq \mcB(\R)$.
+
+        No set in $S$ separates $1$ and $-1$.
+        However, the $[0, 1] \in \mcB(\R)$ separates them.
+        Thus $\sigma(S) \ne \mcB(\R)$.
+    \end{enumerate}
+\end{solution}
+
+% Problem 8
+\begin{problem}
+    Show that each of the following collection of subsets of $\R$ generate
+    the same $\sigma$-algebra (which we call the Borel $\sigma$-algebra).
+    \begin{enumerate}[(1)]
+        \item $\set{[a, b] : a \le b \text{ and } a, b \in \Q}$.
+        \item The collection of all compact sets.
+    \end{enumerate}
+\end{problem}
 
 \end{document}

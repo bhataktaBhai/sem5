@@ -13,7 +13,7 @@
     (countable additivity).
 \end{definition*}
 Countable additivity is a stronger condition than finite additivity.
-\begin{exercise}
+\begin{exercise*} \label{thm:additivity}
     Prove that countable additivity is equivalent to the following two
     conditions taken together:
     \begin{enumerate}
@@ -21,23 +21,9 @@ Countable additivity is a stronger condition than finite additivity.
             $\P(A \sqcup B) = \P(A) + \P(B)$
         \item If $A_n \uparrow A$, then $\P(A_n) \uparrow \P(A)$.
     \end{enumerate}
-\end{exercise}
+\end{exercise*}
 \begin{solution}
-    We first show that these follow from countable additivity.
-
-    If one takes $A_1 = A$ and $A_n = \O$ for $n \ge 2$, then
-    countable additivity implies $\P(\O) = 0$.
-    Finite additivity is immediate by taking only $A_3, A_4, \ldots$
-    to be empty.
-
-    Let $A_n \uparrow A$.
-    Define $B_1 = A_1$ and $B_n = A_n \setminus A_{n-1}$ for $n \ge 2$.
-    Then $(B_n)_\N$ are pairwise disjoint and $\bigcup B_n = A$.
-    By countable additivity, \[
-        \P(A) = \sum_n \P(B_n).
-    \] But the partial sums of this series are exactly $\P(A_n)$
-    by finite additivity.
-    Thus $\P(A) = \lim \P(A_n)$.
+    Identical to \cref{thm:needs-and-desires}.
 \end{solution}
 
 \subsection*{Where do $\Omega$, $\F$, and $\P$ come from?}
@@ -164,6 +150,45 @@ Let us impose some necessary conditions.
     if it is closed under complements and finite unions.
 \end{definition*}
 
+\begin{table}
+    \centering
+    \begin{tblr}{ccccccccc}
+        \hline[1pt]
+        & $\O$, $\Omega$ & $A^c$ &
+            $\bigcap\limits_{i=1}^n$ & $\bigcup\limits_{i=1}^n$ &
+            $\bigcap\limits_{i=1}^\infty$ & $\bigcup\limits_{i=1}^\infty$ &
+            {$A \setminus B$ \\ ($B \subseteq A$)} & {$A_n \upto A$} \\
+        \hline[0.5pt]
+        $\pi$-system    &      &      & \Yes  &      &      &      &     &    
+        \\
+        $\lambda$-system & \Yes & \Yes &     &     &      &      & \Yes  & \Yes
+        \\
+        algebra       &      & \Yes & \Yes & \Yes &      &      & \Yes &    
+        \\
+        $\sigma$-algebra & \Yes & \Yes & \Yes & \Yes & \Yes & \Yes & \Yes & \Yes
+        \\
+        \hline[1pt]
+    \end{tblr}
+    \caption{Various systems of sets}
+    \label{tab:systems}
+\end{table}
+
+\begin{figure}
+    \centering
+    \begin{tikzpicture}[scale=0.8]
+        \node[draw, circle] (sigma) at (0, 0) {$\sigma$};
+        \node[draw, circle, below left=of sigma] (algebra) {$\mcA$};
+        \node[draw, circle, below right=of sigma] (lambda) {$\lambda$};
+        \node[draw, circle, below=of algebra] (pi) {$\pi$};
+        \path[->]
+            (pi) edge (algebra)
+            (algebra) edge (sigma)
+            (lambda) edge (sigma);
+    \end{tikzpicture}
+    \caption{Heirarchy of systems of sets under inclusion}
+    \label{fig:systems}
+\end{figure}
+
 \begin{theorem*}[Carathéodory's extension theorem] \label{thm:caratheodory}
     Let $\mcS$ be an algebra.
     Assume that $P\colon \mcS \to [0, 1]$ is countably additive.
@@ -171,9 +196,9 @@ Let us impose some necessary conditions.
     $\P$ on $\F = \sigma(\mcS)$.
 \end{theorem*}
 
-\begin{corollary}
+\begin{corollary*}
     The above extension is unique.
-\end{corollary}
+\end{corollary*}
 \begin{proof}
     An algebra is a $\pi$-system.
     \Cref{thm:unique} applies.
@@ -182,21 +207,37 @@ Let us impose some necessary conditions.
 \section{Existence of Lebesgue measure} \label{sec:lebesgue}
 \begin{theorem*} \label{thm:lebesgue}
     There is a unique probability measure $\lambda$ on
-    $([0, 1], \B_{[0, 1]})$ such that \[
-        \lambda([a, b]) = b - a \quad \text{for all } 0 \le a \le b \le 1.
+    $[0, 1]$ with the Borel $\sigma$-algebra such that \[
+        \lambda[a, b] = b - a \qquad \forall\; 0 \le a \le b \le 1.
     \]
 \end{theorem*}
 \begin{proof}
     Let $\Omega = [0, 1)$.
 
     Let $\mcS_0 = \set{[a, b) \mid 0 \le a \le b \le 1}$.
-    Half-open intervals are nice because they are closed under complements:
-    $[a, b)^c = [0, a) \sqcup [b, 1)$.
+    Half-open intervals are nice because they are closed under complements
+    $[a, b)^c = [0, a) \sqcup [b, 1)$ and intersections
+    $[a, b) \cap [c, d) = [a \vee c, b \wedge d)$.
 
     Let \[
         \mcS = \set{I_1 \sqcup \cdots \sqcup I_k
-                \mid k \ge 1, I_j \in \mcS_0}
+                \mid k \ge 1, I_j \in \mcS_0 \text{ disjoint}}
     \] be the collection of all finite disjoint unions of
     half-open intervals.
-    This is an algebra.
+    It is obvious that $\mcS$ is an algebra.
+    Define \[
+        \lambda_\mcS(I_1 \sqcup \dots \sqcup I_k)
+        = \sum_{j=1}^k (\sup I_j - \inf I_j).
+    \]
+    We need to show that this is countably additive, in order that
+    \nameref{thm:caratheodory} applies.
+    We will proceed via \cref{thm:additivity}.
+    \begin{itemize}
+        \item Finite additivity is obvious.
+        \item Let $A_n, A \in \mcS$ with $A_n \upto A$.
+        % TODO
+    \end{itemize}
+    By Carathéodory's extension theorem, there exists a unique
+    probability measure $\lambda$ on $\F = \sigma(\mcS)$ that extends
+    $\lambda_\mcS$.
 \end{proof}

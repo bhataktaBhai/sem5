@@ -1,0 +1,233 @@
+\lecture{2024-08-20}{}
+
+\begin{definition}
+    If $\mu_n, \mu \in P(\R)$ and $d(\mu_n, \mu) \to 0$ then we say that
+    $\mu_n$ \emph{converges in distribution} to $\mu$ and write
+    $\mu_n \dto \mu$.
+\end{definition}
+\begin{remark}
+    This is also called \emph{weak convergence} and hence sometimes written
+    $\mu_n \overset{\text{w\,}}{\rightarrow} \mu$.
+    Yet others write $\mu_n \Rightarrow \mu$.
+\end{remark}
+
+\begin{proposition}
+    Let $\mu_n, \mu \in P(\R)$.
+    Then \[
+        \mu_n \dto \mu \iff F_{\mu_n}(x) \to F_\mu(x) \text{ for all } x
+        \text{ where } F_\mu \text{ is continuous.}
+    \]
+\end{proposition}
+\begin{examples}
+    \item $\delta_{\frac1n} \dto \delta_0$ because \[
+        \lim_{n \to \infty} F_{\delta_{1/n}}(x) = \begin{cases}
+            0 & \text{if } x \le 0, \\
+            1 & \text{if } x > 0.
+        \end{cases}
+    \] So $F_{\delta_{1/n}}(x) \to F_{\delta_0}(x)$ for all $x \ne 0$.
+    \item $\delta_{-\frac1n}(x) \to \delta_0(x)$ everywhere.
+\end{examples}
+
+\begin{proof}
+    Write $F_\mu = F$ and $F_{\mu_n} = F_n$.
+
+    Suppose $\mu_n \dto \mu$ and let $F$ be continuous at $x \in \R$.
+    Let $\eps > 0$.
+    Then \begin{align*}
+        F(x + \eps) + \eps &\ge F_n(x) \\
+        F_n(x) + \eps    &\ge F(x - \eps)
+        \intertext{for all large $n$.
+        Thus we have}
+        \limsup_{n \to \infty} F_n(x) &\le F(x + \eps) + \eps \\
+        \liminf_{n \to \infty} F_n(x) &\ge F(x - \eps) - \eps.
+        \intertext{But this holds for all $\eps > 0$.
+        Letting $\eps \downto 0$ gives}
+        \limsup_{n \to \infty} F_n(x) &\le F(x) \\
+        \liminf_{n \to \infty} F_n(x) &\ge F(x).
+    \end{align*}
+    Thus $\lim_{n \to \infty} F_n(x) = F(x)$.
+
+    Now suppose $F_n(x) \to F(x)$ for all $x$ where $F$ is continuous.
+    Fix $\eps > 0$ and pick $x_1 < \dots < x_p$ such that
+    \begin{itemize}
+        \item each $x_j$ is a continuity point of $F$,
+        \item $x_{j+1} - x_j < \eps$ for all $j$,
+        \item $F(x_1) \le \eps$ and $F(x_p) \ge 1 - \eps$.
+    \end{itemize}
+    Then $\exists N \in \N$ such that $\forall n \ge N$ we have
+    \begin{equation}
+        \abs{F_n(x_j) - F(x_j)} < \eps \text{ for all $j$.}
+            \label{eq:fn-f}
+    \end{equation}
+
+    Let $x \in \R$ and $n \ge N$.
+    We have three cases.
+    \begin{description}
+        \item[($x_j \le x \le x_{j+1}$)]
+        Then \[
+            F_n(x + \eps) + \eps
+                \ge F_n(x_{j+1}) + \eps
+                \ge F(x_{j+1})
+                \ge F(x).
+        \] The first and last inequalities are by the increasing nature of
+        CDFs.
+        The middle inequality is by \cref{eq:fn-f}.
+        Similarly \[
+            F(x + \eps) + \eps
+                \ge F(x_{j+1}) + \eps
+                \ge F_n(x_{j+1})
+                \ge F_n(x).
+        \]
+        \item[($x < x_1$)]
+        Then \[
+            F_n(x + \eps) + \eps
+                \ge \eps
+                \ge F(x_1)
+                \ge F(x).
+        \] The other direction requires a bigger jump. \[
+            F(x + 2\eps) + 2\eps
+                \ge 2\eps
+                \ge F(x_1) + \eps
+                \ge F_n(x_1)
+                \ge F_n(x).
+        \]
+        \item[($x > x_p$)]
+        % TODO: homework
+    \end{description}
+    Thus $d(\mu_n, \mu) \to 0$.
+\end{proof}
+\begin{remark}
+    Notice that the converse did not use the continuity of $F$ at all.
+    All that was required is that the points of continuity of $F$ are dense.
+    Thus we have the following proposition immediately.
+\end{remark}
+\begin{proposition}
+    Let $\mu_n, \mu \in P(\R)$ and let $D$ be a dense subset of \R.
+    Then \[
+        F_{\mu_n}(x) \to F_\mu(x) \text{ for all } x \in D
+        \implies \mu_n \dto \mu.
+    \]
+\end{proposition}
+
+$(P(\R), d_{\text{L\'evy}})$ is a metric space.
+It is interesting to ask what the \emph{compact} subsets of this space are.
+% TODO: Review Arzelà-Ascoli
+
+\begin{definition}
+    A subset $\mcA \subseteq P(\R)$ is \emph{tight} if for all $\eps > 0$
+    there exists a compact set $K_\eps$ such that \[
+        \mu(K_\eps^c) \le \eps \text{ for all } \mu \in \mcA.
+    \]
+\end{definition}
+For $\R$, it only makes sense to consider $K_\eps = [-M_\eps, M_\eps]$.
+Such an $M_\eps$ exists for each $\mu \in \mcA$ individually, but not
+neccessarily for all $\mu \in \mcA$ simultaneously.
+\begin{examples}
+    \item $\mcA = \set{\delta_n}_{n \in \Z}$ is \emph{not} tight.
+        No matter what $M$ is chosen, $\delta_{\ceil{M+1}}$ will have all
+        of its mass outside of $[-M, M]$.
+    \item Similarly, $\set{N(\mu, 1)}_{\mu \in \R}$ is not tight,
+        but $\set{N(\mu, 1)}_{-16 \le \mu \le 32768}$ is tight.
+    \item $\set{N(\mu, \sigma^2)}_{-10 \le \mu \le 10}$ is not tight, but
+        $\set{N(\mu, \sigma^2)}_{\substack{-10 \le \mu \le 10 \\
+                                0 < \sigma < 10}}$ is.
+    \item $\set{\delta_{\frac1n}}_{n \in \N}$ is tight.
+\end{examples}
+
+\begin{definition}
+    A set $E \subseteq (X, d)$ is \emph{pre-compact} if its closure
+    $\wbar{E}$ is compact.
+\end{definition}
+\begin{theorem*}
+    Any $\mcA \subseteq P(\R)$ is pre-compact iff it is tight.
+\end{theorem*}
+
+\begin{theorem}[Helly's selection principle] \label{thm:selection}
+    Let $\mu_n \in P(\R)$.
+    Then there is a subsequence $n_1 < n_2 < \dots$ and an increasing,
+    right continuous functio $F\colon \R \to [0, 1]$ such that \[
+        F_{\mu_{n_k}}(x) \to F(x) \text{ for all } x \text{ where } F
+            \text{ is continuous.}
+    \]
+\end{theorem}
+$F$ may be a ``defective CDF''.
+It need not go to $0$ to the left, nor $1$ to the right.
+\begin{examples}
+    \item Let $\mu_n = \frac12 \delta_0 + \frac12 \delta_n$.
+        $F_{\mu_n}(x)$ looks like
+        \begin{center}
+            \begin{tikzpicture}
+                \draw (-4, 0) -- (0, 0) -- (0, .5) -- (2, .5)
+                    -- (2, 1) -- (4, 1);
+                \node[below] at (0, 0) {$0$};
+                \node[below] at (2, 0) {$n$};
+            \end{tikzpicture}
+        \end{center}
+        The pointwise limit of any subsequence is
+        \begin{center}
+            \begin{tikzpicture}
+                \draw (-4, 0) -- (0, 0) -- (0, 0.5) -- (4, 0.5);
+                \draw[dashed] (0, 1) -- (4, 1);
+                \node[below] at (0, 0) {$0$};
+            \end{tikzpicture}
+        \end{center}
+        This is \emph{not} a CDF.
+    \item The limit for $\mu_n = N(0, n)$ is the constant function
+        $F(x) = \frac12$.
+\end{examples}
+
+\begin{proof}
+    Fix a dense countable set $D = \set{x_1, x_2, \dots} \subseteq \R$.
+    By compactness of $[0, 1]$,
+    there exists a subsequence ${(n_k)}_{k \in \N}$ such that
+    $F_{n_k}(x_1)$ converges, say to $c_1$.
+
+    Choose a further subsequence ${\ab(n_{k_l})}_{l \in \N}$ such that
+    $F_{n_{k_l}}(x_2)$ converges, say to $c_2$.
+
+    Choose a further subsequence ${\ab(n_{k_{l_m}})}_{m \in \N}$ such that
+    $F_{n_{k_{l_m}}}(x_3)$ converges, say to $c_3$.
+
+    The limit of doing this infinitely many times may give an empty
+    subsequence.
+    The key is \emph{diagonalization}.
+
+    Let us relabel these subsequences as
+    $(n_{1, k})_{k \in \N}$, $(n_{2, k})_{k \in \N}$,
+    $(n_{3, k})_{k \in \N}$, \dots.
+    \[
+        \begin{array}{c|cccc}
+            n_1 & n_{1, 1} & n_{1, 2} & n_{1, 3} & \cdots \\
+            n_2 & n_{2, 1} & n_{2, 2} & n_{2, 3} & \cdots \\
+            n_3 & n_{3, 1} & n_{3, 2} & n_{3, 3} & \cdots \\
+            \vdots & \vdots & \vdots & \vdots & \ddots
+        \end{array}
+    \] Walk the diagonal.
+    $F_{n_{j, j}}(x_i) \to c_i$ for each $i$.
+
+    Thus we have constructed a subsequence, which we will finally
+    label $(n_k)_{k \in \N}$ such that \[
+        F_{n_k}(x_i) \to c_i \text{ for all } i.
+    \] All that remains is to extend this preserving right-contiunity.
+    Define \[
+        F(x) \coloneq \inf\set{c_i \mid i \in \N
+                        \text{ such that } x < x_i}.
+    \]
+
+    All that remains is to check that
+    \begin{itemize}
+        \item $F$ is increasing and right-continuous,
+        \item $F_{n_k}(x) \to F(x)$ if $F$ is continuous at $x$.
+    \end{itemize}
+    Suppose $x_1 \le x_2$.
+    Then $F(x_1) = \inf\set{c_i \mid x_i > x_1} \le
+    \inf\set{c_i \mid x_i > x_2} = F(x_2)$
+    since the second set is a subset of the first.
+
+    Now let $x \in \R$ and $\eps > 0$.
+    Then $F(x) \ge c_i - \eps$ for some $i$ such that $x_i \ge x$.
+    Let $y \in (x, x_i)$.
+    Then $F(y) \le c_i$ by definition of $F$ ($c_i$ is a witness for $y$).
+    Thus $F(x) \le F(y) \le F(x) + \eps$.
+    % TODO: check the second point
+\end{proof}

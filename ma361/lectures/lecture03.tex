@@ -1,29 +1,41 @@
 \lecture{2024-08-08}{}
 
-\begin{definition}
+\section{New measures from old} \label{sec:new-from-old}
+\begin{definition*}
     Let $(\Omega, \F)$ and $(\Omega', \F')$ be two sets with
     $\sigma$-algebras.
     A function $T\colon \Omega \to \Omega'$ is \emph{measurable}
     if \[
         T^{-1}(B) \in \F \quad \text{for all } B \in \F'.
     \]
-\end{definition}
+\end{definition*}
 
-\subsection{Push forward} \label{sec:push_forward}
-\begin{lemma}
+\subsection{Push forward} \label{sec:push-forward}
+\begin{lemma*}
     Let $(\Omega, \F, P)$ be a probability space and
-    $(\Omega', \F')$ be a measurable space.
+    $(\Omega', \F')$ be a set with a $\sigma$-algebra.
     Let $T\colon \Omega \to \Omega'$ be measurable.
     Then $Q \coloneq P \circ T^{-1}$ is a probability measure on
     $\F'$.
-\end{lemma}
+\end{lemma*}
 \begin{proof}
-    Notice that $T^{-1}(B)^c = T^{-1}(B^c)$
-    and that if $B_1$ and $B_2$ are disjoint,
+    We need to show that $Q(\Omega') = 1$ and $Q$ is countably additive.
+    The first is immediate as
+    $Q(\Omega') = P(T^{-1}(\Omega')) = P(\Omega) = 1$.
+
+    Notice that if $B_1$ and $B_2$ are disjoint,
     so are $T^{-1}(B_1)$ and $T^{-1}(B_2)$.
+    Let $(B_n)_\N$ be a sequence of pairwise disjoint sets in $\F'$.
+    Then $(T^{-1}(B_n))_\N$ are pairwise disjoint in $\F$.
+    Thus \begin{align*}
+        Q\ab(\bigsqcup B_n) &= P\ab(T^{-1}\ab(\bigsqcup B_n)) \\
+        &= P\ab(\bigsqcup T^{-1}(B_n)) \\
+        &= \sum P\ab(T^{-1}(B_n)) \\
+        &= \sum Q(B_n). \qedhere
+    \end{align*}
 \end{proof}
 
-\begin{definition}[cumulative distributive function] \label{def:cdf}
+\begin{definition*}[cumulative distributive function] \label{def:cdf}
     A \emph{cumulative distributive function} (CDF) is a function
     $F\colon \R \to [0, 1]$ such that
     \begin{enumerate}
@@ -32,4 +44,4 @@
         \item $\lim_{x \to -\infty} F(x) = 0$ and
             $\lim_{x \to \infty} F(x) = 1$
     \end{enumerate}
-\end{definition}
+\end{definition*}

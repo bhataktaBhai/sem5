@@ -1,0 +1,162 @@
+\lecture[7]{2024-08-19}{}
+
+\begin{definition}[Action] \label{def:group:action}
+    We say that a group $(G, *)$ \emph{acts} on a set $X$ if there is a map
+    $\theta\colon G \times X \to X$, such that if we write $\theta(g, x)$
+    as $g \cdot x$ then for every $g_1, g_2 \in G$ and $x \in X$,
+    \begin{enumerate}
+        \item $g_1 \cdot (g_2 \cdot x) = (g_1 * g_2) \cdot x$;
+        \item $1_G \cdot x = x$.
+    \end{enumerate}
+    We say that $x \in X$ is \emph{moved} by $g \in G$ to $g \cdot x$.
+\end{definition}
+\begin{examples}
+    \item The trivial action $(g, x) \mapsto x$.
+    \item The interesting action of $\GL_n(F)$ on $F^n$ (columns)
+        by matrix-vector multiplication.
+    \item The left regular action of $G$ on itself.
+        $(g, x) \mapsto gx$
+    \item The conjugating action of $G$ on itself.
+        $(g, x) \mapsto gxg^{-1}$
+\end{examples}
+\begin{remark}
+    Given a right action of $G$ on $X$, we can define a left action as \[
+        g \cdot x = x \cdot g^{-1}.
+    \] It thus suffices to study left actions.
+\end{remark}
+
+\begin{proposition}
+    The set of actions of $G$ on $X$ is isomorphic to $\hom(G, S_X)$.
+    The associated map is \[
+        \theta \mapsto (g \mapsto (x \mapsto \theta(g, x))).
+    \]
+\end{proposition}
+\begin{proof}
+    For an action $\cdot$, define for each $g \in G$ the map
+    $\sigma_g\colon X \to X$ by $\sigma_g(x) = g \cdot x$.
+
+    Notice that $\sigma_g$ is a bijection, since \[
+        (\sigma_{g^{-1}} \circ \sigma_g)(x) = g^{-1} \cdot (g \cdot x) = x.
+    \] Thus $g \mapsto \sigma_g$ is a homomorphism from $G$ to $S_X$.
+
+    $\hom(G, S_X)$ is a group under composition.
+
+    For a homomorphism $\sigma\colon G \to S_X$, define the group action \[
+        g \cdot x = \sigma_g(x). \qedhere
+    \]
+\end{proof}
+\begin{remark}
+    This is essentially a juggling between the set of functions
+    $(A, B) \to C$ and the set of curried functions $A \to B \to C$.
+\end{remark}
+
+\begin{definition}[Orbits and stabilizers] \label{def:orbit}
+    Let $G$ act on $X$.
+    Then for $x \in X$, we define the \emph{orbit} of $x$ as \[
+        \mcO_x = G x = \set{g x \mid g \in G} \subseteq X,
+    \] and the \emph{stabilizer} of $x$ as \[
+        \stab_x = G_x = \set{g \in G \mid g \cdot x = x} \le G.
+    \]
+\end{definition}
+\begin{examples}
+    \item For the trivial action, $\mcO_x = \set{x}$ and $G_x = G$.
+    \item For the action of $\GL_n(\R)$ on $\R^n$, the orbit of $x$ is \[
+        \mcO_x = \begin{cases}
+            \set{0} & \text{if } x = 0, \\
+            \R^n \setminus \set{0} & \text{if } x \ne 0.
+        \end{cases}
+    \] To see this, \textbf{challenge:} prove by induction.
+
+    The stabilizer of $x$ is all matrices which have $x$ as an eigenvector
+    with eigenvalue $1$.
+    \item For the left regular action of $G$ on itself,
+        $\mcO_x = G$ and $G_x = \set{1}$.
+    \item For the conjugating action of $G$ on itself,
+        $\mcO_x = \set{gxg^{-1} \mid g \in G}$ and
+        $G_x = \set{g \in G \mid gxg^{-1} = x}$.
+        There is no simple description of either.
+\end{examples}
+
+\begin{definition}[Centralizer and center] \label{def:center}
+    For $x \in G$, the \emph{centralizer} of $x$ is \[
+        C_G(x) = \set{g \in G \mid gx = xg}.
+    \] The \emph{center} of $G$ is \[
+        Z_G = \bigcap_{x \in G} C_G(x)
+            = \set{g \in G \mid \forall x \in G, gx = xg}.
+    \]
+\end{definition}
+\begin{example}
+    $Z_{\GL_n(\R)} = \set{\lambda I \mid \lambda \in \R^\times}$.
+\end{example}
+
+\begin{definition}
+    Let $H \le G$.
+    Define the relation $\sim$ on $G$ by $x \sim y$ if $x^{-1}y \in H$.
+\end{definition}
+\begin{lemma}
+    $\sim$ is an equivalence relation.
+\end{lemma}
+\begin{proof}
+    Reflexive since $1 \in H$.
+    Symmetric since $H$ is closed under inverses, so \[
+        x^{-1}y \in H \implies (x^{-1}y)^{-1} = y^{-1}x \in H.
+    \] Transitive by closure under products, \[
+        x^{-1}y, y^{-1}z \in H \implies x^{-1}y y^{-1}z = x^{-1}z \in H.
+        \qedhere
+    \]
+\end{proof}
+Notice that the equivalence class of $x \in G$ is \[
+    [x] = \set{y \in G \mid yx^{-1} \in H} = Hx.
+\]
+\begin{definition*}[Coset] \label{def:coset}
+    Let $H \le G$.
+    The \emph{left coset} of $x \in G$ is \[
+        xH = \set{xh \mid h \in H}.
+    \] The \emph{right coset} of $x \in G$ is \[
+        Hx = \set{hx \mid h \in H}.
+    \]
+\end{definition*}
+We will only write left cosets, but the same results hold for right cosets.
+\begin{corollary}
+    $xH \cap yH \ne \O$ iff $x \sim y$.
+\end{corollary}
+
+\begin{definition*}
+    The set of (left) cosets of $H$ in $G$ is denoted by $G/H$.
+\end{definition*}
+
+\begin{examples}
+    \item $G$ acts on the power set $2^G$ by
+        $g \cdot A = gA = \set{ga \mid a \in A}$.
+    \item Restricting this is useful.
+        Let $H \le G$.
+        Then $G$ acts on the set of left cosets $G/H$ by
+        $g \cdot xH = (gx)H$.
+    \item If one wishes to define a left action on the set of \emph{right}
+    cosets $G/H$, one can define \[
+        g \cdot Hx = Hxg^{-1}.
+    \] $g \cdot Hx = Hxg$ will not obey associativity.
+    $g \cdot Hx = Hgx$ is not necessarily well-defined.
+\end{examples}
+
+\textbf{Question:} When and how can one make $G/H$ naturally a group?
+
+We would want $(xH) (yH) = \set{xh_1 yh_2 \mid h_1, h_2 \in H}$ to
+be equal to $(xy)H$.
+This would require for all $h_1, h_2 \in H$ that $xh_1yh_2 = xyh_3$
+for some $h_3 \in H$.
+
+If $hy = yh$ for all $y \in G$ and $h \in H$, then
+$xh_1yh_2 = (xy)h_1h_2 \in (xy)H$.
+
+\begin{example}
+    Let $\varphi\colon G \to H$ be a group homomorphism.
+    Let $K = \ker \varphi = \set{g \in G \mid \varphi(g) = 1}$.
+    Then $G/K$ is a group under the operation \[
+        (xK) \cdot (yK) = (xy)K.
+    \] This is well-defined, since $xK = x'K$ iff
+    $\varphi(x) = \varphi(x')$.
+    Thus whenever $xK = x'K$ and $yK = y'K$, we have
+    $\varphi(x'y') = \varphi(x')\varphi(y') = \varphi(x)\varphi(y) = \varphi(xy)$,
+    so that $(xy)K = (x'y')K$.
+\end{example}

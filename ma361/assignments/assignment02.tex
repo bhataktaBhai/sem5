@@ -1,0 +1,94 @@
+\documentclass[12pt]{article}
+\input{../preamble}
+
+\title{Homework 2}
+\author{Naman Mishra (22223)}
+\date{20 August, 2024}
+
+\begin{document}
+\maketitle
+
+% Problem 1
+\begin{problem} \leavevmode
+    \begin{enumerate}[(1)]
+        \item Let $\Omega$ be a set and $A \subseteq \Omega$.
+        Define a dunction $\1A\colon \Omega \to \R$ as follows. \[
+            \1A(\omega) = \begin{cases}
+                1 & \text{if } \omega \in A \\
+                0 & \text{if } \omega \notin A.
+            \end{cases}
+        \] What is the smallest $\sigma$-algebra on $\Omega$ with respect to
+        which $\1A$ becomes a random variable?
+        \item Assume that $A \in \F$.
+        Give an explicit description of the push-forward measure
+        $P \circ (\1A)^{-1}$ on \R.
+    \end{enumerate}
+\end{problem}
+\begin{solution} \leavevmode
+    \begin{enumerate}[(1)]
+        \item We need $\1A^{-1}(B) \in \F$ for $B \in \mcB(\R)$. \[
+                (\1A)^{-1}(B) = \begin{cases}
+                    \O & \text{if } 0, 1 \notin B, \\
+                    A & \text{if } 1 \in B, 0 \notin B, \\
+                    A^c & \text{if } 0 \in B, 1 \notin B, \\
+                    \Omega & \text{if } 0, 1 \in B.
+                \end{cases}
+            \]
+            Thus $\F$ must contain $\O, A, A^c, \Omega$.
+            $\F = \set{\O, A, A^c, \Omega}$ is itself a $\sigma$-algebra,
+            hence the smallest one that works.
+        \item Let $B \in \mcB(\R)$. Then \[
+        (P \circ (\1A)^{-1})(B) = \begin{cases}
+                0 & \text{if } 0, 1 \notin B, \\
+                P(A) & \text{if } 1 \in B, 0 \notin B, \\
+                P(A^c) & \text{if } 0 \in B, 1 \notin B, \\
+                1 & \text{if } 0, 1 \in B.
+            \end{cases} \qedhere
+        \]
+    \end{enumerate}
+\end{solution}
+
+% Problem 2
+\begin{problem}
+    Recall the L\'evy metric $d$ defined in class.
+    Show the following.
+    \begin{enumerate}[(2)]
+        \item Consider the sequence of measures
+        $\mu_n \coloneq \frac1n \sum_{i=1}^n \delta_{i/n}$
+        and $\mu$ is the uniform measure on $[0, 1]$.
+        Using the definition show that
+        \[
+            d(\mu_n, \mu) \to 0 \text{ as } n \to \infty.
+        \]
+    \end{enumerate}
+\end{problem}
+\begin{solution} \leavevmode
+    \begin{enumerate}[(2)]
+        \item The CDF of $\mu$ is $F(x) = x$ for $x \in [0, 1]$.
+        The CDF of $\mu_n$ is \[
+            F_n(x) = \frac{\floor{nx}}n \quad \text{for } x \in [0, 1].
+        \] ($\floor{nx}$ counts the number of points $i/n \le x$, and
+        each of those has weight $1/n$.)
+        We claim that $d(\mu_n, \mu) \le 1/n$.
+
+        Let $x \in [0, 1]$. Then \begin{align*}
+            F\ab(x + \frac1n) + \frac1n &= x + \frac{2}{n} \\
+            &= \frac{nx + 2}{n} \\
+            &> \frac{\floor{nx}}n = F_n(x).
+            \shortintertext{and}
+            F_n\ab(x + \frac1n) + \frac1n &= \frac{\floor{n(x + 1/n)} + 1}n \\
+            &= \frac{\floor{nx} + 2}n \\
+            &> \frac{nx}{n} \\
+            &= x = F(x).
+        \end{align*}
+        Thus \begin{multline*}
+            \qquad\frac1n \in \set{\eps > 0 : F_n(x + \eps) + \eps \ge F(x) \text{ and} \\
+            F(x + \eps) + \eps \ge F_n(x) \text{ for all } x \in [0, 1]}\qquad
+        \end{multline*} and so $d(\mu_n, \mu)$, which is the infimum of all
+        such $\eps$, is at most $1/n$.
+        It follows that $\lim\limits_{n \to \infty} d(\mu_n, \mu) = 0$
+        by the squeeze theorem. \qedhere
+    \end{enumerate}
+\end{solution}
+
+\end{document}

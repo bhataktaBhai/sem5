@@ -1,0 +1,90 @@
+\lecture{2024-08-19}{}
+\begin{definition*}
+    Let $X$, $Y$ be topological spaces.
+    A map $f\colon X \to Y$ is \emph{continuous} if for every open set
+    $V \subseteq Y$, $f^{-1}(V)$ is open in $X$.
+\end{definition*}
+\begin{examples}
+    \item The constant map $x \mapsto y_0$ for some fixed $y_0 \in Y$
+    is open.
+    The preimage of \emph{any} subset of $Y$ is either $\O$ or $X$.
+    \item $\id\colon \R \to \R_L$ is not continuous.
+    $\id^{-1}[0, 1) = [0, 1)$ is not open in $\R$.
+    Notice that the inverse map \emph{is} continuous.
+    In general, $\id\colon (X, \T) \to (X, \T')$ is continuous iff
+    $\T$ is finer than $\T'$.
+\end{examples}
+
+\begin{corollary}
+    Let $\mcB$ be a basis for $Y$.
+    $f\colon X \to Y$ is continuous iff $f^{-1}(B)$ is open for each
+    $B \in \mcB$.
+\end{corollary}
+\begin{proof}
+    Suppose this property holds.
+    Let $V = \bigcup_\alpha B_\alpha$ be open.
+    Then $f^{-1}(V) = \bigcup_\alpha f^{-1}(B_\alpha)$ is a union of
+    open sets and hence open.
+
+    The forward direction is simply because each basis element is open.
+\end{proof}
+
+\begin{proposition*}
+    Let $f\colon \R \to \R$ be a function.
+    Then $f$ is continuous (in the standard topology) iff for every
+    $x_0 \in \R$ and every $\eps > 0$, there exists a $\delta > 0$ such that
+    whenever $\abs{x - x_0} < \delta$, we have $\abs{f(x) - f(x_0)} < \eps$.
+\end{proposition*}
+\begin{proof}
+    Suppose $f$ is continuous.
+    Let $x_0$ and $\eps$ be given.
+    $(f(x_0) - \eps, f(x_0) + \eps)$ is an open set in $\R$.
+    Thus its preimage is open.
+    But $x_0$ belongs to this preimage, so there exists a $\delta > 0$
+    such that $\abs{x - x_0} < \delta$ implies
+    $f(x) \in (f(x_0) - \eps, f(x_0) + \eps)$.
+    % TODO: converse
+
+    For the converse, let $V$ be open in $\R$.
+\end{proof}
+
+\begin{proposition}
+    Let $f\colon X \to Y$.
+    The following are equivalent.
+    \begin{enumerate}
+        \item $f$ is continuous.
+        \item For every closed set $B \subseteq Y$,
+            $f^{-1}(B)$ is closed in $X$.
+        \item For every $A \subseteq X$,
+            $f(\wbar{A}) \subseteq \wbar{f(A)}$.
+    \end{enumerate}
+\end{proposition}
+\begin{proof} \leavevmode
+    \begin{description}
+        \item[($1 \iff 2$)] $f^{-1}(S^c) = (f^{-1}(S))^c$.
+        \item[($2 \implies 3$)] The preimage of $\wbar{f(A)}$ is closed.
+            But $A \subseteq f^{-1}(\wbar{f(A)})$.
+            So $\wbar{A} \subseteq f^{-1}(\wbar{f(A)})$.
+        \item[($3 \implies 2$)] Let $B \subseteq Y$ be closed.
+            Let $A = f^{-1}(B)$.
+            Then \[
+                f(\wbar{A}) \subseteq \wbar{f(A)} \subseteq \wbar{B} = B.
+            \]
+            Thus $\wbar{A} \subseteq f^{-1}(B) = A$.
+            So $\wbar{A} = A$ is closed. \qedhere
+    \end{description}
+\end{proof}
+
+\begin{definition*}
+    A map $f\colon X \to Y$ is a \emph{homeomorphism} if it is a bijection
+    and $f$ and $f^{-1}$ are both continuous.
+
+    Two topological spaces $X$ and $Y$ are \emph{equivalent} if there exists
+    a homeomorphism between them.
+\end{definition*}
+\begin{remarks}
+    \item If $f$ is a homeomorphism, then the image of any open set is open.
+    \item The properties of being ``Hausdorff'', ``second countable'', etc.
+    are ``topological properties'' because they are invariant under
+    homeomorphisms.
+\end{remarks}

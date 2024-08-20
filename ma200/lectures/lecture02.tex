@@ -23,7 +23,7 @@
 \end{proposition}
 \begin{proof}
     Let $x \in \R^n$.
-    Then $\norm{x}_\infty \le \norm{x}_p \le n^{\frac1p} \norm{x}_\infty$.
+    Then ${\norm x}_\infty \le {\norm x}_p \le n^{\frac1p} {\norm x}_\infty$.
 \end{proof}
 
 The usual topology on $\R^n$ is the one induced by the Euclidean norm.
@@ -46,7 +46,7 @@ $x, y \in \R^n$ to be \[
             &\le M {\norm x}_2
     \end{align*} where $M = \sum \norm{e_i}$.
 
-    The reverse triangle inequality \cref{thm:rti} gives
+    The reverse triangle inequality gives
     \begin{align*}
         \abs[\big]{\norm{x} - \norm{y}} &\le \norm{x - y} \\
             &\le M {\norm{x - y}}_2. \qedhere
@@ -62,7 +62,8 @@ $x, y \in \R^n$ to be \[
     Let \[
         S(0, 1)_{{\norm\cdot}_2} = \set{x \in \R^n : {\norm x}_2 = 1}
                       = S^{n-1}.
-    \] $\norm\cdot$ attains a minimum and a maximum on $S^{n-1}$.
+    \] $\norm\cdot$ attains a minimum and a maximum on $S^{n-1}$
+    by compactness.
     Thus there exist positive constants $c_1, c_2$ such that \[
         c_1 \le \norm{x} \le c_2
     \] for all $x \in S^{n-1}$.
@@ -84,7 +85,7 @@ $x, y \in \R^n$ to be \[
     A homogenous function of degree \emph{zero} is essentially nothing but
     a function on the unit sphere ($f(v) = f(\what{v})$).
 
-    The function $x \mapsto \frac{\norm x}{{\norm x}_2}j$ is a
+    The function $x \mapsto \frac{\norm x}{{\norm x}_2}$ is a
     continuous homogenous function on degree $0$.
     The unit sphere is known to be compact under the Euclidean norm
     (and every other, but not before we complete the proof).
@@ -103,10 +104,10 @@ $x, y \in \R^n$ to be \[
     It is nonetheless clearer to show both inequalities.
 \end{remark}
 
-\begin{exercise}[Self]
+\begin{exercise*}[Self]
     Show that \labelcref{def:norm:pos} follows from
     \labelcref{def:norm:hom,def:norm:tri}.
-\end{exercise}
+\end{exercise*}
 \begin{solution}
     Let $v \in V$.
     By triangle inequality,
@@ -125,11 +126,11 @@ $x, y \in \R^n$ to be \[
     \item Any finite-dimensional vector space over $\R$ is complete.
 \end{remarks}
 
-\begin{exercise} \label{thm:reciprocal-cont}
+\begin{exercise*} \label{thm:reciprocal-cont}
     Let $f\colon \R \setminus \set{0} \to \R$ be given by $f(x) = \frac1x$.
     Show that $f$ is continuous.
     What is the key idea of your proof?
-\end{exercise}
+\end{exercise*}
 \begin{solution}
     Let $x_0 \in \R \setminus \set{0}$ and $\eps > 0$.
     Choose $\delta
@@ -146,5 +147,5 @@ $x, y \in \R^n$ to be \[
 \begin{remark}
     The proof works by bounding $\frac1{\abs{x}}$.
     The rest goes to zero as $x \to a$.
-    We will do a similar proof in \cref{thm:inv-cont}.
+    We will do a similar proof in \cref{thm:inv-cont-rudin}.
 \end{remark}

@@ -1,4 +1,4 @@
-\lecture{2024-08-12}{Differentiation}
+\lecture{2024-08-12}{Continuity of the inverse; differentiation}
 
 \begin{exercise}
     Let $Z$ be as in 
@@ -6,21 +6,30 @@
     $(I - Z)^{-1} = I + Z + o(Z^2)$.
 \end{exercise}
 
-\begin{proposition} \label{thm:inv-cont}
-    Let $A \in M_n(\R)$ be such that $\norm{I - A} < 1$.
-    Then $A \in \GL_n(\R)$.
-
-    Let $A \in \GL_n(\R)$ be fixed and let $B \in M_n(\R)$ be such that
-    $\norm{B - A} < \norm{A^{-1}}^{-1}$.
-    Then $B \in \GL_n(\R)$.
-
-    $A \mapsto A^{-1}$ is continuous on $\GL_n(\R)$.
-\end{proposition}
+The proof of \cref{thm:inv-cont} is nice and sweet.
+However, the proof in Rudin generalises better to infinite dimensions.
+We thus prove it again.
+\begin{proposition*} \label{thm:inv-cont-rudin} \leavevmode
+    \begin{enumerate}
+        \item Let $A \in M_n(\R)$ be such that $\norm{I - A} < 1$.
+        Then $A \in \GL_n(\R)$.
+        \item Let $A \in \GL_n(\R)$ be fixed and let
+        $B \in M_n(\R)$ be such that \[
+            \norm{B - A} < \norm{A^{-1}}^{-1}.
+        \] Then $B \in \GL_n(\R)$.
+        \item $A \mapsto A^{-1}$ is continuous on $\GL_n(\R)$.
+    \end{enumerate}
+\end{proposition*}
+\begin{remark}
+    The second part shows that $\GL_n(\R)$ is open in $M_n(\R)$.
+\end{remark}
 \begin{proof}
-    We proved the first part earlier.
+    We proved the first part earlier in \cref{thm:gln-open-i} and again
+    in \cref{thm:inv-series}
+    (let $Z = I - A$, then $I - Z = A$).
+
     For the second part, let $A \in \GL_n(\R)$ be fixed and
     let $\norm{B - A} < {\norm{A^{-1}}}^{-1}$.
-
     We can write $B - A$ as $A(A^{-1}B - I)$.
     Now \begin{align*}
         \norm{A^{-1}B - I} &= \norm{A^{-1} (B - A)} \\
@@ -35,7 +44,7 @@
         B^{-1} - A^{-1} = A^{-1}(A - B)B^{-1} \label{eq:com-denom}
     \end{equation}
     We need to bound $\norm{B^{-1}}$.
-    let $W$ be an open neighbourhood of $A$ of radius
+    Let $W$ be an open neighbourhood of $A$ of radius
     $\frac12 \norm{A^{-1}}^{-1}$.
     Then $W \subseteq \GL_n(\R)$.
 
@@ -55,15 +64,15 @@
     \end{align*}
     As $B \to A$, $B^{-1} \to A^{-1}$.
 \end{proof}
-\begin{remark}
+\begin{idea}
     This is similar in spirit to \cref{thm:reciprocal-cont}.
     \begin{itemize}
         \item \Cref{eq:com-denom} is similar to taking the common
         denominator in $\frac1x - \frac1a$.
         \item The choice of $W$ is similar to choosing
-        $\delta \le \frac12\abs{a}$.
+        $\delta \le \frac12\abs{a}$, and leads to an identical bound.
     \end{itemize}
-\end{remark}
+\end{idea}
 
 \chapter{Differentiation} \label{chp:diff}
 \begin{definition}

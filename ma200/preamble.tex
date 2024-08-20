@@ -8,11 +8,11 @@
 \DeclareMathOperator\GL{GL}
 \DeclareMathOperator\Tr{Tr}
 \DeclareMathOperator\adj{adj}
-\newcommand\T{\top\!}
+\newcommand\T{\top}
 \DeclareMathOperator\argmax{argmax}
 
 \makeatletter
-\newcommand\@hsn[1]{{\norm{#1}_{HS}}}
+\newcommand\@hsn[1]{{\norm{#1}}_{HS}}
 \newcommand\@@hsn[1]{{\norm*{#1}}_{HS}}
-\newcommand\hsn{\@ifstar\@hsn\@@hsn}
+\newcommand\hsn{\@ifstar\@@hsn\@hsn}
 \makeatother

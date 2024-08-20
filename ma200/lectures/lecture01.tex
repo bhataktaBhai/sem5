@@ -68,9 +68,10 @@
 
 \begin{exercise}[reverse triangle inequality] \label{thm:rti}
     Let $V$ be a normed linear space.
-    Show that \[
+    Show that \begin{equation}
         \abs[\big]{\norm{x} - \norm{y}} \le \norm{x - y}
-    \] for any $x, y \in V$.
+            \label{eq:rti}
+    \end{equation} for any $x, y \in V$.
 \end{exercise}
 \begin{proof}
     First observe from homogeneity \labelcref{def:norm:hom} that
@@ -175,16 +176,17 @@ function on $V$.
         gives \[
             \norm{\alpha' x' - \alpha x} \le \max\set{\abs{\alpha}, \norm{x}}
                 (\abs{\alpha' - \alpha} + \norm{x' - x}) < \varepsilon
-        \] whenever $\abs{\alpha' - \alpha} + \norm{x' - x} < \delta$. \qedhere
+        \] whenever $\abs{\alpha' - \alpha} + \norm{x' - x} < \delta$.
     \end{itemize}
+    Repeated in \refifdef{prb:cont}{\cref}{assignment 1, problem 1}.
 \end{solution}
 
 \begin{examples}
     \item ($\ell^p$ norm) $\R^n$ with $p \in [1, \infty]$ and \begin{align*}
-        \norm{x}_p &\coloneq
+        {\norm x}_p &\coloneq
             \paren[\Big]{\abs{x_1}^p + \cdots + \abs{x_n}^p}^{1/p}
         \shortintertext{where}
-        \norm{x}_\infty &\coloneq \max\set{\abs{x_1}, \ldots, \abs{x_n}}
+        {\norm x}_\infty &\coloneq \max\set{\abs{x_1}, \ldots, \abs{x_n}}
     \end{align*} is the limit of the $l^p$ norms as $p \to \infty$.
 \end{examples}
 

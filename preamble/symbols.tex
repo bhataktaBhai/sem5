@@ -160,3 +160,10 @@
 \let\oldright\right
 \renewcommand{\left}{\mathopen{}\mathclose\bgroup\oldleft}
 \renewcommand{\right}{\aftergroup\egroup\oldright}
+
+% for matching tick and cross
+\usepackage{pifont}% http://ctan.org/pkg/pifont
+\newcommand\cmark{\ding{51}}%
+\newcommand\xmark{\ding{55}}%
+\newcommand\Yes\cmark
+\newcommand\No\xmark

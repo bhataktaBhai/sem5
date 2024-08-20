@@ -6,6 +6,11 @@
 \colorlet{self_proof}{blue!70!black}
 \colorlet{Red}{red!80!black}
 
+% placing these imports below the theorem definitions leads to every theorem
+% being referred as `theorem' in spite of the \crefname's.
+\usepackage{hyperref}
+\usepackage[noabbrev]{cleveref}
+
 % Gilles Castel's theorems
 \newtheoremstyle{mddefinition}% <name>
   {-.25\topsep}%                 <space above>
@@ -130,9 +135,6 @@
   {\end{oldproof}}
 \newtheorem*{notation}{Notation}
 \newtheorem*{claim}{Claim}
-
-\usepackage{hyperref}
-\usepackage[noabbrev]{cleveref}
 
 % <cref>
 \crefname{theorem}{theorem}{theorems}

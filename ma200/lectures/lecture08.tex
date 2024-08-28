@@ -1,5 +1,5 @@
-\lecture{2024-08-23}{}
-\begin{exercise}[Sum]
+\lecture{2024-08-23}{The chain rule; directional derivatives}
+\begin{exercise}[sum]
     Let $U \subseteq \R^n$ be open and $a \in U$.
     Let $f, g\colon U \to \R^m$ both be differentiable at $U$.
     Then $f+g$ is differentiable at $a$ with
@@ -19,15 +19,23 @@
     Thus $\frac{\norm{h(x)}}{\norm{f(x)}} \to 0$.
 \end{proof}
 
-\begin{proposition}[chain rule] \label{thm:chain}
+\begin{proposition*}[chain rule] \label{thm:chain}
     Let $U \subseteq \R^n$ be open and $a \in U$.
     Let $f\colon U \to \R^m$ be differentiable at $a$.
     Let $V \subseteq \R^m$ be an open set containing $f(a)$
-    and $g\colon \R^m \to \R^k$ be differentiable at $f(a)$.
+    and $g\colon V \to \R^k$ be differentiable at $f(a)$.
     Then $g \circ f$ is differentiable at $a$ with \[
         (g \circ f)'(a) = g'(f(a)) \circ f'(a).
     \]
-\end{proposition}
+\end{proposition*}
+Perhaps more intuitive notation is \[
+    D_a(g \circ f) = D_{f(a)} g \circ D_a f,
+\] so that \[
+    D_a(g \circ f)(h) = D_{f(a)} g(D_a f(h)).
+\] This is exactly what the chain rule says.
+\[
+    (g \circ f)'(a)(h) = g'(f(a))(f'(a)(h)).
+\]
 \begin{proof}
     For small enough $h$, \begin{align*}
         g(f(a + h)) - g(f(a))
@@ -56,16 +64,20 @@
             &\le \frac{\norm{v(k(h))}}{\norm{k(h)}}
                 \ab(\norm{f'(a)} + \frac{\norm{u(h)}}{\norm h})
     \end{align*} which goes to $0$ as the second term is bounded.
+    This is problematic if $k(h)$ vanishes at some points
+    arbitrarily close to $0$.
 
     Let $\eps > 0$ be given.
     Then there exists a neighbourhood $W_1$ of $0$ in $V$ on which \[
-        \norm{v(k)} \le \eps \norm{k}.
+        \norm{v(x)} \le \eps \norm x.
     \] Since $f$ is continuous, there exists a neighbourhood $W_2$ of $0$
     in $U$ such that \[
         k(h) = f(a + h) - f(a) \in W_1
     \] for each $h \in W_2$.
     Thus on this neighbourhood $W_2$, we have \[
         \frac{\norm{v(k(h))}}{\norm{h}}
+        \le \frac{\eps \norm{k(h)}}{\norm h}
+        = \eps \frac{\norm{f'(a)h + u(h)}}{\norm h}
         \le \eps \ab(\norm{f'(a)} + \frac{\norm{u(h)}}{\norm h}).
     \] Thus \[
         \lim_{h \to 0} \frac{v(k(h))}{h} = 0. \qedhere
@@ -89,7 +101,7 @@ How does Rudin deal with the vanishing of $k(h)$?
     \item Consider $f\colon \GL_n(\R) \to M_n(\R)$ and
     $g\colon M_n(\R) \to M_n(\R)$ given by \[
         f(X) = X^{-1} \quad \text{and} \quad g(X) = X^2.
-    \] These are differntiable with $f'(X)(H) = -X^{-1}HX^{-1}$ and
+    \] These are differentiable with $f'(X)(H) = -X^{-1}HX^{-1}$ and
     $g'(X)(H) = XH + HX$.
     By the chain rule, we have \begin{align*}
         (g \circ f)'(X)(H) &= g'(f(X))(f'(X)(H)) \\
@@ -122,13 +134,13 @@ How does Rudin deal with the vanishing of $k(h)$?
     \end{align*}
 \end{solution}
 
-\begin{definition}[partial derivative] \label{def:pdv}
+\begin{definition*}[partial derivative] \label{def:pdv}
     Let $U \subseteq \R^n$ be open and $a \in U$.
     Let $f\colon U \to \R$.
     We define \[
         \pdv{f}{x_i}(a) = D_i f(a) = \partial_i f(a) \coloneq (D_{e_i} f)(a)
     \] to be the \emph{partial derivative} of $f$ at $a$
     with respect to the $i$-th coordinate.
-\end{definition}
+\end{definition*}
 Observe that if $g = x \mapsto f(a_1,\dots,a_{i-1},x,a_{i+1},\dots,a_n)$,
 then $D_i f(a) = g'(a_i).$

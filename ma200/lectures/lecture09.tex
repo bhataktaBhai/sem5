@@ -1,15 +1,15 @@
-\lecture{2024-08-25}{}
-\begin{definition}[gradient] \label{def:gradient}
+\lecture{2024-08-26}{Gradient and curves}
+\begin{definition*}[gradient] \label{def:gradient}
     Let $U \subseteq \R^n$ be open and $f\colon U \to \R$.
     We define the \emph{gradient} $\grad f\colon U \to \R^n$ of $f$ by \[
         (\grad f)(a) \coloneq
         \ab(\pdv{f}{x_1}(a), \ldots, \pdv{f}{x_n}(a))
     \] for all $a \in U$.
-\end{definition}
+\end{definition*}
 Throughout this lecture, $U \subseteq \R^n$ is open and $a \in U$,
 and $f\colon U \to \R^m$.
 
-\begin{proposition}
+\begin{proposition*}
     Suppose $f = (f_1, \dots, f_m)$ is differentiable at $a$.
 
     Then $\pdv{f_j}{x_i}(a)$ exists for each $i \in [n]$ and $j \in [m]$.
@@ -23,7 +23,7 @@ and $f\colon U \to \R^m$.
             \grad f_m(a)
         \end{pmatrix}.
     \]
-\end{proposition}
+\end{proposition*}
 We have abused notation in the above statement to let $e_1$ be in
 $\R^n$ or $\R^m$ depending on the context.
 \begin{proof}
@@ -41,15 +41,24 @@ $\R^n$ or $\R^m$ depending on the context.
     \]
 \end{proof}
 
-\begin{definition}[curve] \label{def:curve}
+\begin{definition*}[curve] \label{def:curve}
     A map $\gamma\colon (a, b) \to \R^n$ is a \emph{curve} in $\R^n$.
     If $\gamma$ is differentiable, it is a \emph{differentiable curve}.
     % how shocking
-\end{definition}
+\end{definition*}
 
 \begin{remark}
     Chain rule remains valid for curves.
-    Suppose $f\colon U \to \R$ and $\gamma\colon (a, b) \to U$.
+
+    Let $m = 1$ so that $f\colon U \to \R$, and let
+    $\gamma\colon (a, b) \to U$.
+    We will treat $f'(a)$ to be a scalar, instead of a map from
+    $\R^n$ to $\R$.
+    We will also treat $\gamma'(t)$ to be a vector in $\R^n$,
+    not a map from $\R$ to $\R^n$.
+    Another way to think about this is that we are identifying
+    $\R^{1 \times 1}$ with $\R$ and $\R^{n \times 1}$ with $\R^n$.
+
     Then \begin{align*}
         (f \circ \gamma)'(t) &= f'(\gamma(t))(\gamma'(t)) \\
         &= f'(\gamma(t)) \ab(\sum \gamma_i'(t) e_i) \\
@@ -57,6 +66,12 @@ $\R^n$ or $\R^m$ depending on the context.
         &= \sum \gamma_i'(t) \pdv{f}{x_i}(\gamma(t)) \\
         % &= \innerp{\grad f(\gamma(t))}{\gamma'(t)}.
         &= \grad f(\gamma(t)) \dotp \gamma'(t).
+    \end{align*}
+    If we continue to treat $f'(a)$ and $\gamma'(t)$ as maps,
+    we would write \begin{align*}
+        (f \circ \gamma)'(t)(h)
+            &= f'(\gamma(t))(\gamma'(t)(h)) \\
+            &= \text{what now?} % TODO
     \end{align*}
 \end{remark}
 

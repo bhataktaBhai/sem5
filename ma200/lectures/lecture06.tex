@@ -1,4 +1,4 @@
-\lecture{2024-08-19}{Differentiation in $\R^n$}
+\lecture{2024-08-19}{Differentiation in $\R^n$ and examples}
 
 \begin{definition*}
     Let $U \subseteq \R^n$ be an open set containing $a$.
@@ -30,12 +30,19 @@ Writing $f'(a)$ requires the derivative to be unique.
     Let $v \in \R^n \setminus \set{0}$.
     As $t \to 0$, $tv \to 0$.
     Thus \begin{align*}
-        \lim_{t \to 0} \frac{\norm{T(tv)}}{\norm{tv}}
+        0 &= \lim_{t \to 0} \frac{\norm{T(tv)}}{\norm{tv}} \\
             &= \lim_{t \to 0} \frac{\abs t \norm{Tv}}{\abs t \norm v} \\
-            &= \frac{\norm{Tv}}{\norm v} = 0.
+            &= \frac{\norm{Tv}}{\norm v}.
     \end{align*}
     Thus $Tv = 0$ for all $v \in \R^n$.
 \end{proof}
+\begin{remark}
+    Since $T$ is linear,
+    $h \mapsto \frac{\norm{Th}}{\norm h}$ is homogenous of degree $0$.
+    Thus it is defined by its value on the unit sphere.
+    It's limit at $0$ can exist only when it is constant on the unit sphere,
+    which implies that it is constant everywhere and equals the limit.
+\end{remark}
 
 \begin{proposition}
     Differentiability at a point implies continuity at that point.
@@ -44,7 +51,7 @@ Writing $f'(a)$ requires the derivative to be unique.
     Suppose $f$ is differentiable at $a$ with $f'(a) = T$.
     Let \[
         q(h) = f(a + h) - f(a) - Th.
-    \]
+    \] We know that $\frac{\norm{q(h)}}{\norm h} \to 0$ as $h \to 0$.
     \begin{align*}
         \norm{f(a + h) - f(a)}
             &= \norm{f(a+h) - f(a) - Th + Th} \\
@@ -54,7 +61,7 @@ Writing $f'(a)$ requires the derivative to be unique.
     As $h \to 0$, each term goes to $0$.
 \end{proof}
 
-For \emph{finding} the derivative, it is helpful to do the following:
+For \emph{finding} the derivative, it is helpful to follow these steps:
 \begin{itemize}
     \item Use little-$o$ notation.
     \item Identify the linear map $T$.

@@ -1,4 +1,4 @@
-\lecture{2024-08-21}{}
+\lecture{2024-08-21}{More examples}
 
 We will continue our examples.
 \begin{examples}
@@ -76,7 +76,7 @@ We will continue our examples.
     \end{align*}
     Thus from \cref{eq:inv-diff}, $f'(A)(H) = -A^{-1}HA^{-1}$.
 
-    However, we have can simply use \cref{TODO} as follows: \[
+    However, we can simply use \cref{TODO} as follows: \[
         u(H) = o(-A^{-1}H) = o(O(H)) = o(H).
     \]
     \item Let $f\colon M_n(\R) \to M_n(\R)$ be given by $f(X) = X^{-2}$.
@@ -93,8 +93,13 @@ We will continue our examples.
         \frac1{x+h} - \frac1x = \frac1{x+h} (x - (x + h)) \frac1x
         \to -\frac1x h \frac1x
     \]
-    \item \[
+    \item \begin{align*}
         \frac1{(x+h)^2} - \frac1{x^2}
-            = \frac1{(x+h)^2} (x^2 - (x + h)^2) \frac1{x^2}
-    \]
+            &= \frac1{(x+h)^2} (x^2 - (x + h)^2) \frac1{x^2} \\
+            &= -\frac1{(x+h)^2} (hx + xh + h^2) \frac1{x^2} \\
+            &= -\frac1{(x+h)^2} h x \frac1{x^2}
+                -\frac1{(x+h)^2} (x + h) h \frac1{x^2} \\
+            &= -\frac1{(x+h)^2} h \frac1x
+                -\frac1{x+h} h \frac1{x^2}
+    \end{align*}
 \end{remarks}

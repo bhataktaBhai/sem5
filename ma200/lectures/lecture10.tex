@@ -1,0 +1,83 @@
+\lecture{2024-08-28}{}
+\begin{examples}
+    \item Let $f\colon \R^2 \to \R$ be given by \[
+        f(x, y) = \begin{cases}
+            \frac{xy^2}{x^2 + y^2} & \text{if } (x, y) \ne 0, \\
+            0 & \text{if } x = 0.
+        \end{cases}
+    \] Note that $\abs{f(x, y)} = \abs x \frac{y^2}{x^2 + y^2} \le \abs x$
+    for $(x, y) \ne 0$, so $f$ is continuous at $(0, 0)$.
+    Suppose $f$ were differentiable at $0$.
+    Then the derivative of $f$ at $0$ would be \[
+        \begin{pmatrix}
+            D_1f(0) & D_2f(0)
+        \end{pmatrix} = \begin{pmatrix}
+            0 & 0 \\
+        \end{pmatrix}.
+    \] Then \begin{align*}
+        0 &= \lim_{(h, k) \to 0}
+            \frac{\abs{f(h, k) - f(0, 0) - f'(0) (h, k)}}{\norm{(h, k)}} \\
+            &= \lim_{(h, k) \to 0} \frac{f(h, k)}{\norm{(h, k)}} \\
+            &= \lim_{(h, k) \to 0} \frac{hk^2}{(h^2 + k^2)^{3/2}}.
+        \shortintertext{This is homogenous, and thus constant along
+        lines through the origin.}
+        0 &= \lim_{t \to 0} \frac{t^3}{(2t)^{3/2}} \\
+        &= \frac1{2\sqrt 2}.
+    \end{align*}
+    This is essentially showing that $D_{(1, 1)}f(0) \ne f'(0)(1, 1)$.
+
+    \item Let $f\colon \R^2 \to \R$ be given by \[
+        f(x, y) = [(x, y) \ne 0]
+            (x^2 + y^2) \sin\ab(\frac1{\sqrt{x^2 + y^2}}).
+    \] $f$ is continuous at $0$.
+    We first find the gradient.
+    \begin{align*}
+        D_1f(x, y) &= \lim_{x \to 0} \frac{f(x, 0)}{x} \\
+        &= \lim_{x \to 0} x \sin\ab(\frac1{\abs x}) \\
+        &= 0.
+        \shortintertext{Similarly,}
+        D_2f(x, y) &= 0.
+    \end{align*}
+    Thus if the derivative exists, it must be $0$.
+    \begin{align*}
+        \lim_{(h, k) \to 0}
+            &\frac{\abs{f(h, k) - f(0, 0) - f'(0) (h, k)}}{\norm{(h, k)}} \\
+        &= \lim_{(h, k) \to 0} \norm{(h, k)}\sin\ab(\frac1{\norm{(h, k)}})\\
+        &= 0.
+    \end{align*}
+    Thus the derivative is indeed $0$.
+    \item Let $f\colon \R^2 \to \R$ be given by \[
+        f(x, y) = [(x, y) \ne 0]
+            \sqrt{x^2 + y^2} \sin\ab(\frac1{\sqrt{x^2 + y^2}}).
+    \] Then $f(x, 0) = x \sin\ab(\frac1x)$
+    is not differentiable at $0$.
+    Thus $f$ is not differentiable at $0$.
+\end{examples}
+
+\begin{theorem}[Rolle's theorem] \label{thm:rolle}
+    Let $f\colon [a, b] \to \R$ be continuous on $[a, b]$
+    and differentiable on $(a, b)$.
+    If $f(a) = f(b)$,
+    then there exists $c \in (a, b)$ such that $f'(c) = 0$.
+\end{theorem}
+
+\begin{theorem}[mean value theorem] \label{thm:mvt}
+    Let $f\colon [a, b] \to \R$ be continuous on $[a, b]$
+    and differentiable on $(a, b)$.
+    Then there exists $c \in (a, b)$ such that \[
+        f(b) - f(a) = f'(c)(b - a).
+    \]
+\end{theorem}
+
+Does an analogue of the mean value theorem hold for several variables?
+Consider \[
+    f(t) = (\cos t, \sin t).
+\] Then $f(0) = f(2\pi)$, but $\abs{f'(t)} = 1$ is never $0$.
+
+\begin{proposition}
+    Let $\gamma\colon [a, b] \to \R^n$ be continuous on $[a, b]$
+    and differentiable on $(a, b)$.
+    Then there exists $c \in (a, b)$ such that \[
+        \norm{\gamma(b) - \gamma(a)} \le (b - a) \norm{\gamma'(c)}.
+    \]
+\end{proposition}

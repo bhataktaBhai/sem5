@@ -7,10 +7,10 @@
     \] for all $a \in U$.
 \end{definition}
 Throughout this lecture, $U \subseteq \R^n$ is open and $a \in U$,
-and $f\colon U \to \R^m$ is differentiable at $a$.
+and $f\colon U \to \R^m$.
 
 \begin{proposition}
-    Let $f = (f_1, \dots, f_m)$.
+    Suppose $f = (f_1, \dots, f_m)$ is differentiable at $a$.
 
     Then $\pdv{f_j}{x_i}(a)$ exists for each $i \in [n]$ and $j \in [m]$.
     Moreover, \[
@@ -68,8 +68,8 @@ $\R^n$ or $\R^m$ depending on the context.
 \end{definition}
 
 \begin{proposition}
-    For each $v \in \R^n$, $D_v f(a)$ exists and equals
-    $\grad f(a) \dotp v$.
+    If $f$ is differentiable at $a$, then for each $v \in \R^n$,
+    $D_v f(a)$ exists and equals $\grad f(a) \dotp v$.
 \end{proposition}
 \begin{proof}
     Let $\gamma(t) = a + tv$.

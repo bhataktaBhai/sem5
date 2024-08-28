@@ -14,8 +14,8 @@
     each $f_i$.
 
     Suppose each $f_i$ is continuous at $a$.
-    For any $\varepsilon > 0$, there exists $\delta_i > 0$ such that
-    $\abs{f_i(x) - f_i(a)} < \frac1m \varepsilon$ in a
+    For any $\eps > 0$, there exists $\delta_i > 0$ such that
+    $\abs{f_i(x) - f_i(a)} < \frac1m \eps$ in a
     $\delta_i$-neighbourhood of $a$.
     Let $\delta = \min\set{\delta_1, \delta_2, \dots, \delta_n}$.
 \end{solution}
@@ -48,15 +48,15 @@
 
     Let $x \in f^{-1}(V)$.
     Then $f(x) \in V$.
-    There is some $\varepsilon > 0$ such that
-    $B(f(x), \varepsilon) \subseteq V$.
+    There is some $\eps > 0$ such that
+    $B(f(x), \eps) \subseteq V$.
     But by continuity, there is some $\delta > 0$ such that
-    $f(B(x, \delta)) \subseteq B(f(x), \varepsilon) \subseteq V$.
+    $f(B(x, \delta)) \subseteq B(f(x), \eps) \subseteq V$.
     Thus $B(x, \delta) \subseteq f^{-1}(V)$.
 
     Conversely, suppose $f^{-1}(V)$ is open whenever $V$ is open.
-    Then for any $x \in X$ and $\varepsilon > 0$, we have
-    that $f^{-1}(B(f(x), \varepsilon))$ is open.
+    Then for any $x \in X$ and $\eps > 0$, we have
+    that $f^{-1}(B(f(x), \eps))$ is open.
     So some $\delta$-neighbourhood of $x$ in $X$ that is contained
-    in $f^{-1}(B(f(x), \varepsilon))$.
+    in $f^{-1}(B(f(x), \eps))$.
 \end{solution}

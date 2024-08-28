@@ -1,0 +1,100 @@
+\lecture{2024-08-21}{}
+
+We will continue our examples.
+\begin{examples}
+    \item Let $f\colon \R^2 \to \R$ be given by $f(x, y) = xy$.
+    Write $a = (a_1, a_2)$, $h = (h_1, h_2)$.
+    Then \begin{align*}
+        f(a + h) &= f(a_1 + h_1, a_2 + h_2) \\
+            &= (a_1 + h_1)(a_2 + h_2) \\
+            &= a_1 a_2 + a_1 h_2 + a_2 h_1 + h_1 h_2 \\
+            &= f(a) + \begin{pmatrix}
+                a_2 & a_1
+            \end{pmatrix} \begin{pmatrix}
+                h_1 \\ h_2
+            \end{pmatrix} + o(h).
+    \end{align*}
+    Let us show $h_1 h_2 = o(h)$.
+    \[
+        \frac{\abs{h_1 h_2}}{\norm h}
+            = \abs{h_1} \frac{\abs{h_2}}{\norm h}
+            \le \abs{h_1} \to 0.
+    \]
+    Thus $f'(a)$ is the map $(h_1, h_2) \mapsto a_2 h_1 + a_1 h_2$.
+    As a matrix, this is $\begin{pmatrix}
+        a_2 & a_1
+    \end{pmatrix}$.
+    \item Let $f\colon M_n(\R) \to M_n(\R)$ be given by $f(X) = X$.
+
+    We could identify $M_n(\R)$ with $\R^{n^2}$ and construct
+    a linear map from $\R^{n^2}$ to $\R^{n^2}$.
+    It is however advisable to construct a linear map from $M_n(\R)$ to
+    $M_n(\R)$.
+    This is again a specical case of the second example.
+    Thus $f'(A) = f = \id$.
+    \item Let $f\colon M_n(\R) \to M_n(\R)$ be given by $f(X) = X^2$.
+    Then \begin{align*}
+        f(A + H) &= (A + H)^2 \\
+            &= A^2 + AH + HA + H^2 \\
+            &= f(A) + AH + HA + o(H)
+    \end{align*} since \[
+        \frac{\norm{H^2}}{\norm H} \le \frac{\norm H^2}{\norm H}
+            = \norm H \to 0.
+    \]
+    Thus $f'(A)(H) = AH + HA$.
+    \item Let $f\colon M_n(\R) \to M_n(\R)$ be given by $f(X) = X^3$.
+    Then \begin{align*}
+        f(A + H) &= (A + H)^3 \\
+            &= A^3 + A^2 H + A H A + H A^2 \\
+            &\qquad+ A H^2 + H A H + H^2 A + H^3 \\
+            &= A^3 + (A^2 H + A H A + H A^2) + o(H).
+    \end{align*}
+    \item Let $f\colon \GL_n(\R) \to M_n(\R)$ be given by $f(X) = X^{-1}$.
+    Recall that if $\norm Z < 1$, then \[
+        (I - Z)^{-1} = I + Z + O(Z^2) = I + Z + o(Z).
+    \] Thus for small enough $\norm H$, \begin{align*}
+        (A + H)^{-1} &= \ab(A(I + A^{-1}H))^{-1} \\
+            &= \ab(I - A^{-1}H + o(-A^{-1}H)) A^{-1} \\
+            &= A^{-1} - A^{-1}HA^{-1} + o(H). \yesnumber \label{eq:inv-diff}
+    \end{align*}
+    Let us do the $o(H)$ term more carefully.
+    Let $(I + A^{-1}H)^{-1} = I - A^{-1}H + u(H)$ where \[
+        \lim_{H \to 0} \frac{\norm{u(H)}}{\norm {-A^{-1}H}} = 0.
+    \] Then
+    \begin{align*}
+        (A + H)^{-1} &= (I + A^{-1}H)^{-1} A^{-1} \\
+            &= (I - A^{-1}H + u(H)) A^{-1} \\
+            &= A^{-1} - A^{-1}HA^{-1} + u(H)A^{-1}.
+    \end{align*}
+    But \begin{align*}
+        \frac{\norm{u(H) A^{-1}}}{\norm H}
+            &\le \frac{\norm{u(H)}}{\norm H} \norm{A^{-1}} \\
+            &\le \frac{\norm{u(H)}}{\norm{-A^{-1}H}}
+                \frac{\norm {-A^{-1}H}}{\norm H} \norm{A^{-1}} \\
+            &\le \frac{\norm{u(H)}}{\norm{-A^{-1}H}} \norm{A^{-1}}^2 \\
+            &\to 0.
+    \end{align*}
+    Thus from \cref{eq:inv-diff}, $f'(A)(H) = -A^{-1}HA^{-1}$.
+
+    However, we have can simply use \cref{TODO} as follows: \[
+        u(H) = o(-A^{-1}H) = o(O(H)) = o(H).
+    \]
+    \item Let $f\colon M_n(\R) \to M_n(\R)$ be given by $f(X) = X^{-2}$.
+    Then \begin{align*}
+        f(A + H) &= (A + H)^{-2} \\
+            &= (A^{-1} - A^{-1}HA^{-1} + o(H))
+                (A^{-1} - A^{-1}HA^{-1} + o(H)) \\
+            &= A^{-2} - A^{-2}HA^{-1} - A^{-1}HA^{-2} + o(H).
+    \end{align*}
+    Thus $f'(A)(H) = -A^{-1} (A^{-1} H + H A^{-1}) A^{-1}$.
+\end{examples}
+\begin{remarks}
+    \item \[
+        \frac1{x+h} - \frac1x = \frac1{x+h} (x - (x + h)) \frac1x
+        \to -\frac1x h \frac1x
+    \]
+    \item \[
+        \frac1{(x+h)^2} - \frac1{x^2}
+            = \frac1{(x+h)^2} (x^2 - (x + h)^2) \frac1{x^2}
+    \]
+\end{remarks}

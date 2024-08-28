@@ -22,6 +22,29 @@ On $\R^n$, we will always fix the $\ell^2$-norm
     \end{align*} where $V$ ranges over all open neighbourhoods of $a$
     that contain at least one point other than $a$.
 \end{definition}
+\begin{exercise}[self]
+    Let $(X, d)$ be a connected metric space with at least two points.
+    Then \begin{align*}
+        \liminf_{x \to a} f(x)
+            &= \lim_{\eps \searrow 0}\; \inf_{0 < d(x, a) < \eps} f(x) \\
+        \limsup_{x \to a} f(x)
+            &= \lim_{\eps \searrow 0}\; \sup_{0 < d(x, a) < \eps} f(x)
+    \end{align*}
+\end{exercise}
+\begin{proof}
+    We first need to show that
+    $\set{x \in X \mid 0 < d(x, a) < \eps}$ is non-empty
+    for each $\eps > 0$.
+    Suppose this were not the case for some $\eps$.
+    Then $B(a, \eps) = \set a = \wbar{B(a, \eps/2)}$ is clopen,
+    contradicting the connectedness of $X$.
+
+    Notice that for any $\eps_1 > \eps_2 > 0$,
+    \[
+        \set{x \in X \mid 0 < d(x, a) < \eps_1}
+        \subseteq \set{x \in X \mid 0 < d(x, a) < \eps_2},
+    \] so the infimum increases as $\eps \searrow 0$.
+\end{proof}
 
 \begin{definition*}[$O$ notation] \label{def:o}
     Let $f\colon \R^n \to \R^m$ and $g\colon \R^n \to \R^k$.
@@ -227,8 +250,8 @@ We approach it this way as well, since this gives us an explicit inverse.
     By $\norm{AB} \le \norm A \norm B$, $\norm{Z^k} \le \norm Z^k$.
 
     It is easy to see that the series converges by the Cauchy criterion.
-    For any $\varepsilon > 0$, there is some $n$ such that \[
-        \norm*{\sum_{k=n}^m Z^k} \le \sum_{k=n}^m \norm{Z^k} < \varepsilon
+    For any $\eps > 0$, there is some $n$ such that \[
+        \norm*{\sum_{k=n}^m Z^k} \le \sum_{k=n}^m \norm{Z^k} < \eps
     \]
     for all $m > n$.
 

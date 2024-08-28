@@ -1,0 +1,82 @@
+\lecture{2024-08-25}{}
+\begin{definition}[gradient] \label{def:gradient}
+    Let $U \subseteq \R^n$ be open and $f\colon U \to \R$.
+    We define the \emph{gradient} $\grad f\colon U \to \R^n$ of $f$ by \[
+        (\grad f)(a) \coloneq
+        \ab(\pdv{f}{x_1}(a), \ldots, \pdv{f}{x_n}(a))
+    \] for all $a \in U$.
+\end{definition}
+Throughout this lecture, $U \subseteq \R^n$ is open and $a \in U$,
+and $f\colon U \to \R^m$ is differentiable at $a$.
+
+\begin{proposition}
+    Let $f = (f_1, \dots, f_m)$.
+
+    Then $\pdv{f_j}{x_i}(a)$ exists for each $i \in [n]$ and $j \in [m]$.
+    Moreover, \[
+        f'(a)(e_i) = \sum_{j=1}^m \pdv{f_j}{x_i}(a) e_j
+    \] for all $i \in [n]$.
+    Equivalently, \[
+        f'(a) = \begin{pmatrix}
+            \grad f_1(a) \\
+            \vdots \\
+            \grad f_m(a)
+        \end{pmatrix}.
+    \]
+\end{proposition}
+We have abused notation in the above statement to let $e_1$ be in
+$\R^n$ or $\R^m$ depending on the context.
+\begin{proof}
+    Let $f'(a) = T \in L(\R^n, \R^m)$.
+    For $i \in [n]$, \begin{align*}
+        \pdv{f_j}{x_i}(a)
+            &= \lim_{t \to 0} \frac{f_j(a+te_i) - f_j(a)}{t} \\
+        \implies \pdv{f_j}{x_i}(a) - T(e_i)_j
+            &= \lim_{t \to 0} \frac{f_j(a+te_i) - f_j(a) - tT(e_i)_j}{t} \\
+            &= \lim_{t \to 0} \ab(\frac{f(a+te_i) - T(te_i) - f(a)}t)_j \\
+            &= 0.
+    \end{align*}
+    Thus \[
+        T(e_i) = \sum_{j=1}^m \pdv{f_j}{x_i}(a) e_j \qedhere
+    \]
+\end{proof}
+
+\begin{definition}[curve] \label{def:curve}
+    A map $\gamma\colon (a, b) \to \R^n$ is a \emph{curve} in $\R^n$.
+    If $\gamma$ is differentiable, it is a \emph{differentiable curve}.
+    % how shocking
+\end{definition}
+
+\begin{remark}
+    Chain rule remains valid for curves.
+    Suppose $f\colon U \to \R$ and $\gamma\colon (a, b) \to U$.
+    Then \begin{align*}
+        (f \circ \gamma)'(t) &= f'(\gamma(t))(\gamma'(t)) \\
+        &= f'(\gamma(t)) \ab(\sum \gamma_i'(t) e_i) \\
+        &= \sum \gamma_i'(t) f'(\gamma(t))(e_i) \\
+        &= \sum \gamma_i'(t) \pdv{f}{x_i}(\gamma(t)) \\
+        % &= \innerp{\grad f(\gamma(t))}{\gamma'(t)}.
+        &= \grad f(\gamma(t)) \dotp \gamma'(t).
+    \end{align*}
+\end{remark}
+
+\begin{definition}
+    Let $\gamma\colon (-\eps, \eps) \to U$ be such that $\gamma(0) = a$.
+    $\gamma'(0)$ is the \emph{tangent vector} to $\gamma$ at $a$,
+    and $(f \circ \gamma)'(0)$ is the
+    \emph{derivative of $f$ along $\gamma$ at $a$}.
+\end{definition}
+
+\begin{proposition}
+    For each $v \in \R^n$, $D_v f(a)$ exists and equals
+    $\grad f(a) \dotp v$.
+\end{proposition}
+\begin{proof}
+    Let $\gamma(t) = a + tv$.
+    There exist some $\eps > 0$ such that $\gamma(-\eps, \eps) \subseteq U$
+    and $\gamma'(0) = v$.
+    Then \[
+        D_v f(a) = \lim_{t \to 0} \frac{f(a + tv) - f(a)}{t}
+        = (f \circ \gamma)'(0) = \grad f(a) \dotp v. \qedhere
+    \]
+\end{proof}

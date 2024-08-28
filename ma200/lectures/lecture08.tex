@@ -1,0 +1,134 @@
+\lecture{2024-08-23}{}
+\begin{exercise}[Sum]
+    Let $U \subseteq \R^n$ be open and $a \in U$.
+    Let $f, g\colon U \to \R^m$ both be differentiable at $U$.
+    Then $f+g$ is differentiable at $a$ with
+    $(f+g)'(a) = f'(a) + g'(a)$.
+\end{exercise}
+
+\begin{lemma} \label{thm:oO}
+    Let $f, g, h\colon \R^n \to \R^m$.
+    Supppose $g = O(f)$ and $h = o(g)$.
+    Then $h = o(f)$.
+\end{lemma}
+\begin{proof}
+    \[
+        \frac{\norm{h(x)}}{\norm{f(x)}}
+        = \frac{\norm{h(x)}}{\norm{g(x)}} \frac{\norm{g(x)}}{\norm{f(x)}}
+    \] The first term goes to $0$ and the second term is bounded.
+    Thus $\frac{\norm{h(x)}}{\norm{f(x)}} \to 0$.
+\end{proof}
+
+\begin{proposition}[chain rule] \label{thm:chain}
+    Let $U \subseteq \R^n$ be open and $a \in U$.
+    Let $f\colon U \to \R^m$ be differentiable at $a$.
+    Let $V \subseteq \R^m$ be an open set containing $f(a)$
+    and $g\colon \R^m \to \R^k$ be differentiable at $f(a)$.
+    Then $g \circ f$ is differentiable at $a$ with \[
+        (g \circ f)'(a) = g'(f(a)) \circ f'(a).
+    \]
+\end{proposition}
+\begin{proof}
+    For small enough $h$, \begin{align*}
+        g(f(a + h)) - g(f(a))
+            &= g(f(a) + f'(a)h + u(h)) - g(f(a)) \\
+            &= g'(f(a))[f'(a)h + u(h)] + v(f'(a)h + u(h))
+    \end{align*}
+    where $\frac{\norm{u(h)}}{\norm h} \to 0$ and
+    $\frac{\norm{v(f'(a)h + u(h))}}{\norm{f'(a)h + u(h)}} \to 0$.
+
+    Call $f(a) = b$ and $f'(a)h + u(h) = k(h)$ for convenience.
+    We have \[
+        \frac{\norm{u(h)}}{\norm h} \to 0
+        \quad \text{and} \quad
+        \frac{\norm{v(k(h))}}{\norm{k(h)}} \to 0
+    \] and \[
+        g(f(a + h)) - g(f(a)) = g'(b)f'(a)h + g'(b)u(h) + v(k(h)).
+    \] We need to show \[
+        g'(b) u(h) + v(k(h)) = o(h).
+    \] The first term is easy, since
+    $\norm{g'(b)u(h)} \le \norm{g'(b)} \norm{u(h)}$.
+
+    For the second term, we write \begin{align*}
+        \frac{\norm{v(k(h))}}{\norm{h}}
+            &= \frac{\norm{v(k(h))}}{\norm{k(h)}}
+                \frac{\norm{k(h)}}{\norm h} \\
+            &\le \frac{\norm{v(k(h))}}{\norm{k(h)}}
+                \ab(\norm{f'(a)} + \frac{\norm{u(h)}}{\norm h})
+    \end{align*} which goes to $0$ as the second term is bounded.
+
+    Let $\eps > 0$ be given.
+    Then there exists a neighbourhood $W_1$ of $0$ in $V$ on which \[
+        \norm{v(k)} \le \eps \norm{k}.
+    \] Since $f$ is continuous, there exists a neighbourhood $W_2$ of $0$
+    in $U$ such that \[
+        k(h) = f(a + h) - f(a) \in W_1
+    \] for each $h \in W_2$.
+    Thus on this neighbourhood $W_2$, we have \[
+        \frac{\norm{v(k(h))}}{\norm{h}}
+        \le \eps \ab(\norm{f'(a)} + \frac{\norm{u(h)}}{\norm h}).
+    \] Thus \[
+        \lim_{h \to 0} \frac{v(k(h))}{h} = 0. \qedhere
+    \]
+\end{proof}
+How does Rudin deal with the vanishing of $k(h)$?
+% \begin{proof}[Proof (Rudin).]
+%     Define \[
+%         \eta(k) = \begin{cases}
+%             \frac{\norm{v(k)}}{\norm k} & \text{if } k \ne 0, \\
+%             0 & \text{if } k = 0.
+%         \end{cases}
+%     \] Then we can write \[
+%         \frac{\norm{v(k(h))}{\norm h}
+%             = \frac{\eta(k(h)) \norm{k(h)}}{\norm h}
+%             \le \eta(k(h)) \ab(\norm{f'(a)} + \frac{\norm{u(h)}}{\norm h}).
+%             \qedhere
+%     \]
+% \end{proof}
+\begin{examples}
+    \item Consider $f\colon \GL_n(\R) \to M_n(\R)$ and
+    $g\colon M_n(\R) \to M_n(\R)$ given by \[
+        f(X) = X^{-1} \quad \text{and} \quad g(X) = X^2.
+    \] These are differntiable with $f'(X)(H) = -X^{-1}HX^{-1}$ and
+    $g'(X)(H) = XH + HX$.
+    By the chain rule, we have \begin{align*}
+        (g \circ f)'(X)(H) &= g'(f(X))(f'(X)(H)) \\
+        &= X^{-1}(-X^{-1}HX^{-1}) + (-X^{-1}HX^{-1})X^{-1} \\
+        &= -X^{-1}(X^{-1}H + HX^{-1})X^{-1}.
+    \end{align*} 
+\end{examples}
+
+\begin{definition}[directional derivative] \label{def:dv}
+    Let $U \subseteq \R^n$ be open and $a \in U$.
+    Let $f\colon U \to \R$.
+    For $v \in \R^n$, we define \[
+        (D_v f)(a) \coloneq \lim_{t \to 0} \frac{f(a + tv) - f(a)}{t}
+    \] to be the \emph{directional derivative} of $f$ at $a$
+    in the direction of $v$.
+\end{definition}
+
+\begin{exercise}
+    Show that $D_{\lambda v} = \lambda D_v$.
+\end{exercise}
+\begin{solution}
+    If $\lambda = 0$, both sides are $0$.
+    Otherwise, \begin{align*}
+        (D_{\lambda v} f)(a)
+            &= \lim_{t \to 0} \frac{f(a + t\lambda v) - f(a)}{t} \\
+            &= \lambda \lim_{t \to 0} \frac{f(a + (\lambda t)v) - f(a)}
+                                    {\lambda t} \\
+            &= \lambda \lim_{t \to 0} \frac{f(a + tv) - f(a)}{t} \\
+            &= \lambda (D_v f)(a) = (\lambda D_v f)(a). \qedhere
+    \end{align*}
+\end{solution}
+
+\begin{definition}[partial derivative] \label{def:pdv}
+    Let $U \subseteq \R^n$ be open and $a \in U$.
+    Let $f\colon U \to \R$.
+    We define \[
+        \pdv{f}{x_i}(a) = D_i f(a) = \partial_i f(a) \coloneq (D_{e_i} f)(a)
+    \] to be the \emph{partial derivative} of $f$ at $a$
+    with respect to the $i$-th coordinate.
+\end{definition}
+Observe that if $g = x \mapsto f(a_1,\dots,a_{i-1},x,a_{i+1},\dots,a_n)$,
+then $D_i f(a) = g'(a_i).$

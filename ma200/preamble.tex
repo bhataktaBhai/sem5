@@ -16,3 +16,13 @@
 \newcommand\@@hsn[1]{{\norm*{#1}}_{HS}}
 \newcommand\hsn{\@ifstar\@@hsn\@hsn}
 \makeatother
+
+% \pdv
+\usepackage{derivative}
+\newcommand*\grad{\nabla}
+
+% https://tex.stackexchange.com/a/235120
+\makeatletter
+\newcommand*\dotp{\mathpalette\bigcdot@{.5}}
+\newcommand*\bigcdot@[2]{\mathbin{\vcenter{\hbox{\scalebox{#2}{$\m@th#1\bullet$}}}}}
+\makeatother

@@ -1,0 +1,142 @@
+\lecture{2024-08-27}{}
+\begin{proof}[Proof of \cref{thm:expectation} (uniqueness)]
+    Let $X \in \RV_+$.
+    Define \[
+        X_n(\omega) = \sum_{k=0}^{n2^n-1} \frac{k}{2^n}
+        \Big[X(\omega) \in \Big[\frac{k}{2^n}, \frac{k+1}{2^n}\Big)\Big].
+    \]
+    Observe that $X_n(\omega) \le X_{n+1}(\omega)$ for all $n$ and $\omega$.
+    As the partition becomes finer, $X_n$ converges to $X$ pointwise.
+    Thus, by the monotone convergence theorem, $\E X_n \upto \E X$.
+    But we can find $\E X_n$ explicitly:
+    \[
+        \E X_n = \sum_{k=0}^{n2^n-1} \frac{k}{2^n}
+        \P\left(X \in \left[\frac{k}{2^n}, \frac{k+1}{2^n}\right)\right)
+    \] The limit exists axiomatically, so
+    \[
+        \E X = \lim_{n \to \infty} \sum_{k=0}^{n2^n-1} \frac{k}{2^n}
+        \P\left(X \in \left[\frac{k}{2^n}, \frac{k+1}{2^n}\right)\right)
+    \] is uniquely determined.
+\end{proof}
+
+Once we have expectation, various interesting quantitites can be defined.
+\begin{itemize}
+    \item \textbf{Moments:} if $p \in \N$ and $X^p$ is integrable, then
+        $\E[X^p]$ is called the $p$-th moment of $X$.
+        More generally, if $\abs X^p$ is integrable, we say
+        that the $p$-th moment of $X$ exists.
+    \item \textbf{Variance:} if the second moment exists, we define \[
+        \Var X = \E[(X - \E X)^2].
+    \] By linearity, \begin{align*}
+        \Var X &= \E[X^2 - 2 X (\E X) + (\E X)^2] \\
+            &= \E X^2 - (2 \E X) \E X + (\E X)^2 \E[\1{}] \\
+            &= \E X^2 - (\E X)^2.
+    \end{align*}
+    This exists, since $\abs X \le X^2 + 1$.
+    \item \textbf{Moment generating function:} If $\E[e^{\theta x}]$
+        exists for all $\theta \in I = (-a, b)$, we define \begin{align*}
+            \phi\colon I &\to \R \\
+            \theta &\mapsto \E[e^{\theta X}].
+        \end{align*}
+    \item \textbf{Characteristic function:} We define \begin{align*}
+            \psi\colon \R &\to \C \\
+            \theta &\mapsto \E[e^{i\theta X}]
+                = \E[\cos(\theta X)] + i \E[\sin(\theta X)].
+        \end{align*}
+\end{itemize}
+
+\begin{exercise}
+    If $\E[e^{\theta X}]$ exists for all $\theta \in (-\delta, \delta)$
+    for some $\delta > 0$, show that $X$ has all moments.
+\end{exercise}
+
+\begin{theorem*}[inequalities] \label{thm:exp:ineq}
+    Consider a probability space $(\Omega, \F, \P)$.
+    Let $X, Y$ be random variables on $\Omega$.
+    \begin{enumerate}
+        \item \label{thm:exp:cs}
+        If $\E X^2 < \infty$ and $\E Y^2 < \infty$, then $XY$ is
+        integrable and \[
+            (\E[XY])^2 \le \E[X^2] \E[Y^2].
+        \]
+        \item \label{thm:exp:var}
+        $(\E X)^2 \le \E[X^2]$.
+        \item \label{thm:exp:holder}
+        Let $1 < p, q < \infty$ with $\frac1p + \frac1q = 1$.
+        Let $X, Y \in \RV_+$ and $\E X^p$, $\E Y^q$ exist.
+        Then \[
+            \E[XY] \le \E[X^p]^{\frac1p} \E[Y^q]^{\frac1q}.
+        \]
+        \item \label{thm:exp:minkowski}
+        Let $1 \le p < \infty$ and $\E \abs X^p, \E \abs Y^p < \infty$.
+        Then \[
+            \E\ab[{\abs{X + Y}}^p]^{\frac1p}
+                \le \E\ab[{\abs X}^p]^{\frac1p}
+                + \E\ab[{\abs Y}^p]^{\frac1p}.
+        \]
+    \end{enumerate}
+\end{theorem*}
+\begin{proof}
+    Consider the set \[
+        \mcV = \set{X \in \RV \mid \E X^2 < \infty}
+    \] be the space of square-integrable random variables.
+    Then for any $X, Y \in \mcV$, we have \[
+        \abs{XY} \le \frac{X^2 + Y^2}{2}
+    \] is integrable.
+    Thus \[
+        \innerp XY = \E[XY]
+    \] is a pseudo-inner product on $\mcV$.
+    Cauchy-Schwarz follows.
+
+    More directly, let $X, Y \in \mcV$.
+    Then \begin{align*}
+        0 &\le \E[(X - \lambda Y)^2] \\
+        &= \E X^2 - 2 \lambda \E[XY] + \lambda^2 \E Y^2
+    \end{align*} for all $\lambda \in \R$.
+    Thus the discriminant is nonpositive, so \[
+        (\E[XY])^2 \le \E X^2 \E Y^2.
+    \] The equality holds iff there is some $\lambda$ such that
+    $X = \lambda Y$ a.s.
+
+    \labelcref{thm:exp:var} follows from Cauchy-Schwarz
+    with $X = Y$.
+    Alternatively, follows from $\Var(X) \ge 0$.
+
+    For H\"older's inequality, define \[
+        A = \frac{X}{\E X^p} \quad \text{and} \quad B = \frac{Y}{\E Y^q}.
+    \] From H\"older's inequality for real numbers, we have \[
+        \frac{XY}{(\E X^p)^{\frac1p} (\E Y^q)^{\frac1q}}
+        \le \frac1p \frac{X^p}{\E X^p} + \frac1q \frac{Y^q}{\E Y^q}.
+    \] The expectation is thus bounded by \[
+        \frac1p \frac{\E X^p}{\E X^p} + \frac1q \frac{\E Y^q}{\E Y^q} = 1.
+    \] This gives \[
+        \E[XY] \le \E[X^p] \E[Y^q].
+    \]
+
+    Finally, we come to Minkowski's inequality.
+    $p = 1$ is obvious, so consider $p > 1$, and let $q = \frac{p}{p-1}$.
+    \begin{align*}
+        \E\abs{X + Y}^p &= \E\abs{X + Y}^{p-1} \abs{X + Y} \\
+        &\le \E\abs{X + Y}^{p-1} \abs X + \E\abs{X + Y}^{p-1} \abs Y \\
+        &\le \ab(\E\abs X^p)^{\frac1p} \ab(\E\abs{X + Y}^{(p-1)q})^{\frac1q}
+        + \ab(\E\abs Y^p)^{\frac1p} \ab(\E\abs{X + Y}^{(p-1)q})^{\frac1q} \\
+        &= \ab(\E\abs X^p)^{\frac1p} + \ab(\E\abs Y^p)^{\frac1p}
+            \ab(\E\abs{X + Y}^p)^{\frac1q}.
+    \end{align*}
+\end{proof}
+
+\begin{theorem}[Jensen's inequality] \label{thm:exp:jensen}
+    Let $\phi\colon \R \to \R$ be a convex function and let $X$ be
+    an integrable random variable.
+    Then \[
+        \E[\phi(X)] \ge \phi(\E X)
+    \]
+\end{theorem}
+\begin{proof}
+    We will use that for any $x_0 \in \R$, there is a line
+    $y = \phi(x_0) + (x - x_0)m$ that lies below the raph of $\phi$.
+    Let $x_0 = \E X$ and take expectations.
+    \[
+        \phi(x_0) = \E[\phi(x_0)] \le \E[\phi(X)].
+    \]
+\end{proof}

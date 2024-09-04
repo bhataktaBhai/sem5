@@ -1,0 +1,147 @@
+\documentclass[12pt]{article}
+\input{../preamble}
+\setenumerate{label=(\arabic*)}
+
+\title{Homework 4}
+\author{Naman Mishra (22223)}
+\date{3 September, 2024}
+
+\begin{document}
+\maketitle
+
+% Problem 1
+\begin{problem*}
+    Find integrable random variables $X_n, X$ for each of the following
+    situations.
+    \begin{itemize}
+        \item $X_n \to X$ a.s. but $\E[X_n] \not\to \E[X]$.
+        \item $X_n \to X$ a.s. and $\E[X_n] \to \E[X]$ but there is no
+        dominating integrable random variable $Y$ for the sequence
+        $\set{X_n}$.
+    \end{itemize}
+\end{problem*}
+\begin{solution}
+    Fix the space $([0, 1], \B_{[0, 1]}, \lambda)$.
+    \begin{itemize}
+        \item Define \[
+            X_n(\omega) = \begin{cases}
+                n & \text{if } \omega < \frac1n, \\
+                0 & \text{if } \omega \ge \frac1n.
+            \end{cases}
+        \] Then for all $\omega \in (0, 1]$, $X_n(\omega) \to 0$, but \[
+            \E[X_n] = n \times \frac1n + 0 \times \ab(1 - \frac1n) = 1
+        \] does not converge to $\E[0] = 0$.
+        \item Define \[
+            X_n(\omega) = \begin{cases}
+                n+1 & \text{if } \frac1{n+1} < \omega \le \frac1n, \\
+                0 & \text{otherwise}.
+            \end{cases}
+        \] Then for all $\omega \in (0, 1]$, $X_n(\omega) \to 0$.
+        Futhermore, \[
+            \E[X_n] = (n+1) \ab(\frac1n - \frac1{n+1})
+                = \frac1n \to 0
+                = \E[0].
+        \] However, any dominating integrable random variable $Y$ must
+        satisfy \[
+            Y \ge \sum_{n=1}^\infty X_n \text{ a.s.}
+        \] since the $X_i$'s have disjoint support.
+        That is, $\sup_n X_n = \sum_{n=1}^\infty X_n$.
+        In other words, \[
+            Y(x) \ge n + 1 \quad \text{for } \frac1{n+1} < x \le \frac1n
+        \] almost everywhere.
+
+        But then (by MCT or via integration) \[
+            \E[Y] \ge \sum_{n=1}^\infty (n+1) \ab(\frac1n - \frac1{n+1})
+                = \sum_{n=1}^\infty \frac1n
+                = \infty.
+        \] No dominating integrable random variable exists. \qedhere
+    \end{itemize}
+\end{solution}
+
+% Problem 2
+\begin{problem*}
+    Let $X$ be a non-negative random variable.
+    Show that $\E[X] = \int_0^\infty \P\set{X > t} \dd t$
+    (in particular, if $X$ is a non-negative integer valued,
+    then $\E[X] = \sum_{n=0}^\infty \P(X \ge n)$)
+    by showing the following steps.
+    \begin{enumerate}
+        \item Prove the equality for $X = \1A$.
+        \item Prove the equality for simple functions.
+        \item Use Monotone Convergence Theorem to conclude the equality.
+    \end{enumerate}
+\end{problem*}
+\begin{solution} \leavevmode
+    \begin{enumerate}
+        \item Let $X = \1A$ for some $A \in \B_\R$.
+        Then \begin{align*}
+            \E[X] &= \P(A) \\
+                &= \P\set{\1A = 1} \\
+                &= \int_0^1 \P\set{\1A > 0} \dd t \\
+                &= \int_0^1 \P\set{\1A > t} \dd t \\
+                &= \int_0^\infty \P\set{\1A > t} \dd t.
+        \end{align*} since $\1A$ only takes the values $0$ and $1$.
+        \item Let $X = \sum_{i=1}^n a_i \1{A_i}$ be a simple function
+        where $A_i$'s are pairwise disjoint.
+        Suppose the equality holds for $Y = X - a_n \1{A_n}$.
+        Then \begin{align*}
+            \hspace{-1em}\int_0^\infty \P\set{X > t} \dd t
+                &= \int_0^\infty \P\set{\1{A_n} = 0, Y > t}
+                    + \P\set{\1{A_n} = 1, Y + a_n > t} \dd t \\
+                &= \int_0^\infty \P\set{Y > t} \dd t
+                    + \int_0^\infty \P\set{\1{A_n} = 1, a_n > t} \dd t \\
+                &= \int_0^\infty \P\set{Y > t} \dd t
+                    + \int_0^{a_n} \P(A) \dd t \\
+                &= \E[Y] + a_n \P(A_n) \\
+                &= \E[X].
+        \end{align*}
+        The second equality is since $A_i$'s are disjoint,
+        so that $Y > 0 \implies \1{A_n} = 0$
+        and (contrapositive) $\1{A_n} = 1 \implies Y = 0$.
+        By induction, the equality holds for all simple functions.
+        \item Let $X_n$ be a sequence of simple functions such that
+        $X_n \upto X$ a.s. (this can always be done as discussed in
+        the tutorial).
+        Then $\E[X_n] \upto \E[X]$ by Monotone Convergence Theorem.
+
+        \begin{claim}
+            For any $t > 0$, $\P\set{X_n > t} \upto \P\set{X > t}$.
+        \end{claim}
+        \begin{subproof}[Proof of claim]
+            Since $X_n \upto X$ a.s., we immediately have
+            that $\1{\set{X_n > t}}$ form an increasing sequence
+            almost surely.
+
+            Let $\omega \in \Omega$ be such that
+            $X_n(\omega) \upto X(\omega)$.
+            Suppose $X(\omega) > t$.
+            Then for large enough $n$, $X_n(\omega) > t$.
+            Thus $\1{\set{X_n > t}}(\omega) \upto 1 = \1{\set{X > t}}(\omega)$.
+            If $X(\omega) \le t$, then $X_n(\omega) \le t$ for all $n$
+            and $\1{\set{X_n > t}}(\omega) \upto 0 = \1{\set{X > t}}(\omega)$.
+
+            Generalizing, we have $\1{\set{X_n > t}} \upto \1{\set{X > t}}$
+            almost surely.
+            MCT gives the result.
+        \end{subproof}
+
+        For each $n \in \N$, we have \begin{align*}
+            \int_0^\infty \P\set{X > t} \dd t
+                &\ge \int_0^\infty \P\set{X_n > t} \dd t \\
+            \implies \int_0^\infty \P\set{X > t} \dd t
+                &\ge \lim_{n \to \infty} \int_0^\infty \P\set{X > t} \dd t \\
+                &= \lim_{n \to \infty} \E[X_n] \\
+                &= \E[X].
+            \intertext{However, Fatou's lemma gives}
+            \int_0^\infty \P\set{X > t} \dd t
+                &= \int_0^\infty \lim_{n\to\infty} \P\set{X_n > t} \dd t \\
+                &\le \liminf_{n\to\infty} \int_0^\infty \P\set{X_n > t} \dd t \\
+                &= \liminf_{n\to\infty} \E[X_n] \\
+                &= \E[X].
+        \end{align*}
+        Together they yield the desired equality. \qedhere
+    \end{enumerate}
+\end{solution}
+
+\end{document}
+

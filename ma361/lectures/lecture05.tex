@@ -1,6 +1,6 @@
 \lecture{2024-08-20}{}
 
-\begin{definition}
+\begin{definition} \label{def:dto}
     If $\mu_n, \mu \in P(\R)$ and $d(\mu_n, \mu) \to 0$ then we say that
     $\mu_n$ \emph{converges in distribution} to $\mu$ and write
     $\mu_n \dto \mu$.
@@ -11,13 +11,15 @@
     Yet others write $\mu_n \Rightarrow \mu$.
 \end{remark}
 
-\begin{proposition}
+We now prove an extremely powerful result for showing convergence of
+probability measures.
+\begin{proposition*} \label{thm:dto:cont}
     Let $\mu_n, \mu \in P(\R)$.
     Then \[
         \mu_n \dto \mu \iff F_{\mu_n}(x) \to F_\mu(x) \text{ for all } x
         \text{ where } F_\mu \text{ is continuous.}
     \]
-\end{proposition}
+\end{proposition*}
 \begin{examples}
     \item $\delta_{\frac1n} \dto \delta_0$ because \[
         \lim_{n \to \infty} F_{\delta_{1/n}}(x) = \begin{cases}
@@ -96,12 +98,16 @@
     \end{description}
     Thus $d(\mu_n, \mu) \to 0$.
 \end{proof}
-\begin{remark}
-    Notice that the converse did not use the continuity of $F$ at all.
+\begin{remarks}
+    \item We will now frequently show $F_{\mu_n} \to F_\mu$ at all
+    continuity points of $F_\mu$, to show that $\mu_n \dto \mu$.
+    In fact, many authors use this proposition as the \emph{definition} of
+    convergence, without even mentioning the L\'evy metric.
+    \item Notice that the converse did not use the continuity of $F$ at all.
     All that was required is that the points of continuity of $F$ are dense.
     Thus we have the following proposition immediately.
-\end{remark}
-\begin{proposition}
+\end{remarks}
+\begin{proposition} \label{thm:dto:dense}
     Let $\mu_n, \mu \in P(\R)$ and let $D$ be a dense subset of \R.
     Then \[
         F_{\mu_n}(x) \to F_\mu(x) \text{ for all } x \in D
@@ -110,15 +116,16 @@
 \end{proposition}
 
 $(P(\R), d_{\text{L\'evy}})$ is a metric space.
-It is interesting to ask what the \emph{compact} subsets of this space are.
+It is interesting to ask what the \emph{compact} subsets of this space are,
+so that we can exploit convergence of subsequences.
 % TODO: Review Arzelà-Ascoli
 
-\begin{definition}
+\begin{definition*} \label{def:tight}
     A subset $\mcA \subseteq P(\R)$ is \emph{tight} if for all $\eps > 0$
     there exists a compact set $K_\eps$ such that \[
         \mu(K_\eps^c) \le \eps \text{ for all } \mu \in \mcA.
     \]
-\end{definition}
+\end{definition*}
 For $\R$, it only makes sense to consider $K_\eps = [-M_\eps, M_\eps]$.
 Such an $M_\eps$ exists for each $\mu \in \mcA$ individually, but not
 neccessarily for all $\mu \in \mcA$ simultaneously.
@@ -134,22 +141,23 @@ neccessarily for all $\mu \in \mcA$ simultaneously.
     \item $\set{\delta_{\frac1n}}_{n \in \N}$ is tight.
 \end{examples}
 
-\begin{definition}
+\begin{definition} \label{def:pre-compact}
     A set $E \subseteq (X, d)$ is \emph{pre-compact} if its closure
     $\wbar{E}$ is compact.
 \end{definition}
-\begin{theorem*}
+\begin{theorem*} \label{thm:pre-compact}
     Any $\mcA \subseteq P(\R)$ is pre-compact iff it is tight.
 \end{theorem*}
+We will cover two prerequisites before we prove this theorem.
 
-\begin{theorem}[Helly's selection principle] \label{thm:selection}
+\begin{theorem*}[Helly's selection principle] \label{thm:helly}
     Let $\mu_n \in P(\R)$.
     Then there is a subsequence $n_1 < n_2 < \dots$ and an increasing,
-    right continuous functio $F\colon \R \to [0, 1]$ such that \[
+    right continuous function $F\colon \R \to [0, 1]$ such that \[
         F_{\mu_{n_k}}(x) \to F(x) \text{ for all } x \text{ where } F
             \text{ is continuous.}
     \]
-\end{theorem}
+\end{theorem*}
 $F$ may be a ``defective CDF''.
 It need not go to $0$ to the left, nor $1$ to the right.
 \begin{examples}

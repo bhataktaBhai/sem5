@@ -1,5 +1,6 @@
 \documentclass[12pt]{article}
 \input{../preamble}
+\setenumerate{label=(\arabic*)}
 
 \title{Homework 2}
 \author{Naman Mishra (22223)}
@@ -10,9 +11,9 @@
 
 % Problem 1
 \begin{problem} \leavevmode
-    \begin{enumerate}[(1)]
+    \begin{enumerate}
         \item Let $\Omega$ be a set and $A \subseteq \Omega$.
-        Define a dunction $\1A\colon \Omega \to \R$ as follows. \[
+        Define a function $\1A\colon \Omega \to \R$ as follows. \[
             \1A(\omega) = \begin{cases}
                 1 & \text{if } \omega \in A \\
                 0 & \text{if } \omega \notin A.
@@ -25,7 +26,7 @@
     \end{enumerate}
 \end{problem}
 \begin{solution} \leavevmode
-    \begin{enumerate}[(1)]
+    \begin{enumerate}
         \item We need $\1A^{-1}(B) \in \F$ for $B \in \mcB(\R)$. \[
                 (\1A)^{-1}(B) = \begin{cases}
                     \O & \text{if } 0, 1 \notin B, \\
@@ -52,7 +53,17 @@
 \begin{problem}
     Recall the L\'evy metric $d$ defined in class.
     Show the following.
-    \begin{enumerate}[(2)]
+    \begin{enumerate}
+        \item Let $a_n$ be a sequence of real numbers converging to $a$.
+        For any $x \in \R$, $\delta_x$ is the measure define as follows:
+        for $A \subseteq \R$, \[
+            \delta_x(A) = \begin{cases}
+                1 & \text{if } x \in A, \\
+                0 & \text{if } x \notin A.
+            \end{cases}
+        \] Using the definition of the metric show that \[
+            d(\delta_{a_n}, \delta_a) \to 0 \text{ as } n \to \infty.
+        \]
         \item Consider the sequence of measures
         $\mu_n \coloneq \frac1n \sum_{i=1}^n \delta_{i/n}$
         and $\mu$ is the uniform measure on $[0, 1]$.
@@ -63,7 +74,16 @@
     \end{enumerate}
 \end{problem}
 \begin{solution} \leavevmode
-    \begin{enumerate}[(2)]
+    \begin{enumerate}
+        \item The CDF of $\delta_x$ is $F_x(\omega) = [\omega \ge x]$.
+        If $\abs{x - y} = \eps$, then \[
+            F_x(\omega + \eps) = [\omega + \eps \ge x]
+            = [\omega \ge x - \eps]
+            \ge [\omega \ge y]
+            = F_y(\omega)
+        \] since $\omega \ge y \implies \omega \ge x - \abs{x - y}$.
+        Thus $d(\delta_x, \delta_y) \le \abs{x - y}$.
+        As $a_n \to a$, $d(\delta_{a_n}, \delta_a) \to 0$.
         \item The CDF of $\mu$ is $F(x) = x$ for $x \in [0, 1]$.
         The CDF of $\mu_n$ is \[
             F_n(x) = \frac{\floor{nx}}n \quad \text{for } x \in [0, 1].
@@ -90,5 +110,21 @@
         by the squeeze theorem. \qedhere
     \end{enumerate}
 \end{solution}
+
+% Problem 3
+\begin{problem}
+    For $k \ge 0$, define the functions $r_k\colon [0, 1) \to \R$ by
+    writing $[0, 1) = \bigsqcup\limits_{0 \le j < 2^k} I_j^{(k)}$ where
+    $I_j^{(k)}$ is the dyadic interval
+    $[j2^{-k}, (j + 1)2^{-k})$ and setting \[
+        r_k(x) = \begin{cases}
+            -1 & \text{if } x \in I_j^{(k)} \text{ for odd } j, \\
+            1 & \text{if } x \in I_j^{(k)} \text{ for even } j.
+        \end{cases}
+    \]
+    Fix $n \ge 1$ and define $T_n\colon [0, 1) \to \set{-1, 1}^n$ by
+    $T_n(x) = (r_0(x), \dots, r_{n-1}(x))$.
+    Find the push-forward of the Lebesgue measure on $[0, 1)$ under $T_n$.
+\end{problem}
 
 \end{document}

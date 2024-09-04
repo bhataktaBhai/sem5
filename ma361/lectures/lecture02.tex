@@ -54,6 +54,33 @@ A frequent choice for $\mcS$ is the following.
     $\sigma$-algebra containing all open sets in $X$, and is denoted
     $\B(X)$.
 \end{definition*}
+\begin{exercise}[self] \label{thm:borel-R}
+    Show that $\sigma\set{(a, b) \mid a, b \in \R} = \B(\R)$.
+\end{exercise}
+\begin{solution}
+    Let $\Sigma = \sigma\set{(a, b) \mid a, b \in \R}$.
+    It is obvious that $\Sigma \subseteq \B(\R)$, since the set of
+    intervals is a subset of the set of all open sets.
+
+    We will show that each open set can be written as a countable union
+    of open intervals.
+    Then $\set{U \subseteq \R \mid U \text{ is open}}$ would be
+    necessarily contained in $\Sigma$ by \labelcref{def:sigma:u},
+    and so $\B(\R) \subseteq \Sigma$.
+
+    Let $U \in \R$ be open.
+    For each $x \in U$, there exists a bounded open interval
+    $I_x = (a_x, b_x) \subseteq U$ containing $x$.
+    Let $(\alpha_n)_{n \in \N}$ be an enumeration of the rationals,
+    and define \[
+        I_n = \bigcup_{I_x \ni \alpha_n} I_x.
+    \] Observe that $I_n = (\inf a_x, \sup b_x)$,
+    where the inf and sup are taken over $I_x \ni \alpha_n$.
+
+    But each $I_x$ contains a rational number,
+    so $U = \bigcup_n I_n$ is a countable union of open intervals.
+\end{solution}
+\crefifdef{prb:borel-R}{Homework 1, problem 8} presents a neater argument.
 
 \subsection{The probability measure}
 There is some collection $\mcS \subseteq \Omega$ for which we know what

@@ -1,0 +1,181 @@
+\lecture{2024-08-22}{}
+
+When does Helly's selection give a defective CDF?
+Whenever some mass escapes out to $\pm \infty$.
+For example, in
+$\mu_n = \frac14 \delta_{-n} + \frac12 \delta_0 + \frac14 \delta_n$,
+whose limit is the constant $x \mapsto \frac12$.
+If the mass does not escape, we should get a proper CDF.
+This is where tightness comes in (\cref{thm:pre-compact}).
+
+\begin{lemma} \label{thm:limit-defective}
+    Suppose $\mu_n \in P(\R)$ and $F$ is a possibly defective CDF.
+    Suppose $F_{\mu_n} \to F$ at all continuity points of $F$.
+    Then $F = F_{\mu}$ for some $\mu \in P(\R)$ iff
+    $\set{\mu_n}$ is tight.
+\end{lemma}
+\begin{proof}
+    $\bm{({\implies})}$ Suppose $F = F_\mu$.
+    Let $\eps > 0$ be given.
+    Let $M_1, M_2$ be such that $F(M_1) < \eps$ and $F(M_2) > 1 - \eps$.
+    We can choose $M_1, M_2$ to be continuity points of $F$,
+    since it is continuous at all but countably many points.
+
+    Since $F_{\mu_n} \to F$ at all continuity points of $F$,
+    $F_{\mu_n}(M_1) \to F(M_1) < \eps$ and
+    $F_{\mu_n}(M_2) \to F(M_2) > 1 - \eps$.
+    Thus there is some $N$ such that for all $n \ge N$,
+    $F_{\mu_n}(M_1) < \eps$ and $F_{\mu_n}(M_2) > 1 - \eps$, that is, \[
+        \mu_n[M_1, M_2] > 1 - 2\eps \text{ for all } n \ge N.
+    \] We need to show this for all $n$.
+    Simply pick $M_1' < M_1$ and $M_2' > M_2$ such that
+    $\mu_n[M_1', M_2'] > 1 - 2\eps$ for all $n < N$, which are only
+    finitely many.
+    Thus $\set{\mu_n}$ is tight.
+
+    $\bm{({\impliedby})}$ Now suppose $\set{\mu_n}$ is tight.
+    Let $\eps > 0$.
+    Pick $M_1 < M_2$ such that $\mu_n[M_1, M_2] > 1 - \eps$ for all $n$,
+    ensuring again that $F$ is continuous at $M_1, M_2$.
+    Then \[
+        F(M_1) = \lim F_{\mu_n}(M_1) \le \eps
+        \quad \text{and} \quad
+        F(M_2) = \lim F_{\mu_n}(M_2) \ge 1 - \eps.
+    \] Thus $F$ is not defective.
+\end{proof}
+
+We can now prove \cref{thm:pre-compact}.
+\begin{proof}[Proof of \cref{thm:pre-compact}]
+    $\bm{(\implies)}$ Suppose $\mcA$ is not tight.
+    That is, there is some $\eps > 0$ such that for all $M > 0$,
+    there is some $\mu \in \mcA$ for which $\mu[-M, M]^c > \eps$.
+    Thus we have a sequence $(\mu_n)_{n \in \N} \subseteq \mcA$ such that
+    $\mu_n[-n, n]^c > \eps$ for all $n$.
+
+    Note that no subsequence of $(\mu_n)$ is tight.
+    Thus the previous lemma gives that no subsequence of $(\mu_n)$
+    can converge to a proper CDF, and hence $\mcA$ is not pre-compact.
+
+    $\bm{(\impliedby)}$ Suppose $\mcA$ is tight.
+    Let $(\mu_n)_{n \in \N} \subseteq \mcA$.
+    By \nameref{thm:helly}, there exists a subsequence
+    $(\mu_{n_k})_{k \in \N}$ and a possibly defective CDF $F$
+    such that $F_{\mu_{n_k}} \to F$ at all continuity points of $F$.
+    But $(\mu_{n_k})$ is tight, so by the previous lemma,
+    $F$ is a proper CDF.
+\end{proof}
+
+\textbf{Recap:} We have covered the following so far.
+\begin{itemize}
+    \item Probability spaces $(\Omega, \F, \P)$ in \cref{sec:prob}.
+    \item Where $\F$ and $\P$ come from.
+    \item Construction of probability measures:
+    \begin{itemize}
+        \item Lebesgue measure
+        \item Coin-tossing measure
+        \item Every measure on \R.
+    \end{itemize}
+    \item L\'evy metric and convergence in distribution in terms of CDFs.
+    \item Tightness and Helly's selection.
+\end{itemize}
+
+\chapter{The Lebesgue integral} \label{chp:lebesgue}
+Fix a probability space $(\Omega, \F, \P)$.
+For this chapter, we will let $\RV$ denote the collection
+of all (real-valued) random variables,
+and $\RV_+$ denote the collection of all non-negative random variables.
+
+That is, all functions $X\colon \Omega \to \wbar{\R}$ such that for each
+$B \in \mcB(\wbar{R})$, $X^{-1}(B) \in \F$.
+
+Notice that the codomain of $X$ is $\wbar{\R}$, the extended real numbers.
+This is because it is often convenient to allow random variables to take
+infinite values.
+In fact, whenever we say ``real-valued'',
+we will mean ``extended real-valued''.
+
+We will need to define the Borel $\sigma$-algebra on $\wbar{\R}$.
+For this we define the following metric.
+\begin{definition}[Metric on $\wbar{\R}$] \label{def:metric-extended-reals}
+    For $x, y \in \wbar{\R}$, we define the metric \[
+        d_{\wbar{\R}}(x, y) =
+            \abs*{\frac{x}{1 + \abs x} - \frac{y}{1 + \abs y}}.
+    \]
+\end{definition}
+
+\begin{exercise}
+    Check that any function
+    $X\colon (\Omega, \F) \to \ab(\wbar{\R}, \mcB(\wbar{\R}))$
+    is measurable iff \[
+        \set{X \le t} \coloneq \set{\omega \in \Omega \mid X(\omega) \le t}
+        \in \F \quad \text{for all } t \in \R.
+    \]
+\end{exercise}
+
+\begin{theorem*}[existence and uniqueness of expectation]
+\label{thm:expectation}
+    There is a unique function $E\colon \RV_+ \to [0, \infty]$ called
+    the \emph{expectation} such that
+    \begin{enumerate}[label=\small(E\arabic*)]
+        \item (pseudo-linearity)
+            $E[\alpha X + \beta Y] = \alpha E[X] + \beta E[Y]$
+            for every $X, Y \in \RV_+$ and $\alpha, \beta \ge 0$;
+        \item (positivity) $E[X] \ge 0$ with equality iff $X = 0$ almost
+            surely; % TODO: define a.s.
+        \item (indicator) $E[\1A] = \P(A)$ for all $A \in \F$;
+        \item (monotone convergence) If $X_n \upto X$ almost surely
+        (that is, $\P\set{\omega \in \Omega \mid X_n(\omega)
+        \upto X(\omega)} = 1$), then
+            $E[X_n] \uparrow E[X]$.
+    \end{enumerate}
+\end{theorem*}
+
+\begin{exercise}
+    Let $X_n \in \RV$.
+    Show that the following are measurable sets.
+    \begin{enumerate}
+        \item $\set{\omega \mid \lim X_n = 0}$
+        \item $\set{\omega \mid \lim X_n \text{ exists}}$
+    \end{enumerate}
+\end{exercise}
+
+\begin{definition}[Expectation] \label{def:expectation}
+    For $X \in \RV$, let $X_+ = X \vee 0$ and $X_- = (-X) \vee 0$.
+    Then $X_+, X_- \in \RV_+$ and $X = X_+ - X_-$, $\abs X = X_+ + X_-$.
+    If $E \abs X < \infty$, we say $X$ is \emph{integrable} or that
+    $X$ \emph{has expectation} and define
+    $\E[X] \coloneq E[X_+] - E[X_-]$.
+\end{definition}
+
+\begin{proposition}
+    \leavevmode
+    \begin{enumerate}
+        \item (linearity) If $X, Y \in \RV$ are integrable and
+            $\alpha, \beta \in \R$, then $\alpha X + \beta Y$ is integrable
+            and $\E[\alpha X + \beta Y] = \alpha \E[X] + \beta \E[Y]$.
+        \item (positivity) If $X \in \RV_+$ then $\E[X] \ge 0$,
+            with equality only if $X = 0$ almost surely.
+        \item (indicator) $\E[\1A] = \P(A)$ for all $A \in \F$.
+    \end{enumerate}
+\end{proposition}
+
+\section{Lebesgue as super-Riemann} \label{sec:lebesgue-riemann}
+The expectation is a generalization of the Riemann integral.
+\begin{proposition*}
+    Fix $(\Omega, \F, \P) = \ab([0, 1], \mcB([0, 1]), \lambda)$.
+    Let $f\colon [0, 1] \to \R$ be continuous.
+    Then $f \in \RV$ and $\E[f] = \int_0^1 f(x) \dd x$.
+\end{proposition*}
+\begin{proof}
+    $f$ is measurable since the pre-image of each open set is open.
+    $f$ is bounded by the extreme value theorem.
+
+    Let $M = \sup \abs {f(x)}$.
+    Then $\E\abs f \le M \E[\1{[0, 1]}] = M$ is well-defined.
+
+    Let $(f_n)_n$ be a sequence of step functions bounded above by $f$
+    that converges pointwise to $f$.
+    Then $\E[f_n] = \int_0^1 f_n(x) \dd x$ by indicators and linearity.
+    By the monotone convergence theorem, $\E[f_n] \uparrow \E[f]$.
+    Thus $\E[f] = \int_0^1 f(x) \dd x$.
+\end{proof}

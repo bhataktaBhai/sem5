@@ -1,0 +1,55 @@
+\tutorial[2]{2024-08-27}{hmm}
+
+\begin{proof}[Proof of \cref{thm:expectation} (existence)]
+    Fix a probability space $(\Omega, \F, P)$.
+
+    We will only consider non-negative random variables.
+    We define a \emph{simple function} on $\Omega$ to be a random variable
+    whose range is finite.
+    For a simple function $X$ taking values $x_1, \dots, x_n$ on
+    sets $A_1, \dots, A_n \in \F$, we define the expectation of $X$ to be \[
+        \E[X] = \sum_{i=1}^n x_i P(A_i).
+    \] For a general random variable $X$, we define the expectation of $X$
+    to be \[
+        \E[X] = \sup\set{\E[\phi] : 0 \le \phi \le X, \phi \text{ simple}}.
+    \]
+    We have to show
+    \begin{itemize}
+        \item $\E[X]$ is well-defined and agrees with the first definition
+            when $X$ is simple.
+        \item $\E[\1A] = P(A)$ for any $A \in \F$.
+        \item $\E[X]$ is linear.
+        \item $\E[X] \le \E[Y]$ if $X \le Y$.
+    \end{itemize}
+    \begin{equation}
+        \E\ab[\phi \1{\bigsqcup_{i=1}^\infty A_i}]
+            = \sum_{i=1}^\infty \E[\phi \1{A_i}]
+            \label{eq:countable-additivity}
+    \end{equation}
+
+    Let $\eps > 0$ be arbitrary and \[
+        E_n = \set{\omega \in \Omega : X_n(\omega) \ge
+                (1 - \eps) \phi(\omega)}.
+    \] Note that $E_n \subseteq E_{n+1}$ and
+    $\bigcup_{n=1}^\infty E_n = \Omega$.
+    That is, $E_n \upto \Omega$.
+    Now \begin{align*}
+        \E[X_n] &\ge \E[X_n \1{E_n}] \\
+            &\ge \E[(1 - \eps) \phi \1{E_n}] \\
+            &= (1 - \eps) \E[\phi \1{E_n}]
+    \end{align*}
+    Since $E_n \upto \Omega$, we have \[
+        \lim_{n \to \infty} \E[X_n] \ge (1 - \eps) \E[\phi]
+    \] by \cref{eq:countable-additivity}.
+\end{proof}
+
+\begin{proposition}[simple function approximation] \label{thm:simple-approx}
+    Let $X\colon (\Omega, \F, \P) \to \R$ be a random variable,
+    and let $f\colon \R \to \R$.
+    Then \[
+        \E[f(X)] = \int f(X) \dd \P = \int f(x) \dd \mu,
+    \] where $\mu$ is the push-forward measure \begin{align*}
+        \mu\colon \R &\to \R \\
+        A &\mapsto \P(X^{-1}(A))
+    \end{align*}
+\end{proposition}

@@ -1,0 +1,174 @@
+\documentclass[12pt]{article}
+\usepackage{geometry}
+\input{../preamble}
+
+\title{Homework 3}
+\author{Naman Mishra (22223)}
+\date{26 August, 2024}
+
+\begin{document}
+\maketitle
+
+% Problem 1
+\begin{problem*}
+    Suppose $\mu_n, \mu$ are discrete probability measures supported on
+    $\Z$ having probability mass functions $p_n, p$ respectively.
+    Show that $\mu_n \dto \mu$ if and only if $p_n(k) \to p(k)$
+    for each $k \in \Z$.
+\end{problem*}
+\begin{solution}
+    Let $F_n, F$ be the CDFs of $\mu_n, \mu$ respectively.
+
+    \noindent $\bm{(\!\implies\!)}$ Suppose $\mu_n \dto \mu$.
+    % Note that for each $x \in \R$,
+    % $F(y) = F(x)$ for all $y$ in some interval $[x, x + \eps_x)$.
+    Fix a $k \in \Z$.
+    Let $0 < \eps < 1$.
+    Then there exists an $N \in \N$ such that
+    $d(\mu_n, \mu) \le \eps$ for all $n \ge N$.
+
+    For each $m \in \Z$, $F_n$ and $F$ are constant on $[m, m+\eps]$.
+    Thus for each $m \in \N$,
+    \begin{align*}
+        F_n(m + \eps) + \eps \ge F(m) &\implies F(m) - F_n(m) \le \eps, \\
+        F(m + \eps) + \eps \ge F_n(m) &\implies F_n(m) - F(m) \le \eps.
+    \end{align*}
+    Thus for $n \ge N$, \[
+        \abs{F_n(k) - F(k)} \le \eps
+        \quad \text{and} \quad
+        \abs{F_n(k-1) - F(k-1)} \le \eps.
+    \]
+    This gives \begin{align*}
+        \abs{p_n(k) - p(k)} &= \abs{F_n(k) - F_n(k-1) - F(k) + F(k-1)} \\
+        &\le \abs{F_n(k) - F(k)} + \abs{F_n(k-1) - F(k-1)} \\
+        &\le 2\eps.
+    \end{align*} Since $\eps$ was arbitrary, $p_n(k) \to p(k)$.
+    \vspace{1em}%
+
+    \noindent $\bm{(\!\impliedby\!)}$
+    Conversely, suppose $p_n(k) \to p(k)$ for each $k \in \Z$.
+    Fix an $x \in \Z$ and let $\eps > 0$.
+
+    Since $\mu[-k, k] \to 1$ as $k \to \infty$, we can choose $M \in \N$
+    such that $[-M, M] \ni x$ and $\mu[-M, M] > 1 - \eps$.
+    This forces $\mu(-\infty, -M) < \eps$.
+
+    For each $k \in [-M, M]$, there exists an $N_k \in \N$ such that
+    $\abs{p_n(k) - p(k)} < \frac{\eps}{2M+1}$ for all $n \ge N_k$.
+    Choosing $N$ to be the maximum of these $N_k$'s
+    gives for each $n \ge N$,
+    \begin{align*}
+        \mu_n[-M, M] &= \sum_{k=-M}^M p_n(k) \\
+            &= \sum_{k=-M}^M p(k) + \sum_{k=-M}^M (p_n(k) - p(k)) \\
+            &> 1 - \eps - \sum_{k=-M}^M \frac{\eps}{2M+1} \\
+            &= 1 - 2\eps.
+    \end{align*}
+    Thus $\mu_n(-\infty, -M) < 2\eps$ for each $n \ge N$, so \begin{align*}
+        F_n(x) - F(x) &= \mu_n(-\infty, x] - \mu(-\infty, x] \\
+            &= \mu_n(-\infty, -M) - \mu(-\infty, -M)
+                + \mu_n[-M, x] - \mu[-M, x] \\
+            &= \mu_n(-\infty, -M) - \mu(-\infty, -M)
+                + \sum_{k=-M}^x (p_n(k) - p(k)) \\
+        \implies \abs{F_n(x) - F(x)} &< 3\eps
+                + \sum_{k=-M}^x \frac{\eps}{2M+1} \\
+            &< 4\eps.
+    \end{align*}
+    Thus $F_n(x) \to F(x)$ for each $x \in \Z$,
+    and so $F_n(y) = F_n(\floor y) \to F(\floor y) = F(y)$ for each
+    $y \in \R$.
+    By \crefifdef{thm:dto:cont}{a proposition done in class},
+    we have $\mu_n \dto \mu$.
+\end{solution}
+
+% Problem 2
+\begin{problem*}
+    For what $A \subseteq \R$ and $B \subseteq (0, \infty)$
+    is the restricted family
+    $\set{N(\mu, \sigma^2) \mid \mu \in A, \sigma^2 \in B}$ tight?
+\end{problem*}
+We will throughout assume that $\sigma > 0$.
+\begin{solution}
+    Call the given family $\mcA$.
+    Denote the pdf of the measure $N_{\mu,\sigma^2} = N(\mu, \sigma^2)$
+    by $f_{\mu,\sigma^2}$.
+    \[
+        f_{\mu,\sigma^2}(x) = \frac1{\sigma\sqrt{2\pi}}
+            \exp\ab(-\frac{(x-\mu)^2}{2\sigma^2}).
+    \]
+
+    $\mcA$ is tight iff $A$ and $B$ are bounded,
+    or vacuously so if one of them is empty.
+    We will ignore the empty case hereon.
+
+    To show that $\mcA$ is not tight, it suffices to produce an $\eps > 0$
+    such that for each compact $K = [a, b] \subseteq \R$, there exists a
+    $\rho \in \mcA$ such that $\rho(K^c) \ge \eps$.
+    \begin{itemize}
+        \item Suppose $A$ is unbounded and let $\sigma^2 \in B$.
+        Then for each set $K = [a, b] \subseteq \R$,
+        there exists a $\mu \in A \setminus K$.
+        If $\mu > b$, then \[
+            N_{\mu,\sigma^2}(K^c) \ge N_{\mu,\sigma^2}[\mu,\infty)
+                = \frac12.
+        \] Similarly, if $\mu < a$, then \[
+            N_{\mu,\sigma^2}(K^c) \ge N_{\mu,\sigma^2}(-\infty,\mu]
+                = \frac12.
+        \] Thus $\mcA$ is not tight.
+
+        \item Suppose $B$ is unbounded and let $\mu \in A$.
+        Let $K = [a, b] \subseteq \R$.
+        If $\mu \notin K$, then $N_{\mu,\sigma^2}(K^c) \ge \frac12$ as in
+        the previous case.
+        If $\mu \in K$, choosing $\sigma^2 > (b-a)^2$ yields \[
+            N_{\mu,\sigma^2}(K) = \int_a^b f_{\mu,\sigma^2}(x) \dd x \\
+            \le \int_a^b \frac1{\sqrt{2\pi\sigma^2}} \dd x \\
+            = \frac{b-a}{\sqrt{2\pi\sigma^2}} \\
+            < \frac1{\sqrt{2\pi}}.
+        \] Thus $N_{\mu,\sigma^2}(K^c) > 1 - \frac1{\sqrt{2\pi}} > 0$.
+        $\mcA$ is not tight.
+    \end{itemize}
+    To show that $\mcA$ is tight whenever $A$ and $B$ are bounded,
+    we will need the following claim.
+    \begin{claim}
+        For each $\mu \in \R$, $\sigma^2 \in (0, \infty)$
+        and $a, b \in \R$, \[
+            N_{\mu,\sigma^2}[a, b] = N_{0,1}\ab[\frac{a - \mu}{\sigma},
+                \frac{b - \mu}{\sigma}].
+        \]
+    \end{claim}
+    \begin{subproof}[Proof]\; \vspace{-1.5em}
+        \begin{align*}
+            N_{\mu,\sigma^2}[a, b] &= \int_a^b \frac1{\sigma\sqrt{2\pi}}
+                    e^{-\frac12 \ab(\frac{x-\mu}{\sigma})^2} \dd x \\
+                &= \int_{\frac{a-\mu}{\sigma}}^{\frac{b-\mu}{\sigma}}
+                    \frac1{\sqrt{2\pi}} e^{-\frac12 y^2} \dd y
+                    \tag{substitute $y = \frac{x - \mu}{\sigma}$} \\
+                &= N_{0,1}\ab[\frac{a-\mu}{\sigma},\frac{b-\mu}{\sigma}].
+                    \tag*{\qedhere}
+        \end{align*}
+    \end{subproof}
+    Suppose $A$ and $B$ are bounded.
+    Let $M$ be such that $A \subseteq [-M, M]$ and $B \subseteq (0, M^2]$.
+    Given $\eps > 0$, let $\delta > 0$ be such that
+    $N_{0,1}[-\delta, \delta] > 1 - \eps$.
+    This exists since $N_{0,1}[-x, x] \to 1$ as $x \to \infty$.
+
+    Choose $K_\eps = [-M - M\delta, M + M\delta]$.
+    Then for each $\rho = N(\mu, \sigma^2) \in \mcA$,
+    \begin{align*}
+        \rho(K) &= N_{\mu,\sigma^2}[-M-M\delta, M+M\delta] \\
+        &= N_{0,1}\ab[\frac{-M\delta-M-\mu}{\sigma},
+                      \frac{M\delta+M-\mu}{\sigma}] \\
+        &\ge N_{0,1}\ab[-\delta - \frac{M+\mu}{M}, \delta + \frac{M-\mu}{M}] \\
+        &\ge N_{0,1}[-\delta, \delta] \tag{$*$} \label{eq:bound} \\
+        &> 1 - \eps
+    \end{align*}
+    ans so $\rho(K_\eps^c) < \eps$.
+    \Cref{eq:bound} is since $\mu \in [-M, M]$ implies
+    $M\pm\mu \in [0, 2M]$ is positive and hence
+    $\ab[-\delta - \frac{M+\mu}{M}, \delta + \frac{M-\mu}{M}]
+    \supseteq [-\delta, \delta]$.
+
+    Since $\eps$ was arbitrary, $\mcA$ is tight.
+\end{solution}
+\end{document}

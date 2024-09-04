@@ -1,0 +1,103 @@
+\lecture{2024-08-23}{}
+\textbf{Next quiz:} Monday, 2024-08-26
+
+\begin{remark}[A subtlety]
+    There could be a strictly finer topology on a set $X$ which is
+    nevertheless homeomorphic.
+
+    Let $\T$ and $\T'$ be topologies on $X$.
+    Then $\T$ is finer that $\T'$ iff $\T \supseteq \T'$ iff
+    $\id\colon (X, \T) \to (X, \T')$ is continuous.
+
+    Thus in a case as above, the \emph{identity map} is not a homeomorphism,
+    but there is some other homeomorphism.
+\end{remark}
+\begin{example}
+    Consider $\R$ with the topologies
+    $\T = \set{(-n, n) \mid n \in \N} \cup \set \R$ and
+    $\T' = \set{(-2n, 2n) \mid n \in \N} \cup \set \R$.
+
+    But $x \mapsto 2x$ is a homeomorphism from
+    $(\R, \T)$ to $(\R, \T')$.
+\end{example}
+
+\begin{theorem}
+    Let $X = \bigcup_\alpha U_\alpha$
+    where each $U_\alpha$ is open.
+    A map $f\colon X \to Y$ is continuous iff $f\vert_{U_\alpha}$
+    is continuous for each $\alpha$,
+    where we consider the subspace topology on each $U_\alpha$.
+\end{theorem}
+\begin{proof}
+    We have already seen that if $f$ is continuous, then
+    all restrictions are continuous.
+
+    Suppose the restrictions are continuous.
+    Let $V \subseteq Y$ be open.
+    Then \[
+        f^{-1}(V) = \bigcup_\alpha (f^{-1}(V) \cap U_\alpha)
+            = \bigcup_\alpha f\vert_{U_\alpha}^{-1}(V)
+    \] is open, since $f\vert_{U_\alpha}^{-1}(V)$ is open in $U_\alpha$
+    and hence in $X$.
+\end{proof}
+
+We say that continuity is a ``local'' property.
+If $f$ is continuous in neighborhoods of each point,
+then $f$ is continuous by the above theorem.
+
+\begin{theorem}[Pasting lemma] \label{thm:pasting-lemma}
+    Suppose $X = A \cup B$ where $A$ and $B$ are closed,
+    and $f\colon A \to Y$ and $g\colon B \to Y$ are continuous
+    with $f = g$ on $A \cap B$.
+    Then $h\colon X \to Y$ defined by \[
+        h(x) = (f \cup g)(x) = \begin{cases}
+            f(x) & \text{if } x \in A, \\
+            g(x) & \text{if } x \in B
+        \end{cases}
+    \] is continuous.
+\end{theorem}
+\begin{proof}
+    Let $C \in Y$ be closed
+    Then \[
+        (f \cup g)^{-1}(C) = f^{-1}(C) \cup g^{-1}(C)
+    \] is closed, since $f^{-1}(C)$ and $g^{-1}(C)$ are closed
+    in $A$ and $B$ respectively, and hence in $X$.
+\end{proof}
+
+\section{Connectedness} \label{sec:connect}
+\begin{definition}[Connectedness] \label{def:connect}
+    $X$ is \emph{connected} if $\O$ and $X$ are the only clopen sets in $X$.
+\end{definition}
+This is an awesome definition.
+The motivation is the following:
+\begin{definition}[Separation] \label{def:connect:separation}
+    A \emph{separation} of $X$ is a pair of disjoint nonempty open sets
+    $U$ and $V$ such that $X = U \cup V$.
+\end{definition}
+
+\begin{proposition}
+    $X$ is connected iff there is no separation of $X$.
+\end{proposition}
+\begin{proof}
+    Suppose there is a separation $U$ and $V$.
+    Then $U$ and $V$ are clopen, but neither is $\O$ or $X$.
+    Thus $X$ is not connected.
+
+    Conversely, suppose there is no separation of $X$.
+    Let $U \ne \O, X$ be open.
+    Then $V = X \setminus U$ cannot be open, since otherwise
+    $U$ and $V$ would separate $X$.
+    Thus $U$ is not closed.
+\end{proof}
+
+\begin{proposition}
+    $[0, 1]$ is connected.
+\end{proposition}
+\begin{proof}
+    Assume $U$ and $V$ separate $[0, 1]$.
+    WLOG suppose $0 \in U$.
+
+    Let $a = \inf V$.
+    Since $V$ is closed, $a \in V$.
+    But $[0, a) \subseteq U$, so $a \in U$ since $U$ is closed.
+\end{proof}

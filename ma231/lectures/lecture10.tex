@@ -1,0 +1,42 @@
+\lecture{2024-08-26}{}
+\begin{lemma}
+    If $f\colon X \to Y$ is continuous and $X$ is connected, then
+    $f(X)$ is connected.
+\end{lemma}
+\begin{proof}
+    Suppose WLOG that $f$ is surjective, \ie, $f(X) = Y$.
+
+    Assume there exist two non-empty disjoint open sets $U, V$ such that
+    $U \cup V = Y$.
+    Then $X = f^{-1}(U \cup V) = f^{-1}(U) \cup f^{-1}(V)$ gives
+    a separation of $X$.
+    The two sets are open by continuity, disjoint by disjointedness in $Y$,
+    and non-empty by surjectivity.
+\end{proof}
+
+\begin{proposition}
+    $\R$ is connected.
+\end{proposition}
+\begin{proof}[Proof 1]
+    Adapt the proof of $[0, 1]$ being connected.
+
+    Let $U, V$ separate $\R$.
+    Let $a = \sup U$.
+\end{proof}
+\begin{proof}[Proof 2]
+    We already know that $[0, 1]$ is connected.
+    For each $n \in \Z^+$, the linear map $0 \mapsto -n$, $1 \mapsto n$
+    is continuous (in fact, a homeomorphism).
+    Thus $[-n, n]$ is connected.
+
+    The union of all these intervals is $\R$, and they intersect in
+    $\set 0$.
+    Thus $\R$ is connected.
+\end{proof}
+\begin{proof}[Proof 3]
+    
+\end{proof}
+
+\begin{lemma}
+    If $X$ and 
+\end{lemma}

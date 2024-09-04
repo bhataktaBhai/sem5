@@ -1,0 +1,290 @@
+\documentclass[12pt]{article}
+\input{~/IISc/sem5/ma212/preamble}
+
+\title{Assignment 1}
+\author{Naman Mishra}
+\date{21 August, 2024}
+
+\begin{document}
+\maketitle
+
+% Problem 1
+\begin{problem}
+    Let $n \ge 3$.
+    Let $r, s$ be the usual generators of $D_{2n}$.
+    Prove that the map $\varphi\colon D_{2n} \to \GL_2(\R)$ defined by
+    \[
+        \varphi(r) = \begin{pmatrix}
+            \cos \theta & -\sin \theta \\
+            \sin \theta & \cos \theta
+        \end{pmatrix} \qquad \varphi(s) = \begin{pmatrix}
+            1 & 0 \\
+            0 & -1
+        \end{pmatrix}
+    \] where $\theta = \frac{2\pi}{n}$ extends to an injective
+    homomorphism.
+\end{problem}
+
+\begin{problem}
+    Show that $(\Z, +) \ncong (\Q, +)$,
+    $S_m \ncong S_n$ for $m \ne n$ and $(\R, +) \ncong (\Q, +)$.
+\end{problem}
+\begin{solution}
+    Let $\varphi\colon (\Z, +) \to (\Q, +)$ be a homomorphism.
+    Let $\varphi(1) = a$.
+    Then $\varphi(n) = na$ for $n \in \N$.
+    $\varphi$ cannot be surjective, as no integer multiple of $a$ can
+    equal $a/2$.
+
+    For $m \ne n$, $S_m$ and $S_n$ have different cardinalities.
+    So do $\R$ and \Q.
+\end{solution}
+
+\begin{problem}
+    For a commutative ring $A$, let \[
+        A^\times = \set{a \in A \mid ab = 1 \text{ for some } b \in A}
+    \] be the unit group of $A$.
+    Show that $A^\times$ is a group (under multiplication).
+
+    Are $\Z[x]^\times$ and $\Q[x]^\times$ isomorphic?
+    Are $(\Z[x], +)$ and $(\Q[x], +)$ isomorphic?
+\end{problem}
+\begin{solution}
+    $1 \in A^\times$ is the identity.
+    If $a_1, a_2 \in A^\times$, then $a_1 a_2 \in A^\times$,
+    since there exist $b_1, b_2 \in A$ such that $(a_1 a_2) (b_2 b_1) =
+    a_1 b_1 = 1$.
+    Associativity is borrowed from $A$.
+    Inverses exist by definition.
+
+    $\Z[x]^\times = \set{1, -1}$,
+    while $\Q[x]^\times = \Q \setminus \set{0}$.
+    They are not isomorphic.
+
+    Assume $\varphi\colon \Q[x] \to \Z[x]$ is an homomorphism.
+    Then $\varphi(p) \ne 0$ for each non-zero polynomial $p$.
+
+    Let $\varphi(1) = a_0 + a_1 x + \dots + a_n x^n$, with $a_n \ne 0$.
+    Now \[
+        \varphi(1) = \varphi\ab(k \cdot \frac1k)
+            = \varphi(k) \varphi\ab(\frac1k)
+            = k \varphi(1) \varphi\ab(\frac1k)
+    \] for each $k \in \Z$.
+    Thus $a_n$ is a multiple of $k$ for each $k \in \Z$.
+    Absurd.
+\end{solution}
+
+\begin{problem}
+    Prove that a finitely generated subgroup of $(\Q, +)$ is cyclic.
+\end{problem}
+\begin{solution}
+    Let $H = \angled*{\frac{m_1}{n_1}, \dots, \frac{m_k}{n_k}}$.
+    Write this as $\angled*{\frac{m'_1}{N}, \dots, \frac{m'_k}{N}}$,
+    where $N = \lcm(n_1, \dots, n_k)$.
+    Then $H = \sum_{i=1}^k a_i \frac{m'_i}{N}$ for some $a_i \in \Z$.
+    Thus \[
+        H = \frac1N \angled*{m'_1, \dots, m'_k}
+        = \frac1N \angled*{\gcd(m'_1, \dots, m'_k)}. \qedhere
+    \]
+\end{solution}
+
+\begin{problem}
+    Show that $(\Z^m, +) \ncong (\Z^n, +)$ for $m \ne n$.
+\end{problem}
+
+\begin{problem}
+    If $\tau_1 = (a_1\ b_1)$ and $\tau_2 = (a_2\ b_2)$ are transpositions
+    in $S_n$ with $\set{a_1, b_1} \cap \set{a_2, b_2} = \O$,
+    show that $\tau_1 \tau_2 = \tau_2 \tau_1$.
+\end{problem}
+\begin{solution}
+    We have \[
+        \tau_1(x) = \begin{cases}
+            b_1 & \text{if } x = a_1, \\
+            a_1 & \text{if } x = b_1, \\
+            x & \text{otherwise}
+        \end{cases}
+        \qquad \text{and} \qquad
+        \tau_2(x) = \begin{cases}
+            b_2 & \text{if } x = a_2, \\
+            a_2 & \text{if } x = b_2, \\
+            x & \text{otherwise.}
+        \end{cases}
+    \] Now \[
+        \tau_1 \tau_2(x) = \begin{cases}
+            b_2 & \text{if } x = a_2, \\
+            a_2 & \text{if } x = b_2, \\
+            b_1 & \text{if } x = a_1, \\
+            a_1 & \text{if } x = b_1, \\
+            x & \text{otherwise}
+        \end{cases}
+        \qquad \text{and} \qquad
+        \tau_2 \tau_1(x) = \begin{cases}
+            b_1 & \text{if } x = a_1, \\
+            a_1 & \text{if } x = b_1, \\
+            b_2 & \text{if } x = a_2, \\
+            a_2 & \text{if } x = b_2, \\
+            x & \text{otherwise.}
+        \end{cases}
+    \] Thus $\tau_1 \tau_2 = \tau_2 \tau_1 = (a_1\ b_1) (a_2\ b_2)$.
+\end{solution}
+
+\begin{problem}
+    Let $X_{2n} = \angled{x, y \mid x^n = y^2 = 1, xy = yx^2}$.
+    What is $X_{2n}$?
+\end{problem}
+\begin{solution}
+    \[
+        x^4 = y^2 x^4 = y(yx^2)x^2 = yx(yx^2) = (yx x)y = xyy = x.
+    \] Thus $x^3 = 1$.
+    If $3 \nmid n$, then $x = 1$ and $X_{2n} = \set{1, y} \cong (\Z_2, +)$.
+
+    If $3 \mid n$, then $X_{2n} = D_6$, since we can simplify the
+    relations to \[
+        X_{2n} = \angled{x, y \mid x^3 = y^2 = 1, xy = yx^{-1}}.
+    \] This is the presentation of $D_6$ with
+    $r \mapsto x$ and $s \mapsto y$.
+\end{solution}
+
+\begin{problem}
+    Let $G = \set*{\begin{pmatrix}
+        \pm 1 & c \\
+        0 & 1
+    \end{pmatrix} \mid c \in \Z/n\Z}$.
+    Show that $G \cong D_{2n}$ ($n \ge 3$).
+\end{problem}
+\begin{solution}
+    Put $R = \begin{pmatrix}
+        1 & 1 \\
+        0 & 1
+    \end{pmatrix}$ and $S = \begin{pmatrix}
+        -1 & 0 \\
+        0 & 1
+    \end{pmatrix}$.
+    Then \[
+        \begin{pmatrix}
+            1 & c \\
+            0 & 1
+        \end{pmatrix} = R^c
+        \qquad \text{and} \qquad
+        \begin{pmatrix}
+            -1 & c \\
+            0 & 1
+        \end{pmatrix} = S R^c.
+    \] Note that $R^n = 1$, $S^2 = 1$ and \[
+        SRS = \begin{pmatrix}
+            -1 & 0 \\
+            0 & 1
+        \end{pmatrix} \begin{pmatrix}
+            -1 & 1 \\
+            0 & 1
+        \end{pmatrix}
+        = \begin{pmatrix}
+            1 & -1 \\
+            0 & 1
+        \end{pmatrix}
+        = R^{-1}.
+    \] Thus $\varphi\colon D_{2n} \to G$ defined by \[
+        \varphi(r) = R \quad \text{and} \quad \varphi(s) = S
+    \] extends to an isomorphism.
+\end{solution}
+
+\begin{problem}
+    Let $H_\R = \set*{\begin{pmatrix}
+        1 & a & b \\
+        0 & 1 & c \\
+        0 & 0 & 1
+    \end{pmatrix} \bigm\mid a, b, c \in \R}$.
+    Show that $H_\R$ is a group and that every non-identity element
+    has infinite order.
+\end{problem}
+\begin{solution}
+    Let $X_1 = \begin{pmatrix}
+        1 & a_1 & b_1 \\
+        0 & 1 & c_1 \\
+        0 & 0 & 1
+    \end{pmatrix}$ and $X_2 = \begin{pmatrix}
+        1 & a_2 & b_2 \\
+        0 & 1 & c_2 \\
+        0 & 0 & 1
+    \end{pmatrix}$ be elements of $H_\R$.
+    Then \[
+        X_1 X_2 = \begin{pmatrix}
+            1 & a_1 + a_2 & b_1 + b_2 + a_1 c_2 \\
+            0 & 1 & c_1 + c_2 \\
+            0 & 0 & 1
+        \end{pmatrix} \in H_\R.
+    \] Note that the identity matrix is in $H_\R$.
+    Associativity is inherited from $M_3(\R)$.
+
+    $a_2 = -a_1$, $c_2 = -c_1$ and $b_2 = -b_1 - a_1 c_2 = a_1 c_1 - b_1$
+    gives $X_1 X_2 = I$.
+
+    Let $X = \begin{pmatrix}
+        1 & a & b \\
+        0 & 1 & c \\
+        0 & 0 & 1
+    \end{pmatrix}$.
+    It is easy to observe that \[
+        X^n = \begin{pmatrix}
+            1 & n a & * \\
+            0 & 1 & n c \\
+            0 & 0 & 1
+        \end{pmatrix}
+    \] If either of $a$ or $c$ is non-zero, then $X^n$ is not the
+    identity matrix.
+    If $a = c = 0$, then \[
+        X^n = \begin{pmatrix}
+            1 & 0 & n b \\
+            0 & 1 & 0 \\
+            0 & 0 & 1
+        \end{pmatrix}.
+    \] Thus $X^n = I$ iff $X = I$.
+\end{solution}
+
+\begin{problem}
+    Define the quaternion group $Q_8 = \set{\pm 1, \pm i, \pm j, \pm k}$
+    with the multiplication laws
+    $i^2 = j^2 = k^2 = -1$, $ij = (-j)i = k$, $jk = (-k)j = i$
+    and $ki = (-i)k = j$.
+    Also assume that $-1$ commutes with and flips the sign of each element.
+    Show that $Q_8$ is a group.
+    Show that every subgroup of $Q_8$ is normal, yet it is not abelian.
+\end{problem}
+\begin{solution}
+    % \begin{table}
+    %     \centering
+    %     $\begin{tblr}{
+    %         colspec = {r *{8}{r}},
+    %         vline{3,4,5,6,7,8,9} = {dotted,.2pt},
+    %         hline{3,4,5,6,7,8,9} = {dotted,.2pt},
+    %         vline{2} = {.5pt},
+    %         hline{2} = {.5pt},
+    %     }
+    %            &  1 & -1 &  i & -i &  j & -j &  k & -k \\
+    %          1 &  1 & -1 &  i & -i &  j & -j &  k & -k \\
+    %         -1 & -1 &  1 & -i &  i & -j &  j & -k &  k \\
+    %          i &  i & -i & -1 &    &  k &    &    &    \\
+    %         -i & -i &  i &    &    &    &    &  j &    \\
+    %          j &  j & -j &    &    & -1 &    &  i &    \\
+    %         -j & -j &  j &  k &    &    &    &    &    \\
+    %          k &  k & -k &  j &    &    &    & -1 &    \\
+    %         -k & -k &  k &    &    &  i &    &    &    \\
+    %     \end{tblr}$
+    % \end{table}
+    I refuse to show it is a group.
+    Let's show that every subgroup is normal.
+    A subgroup $N \le Q_8$ is normal iff
+    $g n g^{-1} \in N$ for all $g \in Q_8$ and $n \in N$.
+
+    $1$ and $-1$ commute with all elements,
+    so we only need to check $n, g \in \set{\pm i, \pm j, \pm k}$.
+
+    WLOG let $n = i$.
+    $n$ commutes with $\pm i$, so $gng^{-1} = n \in N$ if $g = \pm i$.
+    $n$ anti-commutes with $\pm j$ and $\pm k$.
+    So if $g \in \set{\pm j, \pm k}$,
+    then $g n g^{-1} = -n g g^{-1} = -n = n^{-1} \in N$.
+\end{solution}
+
+\end{document}

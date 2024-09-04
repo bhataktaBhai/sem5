@@ -1,0 +1,180 @@
+\lecture{2024-08-26}{}
+We continue with examples.
+\begin{examples}
+    \item Let $G$ act on $X$.
+    Let $S$ be a set.
+    Consider the set $Fn(X, S) = S^X = \set{\text{all function from } X
+    \text{ to } S}$
+    Define the group action $G$ on $S^X$ by \[
+        (g \cdot f)(x) \coloneq f(g \cdot x).
+    \]
+\end{examples}
+
+\section{Normal subgroups} \label{sec:normal}
+\begin{proposition} \label{thm:normal}
+    Let $N \le G$.
+    Consider the set of left cosets $G/N$ with the operation
+    $(uN) \cdot (vN) = (uv)N$.
+    \begin{enumerate}
+        \item \label{thm:normal:well}
+            The above operation is well-defined.
+        \item \label{thm:normal:in}
+            $gng^{-1} \in N$ for all $g \in G$ and $n \in N$.
+        \item \label{thm:normal:equals}
+            $gNg^{-1} = N$ for all $g \in G$.
+    \end{enumerate}
+    If the operation is well-defined, then $G/N$ is a group
+    with identity $1N$ and inverse $(gN)^{-1} = g^{-1}N$.
+\end{proposition}
+\begin{proof}
+    First notice that \labelcref{thm:normal:in} is equivalent to
+    $gNg^{-1} \subseteq N$ for all $g \in G$.
+    Thus \labelcref{thm:normal:in} immediately follows from
+    \labelcref{thm:normal:equals}.
+    Conversely, if \labelcref{thm:normal:in} holds, then
+    $gNg^{-1} \subseteq N$ and
+
+    Recall that $uN = vN$ if and only if $u^{-1}v \in N$.
+
+    Suppoe \labelcref{thm:normal:well} holds.
+    Let $g \in G$ and $n \in N$.
+    Note that $nN = 1N$, so $gnN = gN$, which gives $gng^{-1} \in N$.
+
+    Suppose \labelcref{thm:normal:in} holds.
+    Let $u_1N = u_2N$ and $v_1N = v_2N$.
+    Let $u_2 = u_1 m$ and $v_2 = v_1 n$ for some $m, n \in N$.
+    Then $u_2v_2 = u_1mv_1n = u_1v_1(v_1^{-1})mv_1n \in u_1v_1 N$
+    since $v_1^{-1}mv_1 \in N$.
+\end{proof}
+
+\begin{definition}[normal subgroup] \label{def:normal}
+    A subgroup $N \le G$ is \emph{normal} if $gNg^{-1} = N$
+    for all $g \in G$.
+    We write $N \nsub G$.
+\end{definition}
+
+\begin{definition}[normalizer] \label{def:normal:normalizer}
+    Let $S \subseteq G$.
+    The \emph{normalizer} of $S$ in $G$ is the set \[
+        N_G(S) = \set{g \in G \mid gSg^{-1} = S}.
+    \]
+\end{definition}
+
+\begin{exercise}[self]
+    When is the normalizer
+    \begin{itemize}
+        \item a subgroup?
+        \item normal?
+    \end{itemize}
+\end{exercise}
+\begin{proof}
+    Let $S$ be any subset of $G$.
+    Note that $1 \in N_G(S)$.
+    Suppose $g, h \in N_G(S)$.
+    That is, $gSg^{-1} = S$ and $hSh^{-1} = S$.
+    Then \[
+        (gh)S(gh)^{-1} = g(hSh^{-1})g^{-1} = gSg^{-1} = S,
+    \] so $N_G(S)$ is closed under products.
+
+    However, closure under inverses is not guaranteed.
+    Consider
+\end{proof}
+
+\begin{exercise} \label{thm:normal:prop}
+    The following are equivalent.
+    \begin{enumerate}
+        \item \label{thm:normal:prop:normal}
+            $N \nsub G$.
+        \item \label{thm:normal:prop:normalizer}
+            $N_G(N) = G$.
+        \item \label{thm:normal:prop:conjugate}
+            $gN = Ng$ for all $g \in G$.
+        \item \label{thm:normal:prop:quotient}
+            $G/N$ is a group.
+    \end{enumerate}
+\end{exercise}
+\begin{proof}
+    
+\end{proof}
+
+\begin{examples}
+    \item Consider $\SL_n(\R) \le \GL_n(\R)$.
+    Since $\det(gng^{-1}) = \det(n)$, we get $\SL_n(\R) \nsub \GL_n(\R)$.
+\end{examples}
+
+\begin{theorem} \label{thm:normal:kernel}
+    $N \nsub G$ if and only if $N$ is the kernel of some homomorphism
+    from $G$ to some group.
+\end{theorem}
+\begin{proof}
+    Suppose $N = \ker \varphi$, where $\varphi\colon G \to H$ is
+    a homomorphism.
+    Let $g \in G$ and $n \in N$.
+    Then $\varphi(gng^{-1}) = \varphi(g)\varphi(n)\varphi(g)^{-1} = 1$,
+    so $gng^{-1} \in N$.
+
+    Suppose $N \nsub G$.
+    Consider the map $\pi\colon G \to G/N$ given by
+    $\pi(g) = gN$.
+    This is a homomorphism since $\pi(1) = 1N$ is the identity, and \[
+        \pi(xy) = (xy)N = xN \cdot yN = \pi(x)\pi(y).
+    \] Moreover, $\ker(\pi) = N$ since
+    $\pi(x) = 1N \iff xN = 1N \iff x \in N$.
+\end{proof}
+
+\section{Products} \label{sec:products}
+We have already defined the direct product of two groups in \cref{TODO}.
+
+\begin{definition}[direct product] \label{def:products:direct-prod}
+    Given any index set $I$ and for each $i \in I$ a group $A_i$,
+    we can give a group structure to the direct product
+    $\prod_{i \in I} A_i$
+    by defining the operation componentwise.
+\end{definition}
+
+\begin{definition}[direct sum] \label{def:products:direct-sum}
+    Given any index set $I$ and for each $i \in I$ a group $A_i$,
+    we define the \emph{direct sum} of the groups $A_i$ as \[
+        \bigoplus_{i \in I} A_i = \set*{(a_i) \in \prod_{i \in I} A_i
+            \bigm\mid \text{ all but finitely many } a_i \text{ are } 1}.
+    \]
+\end{definition}
+This is a group since the union of two finite sets (the support) is finite.
+
+\begin{exercise} \label{thm:products}
+    Suppose $H, K \le G$.
+    When is $HK \le G$?
+    When is $HK \cong H \times K$?
+\end{exercise}
+\begin{proof}
+    \begin{claim}
+        $HK \le G$ if and only if $HK = KH$.
+    \end{claim}
+    \begin{subproof}
+        Suppose $HK \le G$.
+        Note that $1 \in H, K$, so $H = H1, K = 1K \subseteq HK$.
+        Thus for any $k \in K$, $h \in H$,
+        $kh \in HK$ by closure under products.
+
+    \end{subproof}
+
+    Let $H, K$ intersect only in $\set{1}$.
+    Suppose $hk = kh$ for all $h \in H$ and $k \in K$.
+    Then the map \begin{align*}
+        \theta\colon H \times K &\to HK \\
+        (h, k) &\mapsto hk
+    \end{align*} is an isomorphism.
+    It is a homomorphism, since $\theta(1, 1) = 1$ and \[
+        \theta(h_1, k_1)\theta(h_2, k_2)
+            = h_1k_1h_2k_2
+            = h_1h_2k_1k_2
+            = \theta(h_1h_2, k_1k_2).
+    \] Surjectivity is obvious.
+    Injectivity is since \begin{align*}
+        \theta(h_1, k_1) = \theta(h_2, k_2)
+            &\implies h_1k_1 = h_2k_2 \\
+            &\implies h_1 h_2^{-1} = k_1 k_2^{-1} \\
+            &\implies h_1 h_2^{-1}, k_1 k_2^{-1} \in H \cap K \\
+            &\implies h_1 = h_2 \text{ and } k_1 = k_2. \qedhere
+    \end{align*}
+\end{proof}

@@ -1,0 +1,151 @@
+\lecture{2024-08-21}{}
+
+\begin{theorem*}[orbit-stabilizer theorem] \label{thm:orbit-stab}
+    Let $G$ act on a set $X$.
+    Then $G/G_x$ and $\mcO_x$ are in natural bijection (as sets)
+    via the map $gG_x \mapsto gx$.
+\end{theorem*}
+\begin{proof}
+    We first show that the map is well-defined.
+    \begin{align*}
+        g G_x = g' G_x &\iff g^{-1} g' \in G_x \\
+            &\iff g^{-1} g' x = x \\
+            &\iff g x = g' x
+    \end{align*}
+    This also shows that the map is injective.
+    Surjection is simply since for any $gx \in \mcO_x$
+    (everything in the orbit is of this form), we have $gG_x \mapsto gx$.
+\end{proof}
+
+\begin{theorem*}[Lagrange's theorem] \label{thm:lagrange}
+    If $G$ is finite and $H \le G$,
+    then $|G| = |H| \cdot |G/H|$.
+\end{theorem*}
+\begin{proof}
+    First note that each coset of $H$ has the same size as $H$,
+    since $xh \mapsto h$ is a bijection.
+    No two distinct cosets overlap, since whenever $xh = yh'$,
+    $y^{-1} x = h' h^{-1} \in H$, so $xH = yH$.
+
+    Finally $G = \bigsqcup_{S \in G/H} S$ gives \[
+        |G| = |H| \cdot |G/H|. \qedhere
+    \]
+\end{proof}
+
+\begin{corollary}
+    Let $x \in G$.
+    Then $\ord x \mid |G|$.
+\end{corollary}
+\begin{proof}
+    $\angled x$ is a subgroup of $G$ of order $\ord x$.
+\end{proof}
+
+\begin{corollary*}[Cauchy's theorem] \label{thm:cauchy}
+    Let $G$ be a finite group and $p \mid |G|$ be a prime.
+    Then $G$ has an element of order $p$.
+\end{corollary*}
+We will be largely relying on group actions, so we will attempt to
+prove this using group actions.
+\begin{lemma}
+    Let $G$ be a $p$-group, i.e. $|G| = p^m$ for some $m \in \Z^+$,
+    acting on a finite set $X$.
+    Then the set of all fixed points \[
+        X^G = \set{x \in X \mid \forall g \in G, g \cdot x = x}
+    \] satisfies $|X^G| \equiv |X| \pmod p$.
+\end{lemma}
+\begin{proof}
+    Notice that $x \in X^G \iff \mcO_x = \set x$.
+    By the \nameref{thm:orbit-stab} and \nameref{thm:lagrange}, we have \[
+        |\mcO_x| = \frac{|G|}{|G_x|}.
+    \] Whenever $z \notin X^G$, $|\mcO_x| > 1$ so it is a power of $p$.
+
+    Now since orbits are disjoint, \[
+        |X| = |X^G| + \sum_{x \notin X^G} |\mcO_x|
+    \] gives the result.
+\end{proof}
+
+\begin{proof}[Proof of \nameref{thm:cauchy}]
+    Let $X = \set{\ubar{x} \in G^p \mid x_1 \cdots x_p = 1_G}$.
+    Clearly $|X| = |G|^{p-1}$, since we can choose $x_1, \ldots, x_{p-1}$
+    freely and then $x_p$ is determined.
+
+    Let $\Z/p\Z$ act on $X$ by cyclic permutations. \[
+        \wbar{i} \cdot (x_1, \dots, x_p)
+            \coloneq (x_{i+1}, \dots, x_p, x_1, \dots, x_i)
+    \] Inverses commute, so the product is still identity.
+    We have to check that this is a group action.
+    \begin{itemize}
+        \item $\wbar 0 \cdot (x_0, \dots, x_{p-1}) = (x_0, \dots, x_{p-1})$.
+        \item \begin{align*}
+            \wbar i \cdot (\wbar j \cdot (x_0, \dots, x_{p-1}))
+            &= \wbar i \cdot (x_{j \bmod p}, \dots, x_{p-1+j \bmod p}) \\
+            &= (x_{i+j \bmod p}, \dots, x_{p-1+i+j \bmod p}) \\
+            &= \wbar{i+j} \cdot (x_0, \dots, x_{p-1}).
+        \end{align*}
+    \end{itemize}
+
+    Notice that $|X^{\Z/p\Z}| \ne 0$, since
+    $(1, 1, \dots, 1) \in X^{\Z/p\Z}$.
+    Thus $|X^{\Z/p\Z}| \ge p$.
+    Let $(a, a, \dots, a) \in X^{\Z/p\Z}$ where $a \ne 1$.
+    Then $a^p = 1$, so $\ord x = p$.
+\end{proof}
+
+\begin{corollary*}
+    Every finite group is a subgroup of $S_n$ for some $n$.
+\end{corollary*}
+\begin{proof}
+    Look at the left regular action of $G$ on itself
+    $(g, x) \mapsto gx$.
+    This is obviously faithful.
+    Consider the homomorphism $\sigma \colon G \to S(G)$ \[
+        \sigma_g = x \mapsto gx.
+    \] Since the kernel is just $\set 1$, this is an embedding.
+\end{proof}
+
+\begin{examples}
+    \item $S_n$ acts on $X = [n]$ by permuting the elements.
+    \item $S_n$ acts on $\R[T_1, \dots, T_n]$, the polynomial ring in $n$
+        variables, by permuting the variables. \[
+            (\sigma \cdot f)(T_1, \dots, T_n)
+                = f(T_{\sigma(1)}, \dots, T_{\sigma(n)}).
+        \] The identity permutation fixes all polynomials.
+        For associativity, \begin{align*}
+            (\sigma \cdot (\tau \cdot f))(T_1, \dots, T_n)
+                &= (\sigma \cdot f)(T_{\tau(1)}, \dots, T_{\tau(n)}) \\
+                &= f(T_{\sigma(\tau(1))}, \dots, T_{\sigma(\tau(n))}) \\
+                &= (\sigma \tau) \cdot f(T_1, \dots, T_n).
+        \end{align*}
+        Polynomials that are fixed by all permutations are
+        called \emph{symmetric polynomials}.
+        See \href{https://en.wikipedia.org/wiki/Elementary_symmetric_polynomial#Fundamental_theorem_of_symmetric_polynomials}
+        {the fundamental theorem of symmetric polynomials}
+        for an interesting result.
+    \item $S_n$ acts on $\R^n$ by permuting the coordinates. \[
+            \sigma \cdot (x_1, \dots, x_n)
+                = (x_{\sigma(1)}, \dots, x_{\sigma(n)}).
+        \] \textbf{Or does it?}
+        Consider $n = 3$, $\sigma = (1 2)$ and $\tau = (2 3)$.
+        Then $\sigma \tau = (1 2 3)$, but \[
+            \sigma \cdot (\tau \cdot (v_1, v_2, v_3))
+                = \sigma \cdot (v_1, v_3, v_2)
+                = (v_3, v_1, v_2),
+        \] but $(\sigma \tau) \cdot (v_1, v_2, v_3)
+        = (v_{\sigma\tau(1)}, v_{\sigma\tau(2)}, v_{\sigma\tau(3)})
+        = (v_2, v_3, v_1)$.
+
+        The correct definition is to invert the permutation. \[
+            \sigma \cdot (x_1, \dots, x_n)
+                = (x_{\sigma^{-1}(1)}, \dots, x_{\sigma^{-1}(n)}).
+        \]
+        Let $v = (v_1, \dots, v_n)$ and $w = \sigma \cdot v
+        = (v_{\sigma^{-1}(1)}, \dots, v_{\sigma^{-1}(n)})$.
+        For each $i$, $w_i = v_{\sigma^{-1}(i)}$.
+        Then \begin{align*}
+            \tau \cdot w
+                &= (w_{\tau^{-1}(1)}, \dots, w_{\tau^{-1}(n)}) \\
+                &= (v_{\sigma^{-1}(\tau^{-1}(1))}, \dots,
+                    v_{\sigma^{-1}(\tau^{-1}(n))})
+        \end{align*}
+        Thus $\tau (\sigma v) = (\sigma \tau) v$.
+\end{examples}

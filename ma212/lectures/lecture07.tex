@@ -1,6 +1,6 @@
-\lecture[7]{2024-08-19}{}
+\lecture[7]{2024-08-19}{Group actions and cosets}
 
-\begin{definition}[Action] \label{def:group:action}
+\begin{definition*}[Action] \label{def:group:action}
     We say that a group $(G, *)$ \emph{acts} on a set $X$ if there is a map
     $\theta\colon G \times X \to X$, such that if we write $\theta(g, x)$
     as $g \cdot x$ then for every $g_1, g_2 \in G$ and $x \in X$,
@@ -9,7 +9,7 @@
         \item $1_G \cdot x = x$.
     \end{enumerate}
     We say that $x \in X$ is \emph{moved} by $g \in G$ to $g \cdot x$.
-\end{definition}
+\end{definition*}
 \begin{examples}
     \item The trivial action $(g, x) \mapsto x$.
     \item The interesting action of $\GL_n(F)$ on $F^n$ (columns)
@@ -50,14 +50,16 @@
     $(A, B) \to C$ and the set of curried functions $A \to B \to C$.
 \end{remark}
 
-\begin{definition}[Orbits and stabilizers] \label{def:orbit}
+\begin{definition*}[Orbits and stabilizers] \label{def:orbit}
     Let $G$ act on $X$.
     Then for $x \in X$, we define the \emph{orbit} of $x$ as \[
         \mcO_x = G x = \set{g x \mid g \in G} \subseteq X,
     \] and the \emph{stabilizer} of $x$ as \[
         \stab_x = G_x = \set{g \in G \mid g \cdot x = x} \le G.
+    \] We say that the action is \emph{faithful} if \[
+        \bigcap_{x \in X} G_x = \set 1.
     \]
-\end{definition}
+\end{definition*}
 \begin{examples}
     \item For the trivial action, $\mcO_x = \set{x}$ and $G_x = G$.
     \item For the action of $\GL_n(\R)$ on $\R^n$, the orbit of $x$ is \[
@@ -156,7 +158,16 @@ $xh_1yh_2 = (xy)h_1h_2 \in (xy)H$.
         (xK) \cdot (yK) = (xy)K.
     \] This is well-defined, since $xK = x'K$ iff
     $\varphi(x) = \varphi(x')$.
-    Thus whenever $xK = x'K$ and $yK = y'K$, we have
-    $\varphi(x'y') = \varphi(x')\varphi(y') = \varphi(x)\varphi(y) = \varphi(xy)$,
+    Thus whenever $xK = x'K$ and $yK = y'K$, we have \[
+        \varphi(x'y') = \varphi(x')\varphi(y')
+            = \varphi(x)\varphi(y)
+            = \varphi(xy),
+    \]
     so that $(xy)K = (x'y')K$.
+
+    Obviously this defines a group operation on $G/K$.
+    Associativity, identity, inverses are borrowed from $G$.
+
+    Note that for any $x \nsim y$, $xK \ne yK$.
+    Thus $G = \bigsqcup_{xH \in G/H} xH$.
 \end{example}

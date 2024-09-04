@@ -1,0 +1,124 @@
+\lecture{2024-08-28}{}
+\begin{remark}
+    Suppose $H_1, \dots, H_m \le G$
+    and $H_{i+1}$ is orthogonal to $H_1 H_2 \dots H_i$ for all $i$.
+    Then $H_1 \times \cdots \times H_m \le G$
+    and is isomorphic to $H_1 H_2 \dots H_m$.
+\end{remark}
+
+\begin{lemma} \label{thm:left-right}
+    Let $H \le G$.
+    Then the left and right cosets of $H$ in $G$ are in bijection.
+\end{lemma}
+\begin{proof}
+    Let $I \subseteq G$ be a set of representatives for the left cosets of
+    $H$ in $G$.
+    Then \begin{align*}
+        G &= \bigsqcup_{x \in I} x H \\
+        \implies G = G^{-1} &= \bigcup_{x \in I} H^{-1} x^{-1} \\
+        &= \bigcup_{x \in I} H x^{-1}.
+    \end{align*}
+    Note that $H x^{-1} = H y^{-1} \iff x^{-1} y \in H \iff xH = yH$.
+    Thus the union is still disjoint, and $I^{-1}$ is a set of
+    representatives for the right cosets.
+\end{proof}
+\begin{definition}[index] \label{def:index}
+    Let $H \le G$,
+    Then $(G : H) = \#(G / H)$ is the \emph{index} of $H$ in $G$
+    if $G/H$ is finite.
+    Otherwise, we say $(G : H) = \infty$.
+\end{definition}
+
+\begin{proposition}
+    Let $K \le H \le G$.
+    and $G = \bigsqcup_{x \in I} xH$.
+    Let $H = \bigsqcup_{y \in J} yK$
+    Then $G = \bigsqcup_{x \in I, y \in J} xyK$.
+\end{proposition}
+\begin{proof}
+    \[
+        G = \bigsqcup_{x \in I} xH
+        = \bigsqcup_{x \in I} \ab(x \bigsqcup_{y \in J} yK)
+        = \bigcup_{x \in I, y \in J} xyK.
+    \] We need to check that the union is disjoint.
+    \begin{align*}
+        xyK = x_1y_1K &\implies y^{-1}x^{-1}x_1y_1 \in K \\
+            &\implies x^{-1}x_1 \in yK y_1^{-1} \subseteq HKH^{-1} \\
+            &\implies x^{-1}x_1 \in H \\
+            &\implies xH = x_1H.
+    \end{align*}
+    This contradicts the disjointness of $\set{xH}_{x \in I}$.
+    Thus \[
+        G = \bigsqcup_{x \in I, y \in J} xyK. \qedhere
+    \]
+\end{proof}
+
+\begin{corollary}[multiplicity of the index] \label{thm:index:mult}
+    Let $K \le H \le G$.
+    Then $(G : K) = (G : H)(H : K)$,
+    with the understanding that $\infty$ is absorbing.
+\end{corollary}
+\begin{example}
+    $6\Z \le 2\Z \le \Z$.
+    \[
+        2\Z = (0 + 6\Z) \bigsqcup (2 + 6\Z) \bigsqcup (4 + 6\Z)
+    \] so $(2\Z : 6\Z) = 3$.
+    \[
+        \Z = (0 + 2\Z) \bigsqcup (1 + 2\Z)
+    \] so $(\Z : 2\Z) = 2$.
+    Similarly $(\Z : 6\Z) = 6$
+    and sure enough, $(\Z : 6\Z) = (\Z : 2\Z)(2\Z : 6\Z)$.
+\end{example}
+
+\section{Isomorphism theorems} \label{sec:iso-thm}
+\begin{theorem}[first isomorphism theorem] \label{thm:iso:1}
+    Let $\varphi\colon G \to H$ be a homomorphism.
+    Let $K = \ker(\varphi)$.
+    Then $\varphi$ induces an isomorphism
+    $\varphi_*\colon G/K \to \im(\varphi)$
+    given by $\varphi_*(gK) = \varphi(g)$.
+\end{theorem}
+\begin{proof}
+    This is well-defined since
+    $gK = g'K \iff g^{-1}g' \in K \iff \varphi(g) = \varphi(g')$.
+    This also shows injectivity.
+
+    $\varphi_*$ is clearly a homomorphism.
+    It is surjective since for any $y = \varphi(g) \in \im(\varphi)$,
+    $y = \varphi_*(gK)$.
+\end{proof}
+
+\begin{theorem}[second isomorphism theorem] \label{thm:iso:2}
+    Let $A, B \le G$.
+    Suppose $A \subseteq N_G(B)$.
+    Then $A \cap B \nsub A$ and \[
+        AB/B \cong A/(A \cap B).
+    \]
+\end{theorem}
+\begin{proof}
+    First note that $AB$ is a group by \cref{thm:products}.
+    Moreover, $B \nsub AB$ since $abB = aBb = Bab$ for each $ab \in AB$.
+    This will also follow independently from the later half of this proof.
+
+    Moreover, $A \cap B \nsub A$ since for each $a \in A$,
+    $a(A \cap B)a^{-1} = aAa^{-1} \cap aBa^{-1} = A \cap B$.
+    Define \begin{align*}
+        \varphi\colon AB &\to A/(A \cap B) \\
+        ab &\mapsto a(A \cap B)
+    \end{align*}
+    This is well-defined since $ab = a'b' \implies a^{-1}a' \in A \cap B$,
+    so $a(A \cap B) = a'(A \cap B)$.
+    It is a homomorphism since \[
+        a_1b_1a_2b_2 = a_1(a_2b')b_2 = a_1 a_2 b' b_2.
+    \] for some $b' \in B$, so \[
+        \varphi(a_1b_1 a_2b_2) = a_1a_2 (A \cap B)
+        = a_1(A \cap B) \cdot a_2(A \cap B)
+        = \varphi(a_1b_1) \varphi(a_2b_2).
+    \]
+    \begin{itemize}
+        \item The kernel is $(A \cap B) B = B$.
+        (Note that this proves $B \nsub AB$.)
+        \item The image is all of $A/(A \cap B)$.
+    \end{itemize}
+    By the first isomorphism theorem, $AB/B \cong A/(A \cap B)$.
+\end{proof}

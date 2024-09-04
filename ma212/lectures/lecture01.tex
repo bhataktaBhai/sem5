@@ -32,7 +32,7 @@ This is tentative.
         binary operation on $X^X$.
 \end{examples}
 
-\begin{definition}[Group] \label{def:group}
+\begin{definition*}[Group] \label{def:group}
     A \emph{group} is a set $G$ equipped with a binary operation $\cdot$
     satisfying the following properties:
     \begin{enumerate}[label=\small(G\arabic*)]
@@ -50,7 +50,7 @@ This is tentative.
     A subset $H \subseteq G$ is a \emph{subgroup} of $G$ if $H$ is a group
     with respect to the same binary operation $\cdot$.
     We write $H \le G$.
-\end{definition}
+\end{definition*}
 
 \begin{examples}
     \item $(\Z, +)$, $(\Q, +)$, $(\R, +)$ and $(\C, +)$ are abelian groups.
@@ -135,7 +135,7 @@ This is tentative.
         \item Induct on $n$.
         Look at the rightmost left bracket \[
             a_1 \dots a_n = (a_1 \dots a_k) \cdot (a_{k+1} \dots a_n).
-                \qedhere
+                \qedhere % TODO
         \]
     \end{enumerate}
 \end{proof}

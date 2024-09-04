@@ -1,0 +1,40 @@
+\lecture{2024-09-02}{}
+\begin{proposition}
+    Let $U \subseteq \R^n$ be open and $f\colon U \to \R^m$.
+    Then $f \in C^1(U)$ iff $D_j f_i$ exist and are continuous on $U$.
+\end{proposition}
+\begin{proof}
+    Suppose $f \in C^1(U)$.
+    The derivative at any point exists, hence so do the partial derivatives.
+    Moreover, the partial derivatives are continuous functions of the
+    derivative, hence they are continuous. \[
+        D_j f_i(x) = \braket{e_i}{f'(x)}{e_j}.
+    \] More directly, \begin{align*}
+        \abs{D_j f_i(x) - D_j f_i(y)}
+        &= \abs{\braket{e_i}{f'(x) - f'(y)}{e_j}} \\
+        &\le \norm{f'(x) - f'(y)}.
+    \end{align*}
+
+    Conversely, suppose the partial derivatives are continuous.
+    % WLOG, let $m = 1$. (\TODO: why?) % TODO: why?
+    Let $T\colon U \to L(\R^n, \R^m)$ be given by \[
+        T(x) = \begin{pmatrix}
+            D_1f_1(x) & D_2f_1(x) & \dots & D_nf_1(x) \\
+            D_1f_2(x) & D_2f_2(x) & \dots & D_nf_2(x) \\
+            \vdots & \vdots & \ddots & \vdots \\
+            D_1f_m(x) & D_2f_m(x) & \dots & D_nf_m(x)
+        \end{pmatrix}.
+    \]
+    For any $x, x+h \in U$ close enough, we have (similar to the proof of
+    \cref{thm:pdv-cont}) \[
+        f_i(x + h) - f_i(x) = \sum_{j=1}^n D_j f_i(y_j) h_j
+    \] by the mean value theorem, where $\norm{y_j - x} \le \norm h$.
+    Thus \begin{align*}
+        \abs{f_i(x+h) - f_i(x) - (T(x)h)_i}
+        &= \abs*{\sum_{j=1}^n (D_j f_i(y_j) - D_j f_i(x)) h_j} \\
+        &\le \sum_{j=1}^n \abs{D_j f_i(y_j) - D_j f_i(x)} \abs{h_j} \\
+        &\le \norm h \sum_{j=1}^n \abs{D_j f_i(y_j) - D_j f_i(x)}.
+    \end{align*} The second term goes to zero by continuity,
+    thus $T$ is the derivative of $f$.
+    $T$ is continuous as each entry is continuous.
+\end{proof}

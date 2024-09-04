@@ -1,0 +1,49 @@
+\lecture{2024-08-30}{}
+\begin{proposition}
+    Let $U$ be a convex open subset of $\R^n$.
+    Let $f\colon U \to \R^m$ be differentiable and let \[
+        \sup_{x \in U} \norm{f'(a)} = M.
+    \] Then for any $a, b \in U$, \[
+        \norm{f(a) - f(b)} \le M \norm{b - a}.
+    \]
+\end{proposition}
+
+\begin{proposition}
+    Let $U \subseteq \R^n$ be open and connected and $f\colon U \to \R^m$
+    be differentiable.
+    If $f' \equiv 0$ on $U$, then $f$ is constant on $U$.
+\end{proposition}
+\begin{proof}
+    Fix $a \in U$.
+    Let $W = \sset{x \in U}{f(x) = f(a)}$.
+    In the subset topology on $U$, $W$ is closed since $W = f^{-1}(f(a))$.
+    But $W$ is open since \TODO. % TODO
+    Thus $W$ is all of $U$.
+\end{proof}
+
+\begin{proposition} \label{thm:pdv-cont}
+    Let $U \subseteq \R^n$ be open and $f\colon U \to \R^m$ be such that
+    $D_j f_i$ exist and are bounded on $U$.
+    Then $f$ is continuous.
+\end{proposition}
+\begin{proof}
+    Fix an $i \in [m]$.
+    Let each $D_j$ be bounded by $M$ on all of $U$.
+    Let $x \in U$ and $\eps > 0$ be such that
+    $B_{L^\infty}(x, \eps) \subseteq U$.
+    Let $(y_1, \dots, y_n) \in B_{L^\infty}(x, \eps)$.
+    Consider $x^{(i)} = x + (y_i - x_i) e_i$.
+    Then \[
+        \norm{f_i(x^{(i+1)}) - f_i(x^{(i)})} \le M \abs{y_i}
+    \] by the mean value theorem.
+    By the triangle inequality, \[
+        \norm{f_i(y) - f_i(x)} \le M \sum_{i=1}^n \abs{y_i - x_i}
+            \le M n \eps. \qedhere
+    \]
+\end{proof}
+
+\begin{definition} \label{def:c1}
+    Let $U \subseteq \R^n$ be open.
+    $C^1(U, \R^m)$ is the set of all functions $f\colon U \to \R^m$
+    such that $f'\colon U \to L(\R^n, \R^m)$ exists and is continuous.
+\end{definition}

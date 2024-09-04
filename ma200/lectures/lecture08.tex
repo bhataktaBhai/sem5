@@ -17,6 +17,7 @@
         = \frac{\norm{h(x)}}{\norm{g(x)}} \frac{\norm{g(x)}}{\norm{f(x)}}
     \] The first term goes to $0$ and the second term is bounded.
     Thus $\frac{\norm{h(x)}}{\norm{f(x)}} \to 0$.
+    \TODO[What if $f$ vanishes a lot?] % TODO
 \end{proof}
 
 \begin{proposition*}[chain rule] \label{thm:chain}
@@ -110,7 +111,9 @@ How does Rudin deal with the vanishing of $k(h)$?
     \end{align*} 
 \end{examples}
 
-\begin{definition}[directional derivative] \label{def:dv}
+\section{Directions and partials} \label{sec:pdv}
+
+\begin{definition}[directional derivative] \label{def:ddv}
     Let $U \subseteq \R^n$ be open and $a \in U$.
     Let $f\colon U \to \R$.
     For $v \in \R^n$, we define \[

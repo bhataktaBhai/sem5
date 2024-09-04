@@ -1,0 +1,20 @@
+\textbf{Quiz:} Thursday, 29th
+
+\section{Shamir Sharing} \label{sec:shamir}
+A polynomial of decree $t$ \[
+    f(x) = s + a_1 x + a_2 x^2 + \dots + a_t x^t.
+\] where $s$ is the secret.
+Any $t$ pairs $(x, f(x))$ fail to determine the polynomial.
+Any $t + 1$ pairs $(x, f(x))$ determine the polynomial.
+
+Consider a new secret sharing scheme as follows:
+\begin{problem}[replicative secret sharing]
+    $\mcP = \set{P_1, \dots, P_n}$.
+    For every subset $T \subseteq \mcP$ of size $n - t$, there is a share
+    $S_T$ held by all $P_i \in T$.
+    The secret is defined as $S = \sum_T S_T$.
+    \begin{enumerate}
+        \item Is this scheme secure if an adversary is allowed to corrupt
+        $t$ of the parties?
+    \end{enumerate}
+\end{problem}

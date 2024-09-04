@@ -1,0 +1,103 @@
+\lecture[7]{2024-08-22}{}
+
+% ind-security
+Security parameter $n$ determines how secure the scheme is.
+
+The parties and the adversary are assumed to be computationally bounded by
+a polynomial in $n$.
+
+We want the probability of breaking the scheme to be \emph{negligible} in
+$n$.
+
+\section{Choosing the parameter} \label{sec:choosing-n}
+Suppose there is a sheme which an adversary can break with probability
+$2^{40} 2^{-n}$ after running for $n^3$ minutes.
+\begin{itemize}
+    \item $n \le 40$ is dumb.
+    Within $2^{40}$ minutes, approximatly $6$ weeks, the adversary can break
+    the scheme with probability $1$.
+    \item $n = 50$ sounds nice, but $2^{10}$ is only $1024$.
+    An adversary can break the scheme with probability $1/1000$ within
+    $6$ weeks.
+    \item $n = 128$ works. %👍
+\end{itemize}
+
+Finally, we are allowed to leak the \emph{length} of the message.
+We will say that an SKE that leaks the length of the message is
+secure.
+Why?
+\begin{exercise}
+    Show that there is no scheme which realises the above definition of
+    security without leaking the length of the message.
+\end{exercise}
+
+\begin{definition}[Parity secure] \label{def:pp-secure}
+    The experiment $\privk^{pp}_{A, \Pi}(n)$ returns $1$ if the adversary
+    $A$ can predict the parity of the
+    message, and $0$ otherwise.
+    We say that $\Pi$ is pp-secure if for every PPT adversary $A$,
+    \[
+        \Pr[\privk^{pp}_{A, \Pi}(n) = 1] \le \frac{1}{2} + \negl(n).
+    \]
+\end{definition}
+
+\section{Proofs by reduction} \label{sec:reduction}
+Proofs from this point on will be highly conditional.
+\begin{itemize}
+    \item If $A$ holds then $\Pi$ is $x$-secure.
+    \item If $\Pi$ is $x$-secure then $A$ holds.
+    \item If $A_1$ holds then $A_2$ holds.
+    \item If $\Pi$ that is $x$-secure, then $\Pi'$ is $y$-secure.
+\end{itemize}
+We keep the last one in mind as we try to look at general techniques to
+prove such statements.
+\begin{itemize}
+    \item \textbf{Proof by contradiction/contrapositive:}
+    Suppose $\Pi'$ is not $y$-secure.
+    Show that $\Pi$ is not $x$-secure.
+
+    That is, there exists a PPT adversary $A'$ that breaks $\Pi'$ with
+    non-negligible probability $f(n)$.
+    We need to construct a PPT adversary $A$ that breaks $\Pi$ with
+    non-negligible probability $g(n)$.
+    This is \emph{reduction} of breaking $\Pi$ to breaking $\Pi'$.
+
+    Given a challenge for $\Pi$, we have to simulate a challenge for $\Pi'$
+    (in polynomial time).
+    Using the broken challenge for $\Pi'$ (with substantial probability),
+    we need to break the challenge for $\Pi$ (with substantial probability).
+
+    The product of two substantial probabilities is substantial.
+\end{itemize}
+
+\begin{proposition}
+    If $\Pi$ is ind-secure, then $\Pi$ is pp-secure.
+\end{proposition}
+\begin{proof}
+    Suppose $\Pi$ is not pp-secure.
+    Then there exists a PPT adversary $A$ that predicts the parity of the
+    message with probability $1/2 + f(n)$, where $f(n)$ is non-negligible.
+
+    That is, there is some polynomial $p(n)$ such that $f(n) \ge 1/p(n)$
+    for infinitely many $n$.
+    To summarize, \[
+        \Pr[\privk^{pp}_{A, \Pi}(n) = 1] \ge \frac12 + \frac{1}{p(n)}.
+    \]
+
+    Let us construct a PPT adversary $A'$ that breaks the ind-security of
+    $\Pi$.
+    Select two messages $m_0$ and $m_1$ of the same length,
+    but with $\parity(m_0) = 0$ and $\parity(m_1) = 1$.
+    Pass the challenge to $A$.
+    Let $p$ be the reply from $A$.
+    Output $p$.
+    Then \[
+        \privk^{pp}_{A, \Pi}(n) = 1
+        \iff
+        \privk^{ind}_{A', \Pi}(n) = 1.
+    \] Thus \[
+        \Pr[\privk^{ind}_{A', \Pi}(n) = 1]
+        = \Pr[\privk^{pp}_{A, \Pi}(n) = 1]
+        \ge \frac12 + \frac{1}{p(n)}
+    \] is substantial.
+\end{proof}

@@ -1,4 +1,4 @@
-\lecture{2024-08-08}{}
+\lecture{2024-08-08}{Security!}
 \subsubsection{Learnings from classical SKE} \label{sec:classical:learning}
 \begin{itemize}
     \item Algorithms of secure key encryption (SKE), and in all of
@@ -124,7 +124,7 @@ Here are some possibilities:
     \label{tab:enc1}
 \end{table}
 
-\begin{definition*}[Perfect security] \label{def:ske:perfect}
+\begin{definition*}[perfect security] \label{def:ske:perfect}
     \;\\
     An encryption scheme $(\Gen, \Enc, \Dec)$ is \emph{perfectly secure}
     if for every random variable $M$ over $\mcM$ and
@@ -137,6 +137,9 @@ Here are some possibilities:
     by Claude~E.~Shannon in
     Bell Systems Technical Journal, 28(4): 656--715, 1949.
 \end{remark}
+\begin{proposition}
+    The following are equivalent.
+\end{proposition}
 
 \begin{theorem*}[Vernam cipher] \label{thm:vernem}
     Let $\mcK = \mcM = \mcC = \set{0, 1}^n$.

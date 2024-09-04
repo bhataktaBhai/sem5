@@ -1,0 +1,113 @@
+\chapter{Orthogonal range searching} \label{chp:ors}
+\lecture{2024-08-14}{Orthogonal range searching}
+
+\begin{question*}
+    Given a set of points in $\R^2$ and a rectangle
+    $[x_1, x_2] \times [y_1, y_2]$, report all points in the rectangle.
+\end{question*}
+
+\begin{figure}
+    \centering
+    \begin{tikzpicture}[scale=0.5]
+        \tikzmath{
+            \x1 = 3; \x2 = 7; \y1 = 2; \y2 = 5; \maxX = 10; \maxY = 9;
+        }
+        \draw[->] (-1, 0) -- (\maxX + 1, 0) node[right] {$x$};
+        \draw[->] (0, -1) -- (0, \maxY + 1) node[above] {$y$};
+        \foreach \i in {1,...,32}{
+            \node[draw,Red,circle,inner sep=1pt,fill]
+                at (\maxX * rnd, \maxY * rnd) {};
+        }
+        \draw[dashed] (\x1, 0) -- (\x1, \y1);
+        \draw[dashed] (\x2, 0) -- (\x2, \y1);
+        \draw[dashed] (0, \y1) -- (\x1, \y1);
+        \draw[dashed] (0, \y2) -- (\x1, \y2);
+        \draw (\x1, \y1) rectangle (\x2, \y2);
+    \end{tikzpicture}
+    \caption{Orthogonal range searching in $\R^2$.}
+    \label{fig:ors}
+\end{figure}
+
+Without preprocessing, we have
+\begin{itemize}
+    \item $O(n)$ space,
+    \item $O(n)$ time.
+\end{itemize}
+
+In the worst case, we can have $O(n)$ points in the rectangle,
+so we cannot do better than $O(n)$ time.
+
+Let $k$ be the number of points in the rectangle.
+Usually, $k \ll n$.
+Thus we will design a data structure that allows us to report
+the $k$ points in $O(f(n) + k)$ time, where $f(n)$ is as small as possible.
+
+\section{The $1$-dimensional case} \label{sec:ors:1d}
+\begin{question*}
+    Given a set of points in $\R$ and an interval $[x_1, x_2]$,
+    report all points in the interval.
+\end{question*}
+\begin{solution}
+    Sort the points in $O(n \log n)$ time using only $O(n)$ space.
+    For each query, binary search for $x_1$ and keep going until $x_2$.
+    This takes $O(\log n + k)$ time.
+\end{solution}
+
+\section{The $2$-dimensional unbounded case} \label{sec:ors:2d-unbounded}
+\begin{question*}
+    Given a set of points in $\R^2$ and an unbounded rectangle
+    $[x_1, x_2] \times [y_1, \infty)$, report all points in the rectangle.
+\end{question*}
+\begin{solution}[Naive]
+    Project onto the $x$-axis and solve the $1$-dimensional case.
+    Discard all points with $y$-coordinate less than $y_1$.
+
+    This takes $O(n \log n)$ preprocessing time.
+    For each query, it takes $O(\log n + \#[x_1, x_2])$ time,
+    where $\#[x_1, x_2]$ is the number of points with $x$-coordinate
+    in $[x_1, x_2]$.
+\end{solution}
+This can be much larger than $k$, in fact, as large as $n$.
+
+\begin{solution}
+    Create a \emph{priority search tree} (PST) in $O(n \log n)$ time
+    using $O(n)$ space, and sorted by $x$-coordinate with $y$-coordinate
+    as priority.
+
+    Each query can be answered as follows.
+    \begin{itemize}
+        \item Locate the predecessor of $x_1$ and successor of $x_2$.
+        To ensure they exist, add sentinels $-\infty$ and $\infty$ during
+        preprocessing.
+        \item Query each subtree in between with a DFS, searching down until
+        the $y$-coordinate is less than $y_1$. \qedhere
+    \end{itemize}
+\end{solution}
+\begin{proof}[Analysis]
+    Querying the subtree $\mcT$ takes $O(1 + k_\mcT)$ time, where
+    $k_\mcT$ is the number of rectangled points in the subtree.
+    This is because each rectangled point is visited exactly once,
+    and any non-rectangled point that is checked is preceded by a
+    rectangled point.
+
+    Thus the total time is \begin{align*}
+        \sum_\mcT O(1 + k_\mcT) &= O\ab(\sum_\mcT 1) + O(k) \\
+        &= O(\log n + k).
+    \end{align*}
+    This is because the each subtree arises from a point on the search path
+    for the predecessor or successor, which has length at most $\log n$.
+    \begin{algo}
+        \Fn{PST-Unbound}{$P$}
+            \State $\mcP \gets \text{PST}(P \cup \set{(-\infty, \bot), (\infty, \bot)})$
+            \State $u \gets \text{root}(\mcP)$, $v \gets \text{root}(\mcP)$
+            \While{$u = v$}
+                \State TODO % TODO
+            \EndWhile
+        \EndFn
+    \end{algo}
+\end{proof}
+
+\subsection{Priority search trees} \label{sec:ors:pst}
+A priority search tree is a binary search tree where each node has an
+associated priority.
+

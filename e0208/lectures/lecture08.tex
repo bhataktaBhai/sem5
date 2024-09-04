@@ -1,0 +1,123 @@
+\lecture{2024-09-02}{Kd-trees}
+
+To recap, we have solved 2D orthogonal range searching using
+\begin{itemize}
+    \item \textbf{Range trees:} $O(n \log n)$ space and $O(\log^2 n + k)$
+    time, which we later improved to $O(\log n + k)$ using fractional
+    cascading.
+    \item \textbf{The crazy optimal:}
+    $O\ab(n \cdot \frac{\log n}{\log \log n})$
+    space and $O(\log n + k)$ time.
+\end{itemize}
+
+What if we are limited to $O(n)$ space?
+\begin{question*}
+    Given a set of points in $\R^2$ and $O(n)$ space,
+    process queries of the form $[x_1, x_2] \times [y_1, y_2]$.
+\end{question*}
+\section{Kd-tree} \label{sec:kd}
+Given a set of points $P \subseteq \R^2$, split them evenly by a vertical
+cut.
+Next, split the two halves by a horizontal cut.
+Repeat this process recursively.
+Create a tree with the cuts as nodes and the points as leaves.
+
+The construction time is $O(n \log n)$. \[
+    T(n) = 2T\ab(\frac{n}{2}) + O(n)
+\] The space used is $O(n)$. \[
+    S(n) = 2S\ab(\frac{n}{2}) + O(1)
+\]
+We can do this for any number of dimensions.
+\begin{algo}
+    \Fn{Kd-tree}{$d, P, a$}
+        \State $m \gets \Call{median}{\set{p.a \mid p \in P}}$
+        \State $P_\ell \gets \set{p \in P \mid p.a \le m}$
+        \State $P_r \gets \set{p \in P \mid p.a > m}$
+        \State $T_\ell \gets \Call{Kd-tree}{d, P_\ell, a + 1 \bmod d}$
+        \State $T_r \gets \Call{Kd-tree}{d, P_r, a + 1 \bmod d}$
+        \State \Return $\Call{node}{a, m, T_\ell, T_r}$
+    \EndFn
+\end{algo}
+\begin{solution} \label{sol:kd}
+    Store the points in a Kd-tree.
+    To each internal node $v$, we have an associated rectangle $R(v)$
+    containing all points in the subtree rooted at that node.
+
+    For a query rectangle $Q = [x_1, x_2] \times [y_1, y_2]$,
+    we traverse the tree from the root, while keeping track of the
+    rectangles $R(v)$.
+    \begin{itemize}
+        \item At a leaf node, determine if the point is in the rectangle.
+        \item At an internal node $v$
+        \begin{enumerate}
+            \item \label{sol:kd:ignore}
+                If $Q \cap R(v) = \O$, ignore the subtree.
+            \item \label{sol:kd:report}
+                If $Q \supseteq R(v)$, report all points in the subtree.
+            \item \label{sol:kd:recurse}
+                If only part of $R(v)$ intersects $Q$,
+                recurse on both children.
+                Equivalently, the boundary of $Q$ intersects $R(v)$.
+        \end{enumerate}
+    \end{itemize}
+    \begin{algo}
+        \Fn{Kd-query}{$v, Q, R$}
+            \If{$v$ is a leaf}
+                \State report $v$ if $v \in Q$ and \Return
+            \EndIf
+            \If{$Q \cap R = \O$}
+                \State \Return
+            \EndIf
+            \If{$v$ splits by $x$-coordinate}
+                \State $R_\ell \gets R \cap [-\infty, v.m] \times \R$
+                \State $R_r \gets R \cap [v.m, +\infty] \times \R$
+            \Else
+                \State $R_\ell \gets R \cap \R \times [-\infty, v.m]$
+                \State $R_r \gets R \cap \R \times [v.m, +\infty]$
+            \EndIf
+            \State \Call{Kd-query}{$v.\ell, Q, R_\ell$}
+            \State \Call{Kd-query}{$v.r, Q, R_r$}
+        \EndFn
+    \end{algo}
+\end{solution}
+\begin{remark}
+    Cases \ref{sol:kd:report} and \ref{sol:kd:recurse} are identical from
+    the algorithm's perspective.
+    Both involve recursing on both children.
+    They are distinguished here for the purpose of analysis.
+\end{remark}
+\begin{proof}[Analysis]
+    We take $O(k)$ time across all nodes of type \ref*{sol:kd:report}.
+
+    The parent of every node visited (including leaves) is of type
+    \ref*{sol:kd:recurse}, except the subtrees in case \ref*{sol:kd:report}
+    already accounted for above.
+    Thus the total number of nodes visited can be bounded by $2$ times
+    the number of type \ref*{sol:kd:recurse} nodes.
+    We will bound this number.
+
+    How many nodes can intersect a line $x = L$?
+    Fix a node $v$.
+    If $v$ is split by $x$-coordinate, at most one child intersects $x = L$.
+    If $v$ is split by $y$-coordinate, both children may intersect.
+    Thus the number of intersecting nodes at most doubles every $2$ levels.
+    This gives a total of $O(2^{\frac{\log n}{2}}) = O(\sqrt n)$ nodes.
+    More formally, \[
+        I(n) \le 3 + 2I\ab(\frac n4),
+    \] which has solution $I(n) = O(\sqrt n)$.
+    The $3$ is for the root and possibly both children,
+    but only two of the grandchildren can intersect.
+
+    Thus there are at most $O(\sqrt n)$ nodes of type \ref*{sol:kd:recurse}.
+    This gives total time $O(\sqrt n + k)$.
+\end{proof}
+In the 3D case, the number of nodes doubles twice every $3$ levels,
+giving $O(n^{2/3})$ nodes intersecting an axis-perpendicular plane,
+and a time complexity of $O(n^{2/3} + k)$.
+In $d$ dimensions, we have $O(n^{1 - 1/d} + k)$ time. \[
+    I(n) \le (2^d - 1) + 2^{d-1} I(n/2^d)
+        \implies I(n) = O(n^{\frac{d-1}{d}})
+\]
+
+This is because whenever a cut is parallel to the place,
+there is no increase in the number of intersecting nodes.

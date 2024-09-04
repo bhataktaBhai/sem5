@@ -1,0 +1,120 @@
+\lecture[7]{2024-08-28}{Orthogonal range reporting -- optimal space}
+
+\textbf{Only one midterm, in the middle of September.} \\
+
+In the pointer machine model, memory is organised in a graph.
+Chazelle (1990) showed that in a pointer machine model, any algorithm
+for range reporting that achieves $O(\log^c n + k)$ time must use
+$\Omega\ab(n \frac{\log n}{\log \log n})$ space.
+
+We will achieve this bound in today's lecture.
+
+\begin{question*} \label{que:ors:special}
+    Given a set of points in $\R^2$ and an $x_0 \in \R$,
+    process queries of the form
+    $[x_1, x_2] \times [y_1, y_2]$ where $x_1 < x_0 < x_2$.
+\end{question*}
+\begin{solution}
+    Partition the set of points $P$ into
+    $P_L = P \cap ([-\infty, x_0) \times \R)$
+    and $P_R = P \cap ([x_0, \infty) \times \R)$.
+    Use the 3-sided range reporting algorithm to report the points in
+    $[x_1, \infty) \times [y_1, y_2]$ from $P_L$ and
+    $(-\infty, x_2] \times [y_1, y_2]$ from $P_R$.
+
+    This takes $O(\log n + k)$ time and consumes $O(n)$ space.
+\end{solution}
+
+We can generalize this to work for any query, by using a balanced binary
+search tree on the $x$-coordinates of the points.
+\begin{solution}
+    Let $x_m$ be the median $x$-coordinate in $P$.
+
+    Partition $P$ into $P_L$ and $P_R$ as before.
+    Recurse on $P_L$ and $P_R$.
+    For each node, construct the data structure described above:
+    two priority search trees containing all descendants of the node.
+    The space requirement is given by the recursion \[
+        S(n) \le O(n) + 2S(n/2)
+    \] which has solution $S(n) = O(n \log n)$.
+    This can be thought of as $O(n)$ space per level of the tree.
+    The construction time is given by the recursion \[
+        T(n) \le O(n \log n) + 2T(n/2)
+    \] which has solution $T(n) = O(n \log^2 n)$.
+
+    For each query, locate the highest node in the tree that intersects
+    the query rectangle.
+    This takes $O(\log n)$ time.
+    Use the data structure at that node to report the entire rectangle in
+    $O(\log n + k)$ time.
+\end{solution}
+
+The key idea is to use a search tree with larger fanout to reduce
+the height.
+A tree with fanout $f$ has height $O(\log_f n)$.
+For a fanout of $\log n$, this is $O\ab(\frac{\log n}{\log \log n})$.
+
+Let us look at the special case \cref{que:ors:special} first.
+\begin{question*}
+    Given a set of $n$ points in $\R^2$ and
+    $\ell_1, \dots, \ell_{F-1} \in \R$,
+    process queries of the form $[x_1, x_2] \times [y_1, y_2]$
+    where $(x_1, x_2)$ contains at least one $\ell_i$.
+\end{question*}
+\begin{solution}[Solution (naive)]
+    Split the points into $F$ slabs $L_1, \dots, L_F$
+    by the lines $x = \ell_1, \dots, \ell_{F-1}$.
+
+    For each slab, build a priority search tree.
+    Any query $[x_1, x_2] \times [y_1, y_2]$ will overlap with
+    $L_i, \dots, L_j$ for some $i < j$.
+    Run the 3-sided range reporting algorithm on each of these slabs.
+    This takes $O(n)$ space and $O(F \log n + k)$.
+    Oops!
+\end{solution}
+(diagram) The range is three-sided only in the slabs $L_i$ and $L_j$.
+The middle slabs are essentially $1$-dimensional queries.
+Thus we can do better.
+
+\begin{solution}
+    For each slab, build a PST.
+    In addition, maintain a fractional cascading structure on the slabs,
+    where each point is projected onto the $y$-axis.
+    The total space occupied is still $O(n)$.
+
+    Any query $[x_1, x_2] \times [y_1, y_2]$ will overlap with
+    $L_i, \dots, L_j$ for some $i < j$.
+    The intersection will be 3-sided only with $L_i$ and $L_j$.
+    Solve these using the PSTs in $O(\log n + k)$ time.
+
+    Use fractional cascading to obtain the successor of $y_1$ in each
+    slab in the middle in $O(\log n + F)$ time.
+    Keep going until $y_2$, in $O(k)$ time.
+    The total time is $O(\log n + F + k)$.
+\end{solution}
+If $F = O(\log n)$, we have $O(\log n + k)$ time using $O(n)$ space.
+
+Finally, we can generalize this to any query.
+\begin{solution}
+    Let $F = \ceil{\log n}$.
+    Partition $P$ into equal $P_1, \dots, P_F$ by $x$-coordinate.
+    Recurse on each $P_i$,
+    storing $F$ PSTs and a fractional cascade of $F$ slabs at each node.
+
+    This consumes $O(n)$ space at each level, for a total of
+    $O\ab(\frac{n \log n}{\log \log n})$.
+
+    At query time, we have two cases:
+    \begin{enumerate}[label=(Case \arabic*)]
+        \item The query rectangle intersects at least one slab boundary.
+            Solve the special case in $O(\log n + k)$ time.
+        \item The query rectangle is contained within a slab.
+            Recurse into the slab.
+    \end{enumerate}
+    Figuring out which case we are in takes $O(\log F)$ time.
+    The tree has height $O\ab(\frac{\log n}{\log \log n})$,
+    so getting to case $1$ takes at most
+    $O\ab(\log F \cdot \frac{\log n}{\log \log n}) = O(\log n)$ time.
+    Once we are in case $1$, reporting requires $O(\log n + k)$ time.
+    Thus we still have $O(\log n + k)$ time using the lower bound space.
+\end{solution}

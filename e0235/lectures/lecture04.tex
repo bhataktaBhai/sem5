@@ -1,0 +1,20 @@
+\chapter{Secret sharing} \label{chp:sharing}
+\lecture{2024-08-16}{}
+
+\begin{definition}[Secret sharing] \label{def:sharing}
+    A \emph{secret-sharing scheme} for an \emph{access structure}
+    $\Gamma$ over $\mcP = \set{P_1, \dots, P_n}$ is a pair of
+    public algorithms
+    \[
+        \Sh\colon \mcK \to \mcS^n
+        \quad\text{and}\quad
+        \Rec\colon 
+    \] such that for all $s \in \mcK$ with $\Sh(s) = (s_1, \dots, s_n)$
+    and $B = \set{P_{i_1}, \dots, P_{i_k}} \subseteq \mcP$,
+    \begin{enumerate}
+        \item if $B \in \Gamma$, then
+            $\Rec(B, s_{i_1}, \dots, s_{i_k}) = s$.
+        \item if $B \notin \Gamma$, then
+            $\Rec(B, s_{i_1}, \dots, s_{i_k}) = \bot$.
+    \end{enumerate}
+\end{definition}

@@ -1,10 +1,18 @@
 % recommended font bitstream charter
+\usepackage{newfloat}
+% \DeclareFloatingEnvironment[
+%     fileext=loa,
+%     listname={List of Algorithms},
+%     name=Algorithm,
+%     % placement=tbhp,
+%     within=section,
+% ]{algo}
 \usepackage{algorithmicx}
 \usepackage[indLines=false, italicComments=false]{algpseudocodex}
 \newcommand\Varr[1]{\textit{#1}}
 
 % Jeff's close underlining -- \smash collapses the text box to size 0
-\newcommand\textul[1]{\underline{\smash{#1}\vphantom{.}}}
+\newcommand\textul[1]{\vphantom{#1}\underline{\smash{#1}\vphantom{.}}}
 \algdef{SxNi}[fn]{Fn}{EndFn}{1em}%
 [2]{\textul{\textsc{#1}(#2):}}%
 
@@ -19,17 +27,25 @@
 \algrenewcommand\algorithmicreturn{return}
 
 \usepackage{varwidth}
+\usepackage{mdframed}
+% \surroundwithmdframed[innerleftmargin=0pt,innerrightmargin=0pt]{algorithmic}
+
+% \newenvironment{alg}
+% {\fontfamily{bch}\selectfont\small%
+% \begin{algorithmic}}
+% {\end{algorithmic}}
 \newenvironment{algo}
 {\fontfamily{bch}\selectfont
 \begin{center}\begin{tabular}{|l|}
     \hline
-    \hspace{-0.85em} \begin{varwidth}{0.9\textwidth}
+    \hspace{-0.85em} \begin{varwidth}{0.7\textwidth}
         \small\;\\[-1.6em]
         \begin{algorithmic}}
 {       \end{algorithmic}\;\\[-2em]
     \end{varwidth} \\
     \hline
 \end{tabular}\end{center}}
+
 
 % % ---------------------------------------------------------------------
 % %  Algorithm and code environments -- Algorithms are set in normal

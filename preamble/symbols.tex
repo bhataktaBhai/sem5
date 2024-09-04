@@ -31,6 +31,8 @@
 \let\braket\relax
 \DeclarePairedDelimiterX{\braket}[3]{\langle}{\rangle}%
 {#1\,\delimsize\vert\,\mathopen{}#2\,\delimsize\vert\,\mathopen{}#3}
+\DeclarePairedDelimiterX{\sset}[2]{\{}{\}}%
+{#1\,\delimsize\vert\,\mathopen{}#2}
 
 \renewcommand\O{\ensuremath{\varnothing}}
 \newcommand\N{\ensuremath{\mathbb{N}}}
@@ -39,7 +41,6 @@
 \newcommand\R{\ensuremath{\mathbb{R}}}
 \newcommand\C{\ensuremath{\mathbb{C}}}
 \newcommand\eps{\ensuremath{\varepsilon}}
-% \renewcommand\P{\ensuremath{\mathbb{P}}}
 
 % fix spacing for \forall and \exists
 % \let\oldforall\forall

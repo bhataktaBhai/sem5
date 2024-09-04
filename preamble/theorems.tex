@@ -108,6 +108,7 @@
 \newtheorem{fact}[theorem]{Fact}
 \newtheorem{exercise}[theorem]{Exercise}
 \newtheorem{question}[theorem]{Question}
+\newtheorem*{claim}{Claim}
 
 \theoremstyle{remark}
 \newtheorem*{remark}{Remark}
@@ -122,7 +123,7 @@
 \let\endoldproof\endproof
 \newenvironment{solution}[1][]
   {\renewcommand\qedsymbol{$\blacksquare$}%
-  \begin{oldproof}[Solution\ifx&#1&\else\ (#1)\fi]}
+  \begin{oldproof}[\ifx&#1&Solution\else#1\fi]}
   {\end{oldproof}}
 \newenvironment{answer}
   {\renewcommand\qedsymbol{$\blacksquare$}\begin{oldproof}[Answer]}
@@ -134,7 +135,6 @@
   \renewcommand{\qedsymbol}{$\square$}\begin{oldproof}[#1]}
   {\end{oldproof}}
 \newtheorem*{notation}{Notation}
-\newtheorem*{claim}{Claim}
 
 % <cref>
 \crefname{theorem}{theorem}{theorems}
@@ -172,7 +172,7 @@
 
 \usepackage[shortlabels]{enumitem}
 % change default label for enumerate, and fix long labels popping out
-\setenumerate{label*=(\roman*),ref=(\roman*),leftmargin=*}
+\setlist[enumerate,1]{label*=(\arabic*),ref=(\arabic*),leftmargin=*}
 % casework list using https://tex.stackexchange.com/a/30035
 \newcounter{casecount}
 \newlist{casework}{description}{1}

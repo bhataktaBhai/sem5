@@ -24,15 +24,15 @@ We will continue our examples.
     As a matrix, this is $\begin{pmatrix}
         a_2 & a_1
     \end{pmatrix}$.
-    \item Let $f\colon M_n(\R) \to M_n(\R)$ be given by $f(X) = X$.
+    \item Let $f\colon \M_n(\R) \to \M_n(\R)$ be given by $f(X) = X$.
 
-    We could identify $M_n(\R)$ with $\R^{n^2}$ and construct
+    We could identify $\M_n(\R)$ with $\R^{n^2}$ and construct
     a linear map from $\R^{n^2}$ to $\R^{n^2}$.
-    It is however advisable to construct a linear map from $M_n(\R)$ to
-    $M_n(\R)$.
+    It is however advisable to construct a linear map from $\M_n(\R)$ to
+    $\M_n(\R)$.
     This is again a specical case of the second example.
     Thus $f'(A) = f = \id$.
-    \item Let $f\colon M_n(\R) \to M_n(\R)$ be given by $f(X) = X^2$.
+    \item Let $f\colon \M_n(\R) \to \M_n(\R)$ be given by $f(X) = X^2$.
     Then \begin{align*}
         f(A + H) &= (A + H)^2 \\
             &= A^2 + AH + HA + H^2 \\
@@ -42,14 +42,14 @@ We will continue our examples.
             = \norm H \to 0.
     \]
     Thus $f'(A)(H) = AH + HA$.
-    \item Let $f\colon M_n(\R) \to M_n(\R)$ be given by $f(X) = X^3$.
+    \item Let $f\colon \M_n(\R) \to \M_n(\R)$ be given by $f(X) = X^3$.
     Then \begin{align*}
         f(A + H) &= (A + H)^3 \\
             &= A^3 + A^2 H + A H A + H A^2 \\
             &\qquad+ A H^2 + H A H + H^2 A + H^3 \\
             &= A^3 + (A^2 H + A H A + H A^2) + o(H).
     \end{align*}
-    \item Let $f\colon \GL_n(\R) \to M_n(\R)$ be given by $f(X) = X^{-1}$.
+    \item Let $f\colon \GL_n(\R) \to \M_n(\R)$ be given by $f(X) = X^{-1}$.
     Recall that if $\norm Z < 1$, then \[
         (I - Z)^{-1} = I + Z + O(Z^2) = I + Z + o(Z).
     \] Thus for small enough $\norm H$, \begin{align*}
@@ -79,7 +79,7 @@ We will continue our examples.
     However, we can simply use \cref{TODO} as follows: \[
         u(H) = o(-A^{-1}H) = o(O(H)) = o(H).
     \]
-    \item Let $f\colon M_n(\R) \to M_n(\R)$ be given by $f(X) = X^{-2}$.
+    \item Let $f\colon \M_n(\R) \to \M_n(\R)$ be given by $f(X) = X^{-2}$.
     Then \begin{align*}
         f(A + H) &= (A + H)^{-2} \\
             &= (A^{-1} - A^{-1}HA^{-1} + o(H))

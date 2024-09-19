@@ -1,0 +1,276 @@
+\documentclass[12pt]{article}
+\input{../preamble}
+\setlist[enumerate,1]{label=(\alph*)}
+
+\title{Assignment 3}
+\author{Naman Mishra}
+\date{11 September, 2024}
+
+\begin{document}
+\maketitle
+
+% Problem 5
+\setcounter{problem}{4}
+\begin{problem}
+%     Let f : R2 → R be given by
+% ( x3 , (x,y)̸=(0,0), f(x,y) = x2+y2
+% 0, (x, y) = (0, 0).
+% (a) Show directly that f is continuous.
+% (b) Prove that D1f and D2f are bounded functions in R2. (Hence f is
+% continuous by Question 4).
+% (c) Let u be any unit vector in R2. Show that the directional derivative
+% Duf(0,0) exists, and that its absolute value is at most one.
+% (d) Show that f is not differentiable at (0, 0).
+    Let $f\colon \R^2 \to \R$ be given by \[
+        f(x, y) = \begin{cases}
+            \frac{x^3}{x^2 + y^2} & \text{if } (x, y) \ne (0, 0), \\
+            0 & \text{if } (x, y) = (0, 0).
+        \end{cases}
+    \]
+    \begin{enumerate}
+        \item Show directly that $f$ is continuous.
+        \item Prove that $D_1f$ and $D_2f$ are bounded functions in
+        $\R^2$ (hence $f$ is continuous by
+        \crefifdef{prb:bound-cont}{problem 4})
+        \item Let $u$ be any vector in $\R^2$.
+        Show that the directional derivative $D_uf(0, 0)$ exists, and that
+        its absolute value is at most one.
+        \item Show that $f$ is not differentiable at $(0, 0)$.
+    \end{enumerate}
+\end{problem}
+\begin{solution} \leavevmode
+    \begin{enumerate}
+        \item Let $(x, y) \in \R^2 \setminus \set{(0, 0)}$ and
+        let $(h, k) \in \R^2$ be such that $\norm{(h, k)} < \norm{(x, y)}$.
+        Then \[
+            f(x + h, y + k) = \frac{(x + h)^3}{(x + h)^2 + (y + k)^2}.
+        \] As $(h, k) \to (0, 0)$, the numerator goes to $x^3$ and the
+        denominator goes to $x^2 + y^2 > 0$.
+        Therefore $f(x + h, y + k) \to f(x, y)$ as $(h, k) \to (0, 0)$.
+
+        For continuity at $(0, 0)$, note that \[
+            f(h, k) = \frac{h^3}{h^2 + k^2} \le \frac{h^3}{h^2} = h,
+        \] so that $f(h, k) \to 0$ as $(h, k) \to (0, 0)$.
+        \item For each $y \in \R$, let $g_y = x \mapsto f(x, y)$, and for
+        each $x \in \R$, let $h_x = y \mapsto f(x, y)$.
+        Then for $(x, y) \ne (0, 0)$, we have \begin{align*}
+            D_1f(x, y) &= g'_y(x)
+                = \frac{3x^2(x^2 + y^2) - x^3(2x)}{(x^2 + y^2)^2}
+                = \frac{x^4 + 3x^2y^2}{(x^2 + y^2)^2} \\
+            D_2f(x, y) &= h'_x(y)
+                = \frac{-2x^3y}{(x^2 + y^2)^2}.
+        \end{align*}
+        Write \begin{align*}
+            \abs{D_1f(x, y)} &= \frac{x^2}{x^2 + y^2} \frac{x^2 + 3y^2}{x^2 + y^2}
+                \le 1 \\
+            \abs{D_2f(x, y)} &= \frac{x^2}{x^2 + y^2} \frac{2\abs{xy}}{x^2 + y^2}
+                \le 1 \tag{AM-GM}.
+        \end{align*}
+        For $(0, 0)$, we have $g_0(x) = x$ and $h_0(y) = 0$.
+        Thus \[
+            D_1f(0, 0) = 1, \quad D_2f(0, 0) = 0.
+        \] Thus $D_1f$ and $D_2f$ are both bounded by $1$ in all of $\R^2$.
+        \item Let $u = (u_1, u_2) \ne 0$.
+        ($D_{(0, 0)}f$ is trivially $0$.)
+        Then \begin{align*}
+            D_uf(0, 0) &= \lim_{t \to 0} \frac{f(tu_1, tu_2)}{t} \\
+            &= \lim_{t \to 0} \frac{t^3u_1^3}{t^2(u_1^2 + u_2^2) \cdot t}
+            &= \frac{u_1^3}{u_1^2 + u_2^2}.
+        \end{align*}
+        \item If $f$ were differentiable at $(0, 0)$, then $f'(0, 0)$ would
+        be the given by the matrix $\begin{bmatrix} 1 & 0 \end{bmatrix}$.
+        Then $D_uf(0, 0) = u_1$ for all $u \ne 0$.
+        By the previous part, this is not the case (for example,
+        when $u = (1, 1)$).
+        Thus $f$ is not differentiable at $(0, 0)$. \qedhere
+    \end{enumerate}
+\end{solution}
+
+% Problem 14
+\setcounter{problem}{13}
+\begin{problem}
+%     Letf:R→Rbegivenby
+% f(x) =
+%  x+2x2sin1, x̸=0, x
+% 0,
+% x = 0.
+% Show that
+% (a) f is differentiable on R and f′(0) = 1.
+% (b) f′ is continuous except at 0.
+% (c) f′ is bounded on (−1,1).
+% (d) on any open interval around 0, there are points x with f′(x) > 0 and
+% also points x with f′(x) < 0.
+% (e) f is not one-to-one in any neighborhood of 0. (Hint: use question
+% 13)
+% Thus the continuity of f′ can not be eliminated from the hypothesis of
+% inverse function theorem even for the case n = 1.
+    Let $f\colon \R \to \R$ be given by \[
+        f(x) = \begin{cases}
+            x + 2x^2\sin\frac1x & \text{if } x \ne 0, \\
+            0 & \text{if } x = 0.
+        \end{cases}
+    \]
+    Show that
+    \begin{enumerate}
+        \item $f$ is differentiable on $\R$ and $f'(0) = 1$.
+        \item $f'$ is continuous except at $0$.
+        \item $f'$ is bounded on $(-1, 1)$.
+        \item On any open interval around $0$, there are points $x$ with
+        $f'(x) > 0$ and also points $x$ with $f'(x) < 0$.
+        \item $f$ is not one-to-one in any neighborhood of $0$.
+    \end{enumerate}
+    Thus the continuity of $f'$ cannot be eliminated from the hypothesis of
+    the inverse function theorem even for the case $n = 1$.
+\end{problem}
+\begin{solution} \leavevmode
+    \begin{enumerate}
+        \item Sum, product and chain rules give that
+        $f$ is differentiable everywhere on $\R^\times$.
+        We can compute it as \[
+            f'(x) = 1 + 4x \sin\frac1x - 2\cos\frac1x.
+        \] For differentiability at $0$, we have \[
+            f'(0) = \lim_{h \to 0} 1 + 2h\sin\frac1h = 1.
+        \]
+        \item As the sum, product, composition of continuous functions,
+        $f'$ is continuous everywhere on $\R^\times$.
+        For continuity at $0$, consider the sequence $x_n = \frac1{2n\pi}$.
+        As $n \to \infty$, $x_n \to 0$ but $f'(x_n) \to -1 \ne f(0)$.
+        Thus $f'$ is not continuous at $0$.
+        \item We know $f'(0) = 1$, and for $\abs{x} < 1$, we have \[
+            \abs{f'(x)} \le 1 + 4\abs{x} + 2 \le 7.
+        \]
+        \item We have already produced a sequence $x_n \to 0$ such that
+        $f'(x_n) = -1$ for each $n$.
+        Consider the sequence $y_n = \frac1{(2n + 1)\pi}$.
+        Then $y_n \to 0$ and $f'(y_n) = 3$ for each $n$.
+        Thus there exist $x$ arbitrarily close to $0$ with $f'(x) > 0$,
+        and $x$ arbitrarily close to $0$ with $f'(x) < 0$.
+        \item Let $U$ be any open neighborhood of $0$.
+
+        $f$ is continuous since it is differentiable.
+        By problem 13, $f$ is one-to-one on $U$ only if it is either
+        strictly increasing or strictly decreasing on $U$.
+
+        If $f$ is increasing on $U$, then $f'(x) \ge 0$ for all $x \in U$.
+        If $f$ is decreasing on $U$, then $f'(x) \le 0$ for all $x \in U$.
+        However, from the previous part, we know that there are points
+        in $U$ where $f'$ is positive and points where $f'$ is negative.
+        Thus neither of these cases can hold, so $f$ is not one-to-one
+        in any neighborhood of $0$. \qedhere
+    \end{enumerate}
+\end{solution}
+
+% Problem 16
+\setcounter{problem}{15}
+\begin{problem} \label{prb:lin-cont}
+    % Suppose X,Y are normed linear spaces over R (need not be of finite di- mensional) and T : X → Y is linear. Prove that the following are equiv- alent.
+    % (a) T is continuous at some point of X. (b) T is continuous at 0.
+    % (c) T is continuous.
+    % (d) There exists a constant C > 0 such that ∥T(x)∥ ≤ C∥x∥ for all x ∈ X.
+    % (e) For every bounded subset V of X, T (V ) is bounded in Y.
+    % (f) T(U)isaboundedsubsetofY,whereU:={x∈X:∥x∥≤1}.
+    % (g) T is uniformly continuous.
+    Suppose $X, Y$ are normed linear spaces over $\R$ (need not be of finite
+    dimension) and $T\colon X \to Y$ is linear.
+    Prove that the following are equivalent.
+    \begin{enumerate}
+        \item \label{prb:lin-cont:some}
+            $T$ is continuous at some point of $X$.
+        \item \label{prb:lin-cont:0}
+            $T$ is continuous at $0$.
+        \item \label{prb:lin-cont:cont}
+            $T$ is continuous.
+        \item \label{prb:lin-cont:Ox}
+            There exists a constant $C > 0$ such that
+            $\norm{T(x)} \le C\norm{x}$ for all $x \in X$.
+        \item \label{prb:lin-cont:bounded}
+            For every bounded subset $V$ of $X$, $T(V)$ is bounded in $Y$.
+        \item \label{prb:lin-cont:U}
+            $T(U)$ is a bounded subset of $Y$, where
+            $U \coloneq \set{x \in X : \norm{x} \le 1}$.
+        \item \label{prb:lin-cont:unif}
+            $T$ is uniformly continuous.
+    \end{enumerate}
+\end{problem}
+\begin{solution}
+    Each implication in \[
+        \ref{prb:lin-cont:unif}
+        \implies \ref{prb:lin-cont:cont}
+        \implies \ref{prb:lin-cont:0}
+        \implies \ref{prb:lin-cont:some}
+    \] is obvious.
+    We prove $\ref{prb:lin-cont:some} \implies \ref{prb:lin-cont:unif}$
+    to close this chain.
+
+    \begin{claim}
+        If $T$ is continuous at some $x_0 \in X$, then $T$ is uniformly
+        continuous.
+    \end{claim}
+    \begin{subproof}[Proof of claim]
+        Let $\eps > 0$ and $\delta > 0$ be such that \[
+            \norm{T(x) - T(x_0)} < \eps
+            \quad\text{whenever } \norm{x - x_0} < \delta.
+        \] Let $x, x' \in X$ be such that $\norm{x - x'} < \delta$.
+        Then \begin{align*}
+            \norm{T(x) - T(x')}
+            &= \norm{T(x_0 + (x - x')) - T(x_0)} \tag{linearity} \\
+            &< \eps
+        \end{align*} since $(x_0 + (x - x')) - x_0 = x - x'$.
+        Thus $T$ is uniformly continuous.
+    \end{subproof}
+
+    We now show \[
+        \ref{prb:lin-cont:Ox}
+        \implies \ref{prb:lin-cont:bounded}
+        \implies \ref{prb:lin-cont:U}
+        \implies \ref{prb:lin-cont:Ox}.
+    \]
+    \begin{enumerate}
+        \item[($\ref{prb:lin-cont:Ox} \implies \ref{prb:lin-cont:bounded}$)]
+        Let $V$ be such that $\norm v \le M$ for all $v \in V$.
+        Then for any $v \in V$, we have \[
+            \norm{T(v)} \le C\norm v \le CM
+        \] so that $T(V)$ is bounded.
+        \item[($\ref{prb:lin-cont:bounded} \implies \ref{prb:lin-cont:U}$)]
+        $U$ is bounded, so $T(U)$ is bounded.
+        \item[($\ref{prb:lin-cont:U} \implies \ref{prb:lin-cont:Ox}$)]
+        Let $T(u) \le C$ for all $u \in U$.
+        Let $x \in X$ be arbitrary.
+        Since $T$ is linear, \begin{align*}
+            T(x) &= \norm x T\ab(\frac{x}{\norm x}) \\
+            &\le C \norm x
+        \end{align*} since $\frac{x}{\norm x} \in U$.
+    \end{enumerate}
+    We have proven \[
+        \ref{prb:lin-cont:unif}
+            \iff \ref{prb:lin-cont:cont}
+            \iff \ref{prb:lin-cont:0}
+            \iff \ref{prb:lin-cont:some}
+        \quad\text{and}\quad
+        \ref{prb:lin-cont:Ox}
+            \iff \ref{prb:lin-cont:bounded}
+            \iff \ref{prb:lin-cont:U}.
+    \] We prove $\ref{prb:lin-cont:0} \iff \ref{prb:lin-cont:U}$ to prove
+    equivalence of all statements.
+
+    Suppose $T$ is continuous at $0$.
+    Then there exists $\delta > 0$ such that \[
+        \norm{T(x)} < 1
+            \quad\text{whenever } \norm x < \delta.
+    \] Plugging $x = \delta u$ gives \[
+        \norm{T(\delta u)} < 1
+            \quad\text{whenever } \norm{\delta u} < \delta.
+    \] By linearity of $T$ and absolute homogeneity of the norm, we have \[
+        \norm{T(u)} < \frac1{\delta} \quad\text{whenever } \norm u < 1.
+    \] Thus $T(U)$ is bounded.
+
+    Conversely, suppose $T(U)$ is bounded.
+    Then for any $x \in X$, $\norm{T(x)} \le C\norm x$ for some $C > 0$
+    (since $\ref{prb:lin-cont:U} \implies \ref{prb:lin-cont:Ox}$).
+    For any $\eps > 0$, choose $\delta = \frac{\eps}{C}$.
+    Then if $\norm x < \delta$, we have \[
+        \norm{T(x)} \le C\norm x < C\delta = \eps.
+    \] Thus $T$ is continuous at $0$.
+\end{solution}
+
+\end{document}

@@ -1,0 +1,394 @@
+\documentclass[12pt]{article}
+\input{../preamble}
+\setenumerate{label=(\alph*)}
+\setenumerate[2]{label=(\roman*)}
+
+\title{Assignment 2}
+\author{Naman Mishra}
+\date{21 August, 2024}
+
+\begin{document}
+\maketitle
+
+% Problem 1
+% For convenience, we will use the notation
+% $f(x) \cdot [P(x)]$ to denote the function \[
+%     f(x) \cdot [P(x)] = \begin{cases}
+%         f(x) & \text{if } P(x) \text{ holds}, \\
+%         0 & \text{otherwise}.
+%     \end{cases}
+% \]
+\begin{problem} \label{prb:cont}
+    Determine whether in each case the function $f\colon \R^2 \to \R$ is
+    continuous or not.
+    \begin{enumerate}
+        \item $f(x, y) = [(x, y) \ne 0]\; \frac{x \sin^2 y}{x^2 + y^2}$
+        \item $f(x, y) = [(x, y) \ne 0]\; \frac{\sin(x^2 + y^2)}{x^2 + y^2}
+            + [(x, y) = 0]\; 1$
+        \item $f(x, y) = [(x, y) \ne 0]\; \frac{xy}{\sqrt{x^2 + y^2}}$
+        \item $f(x, y) = [(x, y) \ne 0]\; \frac{xy}{x^2 + y^2}$
+            \label{prb:cont:sincos}
+        \item $f(x, y) = [(x, y) \ne 0]\; \frac{xy^2}{x^2 + y^4}$
+            \label{prb:cont:square-homo}
+    \end{enumerate}
+\end{problem}
+\begin{solution}
+    All of these are sums, products, quotients, and compositions of
+    continuous functions in $\R^2 \setminus \set{(0, 0)}$.
+    Thus we only need to check continuity at $(0, 0)$.
+    \begin{enumerate}
+        \item Continuous. \[
+            \abs{f(x, y)} \le \abs x \frac{\sin^2 y}{y^2} \le \abs x \to 0
+        \]
+        \item Continuous. % TODO
+        \item Continuous.
+        \[
+            \abs{f(x, y)} \le \frac{\abs{xy}}{\abs{y}} = \abs x \to 0
+        \]
+        \item Not continuous. This is homogenous of degree 0, but not
+        constant on the unit circle.
+        \item Not continuous.
+        \[
+            f(t^2, t) = \frac{t^4}{t^4 + t^4} \to \frac12 \qedhere
+        \]
+    \end{enumerate}
+\end{solution}
+
+% Problem 2
+\begin{problem}
+    Let $f\colon \R^2 \to \R$ be as in
+    \cref{prb:cont}\labelcref{prb:cont:sincos}.
+    Show that $D_1 f$ and $D_2 f$ exist at every point in $\R^2$,
+    although the function is not continuous at $(0, 0)$.
+\end{problem}
+\begin{solution}
+    They obviously exist in $\R^2 \setminus \set{(0, 0)}$.
+    At $(0, 0)$, we have \[
+        D_1 f(0, 0) = \lim_{h \to 0} \frac{f(h, 0) - f(0, 0)}{h} = 0.
+    \] Similarly $D_2 f(0, 0) = 0$.
+\end{solution}
+
+% Problem 3
+\begin{problem}
+    Let $f\colon \R^2 \to \R$ be given by \[
+        f(x, y) = \frac{xy(x^2 - y^2)}{x^4 + y^4} \cdot [(x, y) \ne 0].
+    \]
+    Show that $D_1 f$ and $D_2 f$ exist at every point in $\R^2$,
+    although the function is not continuous at $(0, 0)$.
+\end{problem}
+\begin{solution}
+    Obvious except at $(0, 0)$.
+    Also obvious at $(0, 0)$.
+
+    For continuity, notice again that this is homogenous of degree 0,
+    but its value at $(1, 0)$ is different from at
+    $(\cos 1, \sin 1)$.
+\end{solution}
+
+% Problem 4
+\begin{problem}
+    Let $f\colon \R^2 \to \R$ be as in
+    \cref{prb:cont}\labelcref{prb:cont:square-homo}.
+    Show that for every $v \in \R^2$, the directional derivative
+    $D_vf$ exists at every point of $\R^2$, although the function is not
+    continuous at $(0, 0)$.
+\end{problem}
+\begin{solution}
+    Let $v = (a, b) \ne 0$.
+    Obvious but at the origin.
+    \begin{align*}
+        D_vf(0, 0) &= \lim_{t \to 0} \frac{f(t)}{t} \\
+        &= \lim_{t \to 0} \frac{ab^2}{a^2 + b^4 t^2} \\
+        &= \frac{ab^2}{a^2 + b^4}. \qedhere
+    \end{align*}
+\end{solution}
+
+% Problem 5
+\begin{problem}
+    Let $f\colon \R^2 \to \R$ be given by \[
+        f(x, y) = \frac{xy^3}{x^2 + y^6} \cdot [(x, y) \ne 0].
+    \]
+    Show that for every $v \in \R^2$, the directional derivative
+    $D_vf$ exists at every point of $\R^2$, although the function is not
+    continuous at $(0, 0)$.
+\end{problem}
+\begin{solution}
+    It's the same thing.
+    \begin{align*}
+        D_vf(0, 0) &= \lim_{t \to 0} \frac{ab^3 t}{a^2 + b^6 t^4} \\
+        &= 0.
+    \end{align*}
+    Continuity is similarly disproven by $(t^3, t)$.
+\end{solution}
+
+% Problem 6
+\begin{problem}
+    Let $U$ be an open subset of $\R^n$ and $f\colon U \to \R^m$ be such
+    that \[
+        f(x) \coloneq (f_1(x), \dots, f_m(x)) \quad \text{for } x \in U.
+    \]
+    \begin{enumerate}
+        \item Suppose that $f$ is differentiable at $a \in U$.
+        Show that each $f_k$ is differentiable at $a$ for $k \in [m]$,
+        with \[
+            f_k'(a)(v) = \innerp{f'(a)(v)}{e_k}
+            \quad \text{for } v \in \R^n.
+        \]
+        \item Suppose that each $f_k\colon U \to \R$ is differentiable at
+        $a \in U$ for $k \in [m]$.
+        Prove that $f$ is differentiable at $a$ with \[
+            f'(a)(v) = (f_1'(a)(v), \dots, f_m'(a)(v))
+            \quad \text{for } v \in \R^n. \qedhere
+        \]
+    \end{enumerate}
+\end{problem}
+\begin{solution} \leavevmode
+    \begin{enumerate}
+        \item Let $f'(a) = T \in L(\R^n, \R^m)$.
+        Let $v = (v_1, \dots, v_n) \in \R^n$.
+        Then \begin{align*}
+            f_k'(a)(v) &= \lim_{t \to 0} \frac{f_k(a + tv) - f_k(a)}{t} \\
+            \implies f_k'(a)(v) - \innerp{T(v)}{e_k} &= \lim_{t \to 0}
+            \frac{f_k(a + tv) - f_k(a) - T(v)_k}{t} \\
+            &= \lim_{t \to 0} \frac{f(a + tv) - f(a) - T(v)}{t} \dotp e_k \\
+            &= 0.
+        \end{align*}
+        \item Let $f_k(a + v) = f_k(a) + f_k'(a)(v) + \norm v \eps_k(v)$
+        where $\eps_k(v) \to 0$ as $v \to 0$.
+        Then \begin{align*}
+            f(a + v) - f(a) &= \sum_{k = 1}^m (f_k(a + v) - f_k(a)) e_k \\
+                &= \sum_{k=1}^m f_k'(a)(v) e_k + \norm v \sum_{k=1}^m
+                    \eps_k(v) e_k.
+        \end{align*}
+        Since $\eps_k(v) \to 0$ for each $k$,
+        $(\eps_1(v), \dots, \eps_m(v)) \to 0$.
+        Thus \[
+            f'(a)(v) = \sum_{k=1}^m f_k'(a)(v) e_k. \qedhere
+        \]
+    \end{enumerate}
+\end{solution}
+
+% Problem 7
+\begin{problem} \label{prb:vector}
+    Let $U$ be an open subset of $\R^n$.
+    Let $h\colon U \to \R^{k+m}$ be given by \[
+        h(x) = (f(x), g(x)) \quad \text{for } x \in U,
+    \] where $f\colon U \to \R^k$ and $g\colon U \to \R^m$.
+    \begin{enumerate}
+        \item Suppose that $h$ is differentiable at $a \in U$.
+        Show that both $f$ and $g$ are differentiable at $a$, with \[
+            h'(a)(v) = (f'(a)(v), g'(a)(v)) \quad \text{for } v \in \R^n.
+        \]
+        \item Suppose that both $f$ and $g$ are differentiable at $a \in U$.
+        Prove that $h$ is differentiable at $a$ with \[
+            h'(a)(v) = (f'(a)(v), g'(a)(v)) \quad \text{for } v \in \R^n.
+        \]
+    \end{enumerate}
+\end{problem}
+\begin{solution}
+    Use the previous problem.
+\end{solution}
+
+% Problem 8
+\begin{problem}
+    Calculate the total derivative of the following maps.
+    \begin{enumerate}
+        \item Let $f\colon M_n(\R) \to M_n(\R)$ be given by \[
+            f(X) \coloneq X^\T.
+        \]
+        \item Let $f\colon M_n(\R) \to \R$ be given by \[
+            f(X) \coloneq \Tr(X).
+        \]
+        \item Let $f\colon M_n(\R) \to M_n(\R)$ be given by \[
+            f(X) \coloneq XX^\T.
+        \]
+        \item Let $B \in M_n(\R)$ be fixed.
+        Let $f\colon M_n(\R) \to M_n(\R)$ be given by \[
+            f(X) \coloneq X^\T B X.
+        \]
+        \item Let $A \in M_n(\R)$ be fixed.
+        Let $f\colon \R^n \to \R$ be given by \[
+            f(x) = \innerp{Ax}{x}.
+        \]
+    \end{enumerate}
+\end{problem}
+\begin{solution} \leavevmode
+    \begin{enumerate}
+        \item $f(X + H) = X^\T + H^\T + 0$ where $H \mapsto H^\T$ is linear
+        and $0 = o(H)$.
+        Thus $f'(X)$ is given by \[
+            f'(X)(H) = H^\T.
+        \]
+        \item $f(X + H) = \Tr(X) + \Tr(H) + 0$ where $H \mapsto \Tr(H)$ is
+        linear and $0 = o(H)$.
+        Thus $f'(X)$ is given by \[
+            f'(X)(H) = \Tr(H).
+        \]
+        \item $f(X + H) = f(X) + XH^\T + HX^\T + HH^\T$
+        where $H \mapsto XH^\T + HX^\T$ is linear and
+        $HH^\T = o(H)$, since $\norm{HH^\T} \le \norm H \norm {H^\T}
+        = \norm H^2$.
+        Thus $f'(X)$ is given by \[
+            f'(X)(H) = XH^\T + HX^\T.
+        \]
+        \item $f(X + H) = f(X) + X^\T BH + H^\T BX + H^\T BH$
+        where $H \mapsto X^\T BH + H^\T BX$ is linear and
+        $H^\T B H = o(H)$ since $\norm{H^\T B H} \le \norm B \norm H^2$.
+        Thus $f'(X)$ is given by \[
+            f'(X)(H) = X^\T BH + H^\T BX.
+        \]
+        \item
+        $f(x + h) = f(x) + \innerp{Ax}{h} + \innerp{Ah}{x} + \innerp{Ah}{h}$
+        where $h \mapsto \innerp{Ah}{x} + \innerp{Ax}{h}$ is linear and
+        $\innerp{Ah}{h} = o(h)$ since $\abs{\innerp{Ah}{h}} \le \norm{Ah}
+        \norm h \le \norm A \norm h^2$. \qedhere
+    \end{enumerate}
+\end{solution}
+
+% Problem 9
+\begin{problem} \label{prb:product}
+    Let $U$ be an open subset of $M_n(\R)$.
+    Let $f\colon U \to M_n(\R)$ and $g\colon U \to M_n(\R)$ be two maps
+    that are both differentiable at $A \in U$.
+    \begin{enumerate}
+        \item \label{prb:product:prove}
+        Show that the map $\psi\colon U \to M_n(\R)$ given by \[
+            \psi(X) \coloneq f(X)g(X)
+        \] is differentiable at $A$ and
+        $\psi'\colon M_n(\R) \to M_n(\R)$ is given by \[
+            \psi'(A)(H) = (f'(A)(H))g(A) + f(A)(g'(A)(H)).
+        \]
+        \item \label{prb:product:apply}
+        Using \cref{prb:product}\labelcref{prb:product:prove}, answer the
+        following questions (Don't use power series).
+        \begin{enumerate}
+            \item Let $f\colon M_n(\R) \to M_n(\R)$ be given by \[
+                f(A) \coloneq A^2.
+            \] Calculate $f'(A)$.
+            \item Let $f\colon \GL_n(\R) \to M_n(\R)$ be given by \[
+                f(A) \coloneq A^{-1}.
+            \] Calculate $f'(A)$.
+            \item Let $f\colon \GL_n(\R) \to M_n(\R)$ be given by \[
+                f(A) \coloneq A^{-2}.
+            \] Calculate $f'(A)$.
+            \item Let $f\colon M_n(\R) \to M_n(\R)$ be given by \[
+                f(A) \coloneq A^3.
+            \] Calculate $f'(A)$.
+            \item Let $f\colon \GL_n(\R) \to M_n(\R)$ be given by \[
+                f(A) \coloneq A^{-3}.
+            \] Calculate $f'(A)$.
+        \end{enumerate}
+    \end{enumerate}
+\end{problem}
+\begin{solution} \leavevmode
+    \begin{enumerate}
+        \item We have \begin{align*}
+            \psi(A + H) &= f(A + H)g(A + H) \\
+            &= (f(A) + f'(A)(H) + o(H))(g(A) + g'(A)(H) + o(H)) \\
+            &= \psi(A) + f(A)g'(A)(H) + f'(A)(H)g(A) + o(H).
+        \end{align*}
+        The remaining terms are $o(H)$ because:
+        \begin{itemize}
+            \item $o(H) \cdot \text{constant} = o(H)$
+            \item $o(H) \cdot \text{linear} = o(H)$ since
+            the linear term is bounded in a neighbourhood.
+            \item $o(H) \cdot o(H) = o(H)$ for the same reason
+            (and because obviously).
+            \item $\text{linear} \cdot \text{linear} = o(H)$ because \[
+                \frac{\norm{T_1(H) T_2(H)}}{\norm H}
+                \le \frac{\norm{T_1} \norm H \norm{T_2} \norm H}{\norm H}
+                = \norm{T_1} \norm{T_2} \norm H \to 0
+            \] for any linear maps $T_1, T_2$.
+        \end{itemize}
+        Thus $\psi$ is differentiable at $A$ with \begin{align*}
+            \psi'(A)(H) = f(A)g'(A)(H) + f'(A)(H)g(A).
+            \tag{$*$} \label{eq:product}
+        \end{align*}
+        \item
+        \begin{enumerate}
+            \item We know $X \mapsto X$ is differentiable everywhere, with
+            the derivative being the identity map.
+            Thus using \eqref{eq:product} yields that $f$ is
+            differentiable everywhere, and \[
+                f'(A)(H) = AH + HA.
+            \]
+            \item We know that $X \mapsto X^{-1}$ is continuous on
+            $\GL_n(\R)$ (\crefifdef{thm:inv-cont-rudin}{last proposition
+            regarding matrix norms}).
+            Write $(A + H)^{-1} - A^{-1} = -(A + H)^{-1}H A^{-1}$ in
+            \begin{align*}
+                f(A + H) - f(A) + A^{-1}HA^{-1}
+                &= -(A + H)^{-1}H A^{-1} + A^{-1}HA^{-1} \\
+                &= (A^{-1} - (A + H)^{-1})HA^{-1} \\
+                &= o(H),
+            \end{align*}
+            since \[
+                \frac{\norm*{(A^{-1} - (A + H)^{-1})HA^{-1}}}{\norm H}
+                \le \norm*{A^{-1}} \norm*{A^{-1} - (A + H)^{-1}} \to 0
+            \] by the continuity of $X \mapsto X^{-1}$.
+            Thus $f$ is differentiable everywhere, and \[
+                f'(A)(H) = -A^{-1}HA^{-1}.
+            \]
+            \item Using the previous part and \eqref{eq:product}, we have
+            that $f$ is differentiable everywhere with \begin{align*}
+                f'(A)(H) &= A^{-1}(-A^{-1}HA^{-1})+(-A^{-1}HA^{-1})A^{-1} \\
+                    &= -A^{-2}(HA + AH)A^{-2}.
+            \end{align*}
+            Alternatively, we can conclude that $f$ is differentiable
+            as before, but compute the derivative using the product rule
+            on $I = A^2 A^{-2}$.
+            Any constant map has derivative $0$, so \begin{gather*}
+                (AH + HA) A^{-2} + A^2 f'(A)(H) = 0 \\
+                \implies f'(A)(H) = -A^{-2}(AH + HA)A^{-2}.
+            \end{gather*}
+            \item Since $X \mapsto X^2$ and $X \mapsto X$ are differentiable
+            everywhere, \eqref{eq:product} gives that $f$ is differentiable
+            everywhere with \[
+                f'(A)(H) = A^2H + (AH + HA) A = A^2H + AHA + HA^2.
+            \]
+            \item Since $X \mapsto X^{-1}$ is differentiable everywhere,
+            \eqref{eq:product} twice gives that $f$ is also differentiable
+            everywhere.
+            Then the product rule on $A^3 A^{-3} = I$ gives \begin{gather*}
+                (A^2H + AHA + HA^2)A^{-3} + A^3 f'(A)(H) = 0 \\
+                \implies f'(A)(H) = -A^{-3}(A^2H + AHA + HA^2)A^{-3}.
+                \qedhere
+            \end{gather*}
+        \end{enumerate}
+    \end{enumerate}
+\end{solution}
+
+% Problem 10
+\begin{problem}
+    Let $U$ be an open subset of $M_n(\R) \times M_n(\R)$.
+    Let $F\colon U \to M_n(\R)$ be given by \[
+        F(X, Y) \coloneq XY.
+    \] Then for any $(A, B) \in U$, calculate $F'(A, B)$.
+    Using \cref{prb:vector} and composition rule, give an alternate proof
+    of \cref{prb:product}\labelcref{prb:product:prove}.
+\end{problem}
+\begin{solution}
+    We have \begin{align*}
+        F(X + H, Y + K) &= (X + H)(Y + K) \\
+        &= XY + HY + XK + HK \\
+        &= F(X, Y) + HY + XK + o(H, K),
+    \end{align*} since $HK$ is the product of two linear maps
+    from $(H, K)$ (projections).
+    Thus $F$ is differentiable everywhere, and \[
+        F'(X, Y)(H, K) = HY + XK.
+    \]
+
+    For \cref{prb:product}\labelcref{prb:product:prove}, consider \[
+        \psi(X) = F(f(X), g(X)) = (F \circ h)(X),
+    \] where $h(X) \coloneq (f(X), g(X))$.
+    By \cref{prb:vector}, $h$ is differentiable at $A$ with \[
+        h'(A)(H) = (f'(A)(H), g'(A)(H)).
+    \] Thus by the composition rule, $\psi$ is differentiable at $A$ with
+    \begin{align*}
+        \psi'(A)(H) &= F'(h(A))(h'(A)(H)) \\
+        &= F'(f(A), g(A))(f'(A)(H), g'(A)(H)) \\
+        &= f'(A)(H)g(A) + f(A)g'(A)(H). \qedhere
+    \end{align*}
+\end{solution}
+
+\end{document}

@@ -53,6 +53,8 @@
     Thus $f$ is not differentiable at $0$.
 \end{examples}
 
+\section{The mean value theorem} \label{sec:mvt}
+Recall these theorems from real analysis.
 \begin{theorem}[Rolle's theorem] \label{thm:rolle}
     Let $f\colon [a, b] \to \R$ be continuous on $[a, b]$
     and differentiable on $(a, b)$.
@@ -69,14 +71,33 @@
 \end{theorem}
 
 Does an analogue of the mean value theorem hold for several variables?
+Certainly not fully.
 Consider \[
     f(t) = (\cos t, \sin t).
 \] Then $f(0) = f(2\pi)$, but $\abs{f'(t)} = 1$ is never $0$.
 
-\begin{proposition}
+\begin{proposition} \label{thm:curve-mvt}
     Let $\gamma\colon [a, b] \to \R^n$ be continuous on $[a, b]$
     and differentiable on $(a, b)$.
     Then there exists $c \in (a, b)$ such that \[
         \norm{\gamma(b) - \gamma(a)} \le (b - a) \norm{\gamma'(c)}.
     \]
 \end{proposition}
+We would love to use the mean value theorem.
+Looking at the projection on $\gamma(b) - \gamma(a)$ allows us to do this.
+\begin{proof}
+    WLOG let $\gamma(a) = 0$.
+    Define $f\colon [a, b] \to \R$ as
+    $f(t) = \innerp{\gamma(t)}{\gamma(b)}$.
+    This is differentiable, with \[
+        f'(t) = \innerp{\gamma'(t)}{\gamma(b)}
+            \le \norm{\gamma'(t)} \norm{\gamma(b)}.
+    \] By the mean value theorem, there exists $c \in (a, b)$ such that \[
+        f(b) - f(a) = f'(c)(b - a).
+    \] Thus \begin{align*}
+        \innerp{\gamma(b)}{\gamma(b)}
+            &\le \norm*{\gamma'(c)} \norm{\gamma(b)} (b - a) \\
+        \implies \norm{\gamma(b)}
+            &\le (b - a) \norm*{\gamma'(c)}. \qedhere
+    \end{align*}
+\end{proof}

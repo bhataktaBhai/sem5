@@ -1,12 +1,24 @@
-\lecture{2024-08-30}{}
-\begin{proposition}
+\lecture{2024-08-30}{The mean value theorem; $C^1$ differentiability}
+\begin{proposition*} \label{thm:mv-mvt}
     Let $U$ be a convex open subset of $\R^n$.
     Let $f\colon U \to \R^m$ be differentiable and let \[
         \sup_{x \in U} \norm{f'(a)} = M.
     \] Then for any $a, b \in U$, \[
         \norm{f(a) - f(b)} \le M \norm{b - a}.
     \]
-\end{proposition}
+\end{proposition*}
+\begin{proof}
+    Consider the function $\gamma\colon [0, 1] \to \R^n$ given by
+    $\gamma(t) = (1-t)a + tb$.
+    Since $U$ is convex and $f$ is differentiable, $g = f \circ \gamma$ is
+    differentiable with \[
+        g'(t) = f'(\gamma(t)) \gamma'(t)
+            = f'(\gamma(t)) (b - a).
+    \] Then by \cref{thm:curve-mvt} applied on $g$, \[
+        \norm{f(b) - f(a)} = \norm{g(1) - g(0)}
+            \le \norm{g'(c)} \le M \norm{b - a}. \qedhere
+    \]
+\end{proof}
 
 \begin{proposition}
     Let $U \subseteq \R^n$ be open and connected and $f\colon U \to \R^m$
@@ -16,8 +28,12 @@
 \begin{proof}
     Fix $a \in U$.
     Let $W = \sset{x \in U}{f(x) = f(a)}$.
-    In the subset topology on $U$, $W$ is closed since $W = f^{-1}(f(a))$.
-    But $W$ is open since \TODO. % TODO
+    We will show that $W$ is clopen in the subset topology on $U$.
+
+    Let $x \in U$ be contained in an open ball $B \subseteq U$.
+    By \cref{thm:mv-mvt}, $f$ is constant on $B$.
+    Thus $W$ is open in $U$.
+    But $W = f^{-1}(f(a))$ is closed in $U$.
     Thus $W$ is all of $U$.
 \end{proof}
 
@@ -30,20 +46,20 @@
     Fix an $i \in [m]$.
     Let each $D_j$ be bounded by $M$ on all of $U$.
     Let $x \in U$ and $\eps > 0$ be such that
-    $B_{L^\infty}(x, \eps) \subseteq U$.
-    Let $(y_1, \dots, y_n) \in B_{L^\infty}(x, \eps)$.
-    Consider $x^{(i)} = x + (y_i - x_i) e_i$.
+    $B = B(x, \eps) \subseteq U$.
+    Let $(y_1, \dots, y_n) \in B$.
+    Consider $x^{(j)} = x^{(j-1)} + (y_j - x_j) e_i$ with $x^{(0)} = x$.
     Then \[
-        \norm{f_i(x^{(i+1)}) - f_i(x^{(i)})} \le M \abs{y_i}
+        \norm{f_i(x^{(j)}) - f_i(x^{(j-1)})} \le M \abs{y_j - x_j}
     \] by the mean value theorem.
     By the triangle inequality, \[
-        \norm{f_i(y) - f_i(x)} \le M \sum_{i=1}^n \abs{y_i - x_i}
+        \norm{f_i(y) - f_i(x)} \le M \sum_{j=1}^n \abs{y_j - x_j}
             \le M n \eps. \qedhere
     \]
 \end{proof}
 
-\begin{definition} \label{def:c1}
+\begin{definition*} \label{def:c1}
     Let $U \subseteq \R^n$ be open.
     $C^1(U, \R^m)$ is the set of all functions $f\colon U \to \R^m$
     such that $f'\colon U \to L(\R^n, \R^m)$ exists and is continuous.
-\end{definition}
+\end{definition*}

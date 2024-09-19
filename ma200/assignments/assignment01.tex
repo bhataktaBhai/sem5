@@ -1,0 +1,520 @@
+\documentclass[12pt]{article}
+\input{../preamble}
+\setlist[enumerate,1]{label=(\alph*)}
+
+\title{Assignment 1}
+% \subtitle{MA 200: Multivariable Calculus}
+\author{Naman Mishra}
+\date{3 August, 2024}
+
+\begin{document}
+\maketitle
+
+% Problem 1
+\begin{problem} \label{prb:add-scale-cont}
+    Let $(V, \norm{\cdot})$ be a normed linear space.
+    \begin{enumerate}
+        \item Show that the addition map $(u, v) \mapsto u + v$
+            is continuous.
+        \item Show that the scalar multiplication map
+            $(\alpha, u) \mapsto \alpha u$ is continuous.
+    \end{enumerate}
+\end{problem}
+\begin{proof} \leavevmode
+    \begin{enumerate}
+        \item $\norm{u_2 + v_2 - (u_1 + v_1)}
+            \le \norm{u_2 - u_1} + \norm{v_2 - v_1}$.
+        \item $\norm{\alpha_2 u_2 - \alpha_1 u_1}
+            = \norm{\alpha_2 u_2 - \alpha_1 u_2 + \alpha_1 u_2 - \alpha_1 u_1}
+            = \norm{(\alpha_2 - \alpha_1) u_2 + \alpha_1(u_2 - u_1)}
+            \le \abs{\alpha_2 - \alpha_1} \norm{u_2}
+                + \abs{\alpha_1} \norm{u_2 - u_1}$. \qedhere
+    \end{enumerate}
+\end{proof}
+
+% Problem 2
+\begin{problem}
+    Let $(V, \norm{\cdot})$ be a normed linear space.
+    Prove that \[
+        \abs[\big]{\norm x - \norm y} \le \norm{x - y}
+    \] for all $x, y \in V$.
+    Show that the function $x \mapsto \norm x$ from $V$ to $\R$
+    is continuous.
+\end{problem}
+\begin{proof}
+    By the $\triangle$ inequality, \[
+        \norm x = \norm{x - y + y} \le \norm{x - y} + \norm y
+        \implies \norm x - \norm y \le \norm{x - y}.
+    \] Similarly \[
+        \norm y = \norm{y - x + x} \le \norm{y - x} + \norm x
+        \implies \norm x - \norm y \ge -\norm{x - y}.
+    \]
+    Thus \[
+        \abs[\big]{\norm x - \norm y} \le \norm{x - y}.
+    \]
+    To show that $\norm\cdot$ is continuous, do what exactly?
+    Notice \[
+        \abs[\big]{\norm x - \norm y} \le \norm{x - y}? \qedhere
+    \]
+\end{proof}
+
+% Problem 3
+\begin{problem}
+    For $x, y \in \R^n$, show that \begin{equation}
+        \abs{\innerp xy} \le {\norm x}_2 {\norm y}_2 \label{eq:cs}
+    \end{equation}
+    Also show that the two sides in \cref{eq:cs} are equal if and only if
+    $x$ and $y$ are linearly dependent over $\R$.
+\end{problem}
+\begin{proof}
+    If either of $x$ or $y$ is $0$, both sides are $0$.
+
+    Suppose $x, y \ne 0$.
+    Let $\what{x} = \dfrac{x}{{\norm x}_2}$ and
+    $\what{y} = \dfrac{y}{{\norm y}_2}$.
+    Then proving \cref{eq:cs} amounts to proving \[
+        \abs{\innerp{\what{x}}{\what{y}}} \le 1
+    \] because of homogeneity of the inner product.
+    \begin{align*}
+        0 &\le \sum_{i=1}^n (\what{x}_i - \what{y}_i)^2 \\
+        0 &\le \sum_{i=1}^n \what{x}_i^2 - 2\what{x}_i\what{y}_i + \what{y}_i^2 \\
+        2\sum_{i=1}^n \what{x}_i\what{y}_i &\le \sum_{i=1}^n \what{x}_i^2 + \sum_{i=1}^n \what{y}_i^2 \\
+        \innerp{\what{x}}{\what{y}} &\le 1.
+    \end{align*}
+    Similarly $\innerp{-\what{x}}{\what{y}} \le 1$, which gives
+    $\innerp{\what{x}}{\what{y}} \ge -1$.
+\end{proof}
+
+% Problem 4
+\begin{problem}
+    Let $\set{x_k}_{k \in \N} \subseteq \R^n$ and $x \in \R^n$.
+    Show that $\set{x_k}_{k \in \N}$ converges to $x$ if and only if
+    $\set{\innerp{x_k}{y}}$ converges to $\innerp xy$ for all $y \in \R^n$.
+\end{problem}
+\begin{proof}
+    Suppose $x_k \to x$.
+    Let $y \in \R^n$.
+    Then
+    \[
+        \abs{\innerp{x_k}{y} - \innerp xy}
+            = \abs{\innerp{x_k - x}{y}}
+            \le \norm{x_k - x} \norm y
+            \to 0.
+    \]
+    Conversely, suppose
+    $\innerp{x_k}{y} \to \innerp xy$ for all
+    $y \in \R^n$.
+    Then $\innerp{x_k}{e_i} \to \innerp{x}{e_i}$ for all $i$.
+    Thus $x_k \to x$ componentwise.
+\end{proof}
+
+% Problem 5
+\begin{problem}
+    Let $1 < p, q < \infty$ be such that $\dfrac1p + \dfrac1q = 1$.
+    Show that for any $a \ge 0$ and $x \ge 0$ the following holds: \begin{equation}
+        xa \le \frac{a^p}{p} + \frac{x^q}{q}. \label{eq:holder}
+    \end{equation}
+    Show that in \cref{eq:holder} equality holds if and only if $x^q = a^p$.
+\end{problem}
+\begin{proof}
+    Let $a \ge 0$ be fixed.
+    Define $f(x) = xa - \dfrac{a^p}{p} - \dfrac{x^q}{q}$.
+    This is differentiable on $[0, \infty)$ since $q > 0$.
+    $f'(x) = a - x^{q-1}$.
+    Thus \begin{align*}
+        f'(x) \le 0 &\iff x^{q-1} \le a \\
+        &\iff x^{q/p} \le a \\
+        &\iff x^q \le a^p.
+    \end{align*}
+    Thus $f$ is decreasing on $[a^{p/q}, \infty)$ and increasing on
+    $[0, a^{p/q}]$.
+    Thus $f(x) \ge f(a^{p/q}) = 0$.
+    Moreover, since $f'(x) \ne 0$ for $x^q \ne a^p$, we have
+    $f(x) = 0 \iff x^q = a^p$.
+
+    Thus $xa \le \dfrac{a^p}{p} + \dfrac{x^q}{q}$ with equality
+    only if $x^q = a^p$.
+\end{proof}
+
+% Problem 6
+\begin{problem} \label{prb:lp}
+    For $1 \le p \le \infty$ and $x = (x_1, x_2, \dots, x_n)$, we define \[
+        {\norm x}_p = \begin{cases}
+            \big(\abs{x_1}^p + \abs{x_2}^p + \dots + \abs{x_n}^p\big)^{\frac1p} & 1 \le p < \infty \\
+            \max\limits_{1 \le i \le n} \abs{x_i} & p = \infty
+        \end{cases}
+    \]
+    \begin{enumerate}
+        \item Let $1 \le q \le \infty$ be such that $\dfrac1p + \dfrac1q = 1$.
+            For any $x, y \in \R^n$, show that \begin{equation}
+                \abs{\innerp xy} \le {\norm x}_p {\norm y}_q
+                \text{ and }
+                {\norm {x + y}}_p \le {\norm x}_p + {\norm y}_p.
+                \label{eq:holder-norm}
+            \end{equation}
+        \item Show that ${\norm \cdot}_p$ defines a norm on $\R^n$.
+        \item Show that ${\norm x}_\infty = \lim\limits_{p \to \infty} {\norm x}_p$
+            for any $x \in \R^n$.
+    \end{enumerate}
+\end{problem}
+\begin{proof} \leavevmode
+    We first deal with the case $p = \infty$ for parts (a) and (b).
+    \begin{enumerate}
+        \item $q = 1$.
+        \begin{align*}
+            \abs{\innerp xy} &= \abs{x_1 y_1 + x_2 y_2 + \dots + x_n y_n} \\
+            &\le \abs{x_1} \abs{y_1} + \abs{x_2} \abs{y_2} + \dots + \abs{x_n} \abs{y_n} \\
+            &= \max_{1 \le i \le n} \abs{x_i} (\abs{y_1} + \abs{y_2} + \dots + \abs{y_n}) \\
+            &= {\norm x}_\infty {\norm y}_1
+        \end{align*} and \begin{align*}
+            {\norm {x + y}}_\infty &= \max_{1 \le i \le n} \abs{x_i + y_i} \\
+            &\le \max_{1 \le i \le n} (\abs{x_i} + \abs{y_i}) \\
+            &\le \max_{1 \le i, j \le n} (\abs{x_i} + \abs{y_j}) \\
+            &= \max_{1 \le i \le n} \abs{x_i} + \max_{1 \le j \le n} \abs{y_j} \\
+            &= {\norm x}_\infty + {\norm y}_\infty.
+        \end{align*}
+        \item We have positivity by definition.
+        ${\norm x}_p = 0 \iff \max_{1 \le i \le n} \abs{x_i} = 0 \iff
+        \abs{x_1} = \abs{x_2} = \dots = \abs{x_n} = 0 \iff x = 0$, so
+        definiteness holds.
+        Homogeneity is since \[
+            {\norm{\alpha x}}_\infty = \max_{1 \le i \le n} \abs{\alpha x_i}
+            = \abs\alpha \max_{1 \le i \le n} \abs{x_i}
+            = \abs\alpha {\norm x}_\infty.
+        \] Triangle inequality is proven above.
+
+        Thus ${\norm \cdot}_\infty$ is a norm.
+    \end{enumerate}
+
+    Now we deal with the case $1 \le p < \infty$.
+    \begin{enumerate}
+        \item For $\abs{\innerp xy} \le {\norm x}_p {\norm y}_q$, we only
+        concern ourselves with $1 < p, q < \infty$.
+        The case $p = 1$ requires $q = \infty$, which is covered above with
+        $p$ and $q$ interchanged.
+        We will show that the ratio of the two sides is bounded by $1$.
+        \begin{align*}
+            \frac{\abs{\innerp xy}}{{\norm x}_p {\norm y}_q}
+            &= \abs*{\frac{x_1 y_1 + x_2 y_2 + \dots + x_n y_n}{{\norm x}_p {\norm y}_q}} \\
+            &\le \sum_{i=1}^n \frac{\abs{x_i} \abs{y_i}}{{\norm x}_p {\norm y}_q} \\
+            &\le \sum_{i=1}^n \ab(\frac1p \frac{\abs{x_i}^p}{{\norm x}_p^p} + \frac1q \frac{\abs{y_i}^q}{{\norm y}_q^q}) \tag{by \cref{eq:holder}} \\
+            &= \frac1p \frac{\sum_i \abs{x_i}^p}{{\norm x}_p^p} + \frac1q \frac{\sum_i \abs{y_i}^q}{{\norm y}_q^q} \\
+            &= \frac1p + \frac1q \\
+            &= 1.
+        \end{align*}
+        We use this result to prove the triangle inequality.
+        (We did this in a UM 204 assignment last semester, with ample
+        of hints and time to spare.)
+        \begin{align*}
+            {\norm {x + y}}_p^p
+            &= \sum_{i=1}^n \abs{x_i + y_i}^p \\
+            &= \sum_{i=1}^n \abs{x_i + y_i} \abs{x_i + y_i}^{p-1} \\
+            &\le \sum_{i=1}^n \abs{x_i} \abs{x_i + y_i}^{p-1}
+            + \sum_{i=1}^n \abs{y_i} \abs{x_i + y_i}^{p-1}
+        \end{align*}
+        Let $X = (\abs{x_1}, \abs{x_2}, \dots, \abs{x_n})$ and
+        $Z = (\abs{x_1 + y_1}^{p-1}, \abs{x_2 + y_2}^{p-1}, \dots,
+        \abs{x_n + y_n}^{p-1})$.
+        Then by \cref{eq:holder}, \begin{align*}
+            \sum_{i=1}^n \abs{x_i} \abs{x_i + y_i}^{p-1}
+                &= \abs{\innerp XZ} \\
+                &\le {\norm X}_p {\norm Z}_q \\
+            \intertext{where $q = \frac{p}{p-1}$}
+            &\le {\norm x}_p \ab(\abs{x_1 + y_1}^p + \dots + \abs{x_n + y_n}^p)^{\frac{p}{p-1}} \\
+            &= {\norm x}_p {\norm {x + y}}_p^{p-1}.
+            \intertext{Similarly,}
+            \sum_{i=1}^n \abs{y_i} \abs{x_i + y_i}^{p-1}
+                &\le {\norm y}_p {\norm {x + y}}_p^{p-1}. \\
+            \intertext{This gives}
+            {\norm {x + y}}_p^p &\le ({\norm x}_p + {\norm y}_p) {\norm {x + y}}_p^{p-1} \\
+            {\norm {x + y}}_p &\le {\norm x}_p + {\norm y}_p.
+        \end{align*}
+        \item Positivity is again by definition.
+        ${\norm x}_p = 0 \iff \abs{x_i}^p = 0$ for all $i$, which
+        is iff $x = 0$.
+        Homogeneity is trivial to check.
+        \begin{align*}
+            {\norm {\alpha x}}_p
+            &= \ab(\abs{\alpha x_1}^p + \abs{\alpha x_2}^p + \dots + \abs{\alpha x_n}^p)^{\frac1p} \\
+            &= \ab(\abs\alpha^p \abs{x_1}^p + \abs\alpha^p \abs{x_2}^p + \dots + \abs\alpha^p \abs{x_n}^p)^{\frac1p} \\
+            &= \abs{\alpha} {\norm x}_p.
+        \end{align*}
+        Triangle inequality is proven above.
+
+        Thus ${\norm \cdot}_p$ is a norm.
+    \end{enumerate}
+
+    \noindent We now prove part (c).
+    The case $x = 0$ is trivial since ${\norm x}_p = {\norm x}_\infty = 0$
+    for any $p$.
+
+    WLOG let ${\norm x}_\infty = \abs{x_1} > 0$.
+    Then for $1 \le p < \infty$, \begin{align*}
+        {\norm x}_p &= \abs{x_1} \ab(1 + \frac{\abs{x_2}^p}{\abs{x_1}^p} + \dots + \frac{\abs{x_n}^p}{\abs{x_1}^p})^{\frac1p} \\
+        &\le \abs{x_1} \cdot n^{\frac1p}
+    \end{align*}
+    Further, \[
+        {\norm x}_p = \ab(\abs{x_1}^p + \abs{x_2}^p + \dots + \abs{x_n}^p)^{\frac1p}
+        \ge \ab(\abs{x_1}^p)^{\frac1p} = \abs{x_1}.
+    \] Thus \[
+        \abs{x_1} \le {\norm x}_p \le n^{\frac1p} \abs{x_1}.
+    \] As $p \to \infty$, $n^{\frac1p} \to 1$.
+    Thus by the squeeze theorem,
+    ${\norm x}_p \to \abs{x_1} = {\norm x}_\infty$.
+\end{proof}
+
+% Problem 7
+\begin{problem}
+    Let $C[a, b]$ be the set of all complex-valued continuous functions
+    on $[a, b]$.
+    \begin{enumerate}
+        \item Let $f \in C[a, b]$ be such that $f$ is non-negative and
+            $\int_a^b f(x) \dd x = 0$.
+            Show that $f \equiv 0$.
+        \item For $f \in C[a, b]$, define \[
+            {\norm f}_\infty \coloneq \sup_{x \in [a, b]} \abs{f(x)},
+            \qquad
+            {\norm f}_1 \coloneq \int_a^b \abs{f(x)} \dd x.
+        \] Show that ${\norm \cdot}_\infty$ and ${\norm \cdot}_1$ are norms
+        on $C[a, b]$.
+        \item Are the above two norms on $C[a, b]$ equivalent?
+        Are they comparable?
+    \end{enumerate}
+\end{problem}
+\begin{solution} \leavevmode
+    \begin{enumerate}
+        \item Suppose $f$ is non-zero at some point $c \in [a, b]$.
+            By continuity, $f(x) \ge \frac{f(c)}{2}$ in some neighbourhood
+            $[c - \delta, c + \delta]$.
+            Then $f$ is lower bounded by the step function \[
+                g(x) = \begin{cases}
+                    \frac{f(c)}{2} & x \in [c - \delta, c + \delta] \\
+                    0 & \text{otherwise}
+                \end{cases}
+            \] which has positive integral.
+            This would force $\int_a^b f(x) \dd x > 0$.
+            Contradiction! Such a $c$ cannot exist.
+        \item Clearly both are non-negative.
+            ${\norm f}_\infty = 0 \iff \abs{f(x)} \le 0$ for all
+            $x \in [a, b]$, which is iff $f \equiv 0$.
+            Definiteness of ${\norm\cdot}_1$ is by the previous part.
+            Homogeneity is obvious.
+            Triangle inequality is an extension of the triangle inequality
+            for complex numbers.
+        \item They are \emph{not} equivalent.
+            Consider $[a, b] = [0, 1]$ and $f(x) = e^{-\lambda x}$.
+            Then ${\norm f}_\infty = 1$ and
+            ${\norm f}_1 = \frac{1 - e^{-\lambda}}{\lambda}$.
+            One can choose $\lambda$ to make ${\norm f}_1$ arbitrarily
+            close to $0$.
+            Thus there are no constants $c_1, c_2 > 0$ such that \[
+                c_1 {\norm f}_\infty
+                  \le {\norm f}_1
+                    \le c_2 {\norm f}_\infty.
+            \]
+
+            However, we \emph{can} compare the norms as \[
+                {\norm f}_1 \le (b - a) {\norm f}_\infty.
+            \] This is simply by noticing that the constant function
+            $x \mapsto {\norm f}_\infty$ upper bounds $\abs{f(x)}$ and has
+            integral $(b - a) {\norm f}_\infty$ over $[a, b]$. \qedhere
+    \end{enumerate}
+\end{solution}
+
+\begin{problem}
+    For $A \in L(\R^n, \R^m)$, let $\norm A$ denote the operator norm of $A$.
+    Show that \[
+        \norm A = \inf\set{M : \norm{Ax} \le M \norm x
+                    \text{ for all } x \in \R^n}.
+    \]
+\end{problem}
+\begin{proof}
+    $\norm{Ax} \le M \norm x$ is trivially true for $x = 0$ no matter
+    what $M$ is.
+    Thus \begin{align*}
+        \inf\set{M : \norm{A&x} \le M \norm x
+                    \text{ for all } x \in \R^n} \\
+        &= \inf\set{M : \norm{Ax} \le M \norm x
+                    \text{ for all } x \in \R^n \setminus \set{0}} \\
+        &= \inf\set{M : \norm*{A\frac{x}{\norm x}} \le M
+                    \text{ for all } x \in \R^n \setminus \set{0}} \\
+        &= \inf\set{M : \norm{Ay} \le M \text{ for all } y \in S^{n-1}} \\
+        &= \inf\set{\text{upper bounds of } \set{\norm{Ay} : y \in S^{n-1}}} \\
+        &= \sup\set{\norm{Ay} : y \in S^{n-1}} \\
+        &= \norm A. \qedhere
+    \end{align*}
+\end{proof}
+
+\begin{problem} \label{prb:operator-eigen}
+    Let $A$ be a real symmetric $n \times n$ matrix.
+    \begin{enumerate}
+        \item Show that all eigenvalues of $A$ are real.
+        \item For $1 \le i \le n$, let $\lambda_i$ denote the eigenvalues of $A$.
+            Show that \[
+                \norm A = \max_{1 \le i \le n} \abs{\lambda_i}.
+            \]
+    \end{enumerate}
+\end{problem}
+\begin{solution} \leavevmode
+    \begin{enumerate}
+        \item View $A$ as a linear operator on $\C^n$.
+            Let $\lambda$ be an eigenvalue of $A$ and $v$ be the
+            corresponding eigenvector.
+            Then \[
+                \lambda \innerp v v
+                    = \innerp{Av} v
+                    = \innerp v{Av}
+                    = \wbar\lambda \innerp v v.
+            \] Thus $\lambda = \wbar\lambda$ is real.
+        \item (assuming spectral theorem)
+            WLOG let $\lambda_1 = \max_{1 \le i \le n} \abs{\lambda_i}$.
+            Write any vector $x \in \R^n$ as a linear combination of
+            orthonormal eigenvectors $x = \sum_{i=1}^n c_i v_i$,
+            where $v_i$ is the eigenvector corresponding to $\lambda_i$.
+            Then $Ax = \sum_{i=1}^n c_i \lambda_i v_i$.
+            \begin{align*}
+                {\norm{Ax}}^2 &= \sum_{i=1}^n c_i^2 \lambda_i^2 \\
+                &\le \lambda_1^2 \sum_{i=1}^n c_i^2 \\
+                &= \lambda_1^2 {\norm x}^2.
+            \end{align*}
+            Thus $\norm A \le \lambda_1$.
+            Moreover, $\norm{Av_1} = \abs{\lambda_1} \norm{v_1}$.
+            Thus $\norm A \ge \lambda_1$. \qedhere
+    \end{enumerate}
+\end{solution}
+
+\begin{problem} \label{prb:operator-hs}
+    Let $A \in L(\R^n, \R^m)$ and $B \in L(\R^k, \R^n)$.
+    Show that \[
+        \norm A \le \hsn A \le \sqrt n \norm A
+        \quad \text{and} \quad
+        \hsn{AB} \le \hsn A \hsn B.
+    \]
+\end{problem}
+\begin{proof}
+    $\hsn A = \sqrt{\Tr(A^\T A)}$.
+    Recall that the trace of a matrix is the sum of its eigenvalues.
+
+    Let $v_1, v_2, \dots, v_n$ be orthonormal eigenvectors of $A^\T A$
+    with eigenvalues $\lambda_1 \ge \lambda_2 \ge \dots \ge \lambda_n$
+    (spectral theorem).
+    Each $\lambda_i$ is non-negative, since
+    $\innerp{A^\T Ax}{x} = \innerp{Ax}{Ax} \ge 0$.
+
+    Then for any $x = \sum_{i=1}^n c_i v_i$ with $\norm x = 1$, \[
+        \norm{Ax}^2 = \innerp{Ax}{Ax} = \innerp{A^\T Ax}{x}
+            = \sum_{i=1}^n c_i^2 \lambda_i
+            \le \lambda_1
+    \] where the equality holds for $x = v_1$.
+    Thus $\norm A = \sqrt{\lambda_1}$.
+    Since $\hsn A^2 = \sum_{i=1}^n \lambda_i$, we have
+    $\lambda_1 \le \hsn A^2 \le n \lambda_1$.
+    This gives $\norm A \le \hsn A \le \sqrt n \norm A$.
+
+    For $1 \le i \le m$ and $1 \le j \le k$ let \[
+        a_i = \begin{pmatrix}
+            A_{i1} & A_{i2} & \cdots & A_{in}
+        \end{pmatrix}^\T, \qquad b_j = \begin{pmatrix}
+            B_{1j} \\ B_{2j} \\ \vdots \\ B_{nj}
+        \end{pmatrix}.
+    \] Then \[
+        AB = \begin{pmatrix}
+            \innerp{a_1}{b_1} & \innerp{a_1}{b_2} & \cdots & \innerp{a_1}{b_k} \\
+            \innerp{a_2}{b_1} & \innerp{a_2}{b_2} & \cdots & \innerp{a_2}{b_k} \\
+            \vdots & \vdots & \ddots & \vdots \\
+            \innerp{a_m}{b_1} & \innerp{a_m}{b_2} & \cdots & \innerp{a_m}{b_k}
+        \end{pmatrix}
+    \] so by Cauchy-Schwarz, \begin{align*}
+        \hsn{AB}^2 &= \sum_{i=1}^m \sum_{j=1}^k \innerp{a_i}{b_j}^2 \\
+        &\le \sum_{i=1}^m \sum_{j=1}^k \norm{a_i}^2 \norm{b_j}^2 \\
+        &= \ab(\sum_{i=1}^m \norm{a_i}^2) \ab(\sum_{j=1}^k \norm{b_j}^2) \\
+        &= \hsn A^2 \hsn B^2. \qedhere
+    \end{align*}
+\end{proof}
+\begin{remark}
+    A far simpler proof that I missed is the following.
+    \begin{align*}
+        \norm{Ax}^2
+        &\le \sum_i \innerp{a_i}{x}^2
+            &\hsn A^2 &= \sum_j \sum_i a_{ij}^2 \\
+        &\le \sum_i \norm{a_i}^2 \norm x^2
+            &&= \sum_j \norm{Ae_j}^2 \\
+        &= \hsn A^2 \norm x^2
+            &&\le \sum_j \norm A^2 \\
+        &
+            &&= n \norm A^2.
+    \end{align*}
+\end{remark}
+
+\section*{Quiz} \label{sec:a1:quiz}
+\begin{problem}
+    Recall the definition of a \nameref{def:home}.
+    Let $f\colon \R^n \setminus \set 0 \to \R$ be a continuous,
+    non-vanishing homogenous function of degree $k$
+    and $\norm\cdot$ be a fixed norm on $\R^n$.
+    Show that there exist positive constants $C_1, C_2 > 0$ such that \[
+        C_1 \norm x^k \le \abs{f(x)} \le C_2 \norm x^k,
+    \] for every $0 \ne x \in \R^n$.
+\end{problem}
+\begin{proof}
+    Choose $C_1 = \min_{\norm x = 1} \abs{f(x)}$ and
+    $C_2 = \max_{\norm x = 1} \abs{f(x)}$.
+    They exist by compactness of the unit sphere, and are positive
+    since $f$ does not vanish.
+
+    Then for any $x \ne 0$, \[
+        \abs{f(x)} = \norm x^k \abs*{f\ab({\frac{x}{\norm x}})}
+    \] is bounded between $C_1 \norm x^k$ and $C_2 \norm x^k$.
+\end{proof}
+
+\begin{problem}
+    Let $V$ be a vector space over \R.
+    Let $d$ be the discrete metric on $V$.
+    Is $d$ induced by a norm on $V$?
+\end{problem}
+\begin{solution}
+    No.
+    Suppose $d(x, y) = \norm{x - y}$ for some norm $\norm\cdot$,
+    for all $x, y \in V$.
+    Let $x \ne y$.
+    Then $d(x, y) = 1 = \norm{x - y}$.
+    But $d(2x, 2y) = 1 = \norm{2x - 2y} = 2 \norm{x - y} = 2$.
+    Contradiction!
+\end{solution}
+
+\begin{problem}
+    For $A \in L(\R^n, \R^m)$, show that $\norm A = \norm{A^\T}$.
+\end{problem}
+\begin{proof}
+    Notice by Cauchy-Schwarz that for any vector $v$ in a real inner product
+    space, \[
+        \norm v = \sup_{\norm w = 1} \innerp wv.
+    \] (The supremum is achieved at $v / \norm v$ for $v \ne 0$.)
+    Then \begin{align*}
+        \norm A &= \sup_{x \in S^{n-1}} \norm{Ax} \\
+        &= \sup_{x \in S^{n-1}} \sup_{y \in S^{m-1}} \innerp y{Ax} \\
+        &= \sup_{y \in S^{m-1}} \sup_{x \in S^{n-1}} \innerp{A^\T y}x \\
+        &= \sup_{y \in S^{m-1}} \norm{A^\T y} \\
+        &= \norm{A^\T}. \qedhere
+    \end{align*}
+\end{proof}
+
+\begin{problem}
+    Find maximum of $x + 2y + 3z$ subject to the condition
+    $x^2 + y^2 + z^2 = 1$.
+\end{problem}
+\begin{solution}
+    The function is continuous and the constraint is compact.
+    Thus a maximum exists.
+
+    Let $r = (x, y, z)$ and $n = (1, 2, 3)$.
+    As discussed in the previous problem, \[
+        \max_{\norm r = 1} \innerp nr = \norm n.
+    \] Thus the maximum is $\sqrt{14}$.
+\end{solution}
+
+\begin{problem}
+    See \cref{prb:operator-eigen}.
+\end{problem}
+
+\end{document}

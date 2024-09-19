@@ -1,0 +1,63 @@
+\lecture[15]{2024-09-09}{Inverse function theorem -- the beginning}
+\subsection{Several variables} \label{sec:ift-sev}
+\begin{theorem*}[inverse function theorem] \label{thm:ift}
+    Let $U \subseteq \R^n$ be open and $f\colon U \to \R^n$.
+    Suppose $f \in C^1(U, \R^n)$ and $f'(a)$ is invertible for some
+    $a \in U$.
+    Then
+    \begin{enumerate}
+        \item \label{thm:ift:locally-11}
+            there exists an open set $V \subseteq U$ containing $a$ such
+            that $f$ is injective on $V$.
+        \item \label{thm:ift:open-map}
+            $f(V) \subopeneq \R^n$.
+        \item \label{thm:ift:inverse}
+            let $g\colon f(V) \to V$ be the inverse of $f$.
+            Then $g \in C^1(f(V), \R^n)$ and $g'(y) = f'(g(y))^{-1}$.
+    \end{enumerate}
+\end{theorem*}
+\begin{proof}
+    Let $A = f'(a)$.
+    There is an open ball $V$ containing $a$ such that
+    $\norm{f'(x) - A} < \frac12 {\norm{A^{-1}}}^{-1}$ for $x \in U$.
+    Call $f'(x)$ as $B$.
+    For each $y \in \R^n$ define the map \begin{align*}
+        \phi_y \colon U &\to \R^n \\
+        x &\mapsto x + A^{-1}(y - f(x)).
+    \end{align*}
+    Note that $f(x) = y \iff \phi_y(x) = x$.
+    Since \begin{align*}
+        \phi_y'(x) &= I - A^{-1} f'(x) = I - A^{-1} B,
+    \end{align*}
+    we have $\norm{\phi_y'(x)} < \frac12$ by \cref{eq:god}.
+    By \cref{thm:mv-mvt}, this is a contraction. \begin{equation}
+        \norm{\phi_y(x_1) - \phi_y(x_2)} \le \frac12 \norm{x_1 - x_2}.
+        \label{eq:phi-lip}
+    \end{equation}
+    Thus $\phi_y$ has at most one fixed point, and so $f$ is injective on
+    $V$.
+
+    We need to show that $f(V)$ is open.
+    Let $y_0 = f(x_0) \in f(V)$.
+    Choose an $r > 0$ such that $\wbar{B} = \wbar{B(x_0, r)} \subseteq V$.
+    \begin{claim}
+        Whenever $\abs{y - y_0} < \frac12 \norm{A^{-1}}^{-1} r$,
+        $y \in f(V)$.
+    \end{claim}
+    \begin{subproof}[Proof of claim]
+        We will show that $\phi_y$ is a contraction map on $\wbar{B}$.
+        Let $x \in \wbar{B}$.
+        Then \begin{align*}
+            \norm{\phi_y(x) - x_0}
+                &\le \norm{\phi_y(x) - \phi_y(x_0)}
+                    + \norm{\phi_y(x_0) - x_0} \\
+                &\le \frac12 \norm{x - x_0}
+                    + \norm{A^{-1}} \norm{y - y_0} \\
+                &< \frac12 r + \frac12 r = r.
+        \end{align*}
+        That is, $\phi_y$ maps $\wbar B$ to $\wbar B$, and
+        we already showed it is strictly contracting with factor $\frac12$.
+    \end{subproof}
+    By the Banach fixed point theorem, $\phi_y$ has a unique fixed point
+    in $\wbar B$, so that $y \in f(V)$.
+    Thus $f(V)$ is open ($y_0$ was arbitrary).

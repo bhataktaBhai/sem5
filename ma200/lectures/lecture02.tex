@@ -18,7 +18,7 @@
     Compactness follows from openness.
 \end{proof}
 
-\begin{proposition}
+\begin{proposition} \label{thm:norm:eq-lp}
     Every $\ell^p$ norm is equivalent to $\ell^\infty$.
 \end{proposition}
 \begin{proof}
@@ -34,11 +34,11 @@ $x, y \in \R^n$ to be \[
     \cos^{-1} \ab(\frac{\innerp{x}{y}}{\norm{x} \norm{y}}).
 \]
 
-\begin{proposition*} \label{thm:norm:cont}
+\begin{lemma*} \label{thm:norm:cont}
     Let $\norm\cdot$ be any norm on $\R^n$.
     Then the function $x \mapsto \norm{x}$ is Lipschitz continuous
     with respect to the Euclidean topology.
-\end{proposition*}
+\end{lemma*}
 \begin{proof}
     \begin{align*}
         \norm{x} &= \norm*{\sum x_i e_i} \\
@@ -104,7 +104,7 @@ $x, y \in \R^n$ to be \[
     It is nonetheless clearer to show both inequalities.
 \end{remark}
 
-\begin{exercise*}[Self]
+\begin{exercise*}[self]
     Show that \labelcref{def:norm:pos} follows from
     \labelcref{def:norm:hom,def:norm:tri}.
 \end{exercise*}

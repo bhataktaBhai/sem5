@@ -1,0 +1,53 @@
+\section{The inverse function theorem} \label{sec:ift}
+\lecture{2024-09-04}{Contractions and the Banach fixed point}
+
+\subsection{Contraction maps} \label{sec:contraction-maps}
+\begin{definition*}[contraction map] \label{def:contract}
+    Let $X, Y$ be two metric spaces.
+    Then $f\colon X \to Y$ is a \emph{contraction map} if
+    $d(f(x_1), f(x_2)) < d(x_1, x_2)$ for each $x_1 \ne x_2 \in X$.
+
+    If there is a $k \in [0, 1)$ such that \[
+        d(f(x_1), f(x_2)) \le k d(x_1, x_2) \text{ for all } x_1, x_2 \in X,
+    \] $f$ is a \emph{strict contraction map}.
+\end{definition*}
+This is a special case of a Lipschitz map, with Lipschitz constant less
+than (for strict contractions) or equal to (for contractions) $1$.
+
+\begin{theorem*}[Banach fixed-point theorem] \label{thm:banach}
+    Let $X$ be a complete metric space and $f\colon X \to X$ be a
+    strict contraction map.
+    Then $f$ has a unique fixed point $z$.
+
+    Furthermore, for any $x_0 \in X$, the sequence $x_{n+1} = f(x_n)$
+    converges to $z$.
+\end{theorem*}
+\begin{proof}
+    Let $k \in [0, 1)$ be the contraction factor, and let $x_0 \in X$.
+    Then $d(x_{n+1}, x_{n+2}) \le k d(x_n, x_{n+1})$.
+    By induction, $d(x_n, x_{n+1}) \le k^n d(x_0, x_1)$.
+    Thus $(x_n)_n$ is Cauchy, and since $X$ is complete, it converges to
+    some $z \in X$.
+
+    Since $f$ is Lipschitz, \[
+        f(z) = f\ab(\lim_{n \to \infty} x_n)
+            = \lim_{n \to \infty} f(x_n)
+            = \lim_{n \to \infty} x_{n+1}
+            = z.
+    \] Suppose there were another fixed point $z' \ne z$.
+    Then \[
+        d(z, z') = d(f(z), f(z')) \le k d(z, z'),
+    \] a contradiction.
+\end{proof}
+
+\begin{examples}
+    \item $x \mapsto x/2$ is a contraction map on $(0, 1)$, but has no fixed
+    point.
+    This does not contradict the theorem, since $(0, 1)$ is incomplete.
+    \item $\cos$ on $[0, \pi/2]$ is a (weak) contraction map,
+    but $\cos$ on $[0, \pi/3]$ is a strict contraction map.
+    \item $f\colon \R \to \R$ given by $x \mapsto \sqrt{x^2 + 1}$ is a
+    (weak) contraction map but not a strict one. \[
+        f'(x) = \frac{x}{\sqrt{x^2 + 1}} \implies \abs{f'(x)} < 1
+    \] It is not a strict contraction since there are no fixed points.
+\end{examples}

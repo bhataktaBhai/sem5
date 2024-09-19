@@ -1,0 +1,71 @@
+\lecture[14]{2024-09-06}{Inverse function theorem -- warmup}
+\begin{remark}
+    Let $f\colon X \to Y$ be a contraction map.
+    Let $A \subseteq X$.
+    Then $f\vert_A\colon A \to Y$ is also a contraction map.
+\end{remark}
+
+\subsection{Single variable} \label{sec:ift-1d}
+\begin{theorem*}[1D inverse function theorem] \label{thm:ift-1d}
+    Let $U \subseteq \R$ be open $f\colon U \to \R$ be $C^1$,
+    and $f'(a) \ne 0$ for some $a \in U$.
+    Then there exists an open interval $J \ni a$ such that
+    \begin{enumerate}
+        \item $f$ is injective on $J$,
+        \item $f(J)$ is an open interval in \R.
+        \item Let $g\colon f(J) \to J$ be the inverse of $f\vert_J$.
+        Then $g \in C^1(f(J))$.
+    \end{enumerate}
+\end{theorem*}
+\begin{proof}
+    WLOG assume $f'(a) > 0$.
+    Since $f \in C^1(\R)$, there is an open interval $J \ni a$ on which
+    $f' > \frac{f'(a)}{2}$.
+    Then $f\vert_J$ is strictly increasing and hence injective.
+    % Let $x \in J$.
+    % Let $x_1, x_2 \in J$ be such that $x_1 < x < x_2$.
+    % Then $f(x_1) < f(x) < f(x_2)$, and by intermediate value theorem,
+    % $f[x_1, x_2] = [f(x_1), f(x_2)]$.
+    % Thus $f(J)$ is open.
+
+    $f(J)$ is connected since $J$ is.
+    Choosing $J$ small enough makes $f(J)$ bounded.
+    Since $f'$ is never zero on $J$, $f$ does not attain a maximum or
+    minimum on $J$.
+    Thus $f(J)$ is of the form $(d_1, d_2)$ and hence open.
+
+    Now let $g$ be as in the statement.
+    \begin{claim}
+        $g$ is continuous.
+    \end{claim}
+    \begin{subproof}[Proof of claim]
+        Let $y_0 = f(x_0) \in f(J)$ and $y = f(x) \in f(J)$.
+        By the mean value theorem, $y - y_0 = f'(c)(x - x_0)$ for some
+        $c \in (x_0, x)$.
+        Thus \[
+            \abs{g(y) - g(y_0)} = \frac1{f'(c)} \abs{y - y_0}
+                \le \frac2{f'(a)} \abs{y - y_0}.
+        \] This proves that $g$ is Lipschitz.
+    \end{subproof}
+
+    \begin{claim}
+        $g$ is differentiable.
+    \end{claim}
+    \begin{subproof}[Proof of claim]
+        Let $y_0 = f(x_0)$ and $y = f(x) \in f(J)$.
+        Then \begin{align*}
+            \lim_{y \to y_0} \frac{g(y) - g(y_0)}{y - y_0}
+                &= \lim_{y \to y_0} \frac{1}{\frac{f(g(y)) - f(g(y_0))}
+                                                    {g(y) - g(y_0)}} \\
+                &= \frac1{f'(g(y_0))}.
+        \end{align*}
+        Thus $g$ is differentiable with \[
+            g'(y) = \frac1{f'(g(y))}. \qedhere
+        \]
+    \end{subproof}
+    Now $g'$ is the composition of continuous functions \[
+        f(J) \xrightarrow{g} J \xrightarrow{f'} \R^\times
+        \xrightarrow{1/\cdot} \R^\times.
+    \] Thus $g'$ is continuous.
+\end{proof}
+

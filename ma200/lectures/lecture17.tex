@@ -1,0 +1,133 @@
+\lecture{2024-09-13}{Higher derivatives}
+\begin{theorem} \label{thm:pdvs}
+    Let $U \subopeneq \R^n$ and $f = (f_1, \dots, f_m)\colon U \to \R^m$.
+    Then
+    \begin{enumerate}
+        \item for $k \ge 1$, $f \in C^k(U, \R^m)$ iff $f'$ exists and
+        $f' \in C^{k-1}(U, L(\R^n, \R^m))$.
+        \item $f \in C^2(U, \R^m)$ iff all partial derivatives of $f_i$
+        upto second order exist and are continuous.
+        \item $f \in C^k(U, \R^m)$ iff all partial derivatives of $f_i$
+        upto $k$th order exist and are continuous.
+    \end{enumerate}
+\end{theorem}
+
+\begin{definition*}[smoothness] \label{def:smooth}
+    $f\colon U \subopeneq \R^n \to \R^m$ is \emph{smooth} if
+    $f \in C^\infty(U, \R^m)$, where \[
+        C^\infty(U, \R^m) = \bigcap_{k=1}^\infty C^k(U, \R^m).
+    \]
+\end{definition*}
+
+\begin{corollary}
+    From \cref{thm:pdvs}, $f$ is smooth iff all partial derivatives of $f_i$
+    of all orders exist and are continuous.
+\end{corollary}
+
+\begin{example}
+    The function \begin{align*}
+        i\colon \GL_n(\R) &\to X^{-1} \in \M_n(\R) \\
+        X &\mapsto X^{-1}
+    \end{align*}
+    is smooth, since \[
+        i(X) = \frac{1}{\det X} \adj X
+    \] is rational in the entries of $X$.
+    That is, each entry of $i(X)$ is a rational function of the entries of
+    $X$.
+    Thus the partial derivatives of each coordinate function of $i$ exist
+    and are continuous.
+\end{example}
+
+\begin{definition*}[diffeomorphism] \label{def:diffeo}
+    Let $U, V \subopeneq \R^n$.
+    A bijective differentiable map $f\colon U \to V$ is a
+    \emph{diffeomorphism} if $f^{-1}\colon V \to U$ is also differentiable.
+
+    More generally, a bijective $C^k$ map $f\colon U \to V$ is a
+    $C^k$-diffeomorphism if $f^{-1}$ is also $C^k$.
+\end{definition*}
+
+We will now state and prove a generalised version of the
+inverse function theorem.
+\begin{theorem*}[generalized inverse function theorem] \label{thm:gen-ift}
+    Let $U \subopeneq \R^n$ and $f\colon U \to \R^n$ be $C^k$ with
+    $k \ge 1$.
+    Suppose $f'(a)$ is invertible for some $a \in U$.
+    Then there exist open sets $V \ni a, W \subopeneq \R^n$ such that
+    $f\colon V \to W$ is a $C^k$-diffeomorphism.
+\end{theorem*}
+The case $k = 1$ is the usual inverse function theorem.
+
+\begin{exercise*}
+    Let $U \subopeneq \R^n$ and $V \subopeneq \R^m$.
+    Suppose $f\colon U \to V$ is a differentiable bijection, whose inverse
+    is also differentiable.
+    Then $m = n$.
+\end{exercise*}
+\begin{solution}
+    $f^{-1} \circ f = \id_V$ and $f \circ f^{-1} = \id_U$.
+    Both of these are differentiable, with the derivative being the
+    identity map everywhere.
+    By the composition rule, \begin{align*}
+        \id_U'(x) &= (f^{-1} \circ f)'(x) = {f^{-1}}'(f(x)) \circ f'(x) \\
+        \id_V'(y) &= (f \circ f^{-1})'(y) = f'(f^{-1}(y)) \circ {f^{-1}}'(y)
+    \end{align*} requires $f'(x) \in L(\R^n, \R^m)$
+    and ${f^{-1}}'(y) \in L(\R^m, \R^n)$ to be injective.
+    This requires $m = n$.
+\end{solution}
+
+\begin{fact}
+    Let $U \subopeneq \R^n$ and $V \subopeneq \R^m$.
+    Suppose $f\colon U \to V$ is a homeomorphism.
+    Then $m = n$.
+\end{fact}
+The proof is hard.
+
+For the midterm, you should be comfortable with finding derivatives without
+any computation.
+You will not be required to prove the derivatives.
+For example, recall the product rule:
+If $f(x) = u(x) v(x)$, then $f'(a)(h) = u'(a)(h) v(a) + u(a) v'(a)(h)$.
+\begin{examples}
+    \item $f(X) = X^2$ has derivative $f'(A)(H) = HA + AH$.
+    \item $f(X) = XBX$ has derivative $f'(A)(H) = HBA + ABH$.
+    \item $f(X) = X^{-1}BX$ has derivative
+        $f'(A)(H) = -A^{-1}HA^{-1}BA + A^{-1}BH$.
+    \item $f(X) = X^{-1}$ has derivative $f'(A)(K) = -A^{-1}KA^{-1}$.
+        What is $f''$?
+        \begin{align*}
+            f&\colon \GL_n \to \M_n \\
+            f'&\colon \GL_n \to L(\M_n, \M_n) \\
+            f''&\colon \GL_n \to L(\M_n, L(\M_n, \M_n)) \\
+            f''(A)&\colon \M_n \to L(\M_n, \M_n) \\
+            f''(A)(H)&\colon \M_n \to \M_n \\
+            f''(A)(H)(K)&\colon \M_n
+        \end{align*}
+        We know $f'(A)(H) = A^{-1}HA^{-1}$.
+        We want $f'(A + K) - f'(A)$.
+        We can evaluate this pointwise.
+        \TODO[WHY???] % TODO
+        \begin{align*}
+            f'(A+K)(H) - f'(A)(H)
+                &= (A+K)^{-1}H(A+K)^{-1} - A^{-1}HA^{-1} \\
+            \shortintertext{and we use
+            $(A + K)^{-1} = A^{-1} - A^{-1}KA^{-1} + o(K)$ to write}
+            f'(A+K)(H) - f'(A)(H)
+                &= A^{-1} H A^{-1} - A^{-1}KA^{-1}HA^{-1} \\
+                    &\qquad- A^{-1}HA^{-1}KA^{-1} - A^{-1}HA^{-1} \\[.4em]
+                &= -A^{-1}KA^{-1}HA^{-1} -A^{-1}HA^{-1}KA^{-1} \\[.4em]
+                &= -\frac1AK\frac1AH\frac1A -\frac1AH\frac1AK\frac1A.
+        \end{align*}
+        This is the second derivative of $X \mapsto X^{-1}$. \begin{align*}
+            T\colon \GL_n &\to L(\M_n, L(\M_n, \M_n)) \\
+            T(A)(K)(H) &= -A^{-1}KA^{-1}HA^{-1} - A^{-1}HA^{-1}KA^{-1}.
+        \end{align*}
+        What we have shown is that \begin{align*}
+            \lim_{K \to 0} \frac{\norm{f'(A+K)(H) - f'(A)(H) - T(A)(K)(H)}}
+                {\norm K} &= 0 \\
+            \shortintertext{for each $H \in \M_n$.
+            Taking the supremum over all $\norm H = 1$ gives}
+            \lim_{K \to 0} \frac{\norm{f'(A+K) - f'(A) - T(A)(K)}}
+                {\norm K} &= 0.
+        \end{align*}
+\end{examples}

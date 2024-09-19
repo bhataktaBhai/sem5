@@ -7,7 +7,7 @@
     at $a$.
 \end{exercise}
 \begin{solution}
-    Consider the $\ell^1$ norm on $\R^m$.
+    Consider the $\ell^\infty$ norm on $\R^m$.
 
     Suppose $f$ is continuous.
     Since $\abs{f_1(x) - f_1(y)} \le \norm{f(x) - f(y)}$, so is
@@ -15,20 +15,20 @@
 
     Suppose each $f_i$ is continuous at $a$.
     For any $\eps > 0$, there exists $\delta_i > 0$ such that
-    $\abs{f_i(x) - f_i(a)} < \frac1m \eps$ in a
+    $\abs{f_i(x) - f_i(a)} < \eps$ in a
     $\delta_i$-neighbourhood of $a$.
     Let $\delta = \min\set{\delta_1, \delta_2, \dots, \delta_n}$.
 \end{solution}
 
-\begin{exercise}
+\begin{exercise} \label{thm:oO}
     Let $f(x) = o(g(x))$ and $g(x) = O(h(x))$.
     Then show that $f(x) = o(h(x))$.
 \end{exercise}
 \begin{solution}
     \[
-        \limsup_{x \to a} \frac{\norm{f(x)}}{\norm{h(x)}} < c
+        \limsup_{x \to a} \frac{\norm{g(x)}}{\norm{h(x)}} = c < \infty
         \quad \text{and} \quad
-        \lim_{x \to a} \frac{\norm{g(x)}}{\norm{h(x)}} = 0
+        \lim_{x \to a} \frac{\norm{f(x)}}{\norm{g(x)}} = 0
     \] Thus \[
         \limsup_{x \to a} \frac{\norm{f(x)}}{\norm{h(x)}} = 0. \qedhere
     \]

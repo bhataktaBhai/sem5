@@ -1,0 +1,90 @@
+\lecture{2024-09-11}{Inverse function theorem -- the conclusion}
+    Similarly, \begin{align*}
+        \norm{\phi_y(x_1) - \phi_y(x_2)}
+        &= \norm{x_1 - x_2 - A^{-1}(f(x_1) - f(x_2))} \\
+        &\ge \norm{x_1 - x_2} - \norm{A^{-1}(f(x_1) - f(x_2))} \\
+        &\ge \norm{x_1 - x_2} - \norm{A^{-1}} \norm{f(x_1) - f(x_2)}.
+    \end{align*}
+    Combining this with \cref{eq:phi-lip} gives \begin{equation}
+        \norm{x_1 - x_2} \le 2 \norm{A^{-1}} \norm{f(x_1) - f(x_2)}.
+        \label{eq:g-lip}
+    \end{equation}
+    This shows that $g$ is (Lipschitz) continuous.
+
+    Let $y_0 = f(x_0)$ and $y_0 + k = f(x_0 + h)$.
+    Let $r(k) = g(y_0 + k) - g(y_0) - f'(g(y_0))^{-1}(k)$.
+    Then \begin{align*}
+        r(k) &= h - {f'(x_0)}^{-1}(k) \\
+        &= -{f'(x_0)}^{-1}(k - f'(x_0)h) \\
+        &= -{f'(x_0)}^{-1}(f(x_0 + h) - f(x_0) - f'(x_0)h) \\
+        &= -{f'(x_0)}^{-1} o(h).
+    \end{align*} Let $T = -{f'(x_0)}^{-1}$.
+    Then \begin{align*}
+        \frac{\norm{r(k)}}{\norm k} &= \frac{\norm{T (o(h))}}{\norm k} \\
+        &\le \norm T \frac{\norm{o(h)}}{\norm k}
+    \intertext{\Cref{eq:g-lip} gives $\norm h \le 2 \norm{A^{-1}} \norm k$,
+    so} 
+        \frac{\norm{r(k)}}{\norm k}
+            &\le 2 \norm T \norm{A^{-1}} \frac{\norm{o(h)}}{\norm h} \to 0
+    \end{align*}
+    since $h \to 0$ as $k \to 0$ (by \labelcref{eq:g-lip}).
+    Thus $r(k) = o(k)$, proving that $g$ is differentiable at $y_0$
+    with \[
+        g'(y_0) = f'(g(y_0))^{-1}.
+    \] Since $g$ and $f'$ are continuous, $g$ is $C^1$. \[
+        f(V) \xrightarrow{g} V \xrightarrow{f'} \GL_n(\R)
+        \xrightarrow{(\cdot)^{-1}} \GL_n(\R). \qedhere
+    \]
+\end{proof}
+
+\begin{corollary} \label{thm:ift:every}
+    Let $f$ be as in \cref{thm:ift}, but suppose that $f'(x)$ is invertible
+    for every $x \in U$.
+    Then
+    \begin{enumerate}
+        \item $f$ is locally injective. \label{thm:ift:every:locally-11}
+        \item $f$ is an open map. \label{thm:ift:every:open-map}
+    \end{enumerate}
+\end{corollary}
+\begin{proof}
+    \labelcref{thm:ift:every:locally-11} is only a restatement of
+    \cref{thm:ift}~\labelcref{thm:ift:locally-11}.
+
+    For \labelcref{thm:ift:every:open-map}, let $E \subseteq U$ be open.
+    For each $a \in E$, there exists an open set $V_a \subseteq E$
+    containing $a$ such that $f(V_a)$ is open.
+    Then $f(E) = \bigcup_{a \in E} f(V_a)$ is open.
+\end{proof}
+
+Let $U \subopeneq \R^n$ and $f\colon U \to \R^m$ be differentiable.
+Let $f = (f_1, \dots, f_m)$ and write \[
+    {[f'(x)]}_{i,j} = {[D_j f_i(x)]}_{i,j}.
+\] $f'\colon U \to L(\R^n, \R^m) \cong M_{m \times n}(\R)$.
+This has a normed linear space structure itself.
+Thus we can talk about differentiability of $f'$.
+\begin{definition*}
+    Let $U \subopeneq \R^n$.
+    Write $f^{(k)}$ for the $k$th derivative of $f$, with $f^{(0)} = f$.
+    Then \[
+        C^k(U, \R^m) = \sset{g\colon U \to \R^m}{g, g', g'', \dots, g^{(k)}
+        \text{ exist and are continuous}}.
+    \]
+\end{definition*}
+Note that for $k \ge 1$, $g \in C^k(U, \R^m)$ iff
+$g' \in C^{k-1}(U, L(\R^n, \R^m))$.
+
+Also recall that $f \in C^1(U, \R^k)$ iff $D_j f_i \in C^1(U, \R)$ for all
+$i, j$.
+
+Thus $f' \in C^1(U, L(\R^n, \R^m))$ iff $D_k D_j f_i \in C^1(U, \R)$ for all
+$i \in [m]$ and $j, k \in [n]$.
+
+Thus $f \in C^2(U, \R^m)$ iff all second order partial derivatives of $f$
+exist and are continuous.
+
+\begin{exercise*}
+    Compute the second derivative of $X \mapsto X^{-1}$ on $\GL_n(\R)$.
+\end{exercise*}
+\begin{solution}
+    End of the next lecture.
+\end{solution}

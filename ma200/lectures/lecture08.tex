@@ -6,20 +6,6 @@
     $(f+g)'(a) = f'(a) + g'(a)$.
 \end{exercise}
 
-\begin{lemma} \label{thm:oO}
-    Let $f, g, h\colon \R^n \to \R^m$.
-    Supppose $g = O(f)$ and $h = o(g)$.
-    Then $h = o(f)$.
-\end{lemma}
-\begin{proof}
-    \[
-        \frac{\norm{h(x)}}{\norm{f(x)}}
-        = \frac{\norm{h(x)}}{\norm{g(x)}} \frac{\norm{g(x)}}{\norm{f(x)}}
-    \] The first term goes to $0$ and the second term is bounded.
-    Thus $\frac{\norm{h(x)}}{\norm{f(x)}} \to 0$.
-    \TODO[What if $f$ vanishes a lot?] % TODO
-\end{proof}
-
 \begin{proposition*}[chain rule] \label{thm:chain}
     Let $U \subseteq \R^n$ be open and $a \in U$.
     Let $f\colon U \to \R^m$ be differentiable at $a$.
@@ -85,22 +71,9 @@ Perhaps more intuitive notation is \[
     \]
 \end{proof}
 How does Rudin deal with the vanishing of $k(h)$?
-% \begin{proof}[Proof (Rudin).]
-%     Define \[
-%         \eta(k) = \begin{cases}
-%             \frac{\norm{v(k)}}{\norm k} & \text{if } k \ne 0, \\
-%             0 & \text{if } k = 0.
-%         \end{cases}
-%     \] Then we can write \[
-%         \frac{\norm{v(k(h))}{\norm h}
-%             = \frac{\eta(k(h)) \norm{k(h)}}{\norm h}
-%             \le \eta(k(h)) \ab(\norm{f'(a)} + \frac{\norm{u(h)}}{\norm h}).
-%             \qedhere
-%     \]
-% \end{proof}
-\begin{examples}
-    \item Consider $f\colon \GL_n(\R) \to M_n(\R)$ and
-    $g\colon M_n(\R) \to M_n(\R)$ given by \[
+\begin{example}
+    Consider $f\colon \GL_n(\R) \to \M_n(\R)$ and
+    $g\colon \M_n(\R) \to \M_n(\R)$ given by \[
         f(X) = X^{-1} \quad \text{and} \quad g(X) = X^2.
     \] These are differentiable with $f'(X)(H) = -X^{-1}HX^{-1}$ and
     $g'(X)(H) = XH + HX$.
@@ -109,7 +82,7 @@ How does Rudin deal with the vanishing of $k(h)$?
         &= X^{-1}(-X^{-1}HX^{-1}) + (-X^{-1}HX^{-1})X^{-1} \\
         &= -X^{-1}(X^{-1}H + HX^{-1})X^{-1}.
     \end{align*} 
-\end{examples}
+\end{example}
 
 \section{Directions and partials} \label{sec:pdv}
 

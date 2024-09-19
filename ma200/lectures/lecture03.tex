@@ -3,7 +3,7 @@ On $\R^n$, we will always fix the $\ell^2$-norm
 
 \begin{notation}
     \[
-        L(\R^n, \R^m) = \set{T\colon \R^n \to \R^m \mid T \text{ is linear}}
+        L(\R^n, \R^m) = \sset{T\colon \R^n \to \R^m}{T \text{ is linear}}
     \] and \[
         M_{m \times n}(\R) \cong L(\R^n, \R^m)
     \] using the isomorphism $A \mapsto T_A$ where \begin{align*}
@@ -13,7 +13,7 @@ On $\R^n$, we will always fix the $\ell^2$-norm
     We will also write $L(\R^n)$ for $L(\R^n, \R^n)$.
 \end{notation}
 
-\begin{definition}[liminf and limsup] \label{def:liminf-limsup}
+\begin{definition*}[liminf and limsup] \label{def:liminf-limsup}
     Let $f\colon X \to \R$ be a function on a topological space $X$.
     We define the \emph{limit inferior} and \emph{limit superior} of $f$ as
     \begin{align*}
@@ -21,8 +21,8 @@ On $\R^n$, we will always fix the $\ell^2$-norm
         \limsup_{x \to a} f(x) &= \inf_V \sup_{x \in V} f(x)
     \end{align*} where $V$ ranges over all open neighbourhoods of $a$
     that contain at least one point other than $a$.
-\end{definition}
-\begin{exercise}[self]
+\end{definition*}
+\begin{exercise*}[self]
     Let $(X, d)$ be a connected metric space with at least two points.
     Then \begin{align*}
         \liminf_{x \to a} f(x)
@@ -30,10 +30,10 @@ On $\R^n$, we will always fix the $\ell^2$-norm
         \limsup_{x \to a} f(x)
             &= \lim_{\eps \searrow 0}\; \sup_{0 < d(x, a) < \eps} f(x)
     \end{align*}
-\end{exercise}
+\end{exercise*}
 \begin{proof}
     We first need to show that
-    $\set{x \in X \mid 0 < d(x, a) < \eps}$ is non-empty
+    $\sset{x \in X}{0 < d(x, a) < \eps}$ is non-empty
     for each $\eps > 0$.
     Suppose this were not the case for some $\eps$.
     Then $B(a, \eps) = \set a = \wbar{B(a, \eps/2)}$ is clopen,
@@ -41,8 +41,8 @@ On $\R^n$, we will always fix the $\ell^2$-norm
 
     Notice that for any $\eps_1 > \eps_2 > 0$,
     \[
-        \set{x \in X \mid 0 < d(x, a) < \eps_1}
-        \subseteq \set{x \in X \mid 0 < d(x, a) < \eps_2},
+        \sset{x \in X}{0 < d(x, a) < \eps_1}
+        \subseteq \sset{x \in X}{0 < d(x, a) < \eps_2},
     \] so the infimum increases as $\eps \searrow 0$.
 \end{proof}
 
@@ -78,8 +78,12 @@ On $\R^n$, we will always fix the $\ell^2$-norm
 \end{solution}
 
 \begin{exercise}
-    
+    If $f_1, f_2 = O(g)$ then $f_1 \pm f_2 = O(g)$.
+    If $f_1, f_2 = o(g)$ then $f_1 \pm f_2 = o(g)$.
 \end{exercise}
+\begin{solution}
+    It do be a self-evident truth.
+\end{solution}
 
 \section{Matrix norms} \label{sec:matrix-norms}
 
@@ -140,7 +144,7 @@ We temporarity define two norms on $M_{m \times n}(\R)$:
     So ${\norm T}_B \le {\norm T}_S$.
 \end{proof}
 
-\begin{definition*}[Operator norm] \label{def:operator_norm}
+\begin{definition*}[operator norm] \label{def:operator_norm}
     For any $T \in L(\R^n, \R^m)$, we define the \emph{operator norm} by \[
         \norm{T} = \sup_{\norm{x} = 1} \norm{Tx}
     \]
@@ -204,10 +208,10 @@ the norm.
 their equivalence with specific bounds.
 
 \begin{proposition*}
-    $\GL_n(\R)$ is open in $M_n(\R)$.
+    $\GL_n(\R)$ is open in $\M_n(\R)$.
 \end{proposition*}
 \begin{proof}
-    $\det \colon M_n(\R) \to \R$ is continuous because
+    $\det \colon \M_n(\R) \to \R$ is continuous because
     it is a polynomial in the entries of the matrix.
     Note that $\GL_n(\R) = \det^{-1}(\R \setminus \set{0})$,
     so it is the preimage of an open set, which is open
@@ -218,27 +222,28 @@ This also doesn't provide estimates on the size of the neighbourhood.
 We will go through Rudin's proof in \cref{thm:inv-cont-rudin}
 which avoids determinants.
 
-Meanwhile, here is a special case.
-\begin{lemma} \label{thm:gln-open-i}
-    There is an open ball around $I$ in $M_n(\R)$
-    that is contained in $\GL_n(\R)$.
-\end{lemma}
+We need to figure out a special case first: what ball around the identity
+matrix is fully invertible?
+A reasonable guess for the radius is $1$ (intuiting from the $1$D case).
+\begin{lemma*} \label{thm:gln-open-i}
+    The open ball of radius $1$ around $I$ in $\M_n(\R)$
+    is contained in $\GL_n(\R)$.
+\end{lemma*}
 \begin{proof}
-    A reasonable guess for the radius is $1$ (intuiting from the $1$D case).
-    Let $X \in M_n(\R)$ with $\norm{X - I} < 1$.
+    Let $X \in \M_n(\R)$ with $\norm{X - I} < 1$.
 
     Let $v \in \R^n \setminus \set 0$.
     Then $\norm{(X - I)v} < \norm v$ implies that $(X - I)v \ne v$.
     Thus $Xv \ne 0$ and so $X$ is invertible.
 \end{proof}
-This will be useful in \cref{thm:inv-cont-rudin}.
+This will also be useful in \cref{thm:inv-cont-rudin}.
 This can also be proven by borrowing the following result from $\C$. \[
     \frac1{1-z} = 1 + z + z^2 + \ldots \quad \text{for} \quad \abs{z} < 1.
 \]
 (This was the first thought a student had when prompted.)
 We approach it this way as well, since this gives us an explicit inverse.
 \begin{lemma*} \label{thm:inv-series}
-    Let $Z \in M_n(\R)$ be such that $\norm{Z} < 1$.
+    Let $Z \in \M_n(\R)$ be such that $\norm{Z} < 1$.
     Then
     \begin{enumerate}
         \item $\sum_{n=0}^\infty Z^n$ converges.
@@ -255,23 +260,10 @@ We approach it this way as well, since this gives us an explicit inverse.
     \]
     for all $m > n$.
 
-    To see that $I - Z$ is invertible, note that \[
-        \norm{I - Z} \ge \abs[\big]{\norm{I} - \norm{Z}} = 1 - \norm{Z} > 0.
-    \]
-    Finally, let $S_n = \sum_{k=0}^n Z^k$ and
+    Now let $S_n = \sum_{k=0}^n Z^k$ and
     $S_\infty = \lim_{n \to \infty} S_n$.
     Then $(I - Z)S_n = I - Z^{n+1}$ and so
     $(I - Z)S_n \to I$ as $n \to \infty$.
-    % Thus \begin{align*}
-    %     (I - Z)(S_\infty - S_n) &= (I - Z)S_\infty - (I - Z)S_n
-    %     &\to (I - Z)S_\infty - I
-    % \end{align*}
-    % But \begin{align*}
-    %     \norm{(I - Z)(S_\infty - S_n)} &\le \norm{I - Z} \norm{S_\infty - S} \\
-    %     &\to 0
-    % \end{align*}
-    % Thus $(I - Z)(S_\infty - S_n) \to 0$.
-    % Equating the two limits, we get $(I - Z)S_\infty = I$.
     Since matrix multiplication is continuous, we can take the limit
     inside the product and get $(I - Z)S_\infty = I$.
 \end{proof}

@@ -39,14 +39,14 @@
     A norm $\norm{\cdot}$ on $V$ is a function from $V$ to $\R$ that
     satisfies
     \begin{enumerate}[label=\small(N\arabic*)]
-        \item (Positivity) $\norm{x} \ge 0$ for any $x \in V$.
+        \item (positivity) $\norm{x} \ge 0$ for any $x \in V$.
             \label{def:norm:pos}
-        \item (Definiteness) $\norm{x} = 0$ iff $x = 0$.
+        \item (definiteness) $\norm{x} = 0$ iff $x = 0$.
             \label{def:norm:def}
-        \item (Homogeneity) $\norm{r x} = \abs{r} \norm{x}$
+        \item (homogeneity) $\norm{r x} = \abs{r} \norm{x}$
             for any $x \in V$ and $r \in \R$.
             \label{def:norm:hom}
-        \item (Triangle inequality) $\norm{x + y} \le \norm{x} + \norm{y}$
+        \item (triangle inequality) $\norm{x + y} \le \norm{x} + \norm{y}$
             for any $x, y \in V$.
             \label{def:norm:tri}
     \end{enumerate}
@@ -62,10 +62,10 @@
     space structure by defining the distance $d(x, y)$ between $x, y \in V$
     as $\norm{x - y}$.
 
-    The set $B(x, r) \coloneq \set{y \in V \mid \norm{x - y} < r}$ is called
+    The set $B(x, r) \coloneq \sset{y \in V}{\norm{x - y} < r}$ is called
     the open ball of radius $r$ centered at $x$.
 
-    The set $S(x, r) \coloneq \set{y \in V \mid \norm{x - y} = r}$ is called
+    The set $S(x, r) \coloneq \sset{y \in V}{\norm{x - y} = r}$ is called
     the sphere of radius $r$ centered at $x$.
 \end{remark}
 
@@ -121,7 +121,7 @@ function on $V$.
     Triangle implies triangle.
 \end{proof}
 
-\begin{definition}[continuity] \label{def:continuity}
+\begin{definition}[continuity] \label{def:cont}
     Let $(X, d)$ and $(Y, \rho)$ be metric spaces.
     A function $f\colon X \to Y$ is called \emph{continuous} at $a \in X$
     iff \begin{align*}
@@ -187,7 +187,7 @@ function on $V$.
 \begin{examples}
     \item ($\ell^p$ norm) $\R^n$ with $p \in [1, \infty]$ and \begin{align*}
         {\norm x}_p &\coloneq
-            \paren[\Big]{\abs{x_1}^p + \cdots + \abs{x_n}^p}^{1/p}
+            \ab(\abs{x_1}^p + \cdots + \abs{x_n}^p)^{1/p}
         \shortintertext{where}
         {\norm x}_\infty &\coloneq \max\set{\abs{x_1}, \ldots, \abs{x_n}}
     \end{align*} is the limit of the $l^p$ norms as $p \to \infty$.
@@ -197,14 +197,14 @@ function on $V$.
     See \refifdef{prb:lp}{\cref}{assignment 1, problem 5}.
 \end{exercise}
 
-\begin{definition}[norm equivalence] \label{def:norm_equivalence}
+\begin{definition*}[norm equivalence] \label{def:norm_equivalence}
     Let ${\norm\cdot}_a$ and ${\norm\cdot}_b$ be two norms on $V$.
     We say that $\norm{\cdot}_a$ and $\norm{\cdot}_b$ are \emph{equivalent}
     if these exist $c_1, c_2 > 0$ such that \[
         c_1 {\norm x}_a \le {\norm x}_b \le c_2 {\norm x}_a
     \] for all $x \in V$.
     We write ${\norm\cdot}_a \sim {\norm\cdot}_b$.
-\end{definition}
+\end{definition*}
 \begin{exercise}
     Check that $\sim$ is an equivalence relation.
 \end{exercise}

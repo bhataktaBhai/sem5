@@ -9,19 +9,19 @@
 The proof of \cref{thm:inv-cont} is nice and sweet.
 However, the proof in Rudin generalises better to infinite dimensions.
 We thus prove it again.
-\begin{proposition*} \label{thm:inv-cont-rudin} \leavevmode
+\begin{theorem*} \label{thm:inv-cont-rudin} \leavevmode
     \begin{enumerate}
-        \item Let $A \in M_n(\R)$ be such that $\norm{I - A} < 1$.
+        \item Let $A \in \M_n(\R)$ be such that $\norm{I - A} < 1$.
         Then $A \in \GL_n(\R)$.
         \item Let $A \in \GL_n(\R)$ be fixed and let
-        $B \in M_n(\R)$ be such that \[
+        $B \in \M_n(\R)$ be such that \[
             \norm{B - A} < \norm{A^{-1}}^{-1}.
         \] Then $B \in \GL_n(\R)$.
         \item $A \mapsto A^{-1}$ is continuous on $\GL_n(\R)$.
     \end{enumerate}
-\end{proposition*}
+\end{theorem*}
 \begin{remark}
-    The second part shows that $\GL_n(\R)$ is open in $M_n(\R)$.
+    The second part shows that $\GL_n(\R)$ is open in $\M_n(\R)$.
 \end{remark}
 \begin{proof}
     We proved the first part earlier in \cref{thm:gln-open-i} and again
@@ -34,7 +34,7 @@ We thus prove it again.
     Now \begin{align*}
         \norm{A^{-1}B - I} &= \norm{A^{-1} (B - A)} \\
         &\leq \norm{A^{-1}} \norm{B - A} \\
-        &< 1.
+        &< 1. \yesnumber \label{eq:god}
     \end{align*}
     Then by the first part, $A^{-1}B \in \GL_n(\R)$, so that
     $B \in \GL_n(\R)$.

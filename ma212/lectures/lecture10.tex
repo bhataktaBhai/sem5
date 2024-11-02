@@ -1,15 +1,17 @@
 \lecture{2024-08-28}{}
 \begin{remark}
     Suppose $H_1, \dots, H_m \le G$
-    and $H_{i+1}$ is orthogonal to $H_1 H_2 \dots H_i$ for all $i$.
-    Then $H_1 \times \cdots \times H_m \le G$
-    and is isomorphic to $H_1 H_2 \dots H_m$.
+    and $H_{i+1}$ is orthogonal to $H_1 H_2 \dots H_i$ for all $i$,
+    and $h_i h_j = h_j h_i$ for all $h_i \in H_i$ and $h_j \in H_j$.
+
+    Then $H_1 \times \cdots \times H_m \le G$ and is isomorphic to
+    $H_1 H_2 \dots H_m$.
 \end{remark}
 
-\begin{lemma} \label{thm:left-right}
+\begin{lemma*} \label{thm:left-right}
     Let $H \le G$.
     Then the left and right cosets of $H$ in $G$ are in bijection.
-\end{lemma}
+\end{lemma*}
 \begin{proof}
     Let $I \subseteq G$ be a set of representatives for the left cosets of
     $H$ in $G$.
@@ -19,21 +21,24 @@
         &= \bigcup_{x \in I} H x^{-1}.
     \end{align*}
     Note that $H x^{-1} = H y^{-1} \iff x^{-1} y \in H \iff xH = yH$.
-    Thus the union is still disjoint, and $I^{-1}$ is a set of
+    Thus the union is still disjoint, and
+    $I^{-1} = \sset{x^{-1}}{x \in I}$ is a set of
     representatives for the right cosets.
 \end{proof}
-\begin{definition}[index] \label{def:index}
+\begin{definition*}[index] \label{def:index}
     Let $H \le G$,
     Then $(G : H) = \#(G / H)$ is the \emph{index} of $H$ in $G$
     if $G/H$ is finite.
     Otherwise, we say $(G : H) = \infty$.
-\end{definition}
+\end{definition*}
 
 \begin{proposition}
     Let $K \le H \le G$.
-    and $G = \bigsqcup_{x \in I} xH$.
-    Let $H = \bigsqcup_{y \in J} yK$
-    Then $G = \bigsqcup_{x \in I, y \in J} xyK$.
+    Let $G = \bigsqcup\limits_{x \in I} xH$ and
+    $H = \bigsqcup\limits_{y \in J} yK$
+    Then \[
+        G = \bigsqcup_{\substack{x \in I \\ y \in J}} xyK.
+    \]
 \end{proposition}
 \begin{proof}
     \[
@@ -53,31 +58,34 @@
     \]
 \end{proof}
 
-\begin{corollary}[multiplicity of the index] \label{thm:index:mult}
+\begin{corollary*}[multiplicity of the index] \label{thm:index:mult}
     Let $K \le H \le G$.
     Then $(G : K) = (G : H)(H : K)$,
     with the understanding that $\infty$ is absorbing.
-\end{corollary}
+\end{corollary*}
 \begin{example}
     $6\Z \le 2\Z \le \Z$.
     \[
-        2\Z = (0 + 6\Z) \bigsqcup (2 + 6\Z) \bigsqcup (4 + 6\Z)
+        2\Z = (0 + 6\Z) \sqcup (2 + 6\Z) \sqcup (4 + 6\Z)
     \] so $(2\Z : 6\Z) = 3$.
     \[
-        \Z = (0 + 2\Z) \bigsqcup (1 + 2\Z)
+        \Z = (0 + 2\Z) \sqcup (1 + 2\Z)
     \] so $(\Z : 2\Z) = 2$.
     Similarly $(\Z : 6\Z) = 6$
     and sure enough, $(\Z : 6\Z) = (\Z : 2\Z)(2\Z : 6\Z)$.
 \end{example}
+Lagrange's theorem is a special case of this corollary.
+Choosing $K = \set 1$ gives $(G : K) = \abs G$, $(H \colon K) = \abs H$,
+and $\abs G = \abs H \cdot (G : H)$.
 
 \section{Isomorphism theorems} \label{sec:iso-thm}
-\begin{theorem}[first isomorphism theorem] \label{thm:iso:1}
+\begin{theorem*}[first isomorphism theorem] \label{thm:iso:1}
     Let $\varphi\colon G \to H$ be a homomorphism.
     Let $K = \ker(\varphi)$.
     Then $\varphi$ induces an isomorphism
     $\varphi_*\colon G/K \to \im(\varphi)$
     given by $\varphi_*(gK) = \varphi(g)$.
-\end{theorem}
+\end{theorem*}
 \begin{proof}
     This is well-defined since
     $gK = g'K \iff g^{-1}g' \in K \iff \varphi(g) = \varphi(g')$.
@@ -88,13 +96,13 @@
     $y = \varphi_*(gK)$.
 \end{proof}
 
-\begin{theorem}[second isomorphism theorem] \label{thm:iso:2}
+\begin{theorem*}[second isomorphism theorem] \label{thm:iso:2}
     Let $A, B \le G$.
     Suppose $A \subseteq N_G(B)$.
     Then $A \cap B \nsub A$ and \[
         AB/B \cong A/(A \cap B).
     \]
-\end{theorem}
+\end{theorem*}
 \begin{proof}
     First note that $AB$ is a group by \cref{thm:products}.
     Moreover, $B \nsub AB$ since $abB = aBb = Bab$ for each $ab \in AB$.

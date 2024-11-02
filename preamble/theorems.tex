@@ -13,39 +13,32 @@
 
 % Gilles Castel's theorems
 \newtheoremstyle{mddefinition}% <name>
-  {-.25\topsep}%                 <space above>
-  {-.25\topsep}%                         <space below>
-  {\normalfont}%              <body font>
-  {}%                         <indent amount>
-  {\bfseries}%                <theorem head font>
-  {.}%                        <punctuation after theorem head>
-  {.5em}%                     <space after theorem head>
-  {}%                         <theorem head spec>
+  {-.25\topsep}%             <space above>
+  {-.25\topsep}%             <space below>
+  {\normalfont}%             <body font>
+  {}%                        <indent amount>
+  {\bfseries}%               <theorem head font>
+  {.}%                       <punctuation after theorem head>
+  {.5em}%                    <space after theorem head>
+  {}%                        <theorem head spec>
 \newtheoremstyle{mdplain}% <name>
-  {-.25\topsep}%                 <space above>
-  {-.25\topsep}%                         <space below>
-  {\itshape}%                 <body font>
-  {}%                         <indent amount>
-  {\bfseries}%                <theorem head font>
-  {.}%                        <punctuation after theorem head>
-  {.5em}%                     <space after theorem head>
-  {}%                         <theorem head spec>
+  {-.25\topsep}%             <space above>
+  {-.25\topsep}%             <space below>
+  {\itshape}%                <body font>
+  {}%                        <indent amount>
+  {\bfseries}%               <theorem head font>
+  {.}%                       <punctuation after theorem head>
+  {.5em}%                    <space after theorem head>
+  {}%                        <theorem head spec>
 
 \usepackage[framemethod=Tikz]{mdframed}
 \mdfsetup{skipbelow=0pt}
-\mdfdefinestyle{axiomstyle}{
-    outerlinewidth = 1.5,
-    roundcorner = 10,
-    leftmargin = 15,
-    rightmargin = 15,
-    backgroundcolor = yellow!7
-}
 \mdfdefinestyle{defstyle}{
     outerlinewidth = 1,
     roundcorner = 2,
     leftmargin = 7,
     rightmargin = 7,
-    backgroundcolor = green!5
+    backgroundcolor = green!4
 }
 \mdfdefinestyle{thmstyle}{
     outerlinewidth = 1,
@@ -54,34 +47,23 @@
     rightmargin = 7,
     backgroundcolor = cyan!5
 }
-\mdfdefinestyle{lemmastyle}{
-    outerlinewidth = 1.5,
-    roundcorner = 10,
-    leftmargin = 7,
-    rightmargin = 7,
-    backgroundcolor = yellow!10
-}
 \ifundef\chapter{%
     \providecommand\theoremnumberwithin{section}
-    \theoremstyle{mddefinition}
-    \newmdtheoremenv[nobreak=true, style=axiomstyle]{axiom}{Axiom}[section]
     \theoremstyle{plain}
     \newtheorem{theorem}{Theorem}[\theoremnumberwithin]
 
     \newcounter{assignment}
-    \theoremstyle{plain}
+    \theoremstyle{definition}
     \newtheorem{problem}{Problem}
     \theoremstyle{mddefinition}
     \newmdtheoremenv[nobreak=true, outerlinewidth=0.7]{problem*}[problem]{Problem}
 }{
     \providecommand\theoremnumberwithin{chapter}
-    \theoremstyle{mddefinition}
-    \newmdtheoremenv[nobreak=true, style=axiomstyle]{axiom}{Axiom}[chapter]
     \theoremstyle{plain}
     \newtheorem{theorem}{Theorem}[\theoremnumberwithin]
 
     \newcounter{assignment}
-    \theoremstyle{plain}
+    \theoremstyle{definition}
     \newtheorem{problem}{Problem}[assignment]
     \theoremstyle{mddefinition}
     \newmdtheoremenv[nobreak=true, outerlinewidth=0.7]{problem*}[problem]{Problem}
@@ -104,6 +86,7 @@
 \theoremstyle{plain}
 \newtheorem{proposition}[theorem]{Proposition}
 \newtheorem{lemma}[theorem]{Lemma}
+% \newtheorem{lemma}{Lemma}
 \newtheorem{corollary}[theorem]{Corollary}
 \newtheorem{fact}[theorem]{Fact}
 \newtheorem{exercise}[theorem]{Exercise}

@@ -44,7 +44,7 @@ We need a notion of ``proximity''.
         \item $\set{\O, }$
     \end{itemize}
     \item For any $X$, the set \[
-        \T = \set{A \in 2^X \mid X \setminus A \text{ is finite}}
+        \T = \sset{A \in 2^X}{X \setminus A \text{ is finite}}
                 \cup \set{\O}
     \] is the \emph{cofinite} topology.
     This is a topology because
@@ -83,7 +83,7 @@ We need a notion of ``proximity''.
 
 \begin{definition}[Open sets] \label{def:metric:open}
     An \emph{open ball} in a metric space $(X, d)$ is a subset \[
-        B(x_0, r) = \set{x \in X \mid d(x, x_0) < r}
+        B(x_0, r) = \sset{x \in X}{d(x, x_0) < r}
     \] where $x_0 \in X$ and $r > 0$.
 
     An \emph{open set} is a subset $U \subseteq X$ if for any $x \in U$,
@@ -93,7 +93,7 @@ We need a notion of ``proximity''.
 \begin{theorem} \label{thm:topo:metric}
     Let $(X, d)$ be a metric space.
     The collection of open sets \[
-        \T = \set{U \subseteq X \mid \text{$U$ is open}}
+        \T = \sset{U \subseteq X}{\text{$U$ is open}}
     \] is a topology on $X$.
 \end{theorem}
 \begin{proof}

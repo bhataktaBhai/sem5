@@ -1,0 +1,68 @@
+\documentclass[12pt]{article}
+\input{../preamble}
+
+\title{Homework 10}
+\author{Naman Mishra (22223)}
+\date{24 October, 2024}
+
+\begin{document}
+\maketitle
+
+% Problem 1
+\begin{problem*}
+% Problem 1. Let X1,X2,... be i.i.d from μ. For each n, define the random probability measure μn = n1 (δX1 + . . . + δXn ). If Fn, F are the cumulative distribution functions of μn and μ, show that
+% a.s.
+% for any x ∈ R, we have Fn(x) → F(x).
+    Let $X_1, X_2, \dots$ be i.i.d from $\mu$.
+    For each $n$, define the random probability measure
+    $\mu_n = \frac1n (\delta_{X_1} + \dots + \delta_{X_n})$.
+    If $F_n, F$ are the cumulative distribution functions of $\mu_n$ and
+    $\mu$, show that for any $x \in \R$, we have $F_n(x) \asto F(x)$.
+\end{problem*}
+\begin{solution}
+    Fix $x \in \R$.
+    Then $F_n(x) = \frac1n \sum_{i=1}^n \1{\set{X_i \le x}}$.
+    $\P\set{X_i \le x} = F(x)$ and $X_i$'s are i.i.d, so
+    $\1{\set{X_i \le x}}$ are i.i.d $\Ber(F(x))$ random variables.
+    By the strong law,
+    $F_n(x) \asto \E[\1{\set{X_1 \le x}}] = F(x)$.
+\end{solution}
+
+% Problem 2
+\begin{problem*}
+% Let Xn be a sequence of random variables with zero means, unit variances. Assume that|Cov(Xn,Xm)|≤δ(|n−m|)whereδ(k)→0ask→∞. Showthat n1Sn →P 0.
+    Let $X_n$ be a sequence of random variables with zero means, unit
+    variances.
+    Assume that $\abs{\Cov(X_n, X_m)} \le \delta(\abs{n-m})$ where
+    $\delta(k) \to 0$ as $k \to \infty$.
+    Show that $\frac1n S_n \pto 0$.
+\end{problem*}
+\begin{solution}
+    Compute the variance of $S_n$.
+    \begin{align*}
+        \Var(S_n)
+            &= \sum_{i=1}^n \Var(X_i) + \sum_{i \ne j} \Cov(X_i, X_j) \\
+            &\le n + 2 [(n-1) \delta(1) + (n-2) \delta(2) +
+                                \dots + \delta (n-1)] \\
+        \implies \Var\ab(\frac1n S_n)
+            &\le \frac1n + \frac2n \sum_{k=1}^{n-1} \delta(k).
+    \end{align*}
+    \begin{claim}
+        Let $T_n = \sum_{k=1}^n \delta(k)$.
+        Then $\frac1n T_n \to 0$ as $n \to \infty$.
+    \end{claim}
+    \begin{subproof}[Proof of Claim]
+        Let $\eps > 0$, and choose $N$ such that
+        $\delta(n) < \frac{\eps}{2}$ for all $n \ge N$.
+        Then for $n \ge N$, \[
+            \frac1n T_n = \frac1n T_N + \frac1n \sum_{k=N+1}^n \delta(k)
+            \le \frac1n T_N + \frac{\eps}{2}.
+        \]
+        For large enough $n$, we have $\frac1n T_N < \frac{\eps}{2}$,
+        so $\frac1n T_n < \eps$.
+    \end{subproof}
+    Thus $\Var(\frac1n S_n) \to 0$ as $n \to \infty$.
+    By Chebyshev's inequality, we have $\frac1n S_n \pto 0$.
+\end{solution}
+
+\end{document}

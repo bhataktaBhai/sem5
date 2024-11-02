@@ -218,7 +218,7 @@ It need not go to $0$ to the left, nor $1$ to the right.
         F_{n_k}(x_i) \to c_i \text{ for all } i.
     \] All that remains is to extend this preserving right-contiunity.
     Define \[
-        F(x) \coloneq \inf\set{c_i \mid i \in \N
+        F(x) \coloneq \inf\sset{c_i}{i \in \N
                         \text{ such that } x < x_i}.
     \]
 
@@ -228,8 +228,8 @@ It need not go to $0$ to the left, nor $1$ to the right.
         \item $F_{n_k}(x) \to F(x)$ if $F$ is continuous at $x$.
     \end{itemize}
     Suppose $x_1 \le x_2$.
-    Then $F(x_1) = \inf\set{c_i \mid x_i > x_1} \le
-    \inf\set{c_i \mid x_i > x_2} = F(x_2)$
+    Then $F(x_1) = \inf\sset{c_i}{x_i > x_1} \le
+    \inf\sset{c_i}{x_i > x_2} = F(x_2)$
     since the second set is a subset of the first.
 
     Now let $x \in \R$ and $\eps > 0$.

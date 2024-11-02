@@ -20,21 +20,21 @@
                 0 & 1
             \end{pmatrix}} \le \GL_2(\R).
         \] Let \[
-            H = \set*{g \in G \Bigm| g = \begin{pmatrix}
+            H = \sset*{g \in G}{g = \begin{pmatrix}
                 1 & * \\
                 0 & 1
             \end{pmatrix}} \le G.
         \]
         Check that \[
-            H = \set*{\begin{pmatrix}
+            H = \sset*{\begin{pmatrix}
                 1 & n/2^m \\
                 0 & 1
-            \end{pmatrix} \biggm| n, m \in \Z}.
+            \end{pmatrix}}{n, m \in \Z}.
         \] This is not finitely generated.
         $H$ is isomorphic to the additive group of rationals with power-of-2
         denominators.
         The span of any finite set \[
-            S = \set{\frac{n_1}{2^{m_1}}, \dots, \frac{n_k}{2^{m_k}}},
+            S = \set*{\frac{n_1}{2^{m_1}}, \dots, \frac{n_k}{2^{m_k}}},
         \]
         cannot contain any rational with a denominator larger than
         $2^{\max m_i}$.
@@ -76,6 +76,7 @@
     gives $(\ord x, \alpha) \ge \ord x$ by minimality of $\ord x$.
     Thus $(\ord x, \alpha) = \ord x$ so $\ord x \mid \alpha$.
 \end{proof}
+Alternate proof in \cref{thm:group:order}.
 
 \begin{lemma*} \label{thm:order:power}
     Let $G$ be a group.
@@ -86,7 +87,7 @@
     \end{enumerate}
 \end{lemma*}
 \begin{proof}
-    It suffices to prove the second statement.
+    It suffices to prove the second statement. \TODO[How?] % TODO: how?
     Let $y = x^k$ and $d = (n, k)$.
     Write $n = \wtld{n} d$ and $k = \wtld{k} d$.
     Suppose $y^m = 1$.
@@ -118,4 +119,5 @@
     Then $\ord \wbar{a} = n$.
     By the previous lemma, $\ord \wbar{a} = n / (n, a)$
     (since $\ord \wbar{1} = n$).
+    Thus $(n, a) = 1$.
 \end{proof}

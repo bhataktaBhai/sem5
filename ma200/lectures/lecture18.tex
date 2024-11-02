@@ -1,0 +1,82 @@
+\lecture{2024-09-23}{}
+Let $v \in \R^2$.
+Let $R_v = \sset{tv}{t \in \R^+} \subseteq \R^2 \setminus \set 0$,
+and $L_v = R_v \cup R_{-v}$.
+If $v = 0$, $R_v = L_v = \set 0$.
+
+What functions are constant on each $R_v$?
+$f$ satisfying $f(tv) = f(v)$ for all $t > 0$, $v \in \R^2$.
+These are precisely homogenous functions of degree $0$.
+
+We can identify $\R^2 \setminus \set 0$ with $\C^\times$.
+Define the argument function $\arg\colon \C^\times \to [0, 2\pi)$
+by declaring $z = \abs z e^{i \arg(z)}$ for all $z \in \C^\times$.
+Note that any homogenous function of degree $0$ on $\R^2 \setminus \set 0$
+is precisely a real valued function of $\arg z$.
+
+\begin{example}
+    Any homogenous function on $\R^2 \setminus \set 0$ can be extended to
+    a continuous function on $\R^2$ iff it is constant.
+    Thus $f(x, y) = xy \docp \frac1{x^2 + y^2}$ is not continuous at $0$.
+\end{example}
+
+\begin{question}
+    Give an example of $f\colon \R^2 \setminus \set 0 \to \R$ which is
+    constant on each $L_v$.
+\end{question}
+\begin{solution}
+    $(x, y) \mapsto \abs{\arg(x + iy)}$ works obviously, where
+    $\arg(x + iy) \in [-\pi, \pi)$.
+    Being constant on each $L_v$ implies being a function of $\abs{\arg}$.
+\end{solution}
+
+\begin{definition}[evenness] \label{def:homo:even}
+    A map $f\colon X \to Y$ between two vector spaces is said to be
+    even (resp. odd) if $f(-x) = f(x)$ (resp. $-f(x)$) for all $x \in X$.
+\end{definition}
+As a special case, functions constant on each $L_v$ are even homogenous
+functions of degree $0$.
+
+\begin{question}
+    Give an example of a function $f\colon \R^2 \to \R$ such that
+    $(D_vf)(0)$ exists for any $v \in \R^2$ but $f$ is not even continuous
+    at $0$.
+\end{question}
+\begin{solution}
+    $D_vf(0)$ exists for all $v$ implies that the restriction of $f$ to any
+    line $L$ passing through the origin is differentiable and hence
+    continuous at the origin.
+
+    If we cook up a null-homogenous function, then \[
+        \lim_{t \to 0} \frac{f(tv) - f(0)}{t}
+            = \lim_{t \to 0} \frac{f(v)}{t}
+    \] does not exist.
+    If we choose an odd homogenous function of degree $1$ and set
+    $f(0) = 0$, we would have \[
+        \lim_{t \to 0} \frac{f(tv) - f(0)}{t}
+            = \lim_{t \to 0} f(v)
+            = f(v).
+    \] Let us try $f(x, y) = x \docp \frac{x^2}{x^2 + y^2}$.
+    This fails to be differentiable since \[
+        D_vf(0) = \frac{v_1^3}{v_1^2 + v_2^2}
+    \] is not a linear transform of $v$.
+    But it is continuous!
+    In fact, any homogenous function of degree $\ge 1$ will have limit
+    $0$ at $0$.
+    It helps to make it non-homogenous by considering \begin{align*}
+        f(x, y) &= xy^2 \docp \frac1{x^2 + y^4} \\
+        \implies D_vf(0)
+            &= \lim_{t \to 0} \frac{v_1v_2^2 t^3}{v_1^2t^3 + v_2t^5} \\
+            &= \lim_{t \to 0} \frac{v_1v_2^2}{v_1^2 + v_2t^2} \\
+            &= v_1 \docp \frac{v_2^2}{v_1^2}
+    \end{align*}
+    and \begin{align*}
+        \lim_{t \to 0} f(t^2, t)
+            &= \lim_{t \to 0} \frac{t^4}{t^4 + t^4}
+        & \lim_{t \to 0} f(0, t)
+            &= \lim_{t \to 0} 0 \\
+        &= 1/2
+            &&= 0
+    \end{align*}
+    so $f$ is not continuous at $0$.
+\end{solution}

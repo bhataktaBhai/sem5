@@ -1,12 +1,12 @@
 \lecture{2024-08-05}{}
 
-\begin{definition}[Order] \label{def:group:order}
+\begin{definition*}[order] \label{def:group:order}
     The order of an element $x \in G$ is the smallest $n \in \N$ such that
     $x^n = 1_G$ if it exists, and $\infty$ otherwise.
-\end{definition}
+\end{definition*}
 \begin{examples}
-    \item $G = \Z/n\Z = \set{\wbar{a} \mid 0 \le a < n}$ where
-        $\wbar{a} = \set{a + kn \mid k \in \Z}$
+    \item $G = \Z/n\Z = \sset{\wbar{a}}{0 \le a < n}$ where
+        $\wbar{a} = \sset{a + kn}{k \in \Z}$
         under the operation $\wbar{a} + \wbar{b} = \wbar{a + b}$.
     \item $G = \C^\times$. All roots of unity have finite order.
     \item $G = \GL_2(\R)$. The matrix \[
@@ -18,16 +18,27 @@
     [This is a homomorphism from $(\R, +)$ to $(G, \cdot)$]
     \item $G = \GL_2(R)$ where $R$ is a ring.
         Elements of the following set may have finite order. \[
-            \set{g \in M_2(R) \mid \det(g) \text{ is a unit in } R}
+            \sset{g \in M_2(R)}{\det(g) \text{ is a unit in } R}
             % TODO: is this sufficient?
         \]
 \end{examples}
-\begin{proposition}[Crystallographic restriction] \label{thm:group:crystal}
+\begin{exercise}[self] \label{thm:group:order}
+    Let $x \in G$ be such that $x^n = 1$.
+    Then $\ord x \mid n$.
+\end{exercise}
+\begin{proof}
+    By definition, $\ord x \le n$.
+    Write $n = q(\ord x) + r$ with $0 \le r < \ord x$.
+    Then $1 = x^n = x^{q(\ord x) + r} = x^r$.
+    Thus $r = 0$.
+\end{proof}
+
+\begin{proposition*}[crystallographic restriction] \label{thm:group:crystal}
     Let $x \in \GL_2(\Z)$.
     Then $\ord x \in \set{1, 2, 3, 4, 6, \infty}$.
-\end{proposition}
+\end{proposition*}
 
-\begin{definition}[Subgroup] \label{def:group:sub}
+\begin{definition}[subgroup] \label{def:group:sub}
     A set $H \subseteq G$ is a \emph{subgroup} of $G$ if it is a group
     under the same operation.
     We write $H \le G$.
@@ -73,13 +84,13 @@
     (ref. structure theorem for finitely generated abelian groups)
 
     Furthermore, $\F_2^n$ is a group of this form for all $n$.
-    Thus the groups of this form are precisely $\set{\F_2^n \mid n \in \N}$
+    Thus the groups of this form are precisely $\sset{\F_2^n}{n \in \N}$
     (up to isomorphism).
 \end{examples}
 
 \begin{proposition*}
-    Let $H \subseteq G$.
-    Then $H \le G$ iff $H \ne \O$ and $H$ is closed under the operation
+    Let $H \subseteq G$ be non-empty.
+    Then $H \le G$ iff $H$ is closed under the operation
     $(x, y) \mapsto xy^{-1}$.
 \end{proposition*}
 \begin{proof}
@@ -93,27 +104,26 @@
 \end{proof}
 
 \begin{proposition}
-    Let $H \subseteq G$ be finite.
-    Then $H \le G$ iff $H \ne \O$ and $H$ is closed under multiplication.
+    Let $H \subseteq G$ be finite and non-empty.
+    Then $H \le G$ iff $H$ is closed under multiplication.
 \end{proposition}
 \begin{proof}
-    Let % TODO
+    Suppose $H$ is closed under products and let $x \in H$.
+    Consider the set $\sset{x^n}{n \in \N} \subseteq H$.
+    Since this is finite, $x^m = x^n$ for some $m < n$.
+    Then $x^{n-m} = 1$ and so $x^{-1} = x^{n-m-1} \in H$.
+    Thus $H$ is closed under inverses.
 \end{proof}
 
-\section{Cyclic groups} \label{sec:group:cyclic}
-Given $x \in G$, look at the set $\angled{x} = \set{x^n \mid n \in \Z}$.
-This is a cyclic subgroup of $G$.
-
-We wish to classify all cyclic subgroups (up to isomorphism).
-
+\section{Morphisms} \label{sec:group:morph}
 \begin{example}
-    Let $H \le G$ with $\abs{G} = n > 2$, $\abs{H} = n-1$.
+    Let $H \le G$ with $\abs{G} = n > 2$ and $\abs{H} = n-1$.
     Is this possible?
 
     No. Let $G \setminus H = \set{x}$.
-    Then $x^{-1} = x$.
     Let $h \ne 1 \in H$.
-    Then $xh = h' \in H$, so $x \in H$ (closure).
+    Then $xh \ne x$, so $xh = g \in H$.
+    By closure, $x \in H$.
 \end{example}
 
 Generalising gives the following proposition.
@@ -124,12 +134,12 @@ Generalising gives the following proposition.
     Suppose $G = H_1 \cup H_2$ where $H_1, H_2 \le G$.
     Pick an $x \in H_1 \setminus H_2$ and $y \in H_2 \setminus H_1$.
     WLOG assume $xy \in H_1$.
-    Then $y \in H_1$.
+    Then $y \in H_1$, a contradiction.
     This means at least one of $H_1 \setminus H_2$ and $H_2 \setminus H_1$
-    is empty.
+    is empty, and so one of them is equal to $G$.
 \end{proof}
 
-\begin{definition*}[Homomorphism] \label{def:group:homo}
+\begin{definition*}[homomorphism] \label{def:group:homo}
     Let $G$ and $H$ be groups.
     A map $\varphi\colon G \to H$ is a \emph{homomorphism} from
     $G$ to $H$ if it respects the group operation.
@@ -146,14 +156,60 @@ Generalising gives the following proposition.
     isomorphism from $G$ to $H$.
 \end{definition*}
 
-\begin{definition*}[Kernel] \label{def:group:kernel}
+\begin{definition*}[kernel] \label{def:group:kernel}
     The \emph{kernel} of a homomorphism $\varphi\colon G \to H$ is the set
     \[
-        \ker \varphi = \set{x \in G \mid \varphi(x) = 1_H}.
+        \ker \varphi = \sset{x \in G}{\varphi(x) = 1_H}.
     \] The \emph{image} of $\varphi$ is the set \[
-        \im \varphi = \set{\varphi(x) \mid x \in G}.
+        \im \varphi = \sset{\varphi(x)}{x \in G}.
     \]
 \end{definition*}
+
+\begin{exercise}[self]
+    Let $\varphi\colon G \to H$ be a homomorphism.
+    \begin{itemize}
+        \item $\varphi(1_G) = 1_H$.
+        \item $\varphi$ is injective iff $\ker \varphi = \set{1_G}$.
+        \item The image of a subgroup is a subgroup.
+        \item The preimage of a subgroup is a subgroup.
+        \item If $\varphi$ is an isomorphism, then $\varphi^{-1}$ is also
+            an isomorphism.
+        \item If $\varphi$ is an isomorphism,
+            then $\ord x = \ord \varphi(x)$ for all $x \in G$.
+    \end{itemize}
+\end{exercise}
+\begin{proof} \leavevmode
+    \begin{itemize}
+        \item $\varphi(1_G) = \varphi(1_G^2) = \varphi(1_G)^2$.
+            Cancellation gives $\varphi(1_G) = 1_H$.
+        \item Suppose $\ker \varphi = \set{1_G}$.
+        \begin{align*}
+            \varphi(x) = \varphi(y)
+                &\implies \varphi(x)\varphi(y)^{-1} = 1_H \\
+                &\implies \varphi(xy^{-1}) = 1_H \\
+                &\implies xy^{-1} = 1_G.
+        \end{align*}
+        Conversely, injectivity requires that only one element map to $1_H$.
+        \item Let $K \le G$.
+        If $K$ is non-empty, so is $\varphi(K)$.
+        For any $x' = \varphi(x), y' = \varphi(y) \in \varphi(K)$,
+        $\varphi(x)\varphi(y)^{-1} = \varphi(xy^{-1}) \in \varphi(K)$.
+        As a special case, $\im \varphi \le H$.
+        \item Let $K \le H$.
+        $K \ni 1_H = \varphi(1_G)$, so $\varphi^{-1}(K)$ is non-empty.
+        Let $x, y \in \varphi^{-1}(K)$.
+        Then $\varphi(xy^{-1}) = \varphi(x)\varphi(y)^{-1} \in K$.
+        \item Let $h_1 = \varphi(g_1)$ and $h_2 = \varphi(g_2)$.
+        Then $h_1h_2 = \varphi(g_1)\varphi(g_2) = \varphi(g_1g_2)$,
+        so that \[
+            \varphi^{-1}(h_1h_2) = \varphi^{-1}(h_1) \varphi^{-1}(h_2).
+        \]
+        \item $x^n = 1 \implies \varphi(x^n) = 1 \implies \varphi(x)^n = 1$.
+        Thus $\ord \varphi(x) \mid \ord x$.
+        Similarly $\ord x \mid \ord \varphi(x)$
+        (since $\varphi^{-1}$ is an isomorphism). \qedhere
+    \end{itemize}
+\end{proof}
 
 \begin{examples}
     \item $\det\colon \GL_2(\R) \to \R^\times$ is a homomorphism.
@@ -164,12 +220,15 @@ Generalising gives the following proposition.
     \]
     \item $\varphi$ is injective iff $\ker \varphi = \set{1_G}$.
     \item $\exp\colon (\R, +) \to (\R^+, \cdot)$ is an isomorphism.
-    \item $\R^\times \ncong \C^\times$.
+    \item $\R^\times \ncong \C^\times$. % C has 3 cube roots of unity
     \item Let $A, B$ be nonempty sets.
     Then $S_A \cong S_B$ iff $A$ and $B$ are in bijection.
     \begin{proof}
         Suppose $\tau$ is a bijection from $A$ to $B$.
         Then $\sigma \mapsto \tau \sigma \tau^{-1}$ is an isomorphism
         from $S_A$ to $S_B$.
+
+        Conversely, let $\varphi$ be an isomorphism from $S_A$ to $S_B$.
+        \TODO{finish} % TODO
     \end{proof}
 \end{examples}

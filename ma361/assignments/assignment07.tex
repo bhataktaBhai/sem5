@@ -1,0 +1,326 @@
+\documentclass[12pt]{article}
+\input{../preamble}
+\newcommand\highlight[1]{\textcolor{blue}{#1}}
+
+\title{Homework 7}
+\author{Naman Mishra (22223)}
+\date{1 October, 2024}
+
+\begin{document}
+\maketitle
+
+% Problem 1
+\begin{problem*}
+    Let $\mu$ and $\nu$ be Borel probability measures on $\R$.
+    Suppose there exists a probability measure $\theta$ on $\R^2$ having
+    marginals $\theta \circ \Pi_1^{-1} = \mu$
+    and $\theta \circ \Pi_2^{-1} = \nu$
+    such that $\theta\sset{(x, x)}{x \in \R} > 0$.
+    Then show that $\mu$ and $\nu$ cannot be singular.
+\end{problem*}
+\begin{solution}
+    Assume there exists a measurable set $A$ such that
+    $\mu(A) = \nu(A^c) = 1$.
+    Let $U = A \times \R$ and $V = \R \times A^c$.
+    Then $\theta(U) = (\theta \circ \Pi_1^{-1})(A) = 1$ and
+    $\theta(V) = (\theta \circ \Pi_2^{-1})(A^c) = 1$.
+    Thus $\theta(U^c \cup V^c) \le \theta(U^c) + \theta(V^c) = 0$,
+    so $\theta(U \cap V) = 1$ (de Morgan).
+    But $U \cap V = A \times A^c$ lies entirely outside the diagonal,
+    since $(x, x) \in A \times A^c \implies A \cap A^c \ne \O$.
+    Thus $\theta\sset{(x, x)}{x \in \R} \le \theta((U \cap V)^c) = 0$,
+    a contradiction.
+
+    (More directly, the diagonal lies inside $U^c \cup V^c$, but my brain
+    finds it easier to see that it lies outside $U \cap V$.)
+\end{solution}
+
+% Problem 2
+\begin{problem*}
+    Place $r_m$ balls in $m$ bins at random and count the number of empty
+    bins $Z_m$.
+    Fix $\delta > 0$.
+    If $r_m > (1 + \delta) m \log m$, show that $\P(Z_m > 0) \to 0$ while
+    if $r_m < (1 - \delta) m \log m$, show that $\P(Z_m > 0) \to 1$.
+\end{problem*}
+\begin{solution}
+    This is simply by the coupon collector problem.
+
+    Let $X_n \sim \Unif([m])$ be iid, and note that \[
+        Z_m \sim m - \#\set{X_1, \dots, X_{r_m}}.
+    \] Write \[
+        Z_m = \sum_{k=1}^m Z_{m,k},
+            \quad \text{where } Z_{m,k} = \prod_{i=1}^{r_m} \1{X_i \ne k}
+    \] indicates that bin $k$ is empty.
+    Now by independence of $X_i$s,
+    \begin{align*}
+        \E[Z_{m,k}] &= \P\set{X_1 \ne k}^{r_m}
+            = \ab(1 - \frac1m)^{r_m}, \\
+        \E[Z_{m,k}Z_{m,\ell}] &= \P\set{X_1 \ne k, \ell}^{r_m}
+            = \ab(1 - \frac2m)^{r_m}
+        \intertext{for each $k \ne \ell$. Thus}
+        \E[Z_m] &= \sum_{k=1}^m \E[Z_{m,k}]
+            = m \ab(1 - \frac1m)^{r_m} \\
+        \E[Z_m^2] &= \E\ab[\sum_{k=1}^m Z_{m,k}
+            + \sum_{k \ne \ell} Z_{m,k}Z_{m,\ell}] \\
+            &= m \ab(1 - \frac1m)^{r_m}
+                + m(m-1) \ab(1 - \frac2m)^{r_m}.
+    \end{align*}
+    For $r_m > (1 + \delta) m \log m$, we have \[
+        \E[Z_m] \le m\ab(1 - \frac1m)^{(1 + \delta) m \log m}
+        \le m{(e^{-1/m})}^{(1 + \delta) m \log m}
+            = \frac1{m^\delta} \to 0.
+    \]
+    By Markov's inequality, \begin{align*}
+        \highlight{\P(Z_m > 0) = \P(Z_m \ge 1) \le \E[Z_m] \to 0}.
+    \end{align*}
+
+    For $r_m < (1 - \delta) m \log m$, we have
+    \begin{gather*}
+        e^{(-\frac1m-\frac1{m^2})r_m}
+            \le \ab(1 - \frac1m)^{r_m}
+            \le e^{-\frac1m r_m}, \\
+        \ab(1 - \frac2m)^{r_m}
+            \le e^{-\frac2m r_m}.
+    \end{gather*}
+    This gives \begin{align*}
+        \frac{\E[Z_m]^2}{\E[Z_m^2]}
+            &\ge \frac{m^2 e^{2(-\frac1m-\frac1{m^2})r_m}}
+                {m e^{-\frac1m r_m} + m(m-1) e^{-\frac2m r_m}} \\
+            &= \frac{m e^{-\frac 2{m^2} r_m}}{e^{\frac1m r_m} + (m-1)} \\
+            &\ge \frac{m e^{-\frac 2{m^2} (1 - \delta) m \log m}}
+                {e^{\frac1m (1 - \delta) m \log m} + m - 1} \\
+            &= \frac{m \cdot m^{-2(1 - \delta)\frac1m}}
+                    {m^{1 - \delta} + m - 1} \\
+            &= \frac{{\ab(m^{-\frac1m})}^{2(1 - \delta)}}
+                {m^{-\delta} + 1 - m^{-1}} \to 1
+    \end{align*} since $\lim\limits_{x \to \infty} x^{\frac1x} = 1$.
+
+    By the Paley-Zygmund inequality, \[
+        \highlight{\P(Z_m > 0) \ge \frac{\E[Z_m]^2}{\E[Z_m^2]} \to 1}.
+        \qedhere
+    \]
+\end{solution}
+
+\section*{Recap of product measures}
+If $X_1, X_2, \dots\colon (\Omega, \F, \P) \to \R$ are measurable functions,
+so is $X = (X_1, X_2, \dots)$.
+The push-forward $\mu = {\P} \circ X^{-1}$ is then a probability measure on
+$\R^\N$.
+Obviously, $\mu_k = {\P} \circ X_k^{-1}$ is a probability measure on $\R$.
+But $X_k = \Pi_k \circ X$, so $\mu_k = \mu \circ \Pi_k^{-1}$.
+\begin{quote}
+    Why? Change of variables gives that if a random variable $X$ has
+    distribution $\mu$, then $Y = g(X)$ has distribution $\mu \circ g^{-1}$,
+    because \[
+        \P(Y^{-1}(A)) = \P((g \circ X)^{-1}(A))
+            = \P(X^{-1}(g^{-1}(A)))
+            = \mu(g^{-1}(A)).
+    \]
+\end{quote}
+In other words, $\mu_k(A) = \mu(\R^{k-1} \times A \times \R^\N)$.
+If $X_k$'s are known to be independent, then \[
+    \P\set{X_1 \in A_1, \dots, X_n \in A_n}
+        = \prod_{k=1}^n \mu_k(A_k)
+\] for any $A_k \in \mcB(\R)$.
+Since cylinder sets are a $\pi$-system generating $\mcB(\R^\N)$, this
+uniquely determines $\mu$.
+
+\begin{definition*}[product measure] \label{def:product}
+% Let (Ωi, Fi, μi), i ∈ I, be probability spaces indexed by an arbitrary set I. Let Ω = ×i∈IΩi and let F (usually denoted ⊗i∈IFi) be the sigma-algebra generated by all finite dimensional cylinders (equivalently, the smallest sigma-algebra on Ω for which all the projections Πi : Ω → Ωi are measurable). If μ is a probability measure on (Ω, F) such that for any cylinder
+% setA=Π−1(A )∩...∩Π−1(A )forsomeA ∈F ,
+% then we say that μ is the product of μi, i ∈ I, and write μ = ⊗i∈Iμi.
+    Let $(\Omega_i, \mcF_i, \mu_i)$, $i \in I$, be probability spaces indexed
+    by an arbitrary set $I$.
+    Let $\Omega = \prod_{i \in I} \Omega_i$ and let $\mcF$ (usually denoted
+    $\bigotimes_{i \in I} \mcF_i$) be the $\sigma$-algebra generated by all
+    finite-dimensional cylinders (equivalently, the smallest
+    $\sigma$-algebra on $\Omega$ for which all the projections
+    $\Pi_i \colon \Omega \to \Omega_i$ are measurable).
+    If $\mu$ is a probability measure on $(\Omega, \mcF)$ such that for any
+    cylinder set
+    $A = \Pi_{i_1}^{-1}(A_{i_1}) \cap \cdots \cap \Pi_{i_n}^{-1}(A_{i_n})$
+    for some $A_{i_r} \in \mcF_{i_r}$, \[
+        \mu(A) = \prod_{r=1}^k \mu_{i_r}(A_{i_r}),
+    \] then we say that $\mu$ is the product of $\mu_i$, $i \in I$,
+    and write $\mu = \bigotimes\limits_{i \in I} \mu_i$.
+\end{definition*}
+
+\begin{theorem}
+    Let $\mu_n \in \mcP(\R)$.
+    Then $\mu = \bigotimes_{n \in \N} \mu_n$ exists and is unique.
+\end{theorem}
+\begin{proof}
+    Let $X_n$ be independent random variables with distribution $\mu_n$.
+    Then $X = (X_n)_n$ is a random variable with distribution $\mu$.
+\end{proof}
+
+\subsection{Fubini's theorem} \label{sec:fubini}
+\begin{theorem*}[Fubini-Tonelli theorem] \label{thm:fubini}
+% Let(Ω,F,P),i = 1,2,beprobabilityspacesandletΩ = Ω ×Ω,F = F ⊗F and iii 1212
+% P = P ⊗ P . Let Y : Ω → R be a random variable that is either positive or integrable w.r.t. P. 12
+% Then,Y(ω ,·):Ω →RisarandomvariableonΩ foreachω ∈Ω ,andiseitherpositive 12211
+% R
+% or integrable (w.r.t. P ) for a.e. ω [P ]. Further, the function ω 7→ Ω Y(ω , ω )dP (ω ) 2 11 1 1222
+% is a random variable on Ω , and is either positive or integrable. Finally, 1
+% Two remarks:
+% ZZ Z Y(ω,ω)dP(ω) dP(ω)= YdP.
+    Let $(\Omega_i, \mcF_i, \P_i)$, $i = 1, 2$, be probability spaces and
+    let $\Omega = \Omega_1 \times \Omega_2$, $\mcF = \mcF_1 \otimes \mcF_2$,
+    and $\P = \P_1 \otimes \P_2$.
+    Let $Y\colon \Omega \to \R$ be a random variable that is either positive
+    or integrable with respect to $\P$.
+    Then $Y(\omega_1, \cdot)\colon \Omega_2 \to \R$ is a random variable on
+    $\Omega_2$ for each $\omega_1 \in \Omega_1$, and is either positive or
+    integrable (with respect to $\P_2$) for almost every $\omega_1$
+    $[\P_1]$.
+    Further, the function
+    $\omega_1 \mapsto \int_{\Omega_2} Y(\omega_1, \omega_2) \dd \P_2(\omega_2)$
+    is a random variable on $\Omega_1$, and is either positive or integrable.
+    Finally, \[
+        \int_{\Omega_1} \ab[\int_{\Omega_2} Y(\omega_1, \omega_2) \dd \P_2(\omega_2)]
+                                    \dd \P_1(\omega_1)
+            = \int_\Omega Y \dd \P.
+    \]
+\end{theorem*}
+
+\section{The Radon-Nikodym theorem and conditional probability} \label{sec:radon}
+Consider a probability space $(\Omega, \mcF, \P)$.
+Let $X\colon \Omega \to \R$ be a non-negative random variable with
+expectation $1$.
+Define $\Qr(A) \coloneq \E[X\1A]$ for $A \in \mcF$.
+Then $\Qr$ is a probability measure on $(\Omega, \mcF)$.
+\begin{itemize}
+    \item $\Qr(\O) = \E[X\1\O] = 0$.
+    \item $\Qr(A \sqcup B) = \E[X\1{A \sqcup B}] = \E[X\1A + X\1B]
+        = \Qr(A) + \Qr(B)$.
+    \item If $A_n \upto A$, then $\1{A_n} \upto \1A$, so by MCT
+        $\Qr(A_n) \upto \Qr(A)$.
+\end{itemize}
+
+\begin{definition*}
+% Two measures μ and ν on the same (Ω, F) are said to be mutually singular and write μ ⊥ ν if there is a set A ∈ F such that μ(A) = 0 and ν(Ac) = 0. We say that μ is absolutely continuous to ν and write μ ≪ ν if μ(A) = 0 whenever ν(A) = 0.
+    Two measures $\mu$ and $\nu$ on the same $(\Omega, \F)$ are said to be
+    \emph{mutually singular} and write $\mu \sing \nu$, if these is a set
+    $A \in \F$ such that $\mu(A) = \nu(A^c) = 0$.
+    We say that $\mu$ is \emph{absolutely continuous} to $\nu$ and write
+    $\mu \ll \nu$ if $\mu(A) = 0$ whenever $\nu(A) = 0$.
+\end{definition*}
+
+\begin{theorem*}[Radon-Nikodym theorem] \label{thm:radon}
+% Suppose μ and ν are two finite measures on (Ω, F). If ν ≪ μ, then dν = fdμ for some f ∈ L1(μ).
+    Suppose $\mu$ and $\nu$ are two finite measures on $(\Omega, \F)$.
+    If $\nu \ll \mu$, then $\dd \nu = f \dd \mu$ for some $f \in L^1(\mu)$.
+\end{theorem*}
+
+\begin{lemma*}
+    Let $\mu_1$ and $\mu_2$ be two probability measures on a common
+    measurable space $(\Omega, \F)$, and let $\mu_p = p\mu_1 + (1-p)\mu_2$
+    for $p \in [0, 1]$.
+    Let $X$ be any random variable on $(\Omega, \F)$.
+    Then $\int X \dd \mu_p = p \int X \dd \mu_1 + (1-p) \int X \dd \mu_2$.
+\end{lemma*}
+\begin{proof}
+    From the construction of expectation, \[
+        \int X \dd \P = \lim_{n \to \infty} \sum_{k=1}^{n2^n-1}
+            \frac{k}{2^n} \P\set*{\frac{k}{2^n} \le X < \frac{k+1}{2^n}},
+    \] we have \begin{align*}
+        \int X \dd \mu_p &= \lim_{n \to \infty} \sum_{k=1}^{n2^n-1}
+            \frac{k}{2^n} \mu_p\set*{\frac{k}{2^n} \le X < \frac{k+1}{2^n}} \\
+        &= \lim_{n \to \infty} \sum_{k=1}^{n2^n-1}
+            \frac{k}{2^n} (p\mu_1 + (1-p)\mu_2)\set*{\frac{k}{2^n} \le X < \frac{k+1}{2^n}} \\
+        &= p \int X \dd \mu_1 + (1-p) \int X \dd \mu_2.
+    \end{align*}
+\end{proof}
+
+% Problem 3
+\begin{problem*}
+% Letμ,ν∈P(R)andletθ=12μ+21ν. (1) Showthatμ≪θandν≪θ.
+% (2) If μ ⊥ ν, describe the Radon Nikodym derivative of μ w.r.t. θ.
+    Let $\mu, \nu \in \mcP(\R)$ and let $\theta = \frac12 \mu + \frac12 \nu$.
+    \begin{enumerate}
+        \item Show that $\mu \ll \theta$ and $\nu \ll \theta$.
+        \item If $\mu \sing \nu$, describe the Radon-Nikodym derivative of
+            $\mu$ with respect to $\theta$.
+    \end{enumerate}
+\end{problem*}
+\begin{solution} \leavevmode
+    \begin{enumerate}
+        \item If $\theta(A) = 0$, then $\mu(A) = \nu(A) = 0$.
+        Thus $\mu \ll \theta$ and $\nu \ll \theta$.
+        \item Let $S \in \mcB(\R)$ be such that $\mu(S) = \nu(S^c) = 1$.
+        Choose random variable $X = 2 \times \1S$.
+        Then \begin{align*}
+            \int X \1A \dd \theta
+                &= \int \1A \1S \dd \mu + \int \1A \1S \dd \nu \\
+                &= \mu(A \cap S) + \nu(A \cap S) \\
+                &= \mu(A).
+        \end{align*}
+        Thus $\dd \mu = 2 \times \1S \dd \theta$.
+        Similarly $\dd \nu = 2 \times \1{S^c} \dd \theta$.
+    \end{enumerate}
+\end{solution}
+
+% Problem 4
+\begin{problem*}
+% Decide true or false and justify. Take μi,νi to be proba- bility measures on (Ωi, Fi).
+% (1) Ifμ1⊗μ2 ≪ν1⊗ν2,thenμ1 ≪ν1 andμ2 ≪ν2. (2) Ifμ1 ≪ν1 andμ2 ≪ν2,thenμ1⊗μ2 ≪ν1⊗ν2.
+    Decide true or false and justify.
+    Take $\mu_i, \nu_i$ to be probability measures on $(\Omega_i, \mcF_i)$.
+    \begin{enumerate}
+        \item If $\mu_1 \otimes \mu_2 \ll \nu_1 \otimes \nu_2$, then
+            $\mu_1 \ll \nu_1$ and $\mu_2 \ll \nu_2$.
+        \item If $\mu_1 \ll \nu_1$ and $\mu_2 \ll \nu_2$, then
+            $\mu_1 \otimes \mu_2 \ll \nu_1 \otimes \nu_2$.
+    \end{enumerate}
+\end{problem*}
+\begin{solution}
+    Let $\mathfrak X = \mathfrak X_1 \otimes \mathfrak X_2$ for
+    $\mathfrak X = \Omega, \mcF, \mu, \nu$.
+    \begin{enumerate}
+        \item True.
+        $\mu_1(A) = \mu(A \times \R)$ and $\nu_1(A) = \nu(A \times \R)$.
+        Then \[
+            \nu_1(A) = 0 \iff \nu(A \times \R) = 0
+                \implies \mu(A \times \R) = 0
+                \iff \mu_1(A) = 0.
+        \]
+        \item True?
+        If $A = A_1 \times A_2$ is a cylinder set, then \[
+            \nu(A) = 0 \implies \nu_1(A_1) \nu_2(A_2) = 0
+                \implies \mu_1(A_1) \mu_2(A_2) = 0
+                \implies \mu(A) = 0.
+        \]
+    \end{enumerate}
+\end{solution}
+
+\begin{problem*} \leavevmode
+% (1)Ifμn≪νforeachnandμn→d μ,thenisitnecessarilytruethatμ≪ν?If μn ⊥ ν for each n and μn →d μ, then is it necessarily true that μ ⊥ ν? In either case, justify or give a counterexample.
+% (2) Suppose X,Y are independent (real-valued) random variables with distribution μ and ν respectively. If μ and ν are absolutely continuous w.r.t Lebesgue measure, show that the distribution of X + Y is also absolutely continuous w.r.t Lebesgue measure.
+    \begin{enumerate}
+        \item If $\mu_n \ll \nu$ for each $n$ and $\mu_n \dto \mu$, then is
+        it necessarily true that $\mu \ll \nu$?
+        If $\mu_n \sing \nu$ for each $n$ and $\mu_n \dto \mu$, then is it
+        necessarily true that $\mu \sing \nu$?
+        In either case, justify or give a counterexample.
+        \item Suppose $X$, $Y$ are independent (real-valued) random
+        variables with distribution $\mu$ and $\nu$ respectively.
+        If $\mu$ and $\nu$ are absolutely continuous with respect to
+        Lebesgue measure, show that the distribution of $X + Y$ is also
+        absolutely continuous with respect to Lebesgue measure.
+    \end{enumerate}
+\end{problem*}
+\begin{solution} \leavevmode
+    \begin{enumerate}
+        \item It may be that $\mu \not\ll \nu$ even when $\mu_n \ll \nu$ for
+        each $n$.
+        Take $\mu_n = \delta_{\frac1n}$ and
+        $\nu = \sum_{n=1}^\infty \frac1{2^n} \mu_n$.
+        Then $\nu \gg \mu_n \dto \delta_0 \not\ll \nu$.
+
+        The same is a counterexample for singularity,
+        only with $\nu = \delta_0$.
+    \end{enumerate}
+\end{solution}
+
+\end{document}

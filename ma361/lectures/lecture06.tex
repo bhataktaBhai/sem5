@@ -103,14 +103,22 @@ For this we define the following metric.
     \]
 \end{definition}
 
-\begin{exercise}
+\begin{exercise*}
     Check that any function
     $X\colon (\Omega, \F) \to \ab(\wbar{\R}, \mcB(\wbar{\R}))$
     is measurable iff \[
-        \set{X \le t} \coloneq \set{\omega \in \Omega \mid X(\omega) \le t}
+        \set{X \le t} \coloneq \sset{\omega \in \Omega}{X(\omega) \le t}
         \in \F \quad \text{for all } t \in \R.
     \]
-\end{exercise}
+\end{exercise*}
+\begin{solution}
+    The forward direction is by definition.
+    Assume $\set{X \le t} \in \F$ for all $t \in \R$.
+    Let $\mcG = \sset{A \in \mcB(\wbar{\R})}{X^{-1}(A) \in \F}$.
+    By the assumption, $\mcG$ contains all $(-\infty, t]$.
+    $\mcG$ contains $\O$, and if $A \subseteq B$ are in $\mcG$,
+    then $X^{-1}(B \setminus A) = X^{-1}(B) \setminus X^{-1}(A) \in \F$.
+\end{solution}
 
 \begin{theorem*}[existence and uniqueness of expectation]
 \label{thm:expectation}
@@ -124,7 +132,7 @@ For this we define the following metric.
             surely; % TODO: define a.s.
         \item (indicator) $E[\1A] = \P(A)$ for all $A \in \F$;
         \item (monotone convergence) If $X_n \upto X$ almost surely
-        (that is, $\P\set{\omega \in \Omega \mid X_n(\omega)
+        (that is, $\P\sset{\omega \in \Omega}{X_n(\omega)
         \upto X(\omega)} = 1$), then
             $E[X_n] \uparrow E[X]$.
     \end{enumerate}
@@ -134,8 +142,8 @@ For this we define the following metric.
     Let $X_n \in \RV$.
     Show that the following are measurable sets.
     \begin{enumerate}
-        \item $\set{\omega \mid \lim X_n = 0}$
-        \item $\set{\omega \mid \lim X_n \text{ exists}}$
+        \item $\sset{\omega}{\lim X_n = 0}$
+        \item $\sset{\omega}{\lim X_n \text{ exists}}$
     \end{enumerate}
 \end{exercise}
 

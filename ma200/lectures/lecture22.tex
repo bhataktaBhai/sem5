@@ -1,0 +1,55 @@
+\lecture[22]{2024-10-04}{}
+\begin{example}
+    Let $f(x, y) = x^3 e^y + 2x \cos(xy) - 3$.
+    Can we write $y = \phi(x)$ in an open neighborhood $V$ of $1$ such that
+    $f(x, \phi(x)) = 0$ for all $x \in V$?
+    What is $\phi'(1)$?
+    Then \begin{align*}
+        \pdv{f}{y}(x, y) &= x^3 e^y - 2x^2 \sin(xy) \\
+        \pdv{f}{x}(x, y) &= 3x^2 e^y + 2 \cos(xy) - 2xy \sin(xy)
+    \end{align*}
+    and $\pdv{f}{y}(1, 0) = 1 \ne 0$.
+\end{example}
+
+Let $U \subseteq \R^n$ be open and $f\colon U \to \R$
+Then $f \in C^k(U)$ iff all partial derivatives of $f$ upto order $k$ exist
+on $U$ and are continuous on $U$, which is iff $D_i f \in C^{k-1}(U)$ for
+all $i \in [n]$.
+
+\begin{notation} \leavevmode
+    \begin{itemize}
+        \item $D_if(a) = \pdv{f}{x_i}(a)$.
+        \item $D_{ij}f(a) = \pdv{f}{x_i, x_j}(a) = (D_i(D_jf))(a)$.
+        This only makes sense if $D_jf$ exists in a neighbourhood of $a$,
+        and is called a \emph{mixed} partial derivative.
+        \item In general,
+        $D_{i_1, \dots, i_k}f(a) = \pdv{f}{x_{i_1}, \dots, x_{i_k}}(a)
+        = D_{i_1}(D_{i_2}(\dots(D_{i_k}f)\dots))(a)$.
+    \end{itemize}
+\end{notation}
+
+\begin{question}
+    Suppose $D_{ij}f(a)$ and $D_{ji}f(a)$ exist.
+    Can we say that they are equal?
+\end{question}
+\begin{solution}
+    No, not necessarily.
+    % Consider $f(x, y) = x(1 + y)$.
+    % Then \begin{align*}
+    %     \pdv{f}{x} &= 1 + 0 = 1 \\
+    %     \pdv{f}{y} &= 
+    % \end{align*}
+    \TODO
+\end{solution}
+
+\begin{theorem}
+    Let $U \subopeneq \R^2$ and $f\colon U \to \R$.
+    Suppose
+    \begin{enumerate}
+        \item $D_1f$, $D_2f$ and $D_{21}f$ exist on $U$.
+        \item $D_{21}f$ is continuous at $(a, b) \in U$.
+    \end{enumerate}
+    Then $D_{12}f(a, b)$ exists and \[
+        D_{12}f(a, b) = D_{21}f(a, b).
+    \]
+\end{theorem}

@@ -1,0 +1,197 @@
+\lecture[15]{2024-10-01}{}
+\begin{definition}[tail] \label{def:tail}
+    Fix a probability space $(\Omega, \F, \P)$ and
+    a collection $(\mcG_n)_n$ of sub $\sigma$-algebras of $\F$.
+    The \emph{tail} of $(\mcG_1, \mcG_2, \dots)$ is the $\sigma$-algebra \[
+        \tau = \bigcap_{N=1}^\infty \sigma(\mcG_N, \mcG_{N+1}, \dots).
+    \]
+\end{definition}
+More usefully, if $\mcG_n = \sigma(Y_n)$ for some random variables
+$(Y_n)_n$, then \[
+    \tau = \bigcap_{N=1}^\infty \sigma(Y_N, Y_{N+1}, \dots).
+\] A random variable $X$ is \emph{tail-measurable} iff \[
+    X = f_N(Y_N, Y_{N+1}, \dots)
+    \text{ for some } f_N \text{ for all } N.
+\]
+\begin{examples}
+    \item $X = \limsup_{n \to \infty} Y_n$ is tail-measurable.
+    \item $X = \lim_{n \to \infty} (Y_1 + Y_2 + \dots + Y_n)$ is \emph{not}
+    tail-measurable.
+    \item $X = \lim_{n \to \infty} \frac{1}{n} (Y_1 + Y_2 + \dots + Y_n)$ is
+    tail-measurable.
+\end{examples}
+\begin{theorem}[Kolmogorov's $0$--$1$ law] \label{thm:0-1}
+    Let $(\Omega, \F, \P)$ be a probability space and $(\mcG_n)_n$ be
+    \emph{independent} sub $\sigma$-algebras of $\F$.
+    Then the tail $\tau$ of $(\mcG_n)_n$ is trivial, i.e.,
+    $\P(A) \in \set{0, 1}$ for all $A \in \tau$.
+\end{theorem}
+\begin{corollary}
+    If $(Y_n)_n$ are independent random variables, then
+    any tail random variable is almost surely constant.
+\end{corollary}
+\begin{proof}
+    If $\P(A) \in \set{0, 1}$ for all $A \in \tau$, then
+    for any tail-measurable $X$, the event $\set{X \le t}$ is in $\tau$
+    and hence has probability $0$ or $1$.
+    Thus the CDF of $X$ is either $0$ or $1$ for all $t$. \[
+        F_X(t) = \begin{cases}
+            0 & t < t_0 \\
+            1 & t \ge t_0
+        \end{cases} \text{ for some } t_0 \in \wbar\R.
+    \] Thus $X = t_0$ almost surely.
+\end{proof}
+
+\begin{proof}[Proof of \nameref{thm:0-1}]
+    Since \[
+        \mcG_1, \dots, \mcG_N, \mcG_{N+1}, \dots
+        \text{ are independent,}
+    \] so are \[
+        \mcG_1, \dots, \mcG_N, \sigma(\mcG_{N+1}, \mcG_{N+2}, \dots).
+    \]
+    But $\tau \subseteq \sigma(\mcG_{N+1}, \mcG_{N+2}, \dots)$, so \[
+        \mcG_1, \dots, \mcG_N, \tau \text{ are independent.}
+    \] This holds for all $N$.
+
+    An infinite set of $\sigma$-algebras is independent iff any finite
+    subset is independent.
+    Thus \[
+        \tau, \mcG_1, \mcG_2, \mcG_3, \dots \text{ are independent.}
+    \]
+    Chunking them up again, we have that \[
+        \tau, \sigma(\mcG_1 \cup \mcG_2 \cup \dots) \text{ are independent.}
+    \]
+    Again $\tau$ is a subset of the second, so finally \[
+        \tau, \tau \text{ are independent.}
+    \]
+    That is, $\P(A \cap B) = \P(A) \P(B)$ for all $A, B \in \tau$.
+    Thus $\P(A) \in \set{0, 1}$ for all $A \in \tau$.
+\end{proof}
+
+\subsection{Percolation} \label{sec:percolation}
+Fix a $p \in [0, 1]$.
+For each edge $e$ of $\Z^d$, let $X_e \sim \Ber(p)$ independently.
+Let $G$ be the random graph with vertex set $\Z^d$ and edge set
+$\sset{e}{X_e = 1}$.
+Does $G$ have an infinite cluster (connected component)?
+
+This has probability $0$ or $1$.
+Enumerate the edges as $e_1, e_2, \dots$ and let the corresponding
+random variables be $Y_n = X_{e_n}$.
+Finitely many edges do not affect the existence of an infinite cluster,
+so the existence of an infinite cluster is a tail event with respect to
+$(Y_n)_n$.
+Since $Y_n$ are independent, the existence of an infinite cluster is
+a $0$--$1$ event.
+
+\begin{remark}
+    This tries to model a fluid percolating through a porous medium.
+    If the fluid is allowed to flow only through the edges of the graph,
+    then the question is whether the fluid can flow from top to bottom.
+\end{remark}
+
+Let $P_p$ be the probability that there is an infinite cluster in $G$
+for a given $p \in [0, 1]$.
+Observe that $P_p$ is increasing in $p$ (\TODO[coupling]).
+Thus there is a critical value $p_c \in [0, 1]$ such that \[
+    P_p = \begin{cases}
+        0 & \text{if } p < p_c, \\
+        1 & \text{if } p > p_c,
+    \end{cases}
+\] and $P_{p_c} \in \set{0, 1}$.
+\begin{center}
+    \begin{tikzpicture}[scale=4]
+        \def\pcc{0.35}
+        \draw[->] (0, 0) -- (1.2, 0) node[right] {$p$};
+        \draw[->] (0, 0) -- (0, 1.2) node[above] {$P_p$};
+        \draw[Red, thick] (0, 0) -- (\pcc, 0);
+        \draw[Red, thick] (\pcc, 1) -- (1, 1);
+        \node[Red] at (\pcc, 0) [below] {$p_c$};
+        \draw[Red] (\pcc, -0.01) -- (\pcc, 0.01);
+    \end{tikzpicture}
+\end{center}
+This shows a discontinuous behaviour, where none was present in the
+underlying model.
+Close links to phase transitions.
+
+\subsection{Random independent series} \label{sec:ris}
+Let $(X_n)_n$ be a sequence of independent random variables.
+Consider the event that $\sum_{n=1}^\infty X_n$ converges.
+This is a tail event, so it has probability $0$ or $1$ (independence).
+\begin{examples}
+    \item $X_n = c^n \xi_n$, where $c \in \R$ and $\xi_n \sim \Ber(\frac12)$
+    are independent.
+    \begin{itemize}
+        \item If $\abs c < 1$, then $\sum_{n=1}^\infty X_n$ converges.
+        \item If $c = 1$, then $\sum_{n=1}^\infty X_n$ diverges almost
+        surely.
+    \end{itemize}
+\end{examples}
+
+\begin{theorem}[Khinchine] \label{thm:ris:khinchine}
+    Let $(X_n)_n$ be independent random variables with finite variances
+    and zero means.
+    If $\sum_{n=1}^\infty \Var(X_n) < \infty$, then $\sum_{n=1}^\infty X_n$
+    converges almost surely.
+\end{theorem}
+\begin{examples}
+    \item Let $\xi_n \sim \Ber_{\pm}(\frac12)$ independently.
+    Fix an $\alpha > 0$.
+    Let $X_n = \frac{\xi_n}{n^\alpha}$.
+    Then $\E X_n = 0$ and $\Var X_n = \frac{1}{n^{2\alpha}}$.
+    Thus if $\alpha > \frac12$, the series converges almost surely.
+
+    Note that the alternating series
+    $\sum_{n=1}^\infty \frac{(-1)^n}{n^\alpha}$ converges for all
+    $\alpha > 0$.
+\end{examples}
+
+\begin{proof}
+    $\sum X_n$ converges iff $(S_n)_n$ is Cauchy.
+
+    $(t_n)_n$ is not Cauchy iff there exists an $\eps > 0$ such that
+    for any $N \in \N$, there exists a $k \in \N$ such that
+    $\abs{t_{N+k} - t_N} \ge \eps$.
+    Then \begin{align*}
+        \set{(S_n)_n \text{ is not Cauchy}}
+        &= \bigcup_{m=1}^\infty \bigcap_{N=1}^\infty \bigcup_{k=1}^\infty
+            \set{\abs{S_{N+k} - S_N} \ge \frac1m}
+    \end{align*}
+    To show that this has probability $0$ is the same as showing that
+    \[
+        \bigcap_{N=1}^\infty \bigcup_{k=1}^\infty
+        \set{\abs{S_{N+k} - S_N} \ge \frac1m}
+        \text{ has probability } 0
+    \] for each $m \ge 1$.
+    It suffices to show that for each $m \ge 1$, \[
+        \P\ab(\bigcup_{k=1}^\infty \set{\abs{S_{N+k} - S_N} \ge \frac1m})
+        \to 0 \text{ as } N \to \infty.
+    \] We fix $\eps = \frac1m$ and $N \ge 1$ and compute this probability.
+    This is the same as \[
+        \P\set*{\sup_{k \ge 1} \abs{S_{N+k} - S_N} \ge \eps}.
+    \]
+    By \nameref{thm:ris:max}, \[
+        \P\set*{\sup_{k \ge 1} \abs{S_{N+k} - S_N} \ge \eps}
+        \le \frac 2{\eps^2} \sum_{j=N+1}^\infty \Var(X_j) \to 0.
+    \] This is by reducing to the finite case \[
+        \P\set*{\sup_{k\ge 1} \abs{S_{N+k} - S_N} \ge \eps}
+        \le \lim_{M \upto \infty}
+            \P\set*{\max_{1 \le k \le M} \abs{S_{N+k} - S_N} \ge \eps}.
+    \]
+    This proves the result.
+\end{proof}
+
+\begin{theorem}[Kolmogorov's maximal inequality] \label{thm:ris:max}
+    Let $Y_1, Y_2, \dots, Y_n$ be independent random variables with
+    zero means and finite variances.
+    Let $S_k = Y_1 + \dots + Y_k$.
+    Then \[
+        \P\set*{\max_{1 \le k \le n} \abs{S_k} \ge t}
+        \le \frac{\sum_{k=1}^n \Var(Y_k)}{t^2}
+        \text{ for } t > 0.
+    \]
+\end{theorem}
+Chebyshev's inequality gives \[
+    \P\set{S_n \ge t} \le \frac{\E[S_n^2]}{t^2}
+        = \frac{\sum_{k=1}^n \Var Y_k}{t^2}.
+\] The maximum of $S_k$ could be much larger than $S_n$.

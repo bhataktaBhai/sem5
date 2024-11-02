@@ -8,13 +8,14 @@
 %     within=section,
 % ]{algo}
 \usepackage{algorithmicx}
-\usepackage[indLines=false, italicComments=false]{algpseudocodex}
+\usepackage[indLines=false, italicComments=false, beginLComment=---~, endLComment=]{algpseudocodex}
 \newcommand\Varr[1]{\textit{#1}}
 
-% Jeff's close underlining -- \smash collapses the text box to size 0
-\newcommand\textul[1]{\vphantom{#1}\underline{\smash{#1}\vphantom{.}}}
-\algdef{SxNi}[fn]{Fn}{EndFn}{1em}%
-[2]{\textul{\textsc{#1}(#2):}}%
+% Jeff's close underlining: \smash collapses the text box vertically to size 0
+\newcommand\textul[1]{\vphantom{#1}\underline{\smash{#1}\vphantom{\tiny ,}}}
+\algdef{SxNi}[fn]{Fn}{EndFn}{1em}[2]{\textul{\textsc{#1}(#2):}}%
+
+\newcommand{\Callp}[2]{\ensuremath{\mathit{#1}}(#2)}
 
 % non-bold keywords, and no ``do'' or ``then''
 \algrenewcommand\algorithmicfor{for}
@@ -27,21 +28,21 @@
 \algrenewcommand\algorithmicreturn{return}
 
 \usepackage{varwidth}
-\usepackage{mdframed}
 % \surroundwithmdframed[innerleftmargin=0pt,innerrightmargin=0pt]{algorithmic}
 
 % \newenvironment{alg}
 % {\fontfamily{bch}\selectfont\small%
 % \begin{algorithmic}}
 % {\end{algorithmic}}
-\newenvironment{algo}
-{\fontfamily{bch}\selectfont
+\newenvironment{algo}[1][0.8]
+{%\fontfamily{bch}\selectfont
+\linespread{1.0}
 \begin{center}\begin{tabular}{|l|}
     \hline
-    \hspace{-0.85em} \begin{varwidth}{0.8\textwidth}
+    \hspace{-0.85em} \begin{varwidth}{#1\textwidth}
         \small\;\\[-1.6em]
         \begin{algorithmic}}
-{       \end{algorithmic}\;\\[-2em]
+{       \end{algorithmic}\;\\[-2.3em]
     \end{varwidth} \\
     \hline
 \end{tabular}\end{center}}

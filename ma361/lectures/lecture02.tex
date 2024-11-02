@@ -55,16 +55,16 @@ A frequent choice for $\mcS$ is the following.
     $\B(X)$.
 \end{definition*}
 \begin{exercise}[self] \label{thm:borel-R}
-    Show that $\sigma\set{(a, b) \mid a, b \in \R} = \B(\R)$.
+    Show that $\sigma\sset{(a, b)}{a, b \in \R} = \B(\R)$.
 \end{exercise}
 \begin{solution}
-    Let $\Sigma = \sigma\set{(a, b) \mid a, b \in \R}$.
+    Let $\Sigma = \sigma\sset{(a, b)}{a, b \in \R}$.
     It is obvious that $\Sigma \subseteq \B(\R)$, since the set of
     intervals is a subset of the set of all open sets.
 
     We will show that each open set can be written as a countable union
     of open intervals.
-    Then $\set{U \subseteq \R \mid U \text{ is open}}$ would be
+    Then $\sset{U \subseteq \R}{U \text{ is open}}$ would be
     necessarily contained in $\Sigma$ by \labelcref{def:sigma:u},
     and so $\B(\R) \subseteq \Sigma$.
 
@@ -126,8 +126,8 @@ When does uniqueness hold?
     $P, Q$ are probability measures on $\F$ that agree on $\mcS$,
     then $P = Q$.
 \end{theorem}
-\begin{proof}[Proof sketch]
-    Consider $\mcG = \set{A \in \F \mid P(A) = Q(A)}$.
+\begin{proof}
+    Consider $\mcG = \sset{A \in \F}{P(A) = Q(A)}$.
     Then $\mcG \supseteq \mcS$.
     Further, if $A \in \mcG$, then $A^c \in \mcG$
     since $P(A^c) = 1 - P(A) = 1 - Q(A) = Q(A^c)$.
@@ -135,7 +135,7 @@ When does uniqueness hold?
     If $A, B \in \mcG$ are disjoint, then \[
         P(A \sqcup B) = P(A) + P(B) = Q(A) + Q(B) = Q(A \sqcup B).
     \] But how do we deal with $A, B$ not disjoint?
-    We need to show that $A, B \in \mcG \implies A \cap B \in \mcG$.
+    We would need to show that $A, B \in \mcG \implies A \cap B \in \mcG$.
 
     \textbf{Resolution:} Show that $\mcG$ is a $\lambda$-system,
     and then apply the \nameref{thm:pi-lambda}.
@@ -150,16 +150,62 @@ When does uniqueness hold?
 
     $\mcG$ contains $\Omega$ since $P(\Omega) = Q(\Omega) = 1$.
 
-    Thus by the $\pi$-$\lambda$ theorem, $\mcG$ is a $\sigma$-algebra
-    and thus $\mcG \supseteq \F$.
+    Thus by the $\pi$-$\lambda$ theorem, $\mcG \supseteq \F$.
 \end{proof}
 
 \begin{theorem*}[$\pi$-$\lambda$ theorem]
 \label{thm:pi-lambda}
-    Let $\mcS$ be a $\pi$-system and $\mcC$ be a $\lambda$-system.
-    If $\mcC \supseteq \mcS$, then $\mcC \supseteq \sigma(\mcS)$.
+    Let $S$ be a $\pi$-system and $\mcC$ be a $\lambda$-system.
+    If $\mcC \supseteq S$, then $\mcC \supseteq \sigma(S)$.
 \end{theorem*}
 This is due to Sierpiński and Dynkin.
+\begin{proof}
+    It suffices to show that $\sigma(S) = \lambda(S)$.
+    Call this simply $\lambda$.
+    $\lambda \supseteq S$ already contains $\Omega$, and is closed under
+    complements and increasing limits by virtue of being a $\lambda$-system.
+    All that's required is closure under finite unions.
+    Manju shows closure under finite intersections, which is slightly
+    easier.
+    I will show closure under finite unions.
+
+    For any $A \in S$, let
+    $\Lambda_A = \sset{B \in \lambda}{A \cup B \in \lambda}$.
+    \begin{itemize}
+        \item Clearly $\Omega \in \Lambda_A$.
+        \item If $B_n \upto B$ are from $\Lambda_A$, then
+        $A \cup B_n \upto A \cup B$,
+        so $A \cup B \in \lambda$ and hence $B \in \Lambda_A$.
+        \item If $B \in \Lambda_A$, then $A \cup B \in \lambda$,
+        so $B \setminus A = (A \cup B) \setminus A \in \lambda$.
+        Then \[
+            \Omega \setminus (B \setminus A) = \Omega \cap (B \cap A^c)^c
+            = B^c \cup A \in \lambda,
+        \] so $B^c \in \Lambda_A$.
+        \item Let $B \in S$. \TODO[HOW?]
+    \end{itemize}
+    Thus $\Lambda_A$ is a $\lambda$-system containing $S$.
+    This proves that $\Lambda_A = \lambda$.
+    In particular, $\lambda$ is closed under union with elements of $S$.
+
+    Now let $A \in \lambda$ and define $\Lambda_A$ as before.
+    By the above, $S \subseteq \Lambda_A$.
+    Now again
+    \begin{itemize}
+        \item $\Omega \in \Lambda_A$.
+        \item If $B_n \upto B$ are from $\Lambda_A$, then
+        $A \cup B_n \upto A \cup B$,
+        so $A \cup B \in \lambda$ and hence $B \in \Lambda_A$.
+        \item If $B \in \Lambda_A$, then $A \cup B \in \lambda$,
+        so $B \setminus A = (A \cup B) \setminus A \in \lambda$.
+        Then \[
+            \Omega \setminus (B \setminus A) = \Omega \cap (B \cap A^c)^c
+            = B^c \cup A \in \lambda,
+        \] so $B^c \in \Lambda_A$.
+    \end{itemize}
+    Thus $\Lambda_A = \lambda$.
+    That is, $\lambda$ is closed under union with elements of $\lambda$.
+\end{proof}
 
 What about existence?
 \subsubsection{Existence}
@@ -172,10 +218,53 @@ Consider $\Omega = [0, 1]$ with
 less that $\P(0, \frac12)$.
 
 Let us impose some necessary conditions.
-\begin{definition*}[Algebra] \label{def:algebra}
-    A collection $\mcA \subseteq 2^\Omega$ is an \emph{algebra}
-    if it is closed under complements and finite unions.
+\begin{definition*}[algebra] \label{def:algebra}
+    A collection $\mcA \subseteq 2^\Omega$ is an \emph{algebra} if it
+    $\O \in \mcA$ and it is closed under complements and finite unions.
 \end{definition*}
+\begin{definition*}[monotone class] \label{def:monotone-class}
+    A collection $\mcM \subseteq 2^\Omega$ is a \emph{monotone class} if it
+    is closed under increasing and decreasing limits.
+\end{definition*}
+
+\begin{proposition}[monotone algebra theorem] \label{thm:monotone-algebra}
+    Let $\mcA$ be an algebra and $\mcM$ be a monotone class.
+    If $\mcM \supseteq \mcA$, then $\mcM \supseteq \sigma(\mcA)$.
+\end{proposition}
+This is very similar to the \nameref{thm:pi-lambda}.
+\begin{proof}
+    It again suffices to show that $\sigma(\mcA) = \mcM(\mcA)$.
+    Call this simply $\mcM$.
+    $\mcM \supseteq \mcA$ already contains $\O$ and is closed under
+    increasing and decreasing limits.
+    It remains to show closure under complements and finite unions.
+
+    Let $\mcG = \sset{A \in \mcM}{A^c \in \mcM}$.
+    Since $\mcA$ is closed under complements, $\mcA \subseteq \mcG$.
+    Now if $A_n \upto A$ (resp. $A_n \downto A$) are from $\mcG$,
+    then $A \in \mcM$.
+    Moreover, $A_n^c \downto A^c$ (resp. $A_n^c \upto A^c$) are in $\mcG$,
+    so $A^c \in \mcM$.
+    Thus $A \in \mcG$.
+    This shows that $\mcG \subseteq \mcM$ is a monotone class containing
+    $\mcA$, so $\mcG = \mcM$.
+    Thus $\mcM$ is closed under complements.
+
+    Now let $A \in \mcA$ and set
+    $\mcM_A = \sset{B \in \mcM}{A \cup B \in \mcM}$.
+    Again $\mcA \subseteq \mcM_A$.
+    If $B_n \upto B$ (resp. $B_n \downto B$) are from $\mcM_A$,
+    then $A \cup B_n \upto A \cup B$ (resp. $A \cup B_n \downto A \cup B$).
+    So $A \cup B \in \mcM$ and hence $B \in \mcM_A$.
+    Thus $\mcM_A \subseteq \mcM$ is a monotone class containing $\mcA$, so
+    $\mcM_A = \mcM$.
+    This shows that $\mcM$ is closed under union with elements of $\mcA$.
+
+    Now let $A \in \mcM$ and define $\mcM_A$ as before.
+    By the above, $\mcA \subseteq \mcM_A$.
+    Closure under limits is the same as before.
+    Thus $\mcM$ is closed under finite unions.
+\end{proof}
 
 \begin{table}
     \centering
@@ -190,7 +279,7 @@ Let us impose some necessary conditions.
         \\
         $\lambda$-system & \Yes & \Yes &     &     &      &      & \Yes  & \Yes
         \\
-        algebra       &      & \Yes & \Yes & \Yes &      &      & \Yes &    
+        algebra       & \Yes & \Yes & \Yes & \Yes &      &      & \Yes &    
         \\
         $\sigma$-algebra & \Yes & \Yes & \Yes & \Yes & \Yes & \Yes & \Yes & \Yes
         \\
@@ -207,7 +296,7 @@ Let us impose some necessary conditions.
         \node[draw, circle, below left=of sigma] (algebra) {$\mcA$};
         \node[draw, circle, below right=of sigma] (lambda) {$\lambda$};
         \node[draw, circle, below=of algebra] (pi) {$\pi$};
-        \path[->]
+        \path[<-]
             (pi) edge (algebra)
             (algebra) edge (sigma)
             (lambda) edge (sigma);
@@ -241,7 +330,7 @@ Let us impose some necessary conditions.
 \begin{proof}
     Let $\Omega = [0, 1)$.
 
-    Let $\mcS_0 = \set{[a, b) \mid 0 \le a \le b \le 1}$.
+    Let $\mcS_0 = \sset{[a, b)}{0 \le a \le b \le 1}$.
     Half-open intervals are nice because they are closed under complements
     $[a, b)^c = [0, a) \sqcup [b, 1)$ and intersections
     $[a, b) \cap [c, d) = [a \vee c, b \wedge d)$.
@@ -262,7 +351,8 @@ Let us impose some necessary conditions.
     \begin{itemize}
         \item Finite additivity is obvious.
         \item Let $A_n, A \in \mcS$ with $A_n \upto A$.
-        % TODO
+        Then it should be sort of obvious that
+        $\lambda_\mcS(A_n) \upto \lambda_\mcS(A)$. \TODO[Yes?]
     \end{itemize}
     By Carathéodory's extension theorem, there exists a unique
     probability measure $\lambda$ on $\F = \sigma(\mcS)$ that extends

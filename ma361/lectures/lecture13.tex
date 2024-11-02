@@ -1,0 +1,162 @@
+\lecture[13]{2024-09-24}{}
+\section{First and second moment methods} \label{sec:12moment}
+The first moment method is simply Markov's inequality.
+If $X \ge 0$, then \[
+    \P\set{X \ge t} \le \frac{\E[X]}{t} \quad \text{for all } t > 0.
+\] In particular, \[
+    \P\set{X \ge k \E[X]} \le \frac1k \quad \text{for all } k > 0.
+\] ``$X$ is within a few multiples of $\E[X]$ with high probability.''
+
+The other direction does not hold. \[
+    \P\set{X \le \frac12 \E[X]} \le \eps
+\] cannot be guaranteed for any $\eps$.
+Consider \begin{equation}
+    X_n \sim \ab(1 - \frac1n) \delta_0 + \frac1n \delta_{n^2}.
+        \label{eq:12Xn}
+\end{equation} Then \begin{align*}
+    \E[X_n] &= n, \text{ but} \\
+    \P\set{X = 0} &= 1 - \frac1n \to 1.
+\end{align*}
+If the second moment exists, we can use Chebyshev's inequality to get a
+bound. \[
+    \P\set*{X \le \frac12 \mu}
+        \le \Pr\set*{\abs{X - \mu} \ge \frac12 \mu}
+        \le \frac{\Var(X)}{\mu^2 / 4}.
+\] In general, \[
+    \P\set{X \le \delta \mu}
+        \le \P\set{\abs{X - \mu} \ge (1 - \delta) \mu}
+        \le \frac{\Var(X)}{(1 - \delta)^2 \mu^2}.
+\] This only gives non-trivial bounds if $\Var(X) < (1 - \delta)^2 \mu^2$.
+If $\Var(X) \ge \mu^2$, no $\delta$ gives a non-trivial bound!
+
+The second moment method refers to the Paley-Zygmund inequality.
+\begin{proposition}[Paley-Zygmund inequality] \label{thm:pz}
+    For a random variable $X \ge 0$, \[
+        \P\set{X \ge \delta \E[X]} \ge (1 - \delta)^2 \frac{\E[X]^2}{\E[X^2]}
+        \quad \text{for all } 0 \le \delta \le 1.
+    \]
+\end{proposition}
+When does this give a non-trivial lower bound?
+\[
+    \frac{\E[X]^2}{\E[X^2]}
+        = \frac{\mu^2}{\mu^2 + \sigma^2}
+        = \frac{1}{1 + \sigma^2 / \mu^2}.
+\] This gives non-trivial bounds no matter how small $\sigma^2 / \mu^2$ is.
+
+\begin{proof}
+    We first prove it for $\delta = 0$.
+    Write $X = X \1{X > 0}$.
+    Then from Cauchy-Schwarz, \begin{align*}
+        \E[X]^2 &\le \E[X^2] \E[\1{X > 0}^2] \\
+        &= \E[X^2] \P\set{X > 0}.
+    \end{align*}
+    Now for any $\delta$, let $Y = (X - \delta \mu)_+ \ge 0$.
+    Then \begin{equation}
+        \P\set{Y > 0} \ge \frac{\E[Y]^2}{\E[Y^2]}. \label{eq:pz}
+    \end{equation} The LHS is $\P\set{X \ge \delta \mu}$.
+    We need to relate moments of $X$ and $Y$.
+    \begin{align*}
+        \mu = \E[X]
+            &= \E[X \1{X > \delta \mu}] + \E[X \1{X \le \delta \mu}] \\
+            &\le \E[Y] + \E[\delta \mu \1{X > \delta \mu}]
+                    + \E[\delta \mu \1{X \le \delta \mu}] \\
+            &= \E[Y] + \delta \mu.
+    \end{align*}
+    Then \[
+        \E[Y] \ge (1 - \delta) \mu.
+    \] Since $\abs Y \le \abs X$, we have \[
+        \E[Y^2] \le \E[X^2].
+    \]
+    Thus \cref{eq:pz} gives \[
+        \P\set{X \ge \delta \mu} \ge \frac{(1 - \delta)^2 \mu^2}{\E[X^2]}.
+        \qedhere
+    \]
+\end{proof}
+
+\subsection{Coupon collector} \label{sec:cc}
+A box contains $N$ coupons labelled $1, 2, \dots, N$.
+Draw repeatedly uniformly at random with replacement until all coupons are
+collected.
+That is, let $X_n \sim \Unif([N])$ be iid, and define \[
+    T_N = \min\sset{t \in \N}{\set{X_1, \dots, X_t} = [N]}.
+\] We wish to  study $T$.
+
+To analyze this, define $U_t = U_t^{(N)}$ as \[
+    U_t = N - \#\set{X_1, \dots, X_t}.
+\] We can further write it as \[
+    U_t = \sum_{k=1}^N U_{t,k}, \quad U_{t,k} = \prod_{i=1}^t \1{X_i \ne k}.
+\] We can write $T > t \iff U_t \ge 1$, so \[
+    T_N = \min\sset{t \in \N}{U_t = 0}.
+\]
+We shall use the first and second moment methods on $U_t$.
+\begin{align*}
+    \E[U_{t,k}] &= \prod_{i=1}^t \P\set{X_i \ne k} \\
+        &= \ab(1 - \frac1N)^t \\
+    \implies \E[U_t] &= N \ab(1 - \frac1N)^t \\
+    \E[U_t^2] &= \E\ab[\sum_{k=1}^{N} U_{t,k}
+                + \sum_{k \ne \ell} U_{t,k} U_{t,\ell}] \\
+        &= N \ab(1 - \frac1N)^t + N(N-1) \ab(1 - \frac2N)^t
+\end{align*}
+
+\begin{proposition}[elementary inequalities] \label{thm:ineq}
+    For all $x$, \[
+        1 - x \le e^{-x}.
+    \] For $\abs x < \frac12$, \[
+        e^{-x-x^2} \le 1 - x \le e^{-x}.
+    \]
+\end{proposition}
+
+Thus we have \[
+    \E[U_t] \le N e^{-t/N} = e^{-t/N + \log N}.
+\] If $t = N(\log N + h_N)$ where $h_N \to \infty$ as $N \to \infty$,
+we have \[
+    \E[U_t] \le e^{-h_N} \to 0.
+\] Define this $t$ to be $t_N^+$.
+Then \[
+    \P\set{T_N > t_N^+} = \P\set{U_{t_N^+} \ge 1} \le \E[U_{t_N^+}] \to 0.
+\]
+
+What if $t = N(\log N - h_N)$? Call this $t_N^-$.
+\begin{align*}
+    \P\set{T_N > t_N^-} &= \P\set{U_{t_N^-} \ge 1} \\
+        &\ge \frac{\E[U_t]^2}{\E[U_t^2]} \\
+        &\ge \frac{N^2 e^{-\frac{2t}N - \frac{2t}{N^2}}}
+            {Ne^{-\frac tN} + N(N-1)e^{-\frac{2t}N}} \\
+        &\ge \frac{e^{-\frac{2t}{N^2}}}
+            {\frac1N e^{\frac tN}+ \ab(1 - \frac1N)}.
+\end{align*}
+
+We have concluded that for any $h_N \to \infty$, \[
+    \boxed{
+        \P\set{N(\log N - h_N) \le T_N \le N(\log N + h_N)} \to 1.
+    }
+\]
+
+\section{Random graphs} \label{sec:rg}
+\begin{definition}[Erd\"os-R\'enyi graph] \label{def:rg:er}
+    The \emph{Erd\"os-R\'enyi random graph} $\mcG_{n, p}$ is the
+    random graph on $n$ vertices where each edge is present with probability
+    $p$ independently.
+
+    That is, we have random variables $\sset{X_{i,j}}{1 \le i < j \le n}$
+    iid $\Ber(p)$.
+\end{definition}
+
+\begin{theorem} \label{thm:rg:er:connected}
+    For a $\delta > 0$ and let $p_n^+ = (1 + \delta) \frac{\log n}{n}$ and
+    $p_n^- = (1 - \delta) \frac{\log n}{n}$.
+    Then \begin{align*}
+        \P\set{\mcG_{n, p_n^+} \text{ is connected}} &\to 1 \\
+        \P\set{\mcG_{n, p_n^-} \text{ is connected}} &\to 0.
+    \end{align*}
+\end{theorem}
+
+Define \begin{align*}
+    \mcC_n &= \text{number of connected components of size} \le \frac n2. \\
+    \mcI_n &= \text{number of isolated vertices}.
+\end{align*}
+Of course $\mcI_n \le \mcC_n$, and \[
+    \mcG_{n,p} \text{ is disconnected}
+        \iff \mcC_n \ge 1
+        \impliedby \mcI_n \ge 1.
+\]

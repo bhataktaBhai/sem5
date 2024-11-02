@@ -1,0 +1,204 @@
+\lecture{2024-10-09}{}
+
+\begin{lemma}
+    Let $R$ be an integral domain.
+    Then
+    \begin{enumerate}
+        \item $R[x]$ is an integral domain.
+        \item For $f, g, \in R[x]$, $\deg fg = \deg f \deg g$.
+        \item $(R[x])^\times = R^\times$.
+    \end{enumerate}
+\end{lemma}
+
+\begin{theorem}[Chinese remainder theorem] \label{thm:crt}
+    Let $I_1, \dots, I_n$ be pairwise maximal.
+    Then $R \xrightarrow{f} R/I_1 \times \dots \times R/I_n$ induces an
+    isomorphism \[
+        f\colon R/(I_1 \dots I_n) \isoto \R/I_1 \times \dots \times R/I_n.
+    \]
+    Equivalently, given elements $x_1, \dots, x_n \in R$, there exists an
+    $x$ such that $x \equiv x_j \pmod{I_j}$ for all $j \in [n]$.
+\end{theorem}
+\begin{proof}
+    Consider the case $n = 2$.
+    We can find $a_1 \in I_1$, $a_2 \in I_2$ such that $a_1 + a_2 = 1$.
+    Then for $x_1, x_2 \in R$, we have that $x = x_1 a_2 + x_2 a_1$
+    satisfies the required conditions. \[
+        x = x_1 (1 - a_1) + x_2 a_1
+          = x_1 + (x_2 - x_1) a_1
+          \equiv x_1 \pmod{I_1} \\
+    \]
+    For $n \ge 2$, find for each $j > 1$ elements $a_j \in I_1$ and
+    $b_j \in I_j$ such that $a_j + b_j = 1$.
+    Now \begin{align*}
+        1 = \prod_{j>1} (a_j + b_j) \in I_1 + \prod_{j>1} I_j,
+    \end{align*} so $I_1$ and $\prod_{j>1} I_j$ are co-maximal.
+    Similarly, $I_k$ and $\prod_{j \ne k} I_j$ are co-maximal for all $k$.
+
+    By the case $n = 2$, we can find elements $y_k$ such that \begin{align*}
+        y_1 &\equiv 1 \pmod{I_1} & y_1 &\equiv 0 \pmod{\prod_{j\ne1} I_j} \\
+        y_2 &\equiv 1 \pmod{I_2} & y_2 &\equiv 0 \pmod{\prod_{j\ne2} I_j} \\[-1em]
+        &\vdotswithin{\equiv} & &\vdotswithin{\equiv} \\
+        y_n &\equiv 1 \pmod{I_n} & y_n &\equiv 0 \pmod{\prod_{j\ne n} I_j}.
+    \end{align*}
+    We can now construct $x = \sum_{j=1}^n x_j y_j$.
+    \TODO[Finish this proof.]
+\end{proof}
+
+\begin{corollary}
+    Let $m \in \Z \setminus \set 0$.
+    Then \[
+        \Z/m \cong \prod_{p \mid m} \Z/p^{v_p(m)}.
+    \]
+\end{corollary}
+
+\begin{corollary}
+    Let $m \in \Z \setminus \set 0$.
+    Then \[
+        (\Z/m)^\times \cong \prod_{p \mid m} (\Z/p^{v_p(m)})^\times.
+    \]
+\end{corollary}
+\begin{remarks}
+    \item If $A$ and $B$ are rings then
+        \begin{itemize}
+            \item If $f\colon A \isoto B$,
+                then $f\vert_{A^\times}\colon A^\times \isoto B^\times$.
+            \item $(A \times B)^\times = A^\times \times B^\times$.
+        \end{itemize}
+    \item $\abs{(\Z/p^\alpha)^\times} = p^\alpha \ab(1 - \frac1p)$,
+        since the units are non-multiples of $p$.
+    \item As a corollary, $\phi(m) \coloneq \abs{(\Z/m)^\times}
+        = \prod\limits_{p \mid m} p^{v_p(m)} \ab(1 - \frac1p)$.
+        This is multiplicative, i.e. $\phi(mn) = \phi(m) \phi(n)$ whenever
+        $(m, n) = 1$.
+\end{remarks}
+
+\section{Ideals in commutative rings} \label{sec:comm-ideals}
+\begin{definition*}[prime] \label{def:comm-ideals:prime}
+    An ideal $P \subseteq R$ is \emph{prime} if whenever $ab \in P$,
+    $P \ni a$ or $P \ni b$.
+\end{definition*}
+\begin{examples}
+    \item $2\Z$ is a prime ideal of $\Z$, since $ab \in 2\Z$ implies that
+        one of $a$ and $b$ is even.
+    \item If $\set 0$ is prime, then $R$ is an integral domain, since
+        $ab = 0 \implies a = 0$ or $b = 0$.
+\end{examples}
+
+\begin{definition*}[maximal ideal] \label{def:comm-ideals:maximal}
+    An ideal $M \subseteq R$ is \emph{maximal} if it is a maximal proper
+    ideal under inclusion.
+\end{definition*}
+\begin{examples}
+    \item $n\Z$ is maximal in $\Z$ if and only if $n$ is prime.
+        If $m\Z$ is an ideal containing $n\Z$, then $m \mid n$.
+        \begin{itemize}
+            \item If $n$ is prime, then $m = 1$ or $m = n$.
+            \item If $n$ is composite with a prime factor $p$, then
+                $m = p$ gives a proper ideal containing $n\Z$.
+        \end{itemize}
+    \item
+\end{examples}
+
+\begin{proposition}
+    Let $I$ be an ideal of $R$.
+    Then
+    \begin{enumerate}
+        \item $I$ is prime iff $R/I$ is an integral domain.
+        \item $I$ is maximal iff $R/I$ is a field.
+    \end{enumerate}
+\end{proposition}
+
+\begin{proposition}
+    Every maximal ideal is prime.
+\end{proposition}
+\begin{proof}
+    Every field is an integral domain.
+\end{proof}
+\begin{proof}[Direct proof]
+    Let $M$ be a maximal ideal.
+    Suppose $ab \in M$ but $a \notin M$.
+    Then $M + \angled a = R$.
+    Write $1 = m + ra$ with $m \in M$ and $r \in R$
+    so that $b = mb + rab \in M$.
+\end{proof}
+
+\begin{remark}
+    The converse is \emph{not} true.
+    $\angled 0$ is prime in $\Z$, but not maximal.
+    For a non-trivial example, consider the ring $R = \Z[x]$.
+    \begin{itemize}
+        \item $I = \angled x$ is prime, since $x \mid fg$ implies that
+            at least one of $f$ and $g$ has constant term $0$.
+            It is not maximal, since $I \subsetneq \angled{2, x}$.
+        \item Let $I = \angled{p, x} \subseteq \Z[x]$ where $p$ is prime.
+            Then $I = \sset{np + xf(x)}{n \in \Z, f \in \Z[x]}$.
+            We show that $R/I \cong \Z/p$.
+            The reduction mod $p$ \[
+                \sum_{i=0}^n a_i x^i \mapsto \sum_{i=0}^n \wbar{a_i} x^i
+            \] is a surjective ring homomorphism from $\Z[x]$ to
+            $(\Z/p)[x]$.
+            Compose this with the projection $(\Z/p)[x] \to \Z/p$
+            (evaluation at $x = \wbar{0}$) to get a surjective ring
+            homomorphism $\varphi\colon R \to \Z/p$ with kernel \[
+                \ker \varphi = \sset{f \in R}{f(0) \equiv 0 \pmod p}
+                    = \angled{p, x} = I.
+            \] Thus $R/I \cong \Z/p$ is a field, so $I$ is maximal.
+        \item $\angled p$ is prime.
+            Note that $\angled p = (p\Z)[x]$.
+            Suppose $f = a_0 + \dots a_nx^n$ and $g = b_0 + \dots + b_mx^m$
+            have product in $\angled p$.
+            Assume neither is in $\angled p$.
+            Let $i$, $j$ be the smallest indices such that $a_i$, $b_j$
+            are coprime to $p$.
+            Then the coefficient of $x^{i+j}$ in $fg$ is $a_ib_j$ modulo
+            $p$, which is not $0$.
+            Contradiction.
+
+            We can show that $\Z[x]/(p\Z)[x]$ is isomorphic to
+            $(\Z/p)[x]$.
+            Consider the reduction map $f \mapsto \wbar{f}$ from
+            $\Z[x] \to (\Z/p)[x]$, which is a surjective homomorphism with
+            kernel $\angled p$.
+    \end{itemize}
+\end{remark}
+
+\begin{theorem}
+    Every ideal is contained in a maximal ideal.
+\end{theorem}
+\begin{proof}
+    Let $S$ be the set of proper ideals containing $I$, partially ordered
+    by set inclusion.
+    Let $\mcC$ be a chain in $S$, and $N$ be its union.
+    \begin{itemize}
+        \item If $x \in N$ then $x \in J$ for some $J \in \mcC$.
+            So $x \cdot r \in J \subseteq N$ for all $r \in R$.
+        \item If $x, y \in N$, then $x \in J_x$ and $y \in J_y$ for some
+            $J_x, J_y \in \mcC$.
+            Since $\mcC$ is a chain, one of these contains the other,
+            and thus contains the sum.
+        \item $1 \notin J$ for any $J \in \mcC$, so $1 \notin N$.
+    \end{itemize}
+    Thus $N$ is a proper ideal containing $I$, so $N \in S$ upper bounds
+    $\mcC$.
+    By \nameref{zorn}, $S$ has a maximal element.
+\end{proof}
+
+\begin{definition}[partial order] \label{def:partial-order}
+    A relation $\le$ on a set $S$ is a \emph{partial order} if it is
+    reflexive, transitive and antisymmetric.
+
+    If for every $a, b \in S$, either $a \le b$ or $b \le a$ holds, then
+    $\le$ is a \emph{total order}.
+
+    A \emph{chain} is a totally ordered subset of $S$.
+\end{definition}
+\begin{example}
+    The set of subsets of a set $X$ is partially ordered by inclusion.
+    The regular order on $\R$ is a total order.
+\end{example}
+
+\begin{theorem*}[Zorn's lemma] \label{zorn}
+    Let $(S, \le)$ be a poset whose every chain has an upper bound.
+    Then $S$ has a maximal element.
+\end{theorem*}

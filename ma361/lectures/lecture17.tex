@@ -1,0 +1,206 @@
+\lecture[17]{2024-10-08}{Modes of convergence}
+
+\begin{definition}[convergence] \label{def:convergence}
+    Let $(X_n)_n$ and $X$ be random variables on $(\Omega, \F, \P)$.
+    We say that
+    \begin{enumerate}
+        \item (almost sure convergence) $X_n \asto X$
+        \item (convergence in probability) $X_n \pto X$
+        \item (convergence in distribution) $X_n \dto X$
+        \item ($L_p$ convergence) $X_n \lpto X$ ($p \ge 0$)
+    \end{enumerate}
+\end{definition}
+
+\begin{proposition}
+    \begin{enumerate}
+        \item Almost sure convergence implies convergence in probability.
+        \item Convergence in probability implies convergence in distribution.
+        \item $L^p$ convergence implies convergence in probability.
+    \end{enumerate}
+\end{proposition}
+
+\begin{proposition}
+    \begin{enumerate}
+        \item If $X$ is an almost sure constant, then $X_n \dto X$
+            implies $X_n \pto X$.
+        \item If $(X_n)_n$ are uniformly integrable, then $X_n \pto X$
+            implies $X_n \lpto[1] X$.
+    \end{enumerate}
+\end{proposition}
+
+\begin{proposition}
+    If convergence in probability is \emph{fast}, i.e., \[
+        \sum_n \P(\abs{X_n - X} > \eps) < \infty \text{ for all } \eps > 0,
+    \] then $X_n \pto X$ implies $X_n \asto X$.
+\end{proposition}
+
+\begin{definition*}[uniform integrability] \label{def:unif-int}
+    A family $\sset{X_\alpha}{\alpha \in I}$ of integrable random variables
+    is \emph{uniformly integrable} if for any $\eps > 0$ there exists
+    an $M < \infty$ such that \[
+        \E[\abs{X_\alpha} \1{\abs{X_\alpha} > M}] < \eps
+        \text{ for all } \alpha \in I.
+    \]
+\end{definition*}
+\begin{remarks}
+    \item If $\dd Q_\alpha = \abs{X_\alpha} \dd \P$
+        (that is, $Q_\alpha(A) = \int_A \abs{X_\alpha} \dd \P$),
+        then uniform integrability is equivalent to the condition that
+        ???
+    \item A single integrable random variable forms a uniformly integrable
+        family.
+    \item Uniform integrability implies the following: given $\eps > 0$,
+        there exists a $\delta > 0$ such that for any $A \in \F$ with
+        $\P(A) < \delta$, we have $\E[\abs{X_\alpha} \1A] < \eps$ for
+        all $\alpha \in I$. \TODO[Pf]
+    \item If $I$ is finite, uniform integrability holds.
+        (If $\E\abs X < \infty$, then $\E[\abs X \1{\abs{X} > M}] \to 0$
+        as $M \to \infty$.)
+        More generally, if ${\set{X_\alpha}}_{\alpha \in I}$ is uniformly
+        integrable and ${\set{Y_\beta}}_{\beta \in J}$ is a finite integrable
+        family, then the union is uniformly integrable.
+    \item The family of pairwise sums of two uniformly integrable families
+        is uniformly integrable.
+        \begin{proof}
+            Let ${\set{X_\alpha}}_\alpha$ and ${\set{Y_\beta}}_\beta$ be
+            uniformly integrable.
+            Then for any $\alpha$, $\beta$, \[
+                \abs{X_\alpha + Y_\beta} \1{\abs{X_\alpha + Y_\beta} > M}
+                    \le 2 \abs{X_\alpha} \1{\abs{X_\alpha} > M} +
+                        2 \abs{Y_\beta} \1{\abs{Y_\beta} > M}. \qedhere
+            \]
+        \end{proof}
+    \item If ${\set{X_\alpha}}_{\alpha \in I}$ are dominated by an integrable
+        random variable $Y$, that is, $\abs{X_\alpha} \le Y$ almost surely
+        for all $\alpha$, then ${\set{X_\alpha}}_\alpha$ is uniformly
+        integrable.
+
+        The converse is not true.
+        For example, consider $X_n = n \1{[\frac1n, \frac1{n-1}]}$
+        on $([0, 1], \B, \lambda)$.
+        Then ${\set{X_n}}_n$ is uniformly integrable, but not dominated by any
+        integrable random variable.
+    \item If ${\set{X_\alpha}}_\alpha$ is bounded in $L^p$ for some $p > 1$,
+        then it is uniformly integrable.
+        \[
+            \sup_\alpha \E[\abs{X_\alpha}^p] < \infty \implies
+                {\set{X_\alpha}}_\alpha \text{ is uniformly integrable.}
+        \]
+        \begin{proof}
+            By Markov's inequality, \[
+                \E[\abs{X_\alpha} \1{\abs{X_\alpha} > M}] \le
+                    \frac{\E[\abs{X_\alpha}^p \1{\abs{X_\alpha} > M}}{M^{p-1}}
+                    \le \frac{\E[\abs{X_\alpha}^p]}{M^{p-1}} \to 0
+            \] as $M \to \infty$, since the numerator is uniformly bounded.
+        \end{proof}
+        This is false for $p = 1$.
+        Consider $X_n = n\1{[0, \frac1n]}$ on $([0, 1], \B, \lambda)$.
+        ${\set{X_n}}_n$ is bounded in $L^1$ since each expectation is $1$.
+        But for any $M$, $\E[X_n \1{\abs{X_n} > M}] = 1$ for all $n > M$.
+    \item If $X_n \lpto[1] X$, then ${\set{X_n}}_n$ is uniformly integrable.
+        \begin{proof}
+            Suppose $X = 0$.
+            Then $\E[\abs{X_n}] \to 0$.
+            Given $\eps > 0$, find an $N$ such that $\E[\abs{X_n}] < \eps$
+            for all $n > N$.
+            For the first $N$ terms, simply take the maximum $M_n$ such that
+            $\E[\abs{X_n} \1{\abs{X_n} > M_n}] < \eps$.
+            Thus ${\set{X_n}}_n$ is uniformly integrable.
+
+            If $X$ is non-zero, then ${\set{X_n - X}}_n \lpto[1] 0$.
+            Thus ${\set{X_n - X}}_n$ is uniformly integrable.
+            But the singleton $\set X$ is uniformly integrable.
+            Thus the pairwise sum ${\set{X_n}}_n$ is uniformly integrable.
+        \end{proof}
+\end{remarks}
+
+\begin{theorem}
+    Let $X_n, X$ be integrable random variables on $(\Omega, \F, \P)$.
+    Then \[
+        X_n \lpto[1] X \iff \left\{
+            \begin{aligned}
+                &X_n \pto X, \text{ and} \\
+                &\set{X_n}_n \text{ is uniformly integrable.}
+            \end{aligned}\right.
+    \]
+\end{theorem}
+\begin{proof}
+    The forward implication has already been proved.
+
+    Let $X_n \pto X$ and ${\set{X_n}}_n$ be uniformly integrable.
+    Define $Y_n \coloneq X_n - X$.
+    Then $Y_n \pto 0$ and ${\set{Y_n}}_n$ is uniformly integrable.
+    We need to show that $\E\abs{Y_n} \to 0$.
+    \[
+        \E\abs{Y_n} = \E[\abs{Y_n} \1{\abs{Y_n} > M}] +
+            \E[\abs{Y_n} \1{\abs{Y_n} \le M}].
+    \] \TODO[Prove via almost sure subsequences and DCT]
+
+    The first term can be made arbitrarily small by uniform integrability.
+    For the second term, \begin{align*}
+        \E[\abs{Y_n}\1{\abs{Y_n} \le M}]
+        &= \int_0^\infty \P\set{\abs{Y_n}\1{\abs{Y_n} \le M} > t} \dd t \\
+        &= \int_0^M \P\set{\abs{Y_n} > t} \dd t.
+        \intertext{We know that for any $t > 0$,
+        $\P\set{\abs{Y_n} > t} \to 0$
+        Since probabilities are bounded by $1$, we can apply the dominated
+        convergence theorem (on Lebesgue integrals) to get}
+        \E[\abs{Y_n}\1{\abs{Y_n} \le M}] &\to 0. \qedhere
+    \end{align*}
+\end{proof}
+
+As a corollary of everything,
+\begin{corollary*}
+    Suppose $X_n \asto X$.
+    Then $X_n \lpto[1] X$ iff $\set{X_n}_n$ is uniformly integrable.
+\end{corollary*}
+
+\section{Laws of large numbers} \label{sec:lln}
+Fix a space $(\Omega, \F, \P)$ and a sequence of i.i.d. random variables
+$X_1, X_2, \dots$ on this space.
+Let $S_n = \sum_{i=1}^n X_i$.
+The weak law of large numbers states that \[
+    \frac{S_n}{n} \pto \E[X_1].
+\] The strong law of large numbers states that \[
+    \frac{S_n}{n} \asto \E[X_1].
+\] Obviously, the strong law implies the weak law.
+
+\begin{quote}
+    If these were not true, we would have to rework probability.\\
+    \hfill--- Prof.~Manjunath~Krishnapur
+\end{quote}
+
+\begin{proof}[Proof attempt]
+    Assume $X_k$'s have finite variance $\sigma^2$.
+    WLOG take $\mu = 0$ (else replace $X_k$ with $X_k - \mu$).
+    Then $\E[X_k] = 0$ and $\Var(X_k) = \sigma^2$.
+    Then $S_n$ has mean $0$ and variance $n\sigma^2$. \[
+        \E[S_n^2] = \sum_i \E[X_i^2] + \sum_{i \ne j} \E[X_i X_j]
+            = n \sigma^2.
+    \] This is the ``square root law''.
+    Thus \[
+        \E[(S_n/n)^2] = \frac{\sigma^2}{n} \to 0.
+    \] Since $L^2$ convergence implies convergence in probability, we have
+    \[
+        \frac{S_n}{n} \pto 0.
+    \]
+
+    If $n_1 < n_2 < \dots$ is a subsequence such that
+    $\sum_k \frac1{n_k} < \infty$,
+    then \[
+        \P\set*{\abs*{S_{n_k}/n_k} > \delta}
+            \le \frac{\sigma^2}{\delta^2 n_k}
+    \] is summable, so $\frac{S_{n_k}}{n_k} \asto 0$.
+
+    Alternatively, if we assume a higher moment condition, say fourth
+    moment, then \begin{align*}
+        \E[S_n^4] &= \sum_{i,j,k,l} \E[X_i X_j X_k X_l] \\
+            &= \sum_i \E[X_i^4] + 3 \sum_{i \ne j} \E[X_i^2] \E[X_j^2] \\
+            &= n B + 3n(n-1)\sigma^4
+    \end{align*}
+    Thus \begin{align*}
+        \P\set*{\abs*{S_n/n} \ge \delta}
+            &\le \frac{\E[S_n^4]}{(n\delta)^4} \\
+            &\le 
+    \end{align*}
+\end{proof}

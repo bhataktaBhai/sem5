@@ -3,23 +3,23 @@
 \begin{theorem*}[orbit-stabilizer theorem] \label{thm:orbit-stab}
     Let $G$ act on a set $X$.
     Then $G/G_x$ and $\mcO_x$ are in natural bijection (as sets)
-    via the map $gG_x \mapsto gx$.
+    via the map $gG_x \mapsto g \cdot x$.
 \end{theorem*}
 \begin{proof}
     We first show that the map is well-defined.
     \begin{align*}
         g G_x = g' G_x &\iff g^{-1} g' \in G_x \\
-            &\iff g^{-1} g' x = x \\
-            &\iff g x = g' x
+            &\iff (g^{-1} g') \cdot x = x \\
+            &\iff g \cdot x = g' \cdot x
     \end{align*}
     This also shows that the map is injective.
     Surjection is simply since for any $gx \in \mcO_x$
-    (everything in the orbit is of this form), we have $gG_x \mapsto gx$.
+    (everything in the orbit is of this form), we have $gG_x \mapsto g \cdot x$.
 \end{proof}
 
 \begin{theorem*}[Lagrange's theorem] \label{thm:lagrange}
     If $G$ is finite and $H \le G$,
-    then $|G| = |H| \cdot |G/H|$.
+    then $\abs G = \abs H \cdot \abs{G/H}$.
 \end{theorem*}
 \begin{proof}
     First note that each coset of $H$ has the same size as $H$,
@@ -28,45 +28,50 @@
     $y^{-1} x = h' h^{-1} \in H$, so $xH = yH$.
 
     Finally $G = \bigsqcup_{S \in G/H} S$ gives \[
-        |G| = |H| \cdot |G/H|. \qedhere
+        \abs G = \abs H \cdot \abs{G/H}. \qedhere
     \]
 \end{proof}
+We will later define the \nameref{def:index} of $H$ in $G$ as
+$(G : H) = \abs{G/H}$.
+Rewritten, Lagrange's theorem states that \[
+    \abs G = (G : H) \abs H.
+\]
 
 \begin{corollary}
     Let $x \in G$.
-    Then $\ord x \mid |G|$.
+    Then $\ord x \mid \abs G$.
 \end{corollary}
 \begin{proof}
     $\angled x$ is a subgroup of $G$ of order $\ord x$.
 \end{proof}
 
 \begin{corollary*}[Cauchy's theorem] \label{thm:cauchy}
-    Let $G$ be a finite group and $p \mid |G|$ be a prime.
+    Let $G$ be a finite group and $p \mid \abs G$ be a prime.
     Then $G$ has an element of order $p$.
 \end{corollary*}
 We will be largely relying on group actions, so we will attempt to
 prove this using group actions.
 \begin{lemma}
-    Let $G$ be a $p$-group, i.e. $|G| = p^m$ for some $m \in \Z^+$,
+    Let $G$ be a $p$-group, i.e. $\abs G = p^m$ for some $m \in \Z^+$,
     acting on a finite set $X$.
     Then the set of all fixed points \[
-        X^G = \set{x \in X \mid \forall g \in G, g \cdot x = x}
-    \] satisfies $|X^G| \equiv |X| \pmod p$.
+        X_G = \sset{x \in X}{\forall g \in G, g \cdot x = x}
+    \] satisfies $\abs{X_G} \equiv \abs X \pmod p$.
 \end{lemma}
 \begin{proof}
-    Notice that $x \in X^G \iff \mcO_x = \set x$.
+    Notice that $x \in X_G \iff \mcO_x = \set x$.
     By the \nameref{thm:orbit-stab} and \nameref{thm:lagrange}, we have \[
-        |\mcO_x| = \frac{|G|}{|G_x|}.
-    \] Whenever $z \notin X^G$, $|\mcO_x| > 1$ so it is a power of $p$.
+        \abs{\mcO_x} = \frac{\abs G}{\abs{G_x}}.
+    \] Whenever $z \notin X_G$, $\abs{\mcO_z} > 1$ so it is a power of $p$.
 
     Now since orbits are disjoint, \[
-        |X| = |X^G| + \sum_{x \notin X^G} |\mcO_x|
+        \abs X = \abs{X_G} + \sum_{x \notin X_G} \abs{\mcO_x}
     \] gives the result.
 \end{proof}
 
 \begin{proof}[Proof of \nameref{thm:cauchy}]
-    Let $X = \set{\ubar{x} \in G^p \mid x_1 \cdots x_p = 1_G}$.
-    Clearly $|X| = |G|^{p-1}$, since we can choose $x_1, \ldots, x_{p-1}$
+    Let $X = \sset{\ubar{x} \in G^p}{x_1 \cdots x_p = 1_G}$.
+    Clearly $\abs X = \abs G^{p-1}$, since we can choose $x_1, \ldots, x_{p-1}$
     freely and then $x_p$ is determined.
 
     Let $\Z/p\Z$ act on $X$ by cyclic permutations. \[
@@ -84,10 +89,10 @@ prove this using group actions.
         \end{align*}
     \end{itemize}
 
-    Notice that $|X^{\Z/p\Z}| \ne 0$, since
-    $(1, 1, \dots, 1) \in X^{\Z/p\Z}$.
-    Thus $|X^{\Z/p\Z}| \ge p$.
-    Let $(a, a, \dots, a) \in X^{\Z/p\Z}$ where $a \ne 1$.
+    Notice that $\abs{X_{\Z/p\Z}} \ne 0$, since
+    $(1, 1, \dots, 1) \in X_{\Z/p\Z}$.
+    Thus $\abs{X_{\Z/p\Z}} \ge p$.
+    Let $(a, a, \dots, a) \in X_{\Z/p\Z}$ where $a \ne 1$.
     Then $a^p = 1$, so $\ord x = p$.
 \end{proof}
 
@@ -112,7 +117,7 @@ prove this using group actions.
         \] The identity permutation fixes all polynomials.
         For associativity, \begin{align*}
             (\sigma \cdot (\tau \cdot f))(T_1, \dots, T_n)
-                &= (\sigma \cdot f)(T_{\tau(1)}, \dots, T_{\tau(n)}) \\
+                &= \sigma \cdot [f(T_{\tau(1)}, \dots, T_{\tau(n)})] \\
                 &= f(T_{\sigma(\tau(1))}, \dots, T_{\sigma(\tau(n))}) \\
                 &= (\sigma \tau) \cdot f(T_1, \dots, T_n).
         \end{align*}

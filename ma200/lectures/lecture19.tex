@@ -1,0 +1,43 @@
+\lecture{2024-09-25}{Examples}
+Recall \cref{thm:pdvs} and \cref{thm:pdvs:smooth}.
+Can we make the stronger statement
+
+\let\oldthetheorem\thetheorem
+\renewcommand{\thetheorem}{\ref*{thm:pdvs:smooth}$'$}
+\begin{proposition}
+    $f$ is smooth iff all partial derivatives of $f$ of all orders exist?
+\end{proposition}
+\let\thetheorem\oldthetheorem
+
+No!
+A counterexample is
+\begin{example}
+    the function \[
+        f(x, y) = \bm1_{\set{xy \ne 0}}
+        \docp e^{-\frac{x^2}{y^2} - \frac{y^2}{x^2}}.
+    \] This is not even continuous!
+\end{example}
+
+\section{Generalizations} \label{sec:gen}
+\begin{proposition} \label{thm:bl}
+    Let $X$ and $Y$ be (possibly infinite-dimensional) normed spaces,
+    Let $T$ be a linear map from $X$ to $Y$.
+    Then the following are equivalent:
+    \begin{enumerate}
+        \item \label{thm:bl:cont} $T$ is continuous.
+        \item \label{thm:bl:bounded}
+            $T$ is bounded (i.e., $T$ maps bounded sets to bounded sets).
+        \item \label{thm:bl:norm} there is a constant $M$ such that
+            $\norm{Tx} \le M \norm x$ for all $x \in X$.
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    $\ref*{thm:bl:cont} \implies \ref*{thm:bl:bounded}$ holds since \[
+        \lim_{n \to \infty} T(x_n) = T\ab(\lim_{n \to \infty} x_n).
+    \]
+    $\ref*{thm:bl:bounded} \implies \ref*{thm:bl:norm}$ since the unit ball
+    is bounded.
+    If $\ref*{thm:bl:norm}$ holds, then \[
+        T(y) = T(x) + T(y - x) \le T(x) + M \norm{y - x} \to T(x)
+    \] as $y \to x$.
+\end{proof}

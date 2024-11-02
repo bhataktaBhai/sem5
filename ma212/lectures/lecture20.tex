@@ -1,0 +1,106 @@
+\chapter{Rings} \label{chp:ring}
+\lecture[20]{2024-09-30}{}
+\begin{definition*}[ring] \label{def:ring}
+    A \emph{ring} is a set $R$ with two binary opeerations $(+, \cdot)$
+    such that
+    \begin{enumerate}[label=\small(R\arabic*)]
+        \item $(R, +)$ is an abelian group;
+        \item $\cdot$ is associative;
+        \item $\cdot$ distributes over addition: \begin{align*}
+            a \cdot (b + c) &= a \cdot b + a \cdot c, \\
+            (a + b) \cdot c &= a \cdot c + b \cdot c;
+        \end{align*}
+        \item there is a multiplicative identity $1 \in R$ such that
+        $1 \cdot a = a \cdot 1 = a$ for all $a \in R$,
+        with $1 \ne 0$, the additive identity.
+    \end{enumerate}
+    $R$ is a \emph{commutative ring} if $\cdot$ is commutative.
+
+    If for each $a \ne 0$, there exists a two-sided multiplicative
+    inverse $b$ such that $a \cdot b = b \cdot a = 1$, then $R$ is a
+    \emph{division ring}.
+
+    A commutative division ring is a \emph{field}.
+\end{definition*}
+
+\begin{examples}
+    \item $\Z$, $\Z/n\Z$, $\Q$, $\Q[\sqrt 2]$, $\R$, $\C$ are commutative
+        rings.
+        $\Q$, $\Q[\sqrt 2]$, $\R$, $\C$ among them are fields.
+    \item $R[x]$ where $R$ is a ring is a ring.
+        $R[x]$ is commutative iff $R$ is commutative.
+    \item $M_n(R)$ is a non-commutative ring ($n \ge 2$).
+    \item Let $M$ be an abelian group.
+        Then $\End(M)$ is a ring with addition and composition.
+    \item $2\Z$ is a rng: it satisfies all properties of a ring except
+        the existence of a multiplicative identity.
+    \item The Hamiltonians over $\R$ are a non-commutative division ring. \[
+        H(\R) = \sset{a + bi + cj + dk}{a, b, c, d \in \R}
+    \] The inverse of $a + bi + cj + dk$ is \[
+        \frac{a - bi - cj - dk}{a^2 + b^2 + c^2 + d^2}.
+    \]
+    \item $\F_p = \Z/p\Z$ is a field for any prime $p$.
+    \item $F(x) = $ \TODO[what]
+\end{examples}
+
+What is a polynomial ring?
+More specifically, what is the ``$x$'' in $R[x]$?
+
+Why is $\Z[x]$ not isomorphic to $\Z[\sqrt 2]$?
+When we write $x$ in $\Z[x]$, we require $x$ to be transcendental over $\Z$.
+But in $\Z[\sqrt 2]$, $\sqrt 2$ is a root of $x^2 - 2$.
+
+If $x$ is transcendental over $R$, then \[
+    a_0 + a_1 x + \dots + a_n x^n = b_0 + b_1 x + \dots + b_m x^m
+\] iff $n = m$ and $a_i = b_i$ for all $i$.
+
+We can construct such an element $x$ as follows:
+\begin{align*}
+    x^0 &= (1, 0, 0, 0, \dots) \\
+    x^1 &= (0, 1, 0, 0, \dots) \\
+    x^2 &= (0, 0, 1, 0, \dots) \\
+    &\mathrel{\makebox[\widthof{=}]{\vdots}} \\
+    x^n &= (\delta_{n, k})_{k \in \N}
+\end{align*}
+with addition and multiplication defined component-wise.
+The product of two polynomials is given by convolution:
+\begin{align*}
+    (a_0, a_1, a_2, \dots) \cdot (b_0, b_1, b_2, \dots)
+    &= (c_0, c_1, c_2, \dots) \\
+    c_n &= \sum_{i = 0}^n a_i b_{n - i}.
+\end{align*}
+
+We can identify $R[x]$ with the set of all sequences
+$(a_0, a_1, a_2, \dots)$ which are eventually zero, i.e.,
+$a_n = 0$ for all $n \gg 0$.
+Defining product by convolution gives that $x = e_1$ is transcendental over
+$R$.
+
+\begin{definition}[integral domain] \label{def:ring:int}
+    A ring $R$ is an \emph{integral domain} if it is commutative and has no
+    zero divisors.
+    A \emph{zero divisor} is any non-zero element $a \in R$ for which there
+    exists a non-zero element $b \in R$ with $ab = 0$.
+\end{definition}
+Otherwordly, a commutative ring $R$ is an integral domain iff
+$a, b \ne 0 \implies ab \ne 0$.
+\begin{examples}
+    \item $\Z/n\Z$ ($n > 1$) is an integral domain iff $n$ is prime.
+    \item $\Z$ is an integral domain.
+    \item $M_n(\R)$ has a party of zero divisors for $n \ge 2$.
+\end{examples}
+
+\begin{definition}[subrings] \label{def:ring:sub}
+    Let $R$ be a ring and $S \subseteq R$.
+    $S$ is a \emph{subring} of $R$ if $(S, +) \le (R, +)$, $S \ni 1$ and
+    $S$ is closed under multiplication.
+\end{definition}
+\begin{definition}[ideal] \label{def:ring:ideal}
+    Let $R$ be a ring and $I \subseteq R$.
+    $I$ is a \emph{left (resp. right) ideal} of $R$ if $(I, +) \le (R, +)$
+    and $RI = \set{ri \mid r \in R, i \in I} = I$.
+    An ideal is \emph{proper} if it is not $R$.
+\end{definition}
+\begin{examples}
+    \item An ideal $I$ is a proper ideal iff it does not contain $1$.
+\end{examples}

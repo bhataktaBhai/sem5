@@ -1,0 +1,77 @@
+\lecture{2024-09-27}{}
+\begin{example}
+    $f\colon x \in \R \mapsto x^2 \in \R$.
+    Set-theoretically, \[
+        f = \sset{(x, x^2)}{x \in \R}
+    \] (ignoring the codomain discussion).
+    The graph of $f$ is \[
+        G(f) = \sset{(x, f(x))}{x \in \R}.
+    \]
+\end{example}
+
+\section{The implicit function theorem} \label{sec:imft}
+Let $f\colon \R^n \times \R^m \to \R^k$ be a differentiable function.
+Define the relation \[
+    S \coloneq \sset{(x, y)}{f(x, y) = 0}
+\] from $\R^n$ to $\R^m$.
+
+The impicit function theorem gives sufficient conditions on $f$ such that
+$S$ is a function (graph of a function) on $D(S)$ (domain of $S$).
+In other words, $y$ can be solved in terms of $x$.
+In other other words, $y = \phi(x)$ for some function
+$\phi\colon D(S) \to \R^m$.
+
+\begin{examples}
+    \item $f\colon \R \times \R \to \R$ defined by $f(x, y) = x + y - 1$.
+    Then $S = \sset{(x, y)}{x + y = 0}$ is the straight line
+    \begin{center}
+        \begin{tikzpicture}
+            \draw[->] (-1, 0) -- (2, 0) node[right] {$x$};
+            \draw[->] (0, -1) -- (0, 2) node[above] {$y$};
+            \draw[Blue] (-1, 2) -- (2, -1);
+        \end{tikzpicture}
+    \end{center}
+    $D(S) = \R$, and $S$ is a function ($y = 1 - x$).
+    \item Let $f\colon \R \times \R \to \R$ be given by \[
+        f(x, y) = y^5 + y^3 + y + x.
+    \] Fix an $x_0 \in \R$ and let $p = f(x_0)$.
+    Then $p$ is a strictly increasing odd degree polynomial, so there is
+    exactly one $y_0 \in \R$ such that $f(x_0, y_0) = 0$.
+    \item Let $f\colon \R \times \R \to \R$ be given by \[
+        f(x, y) = x^2 + y^2 - 1.
+    \] The graph of $f$ is the unit circle in $\R^2$.
+    \begin{center}
+        \begin{tikzpicture}
+            \draw[->] (-1.5, 0) -- (1.5, 0) node[right] {$x$};
+            \draw[->] (0, -1.5) -- (0, 1.5) node[above] {$y$};
+            \draw[Blue] (0, 0) circle (1);
+        \end{tikzpicture}
+    \end{center}
+    Let $(a, b) \in S$.
+    The implicit function theorem tells us when $S$ can be \emph{locally} a
+    function around $(a, b)$.
+    That is, there is a neighbourhood $V$ of $(a, b)$ such that
+    $S_1 \coloneq V \cap S$ is a function on $D(S_1)$.
+
+    In this case, $D(S) = [-1, 1]$, and $S$ is locally a function around
+    each point except $(-1, 0)$ and $(1, 0)$.
+    For $b > 0$, $y = \sqrt{1 - x^2}$ locally, and for $b < 0$,
+    $y = -\sqrt{1 - x^2}$ locally.
+\end{examples}
+
+\begin{theorem}[implicit function theorem] \label{thm:imft}
+    Let $k \ge 1$, $U \subopeneq \R \times \R$ and $f \in C^k(U, \R)$.
+    Suppose $(a, b) \in U$ is such that $f(a, b) = 0$ and
+    $\pdv{f}{y}(a, b) \ne 0$.
+    Then there exists a neighbourhood $V$ of $(a, b)$ and a function
+    $\phi\colon D(S_1) \to \R$ such that
+    \begin{enumerate}
+        \item $(x, \phi(x)) \in V$ for all $x \in D(S_1)$,
+        \item $\phi(a) = b$,
+        \item $f(x, \phi(x)) = 0$ for all $x \in D(S_1)$.
+        \item If $f(x, y) = 0$ for $x \in D(S_1)$ and $(x, y) \in V$,
+            then $y = \phi(x)$.
+    \end{enumerate}
+    Then there exists an open neighbourhood $V$ of $(a, b)$ and an open
+    neighbourhood $W$ of $a$ such that
+\end{theorem}

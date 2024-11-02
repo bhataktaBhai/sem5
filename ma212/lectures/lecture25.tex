@@ -1,0 +1,116 @@
+\lecture[25]{2024-10-14}{}
+\section{Field of fractions and localization} \label{sec:local}
+
+Let $R$ be a commutative ring.
+Let $S \subseteq R$ be closed under multiplication, and $1 \in S$.
+We wish to construct a certain ring where the elements of $S$ can be
+inverted.
+
+\begin{definition}
+    Let $S \subseteq R$ be closed under multiplication, and $1 \in S$.
+    Define an equivalence relation on $R \times S$ as \[
+        (a, s) \sim (a', s') \iff \exists s_1 \in S \text{ such that }
+            s_1(as' - a's) = 0.
+    \]
+    We denote the set of equivalence classes by $S^{-1}R$, and write
+    $\frac as$ for the equivalence class of $(a, s)$.
+\end{definition}
+\begin{exercise}
+    $\sim$ is an equivalence relation.
+\end{exercise}
+\begin{proof}
+    Reflexivity and symmetry are clear.
+    For transitivity, suppose $(a, s) \sim (a', s') \sim (a'', s'')$,
+    with $s_1, s_2 \in S$ such that $s_1(as' - a's) = 0$ and
+    $s_2(a's'' - a''s') = 0$.
+
+    Then \begin{align*}
+        s''(as' - a's) + s(a's'' - a''s')
+            &= as's'' - a'ss'' + a'ss'' - a''ss' \\
+            &= s'(as'' - a''s) \\
+        \implies (s_1s_2s') (as'' - a''s) &= 0. \qedhere
+    \end{align*}
+\end{proof}
+
+\begin{exercise}
+    Let $S \subseteq R$ be closed under multiplication, and $1 \in S$.
+    Then $0 \in S$ iff $S$ has a nilpotent element iff $S^{-1}R = \set 0$.
+\end{exercise}
+\begin{proof}
+    
+\end{proof}
+
+\begin{definition}
+    For $\frac as, \frac{a'}{s'} \in S^{-1}R$, \begin{align*}
+        \frac as + \frac{a'}{s'} &\coloneq \frac{as' + a's}{ss'}, \\
+        \frac as \cdot \frac{a'}{s'} &\coloneq \frac{aa'}{ss'}.
+    \end{align*}
+\end{definition}
+\begin{exercise}
+    Addition and multiplication are well-defined,
+    and $S^{-1}R$ is a ring under these.
+\end{exercise}
+\begin{proof}
+    Let $\frac as = \frac \alpha\sigma$ and
+    $\frac{a'}{s'} = \frac{\alpha'}{\sigma'}$.
+    Let $s_1, \sigma_1 \in S$ be such that
+    $s_1(as' - a's) = \sigma_1(\alpha\sigma' - \alpha'\sigma) = 0$.
+    Then \begin{align*}
+        s_1\sigma_1\big(\sigma\sigma'(as' + a's)
+        - ss'(\alpha\sigma' + \alpha'\sigma)\big)
+            &= s_1\sigma_1\big(
+    \end{align*}
+\end{proof}
+
+\begin{proposition} \label{prp:inv}
+    Every element of $S$ is a unit in $S^{-1}R$.
+    That is, if $\varphi_S \colon R \to S^{-1}R$ is a ring homomorphism
+    given by $\varphi_S(r) = \frac r1$, then $\varphi_S(s)$ is a unit in
+    $S^{-1}R$ for all $s \in S$.
+\end{proposition}
+\begin{proof}
+    $\frac s1 \cdot \frac 1s = \frac 11$ is the identity.
+\end{proof}
+
+Let $\mcC$ be the category of objects \[
+    \Ob(\mcC) = \sset*{(f\colon R \to B, B)}{\begin{matrix}
+        B \text{ is a commutative ring}, \\
+        f \text{ is a ring homomorphism}, \\
+        \forall s \in S (f(s) \text{ is a unit in } B)
+    \end{matrix}}
+\]
+
+\begin{proposition}
+    Given any ring homomorphism $f\colon R \to B$ such that $f(s)$ is a
+    unit in $B$ for each $s \in S$, there exists a unique ring homomorphism
+    $g\colon S^{-1}R \to B$ such that $g \circ \varphi_S = f$.
+\end{proposition}
+\begin{proof}
+    Define $g(a/s) \coloneq f(a) f(s)^{-1}$.
+    This exists by \cref{prp:inv}.
+    To check that $g$ is well-defined, let $s_1(as' - a's) = 0$.
+    Then \begin{align*}
+        f(s_1)(f(a) f(s') - f(a') f(s)) &= 0 \\
+        \implies f(a) f(s') &= f(a') f(s) \\
+        \implies f(a) f(s)^{-1} &= f(a') f(s')^{-1}.
+    \end{align*}
+    Clearly $g(\varphi_S(r)) = g(r/1) = f(r)$.
+
+    Now let $g'\colon S^{-1}R \to B$ be another such homomorphism.
+    Then
+    \[
+        1 = g'(1/s \cdot s/1) = g'(1/s) g'(s/1) = g'(1/s) g'(\varphi_S(s))
+        = g'(1/s) f(s).
+    \] Thus \[
+        g'(r/s) = g'(r/1) g'(1/s) = g(\varphi_S(r)) f(s)^{-1}
+        = f(r) f(s)^{-1}. \qedhere
+    \]
+\end{proof}
+
+\begin{example}
+    Let $R = \Z/6\Z$ and $S = \set{1, 3}$.
+    Then \begin{align*}
+        \frac03 &= \frac01 \\
+        \frac13 &= \frac39 &= \frac33 = \frac11 \\
+    \end{align*}
+\end{example}

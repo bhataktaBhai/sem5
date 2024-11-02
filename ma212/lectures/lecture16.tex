@@ -1,0 +1,126 @@
+\lecture[16]{2024-09-13}{}
+A group $G$ is solvable if it has a finite abelian tower, that is,
+there exist groups $G_1, \dots, G_m$ such that \[
+    G = G_0 \nsup G_1 \nsup \dots G_m = 1,
+\] with each $G_i / G_{i+1}$ abelian.
+
+\begin{proposition}
+    Let $G$ be a finite group.
+    Then an abelian tower admits a cyclic refinement.
+\end{proposition}
+\begin{proof}
+    It suffices to show that any finite abelian group admits a cyclic
+    tower (ending in $1$).
+
+    Suppose this holds.
+    Let $G$ have abelian tower \[
+        G \nsup G_1 \nsup \dots \nsup G_m = 1.
+    \] Then $G_{m-1}$ is abelian.
+
+    \TODO[Show that $G_{m-2} \nsup G_{m-1}$ can be refined to a cyclic tower.]
+    By induction, the result follows.
+
+    We still need to show that the initial statement holds: any finite
+    abelian group admits a cyclic tower.
+
+    The proof is by induction.
+    The trivial group is trivial.
+    Suppose $\abs G = n > 1$.
+    Pick $1 \ne x \in G$.
+    Then $G/\angled x$ is finite abelian of order less than $n$.
+    If this has a cyclic tower \[
+        G/\angled x \nsup H_1 / \angled x
+            \nsup \dots \nsup H_m / \angled x = 1,
+    \]
+    then $G = G_0 \nsup H_1 \nsup \dots \nsup H_m = 1$ is a cyclic
+    tower, by the second isomorphism theorem.
+\end{proof}
+
+\begin{example}
+    Let $G = \GL_n(K)$ where $K$ is a field.
+    Let $T$ and $D$ be the subgroups of upper triangular and
+    diagonal elements respectively.
+    Observe that $D \le T \le G$.
+    Let $N$ be the additive subgroup of $M_n(k)$ containing all strictly
+    upper triangular elements.
+
+    Define $U = I + N$ and $U_r = I + N^r$ for $r \ge 1$.
+    It is easy to check that $U \le G$.
+    Recall that the product of two upper triangular matrices is upper
+    triangular with $(AB)_{ii} = A_{ii}B_{ii}$.
+    Thus the projection map \begin{align*}
+        \theta\colon T &\to D \\
+        A &\mapsto {(\delta_{ij}A_{ij})}_{ij}
+    \end{align*} is a homomorphism.
+
+    Note that $N^r$ consists of all matrices with $0$s in the diagonals
+    $j - i \le r$ (induct).
+    Thus
+    \begin{itemize}
+        \item $N^n = \set 0$.
+        \item The map \begin{align*}
+            \theta_r\colon U_r &\to K^{n-r} \\
+            A &\mapsto (a_{1,1+r}, a_{2,2+r}, \dots, a_{n-r,n})
+        \end{align*} is a surjective homomorphism,
+        with kernel $U_{r+1}$.
+    \end{itemize}
+\end{example}
+
+$\GL_n(K)$ is not solvable for $n \ge 2$.
+$[\GL_n(K), \GL_n(K)] = [\SL_n(K), \SL_n(K)] = \SL_n(K)$.
+
+\subsection{Exact sequences} \label{sec:exact-sequences}
+Say we have groups $A_1, A_2, A_3$ with homomorphisms \[
+    1 \xrightarrow{\alpha_1} A_1
+        \xrightarrow{\alpha_2} A_2
+        \xrightarrow{\alpha_3} A_3
+        \xrightarrow{\alpha_4} 1.
+\] This is an exact sequence of groups iff
+$\im \alpha_i = \ker \alpha_{i+1}$ for all $i$.
+\begin{align*}
+    \alpha_1 &= 1 \mapsto 1 \\
+    \alpha_4 &= x \mapsto 1
+\end{align*}
+Since $1 = \im \alpha_1 = \ker \alpha_2$, we have that $\alpha_2$ is
+injective.
+Similarly, $\im \alpha_3 = \ker \alpha_4 = A_3$.
+Thus $\alpha_3$ is surjective.
+We have (upto isomorphism) \begin{align*}
+    A_1 &\nsub A_2 \\
+    A_2/A_1 &\cong A_3
+\end{align*}
+
+\begin{proposition} \label{thm:solve-exact}
+    Let $1 \to A \to B \to C \to 1$ be a short exact sequence.
+    Then
+    \begin{enumerate}
+        \item \label{thm:solve-exact:gen}
+        $B$ is solvable iff $A$ and $C$ are solvable.
+        \item \label{thm:solve-exact:nsub}
+        If $H \nsub G$, then $G$ is solvable iff $H$ and
+        $G/H$ are solvable.
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    We already saw that $A \nsub B$ and $C \cong B/A$.
+    Thus $\labelcref{thm:solve-exact:nsub} \implies
+    \labelcref{thm:solve-exact:gen}$.
+
+    Now since $1 \to H \xrightarrow{i} G \xrightarrow{\pi} G/H \to 1$
+    is a short exact sequence, we have that $\labelcref{thm:solve-exact:gen}
+    \implies \labelcref{thm:solve-exact:nsub}$.
+
+    We will prove $\labelcref{thm:solve-exact:nsub}$.
+    Suppose $G$ is solvable.
+    Let $G = G_0 \nsup G_1 \nsup \dots \nsup G_m = 1$ be an abelian
+    tower.
+    Choose $H_i = H \cap G_i$.
+    Then $H = H_0 \nsup H_1 \nsup \dots \nsup H_m = 1$ is an abelian
+    tower.
+    Also, $G/H = G_0/H \nsup G_1/H \nsup \dots \nsup G_m/H = 1$ is an
+    abelian tower.
+
+    Now suppose $H$ and $G/H$ are solvable with towers
+    $H = H_0 \nsup H_1 \nsup \dots \nsup H_m = 1$ and
+    $G/H = G_0/H \nsup G_1/H \nsup \dots \nsup G_k/H = 1$.
+\end{proof}

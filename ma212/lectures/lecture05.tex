@@ -1,18 +1,18 @@
 \lecture{2024-08-12}{}
 
-\section{Generation of groups} \label{sec:groups:gen}
+\section{Presentations and $D_{2n}$} \label{sec:groups:pres}
 
 \begin{lemma}
     Let $G$ be a group and let $a, b \in G$ commute.
     Let $\ord a = m$, $\ord b = n$, $\lcm(m, n) = \ell$.
-    Then $\ord ab \mid \ell$.
-    If $(m, n) = 1$, then $\ord ab = \ell$.
+    Then $\ord(ab) \mid \ell$.
+    If $(m, n) = 1$, then $\ord(ab) = \ell$.
 \end{lemma}
 \begin{proof}
     $(ab)^\ell = a^\ell b^\ell = 1$.
 
     Now suppose that $(m, n) = 1$.
-    Let $d = \ord ab \implies d \mid \ell$.
+    Let $d = \ord(ab) \implies d \mid \ell$.
     Now \begin{align*}
         (ab)^d = 1 &\implies a^d b^d = 1 \\
         &\implies a^d = b^{-d}.
@@ -26,7 +26,7 @@
 
 \begin{examples}
     \item If $(a, b) \ne 1$, we can't say anything.
-        For example, $b = a^{-1}$ gives $\ord ab = 1$.
+        For example, $b = a^{-1}$ gives $\ord(ab) = 1$.
     \item If $ab \ne ba$, things can go crazy.
         For example, $a = \begin{pmatrix}
             0 & 1 \\
@@ -41,7 +41,7 @@
         \end{pmatrix}$ has infinite order.
 \end{examples}
 
-\begin{definition}[Presentation] \label{def:groups:presentation}
+\begin{definition}[presentation] \label{def:groups:pres}
     
 \end{definition}
 

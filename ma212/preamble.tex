@@ -1,24 +1,34 @@
-\input{~/IISc/sem5/preamble}
+\input{~/IISc/sem5/preamble/common}
+\input{~/IISc/sem5/preamble/lecture}
+\input{~/IISc/sem5/preamble/theorems}
+\input{~/IISc/sem5/preamble/symbols}
 \usepackage{multicol}
 
 \DeclareMathOperator\GL{GL}
 \DeclareMathOperator\SL{SL}
 \newcommand\F{\mathbb{F}}
-\DeclareMathOperator\im{Im}
+\DeclareMathOperator\im{im}
 \DeclareMathOperator\ord{ord}
 \DeclareMathOperator\chr{char}
 \DeclareMathOperator\lcm{lcm}
-\DeclareMathOperator\stab{Stab}
-\DeclareMathOperator\aut{Aut}
+\DeclareMathOperator\Stab{Stab}
+\DeclareMathOperator\Aut{Aut}
+\DeclareMathOperator\End{Aut}
+\DeclareMathOperator\Ob{Ob}
 \newcommand\T{\top}
+\newcommand\1[1]{\bm 1_{#1}}
 
 \usepackage{physics2}
 \usephysicsmodule{ab}
 
-\newcommand\st{\text{ s.t. }}
-\newcommand\nsub{\trianglelefteq}
+\newcommand*\st{\text{ s.t. }}
+\newcommand*\nsub{\trianglelefteq}
+\newcommand*\nsup{\trianglerighteq}
+\newcommand*\nnsub{\ntrianglelefteq}
 
 \usepackage{tikz}
 \usetikzlibrary{shapes.geometric}
 \usetikzlibrary{calc}
 \usetikzlibrary{through}
+
+\newcommand*\isoto{\xrightarrow{\cong}}

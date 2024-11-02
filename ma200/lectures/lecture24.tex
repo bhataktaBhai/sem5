@@ -1,0 +1,76 @@
+\lecture{2024-10-09}{}
+\begin{definition}[multiindex] \label{def:multiindex}
+    Let $n \ge 1$ be fixed.
+    $\alpha \in \N^n$ is called a \emph{multiindex}.
+    For $\alpha = (\alpha_1, \alpha_2, \dots, \alpha_n)$, we define
+    \begin{align*}
+        \alpha! &\coloneqq \alpha_1! \alpha_2! \dots \alpha_n! \\
+        \abs\alpha &\coloneqq \alpha_1 + \alpha_2 + \dots + \alpha_n \\
+        h^\alpha &\coloneqq h_1^{\alpha_1} h_2^{\alpha_2} \dots h_n^{\alpha_n} \\
+        D^\alpha &\coloneqq D_1^{\alpha_1} D_2^{\alpha_2} \dots D_n^{\alpha_n}
+    \end{align*}
+\end{definition}
+\begin{example}
+    Let $n = 5$ and $\alpha = (1, 2, 0, 1, 2)$.
+    Then \begin{align*}
+        \alpha! &= 1! 2! 0! 1! 2! = 2 \\
+        \abs\alpha &= 1 + 2 + 0 + 1 + 2 = 6 \\
+        h^\alpha &= h_1 h_2^2 h_4 h_5^2 \\
+        D^\alpha f &= D_1 D_2^2 D_4 D_5^2 f \\
+        &= \pdv[order={1,2,1,2}]{f}{x_1, x_2, x_4, x_5}
+    \end{align*}
+\end{example}
+
+If $f$ is smooth, \[
+    D_{i_1 \dots i_k} f = D_{i_{\sigma(1)}} \dots D_{i_{\sigma(k)}} f
+\] for any $\sigma \in S_n$.
+Thus we can rewrite Taylor's theorem as \begin{equation*}
+    \boxed{
+        f(a + h) = \sum_{k=0}^{m} \frac1{k!} \sum_{\abs\alpha = k}
+            \frac{k!}{\alpha!} D^\alpha f(a) h^\alpha + r(h)
+        = \sum_{\abs\alpha \le m}
+            \frac{1}{\alpha!} D^\alpha f(a) h^\alpha + r(h)
+    }
+\end{equation*}
+since the number of sequences $(i_1, \dots, i_k)$ with
+$\alpha_1$ occurrences of $1$, $\alpha_2$ occurrences of $2$, etc.
+is $\binom{k}{\alpha_1, \alpha_2, \dots, \alpha_n} = \frac{k!}{\alpha!}$.
+We can write $r(h)$ as \[
+    r(h) = \sum_{\abs\alpha = m} \frac{1}{\alpha!}
+        (D^\alpha f(c) - D^\alpha f(a)) h^\alpha.
+\]
+
+\begin{definition}[definiteness] \label{def:definite}
+    Let $A \in M_n(\R)$ be a symmetric matrix.
+    We say that $A$ or $q_A$ is
+    \begin{enumerate}
+        \item \emph{positive} (resp. \emph{negative}) \emph{definite}
+            if $q_A(x) > 0$ (resp. $q_A(x) < 0$) for all
+            $x \in \R^n \setminus \set 0$;
+        \item \emph{positive} (resp. \emph{negative}) \emph{semidefinite}
+            if it is \emph{not} definite and $q_A(x) \ge 0$
+            (resp. $q_A(x) \le 0$) for all $x \in \R^n$;
+        \item \emph{indefinite} if it is neither definite not semidefinite.
+    \end{enumerate}
+\end{definition}
+\begin{remark}
+    $A$ is positive (semi)definite iff $-A$ is negative (semi)definite.
+\end{remark}
+
+\begin{proposition}
+    If $A$ is a positive definite matrix, then there exist $c_1, c_2 > 0$
+    such that \[
+        c_1 \norm{x}^2 \le q_A(x) \le c_2 \norm{x}^2
+    \] for all $x \in \R^n$.
+\end{proposition}
+\begin{proof}
+    $q_A$ is a continuous positive function on the compact set $S^{n-1}$.
+    Let $c_1$ and $c_2$ be the minimum and maximum values of $q_A$
+    on $S^{n-1}$.
+    For any $x \in \R^n$, $q_A(x) = \norm x^2 q_A(\what{x})$, so \[
+        c_1 \norm x^2 \le q_A(x) \le c_2 \norm x^2.
+    \]
+
+    Alternatively, note that $q_A$ is a norm on $\R^n$, and any two norms
+    are equivalent.
+\end{proof}

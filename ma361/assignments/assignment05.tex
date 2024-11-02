@@ -1,0 +1,69 @@
+\documentclass[12pt]{article}
+\input{../preamble}
+
+\title{Homework 5}
+\author{Naman Mishra (22223)}
+\date{9 September, 2024}
+
+\begin{document}
+\maketitle
+
+% Problem 1
+\begin{problem*}
+    If $X$ is a random variable distributed as $N(0, 1)$ then show that
+    \begin{enumerate}
+        \item $\E[e^{\theta x}] = \exp(\frac{\theta^2}{2})$.
+        \item Use the above to show that for all $t \ge 0$,
+        $\P(X \ge t) \le \exp(-\frac{t^2}{2})$.
+    \end{enumerate}
+\end{problem*}
+\begin{solution} \leavevmode
+    \begin{enumerate}
+        \item Let $k = \frac1{\sqrt{2\pi}}$.
+        \begin{align*}
+            \E[e^{\theta X}]
+            &= \int_{-\infty}^\infty e^{\theta x}
+                k e^{-\frac{x^2}{2}} \dd x \\
+            &= e^{\frac{\theta^2}{2}}
+                \int_{-\infty}^\infty k e^{-\frac{(x-\theta)^2}{2}} \dd x \\
+            &= e^{\frac{\theta^2}{2}}
+                \int_{-\infty}^\infty k e^{-\frac{y^2}{2}} \dd y \\
+            &= \exp\ab(\frac{\theta^2}{2})
+        \end{align*}
+        \item \begin{align*}
+            \P(X \ge t)
+            &= \E\ab[\1{X \ge t}] \\
+            &= \E\ab[\frac{e^{tX}}{e^{tX}} \1{X \ge t}] \\
+            &\le \E\ab[\frac{e^{tX}}{e^{t^2}} \1{X \ge t}] \tag{$*$} \label{eq:ind} \\
+            &\le \frac1{e^{t^2}} \E\ab[e^{tX}] \\
+            &= \frac1{e^{t^2}} \exp\ab(\frac{t^2}{2}) \\
+            &= \exp\ab(-\frac{t^2}{2}) \qedhere
+        \end{align*}
+        \labelcref{eq:ind} holds since $X \ge t$ on the support.
+    \end{enumerate}
+\end{solution}
+
+% Problem 2
+\begin{problem*}
+    If $\E\abs X < \infty$, then $\E\ab[\abs X \1{\set{\abs X > A}}] \to 0$
+    as $A \to \infty$.
+\end{problem*}
+\begin{solution}
+    Consider the sequence of random variables
+    $Y_n = \abs X \1{\set{\abs X \le n}}$.
+    As $n \to \infty$, $Y_n \upto \abs X$ pointwise.
+    By the monotone convergence theorem,
+    $\E Y_n \upto \E\abs X$.
+    But \[
+        \E\abs X
+        = \E\ab[\abs X \1{\set{\abs X \le n}} + \abs X \1{\set{\abs X > n}}]
+        = \E Y_n + \E\ab[\abs X \1{\set{\abs X > n}}].
+    \] Taking limits, we get \[
+        \E\ab[\abs X \1{\set{\abs X > n}}] \to 0
+        \quad\text{as } n \to \infty
+    \] For any arbitrary $A$, $\E\ab[\abs X \1{\set{\abs X > A}}]$ is
+    bounded above by $\E\ab[\abs X \1{\set{\abs X > \floor{A}}}]$.
+    Thus the result holds.
+\end{solution}
+
+\end{document}

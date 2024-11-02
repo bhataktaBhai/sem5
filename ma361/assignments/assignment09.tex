@@ -1,0 +1,253 @@
+\documentclass[12pt]{article}
+\input{../preamble}
+\newcommand\highlight[1]{\textcolor{blue}{#1}}
+
+\title{Homework 9}
+\author{Naman Mishra (22223)}
+\date{15 October, 2024}
+
+\begin{document}
+\maketitle
+
+% Problem 1
+\begin{problem*}
+    Determine whether the following statements are true or false with proper
+    justification.
+    \begin{enumerate}
+        \item Let $X_1, X_2, \dots$ be a sequence of \iid random variables
+        taking values in $\R$ and defined on the same probability space.
+        Then $\frac{X_n}{n} \pto 0$.
+        \item Let $X_1, X_2, \dots$ be a sequence of \iid random
+        variables, taking values in $\R$ and are defined on same probability
+        space.
+        Then $\frac{X_n}{n} \to 0$ almost surely.
+        \item Let $X$ be a random variable which is finite almost surely.
+        Then $\frac Xn \pto 0$.
+        \item Let $X$ be a random variable which is finite almost surely.
+        Then $\frac Xn \to 0$ almost surely.
+    \end{enumerate}
+\end{problem*}
+\begin{solution} \leavevmode
+    \begin{enumerate}
+        \item \textbf{True.}
+        Fix a $\delta > 0$.
+        Then $\P\set{\abs{X_n/n} > \delta} = \P\set{\abs{X_1} > n\delta}
+        \to 0$ as $n \to \infty$.
+        \item \textbf{False.} Not necessarily.
+        Let $X_1 = k$ with probability $B \frac1{k^2}$ for $k \ge 1$,
+        where $B = \ab(\sum_{k=1}^\infty \frac1{k^2})^{-1}$ is the
+        normalizing constant.
+        Then \begin{align*}
+            \P\set*{\frac{X_n}{n} \ge 1} &= \P\set{X_1 \ge n} \\
+                &= B \sum_{k \ge n} \frac1{k^2} \\
+                &\ge B \frac1n
+        \end{align*} using that
+        $\sum_{k=N}^\infty \frac1{k^2} \ge \int_N^\infty \frac1{x^2} \dd x$.
+        Thus $\set{X_n/n \ge 1}$ are independent events with
+        probabilities summing to infinity.
+        By the second Borel-Cantelli lemma,
+        $\P\set{X_n/n > 1 \text{ i.o.}} = 1$, so
+        $\P\set{X_n/n \to 0} = 0$.
+        \item \textbf{True.}
+        \item \textbf{True.}
+        If $X < \infty$, then $X/n \to 0$.
+        Thus $X/n \asto 0$. \qedhere
+    \end{enumerate}
+\end{solution}
+
+% Problem 2
+\begin{problem*}
+    Let $X_n$ and $X$ be random variables on a common probability space.
+    Show that if $X_n \pto X$ then there is a subsequence $n_k$ such that
+    $X_{n_k} \to X$ almost surely.
+\end{problem*}
+\begin{solution}
+    Let $n_1 = 1$ and for each $k \ge 2$, let $n_k \ge n_{k-1}$ be such that
+    \[
+        \P\set*{\abs{X_{n_k} - X} > \frac 1k} \le \frac 1{k^2}.
+    \] (Since $\P\set{\abs{X_n - X} > 1/k} \to 0$ as $n \to \infty$.)
+    Fix an $M \in \N \setminus \set 0$ and observe \begin{align*}
+        \sum_{k=1}^\infty \P\set*{\abs{X_{n_k} - X} > \frac 1M}
+            &\le \sum_{k=1}^M \P\set*{\abs{X_{n_k} - X} > \frac 1M} \\
+            &\qquad+ \sum_{k > M} \P\set*{\abs{X_{n_k} - X} > \frac 1k} \\
+            &\le M + \sum_{k > M} \frac 1{k^2} \\
+            &< \infty.
+    \end{align*}
+    By the Borel-Cantelli lemma,
+    $\P\set*{\abs{X_{n_k} - X} > \frac 1M \text{ i.o.}} = 0$.
+    In other words, \[
+        \P\ab(\bigcup_{K=1}^\infty \bigcap_{k \ge K}
+            \set*{\abs{X_{n_k} - X} \le \frac 1M})
+                = 1.
+    \]
+    Since the intersection of countably many almost sure events is almost
+    sure, we have \[
+        \P\set{\lim_{k \to \infty} X_{n_k} = X}
+        = \P\ab(\bigcap_{M=1}^\infty \bigcup_{K=1}^\infty \bigcap_{k \ge K}
+            \set*{\abs{X_{n_k} - X} \le \frac 1M})
+        = 1. \qedhere
+    \]
+\end{solution}
+
+% Problem 3
+\begin{problem*}
+% Let X1, X2, . . . be i.i.d. with distribution μ ∈ P(R). Recall that the support of μ is the smallest closed set K with μ(K) = 1. Show that {X1, X2, . . .} = K a.s. (the left side is the closure of the set {Xn})
+    Let $X_1, X_2, \dots$ be \iid random variables with distribution
+    $\mu \in \mcP(\R)$.
+    Recall that the support of $\mu$ is the smallest closed set $K$ with
+    $\mu(K) = 1$.
+    Show that $\wbar{\set{X_1, X_2, \dots}} = K$ almost surely.
+\end{problem*}
+
+% Problem 4
+\begin{problem*}
+% Let Xn be independent and P(Xn = n−a) = 21 = P(Xn = −n−a) where a > 0 is fixed. For what values of a does the series PXn converge a.s.? For which values of a does the series converge absolutely, a.s.?
+    Let $X_n$ be independent and $\P\set{X_n = n-a}
+    = \P\set{X_n = -n-a} = 1/2$ where $a > 0$ is fixed.
+    For what values of $a$ does the series $\sum_{n=1}^\infty X_n$ converge
+    absolutely, a.s.?
+\end{problem*}
+
+% Problem 5
+\begin{problem*}
+% Suppose Xn are i.i.d random variables with finite mean. Which of the following assumptions guarantee that P Xn converges a.s.?
+% (1) (i)E[Xn]=0forallnand(ii)PE[Xn2∧1]<∞. (2) (i)E[Xn]=0forallnand(ii)PE[Xn2∧|Xn|]<∞.
+    Suppose $X_n$ are \iid random variables with finite mean.
+    Which of the following assumptions guarantee that $\sum_{n=1}^\infty X_n$
+    converges a.s.?
+    \begin{enumerate}
+        \item (i) $\E[X_n] = 0$ for all $n$ and
+            (ii) $\sum \E[X_n^2 \wedge 1] < \infty$.
+        \item (i) $\E[X_n] = 0$ for all $n$ and
+            (ii) $\sum \E[X_n^2 \wedge \abs{X_n}] < \infty$.
+    \end{enumerate}
+\end{problem*}
+
+% Problem 6
+\begin{problem*}[Large deviation for Bernoullis]
+% Let Xn be i.i.d Ber(1/2). Fix p > 21 .
+% (1) ShowthatP(Sn >np)≤e 2 foranyλ>0.
+% (2) Optimize over λ to get P(Sn > np) ≤ e−nI(p) where I(p) = −plogp − (1 − p)log(1 − p). (Observe that this is the entropy of the Ber(p) measure).
+    Let $X_n$ be \iid $\Ber(1/2)$.
+    Fix $p > 1/2$.
+    \begin{enumerate}
+        \item Show that
+        $\P\set{S_n > np} \le e^{-np\lambda}\ab(\frac{e^\lambda+1}{2})^n$
+        for any $\lambda > 0$.
+        \item Optimize over $\lambda$ to get $\P\set{S_n > np} \le e^{-nI(p)}$
+        where $I(p) = -p\log p - (1-p)\log(1-p)$.
+        (Observe that this is the entropy of the $\Ber(p)$ measure.)
+    \end{enumerate}
+\end{problem*}
+\begin{solution} \leavevmode
+    \begin{enumerate}
+        \item Let $Y_n = X_n - p$.
+        Then $\E[Y_n] = 0$ and $\abs{Y_n} \le p$.
+        By Hoeffding's inequality, \begin{align*}
+            \P\set{S_n^X > np} &= \P\set{S_n^Y > 0} \\
+                &= 
+        \end{align*}
+    \end{enumerate}
+\end{solution}
+
+% Problem 7
+\begin{problem*}
+% Carry out the same program for i.i.d exponential(1) random variables and deduce thatP(Sn >nt)≤e−nI(t) fort>1andP(Sn <nt)≤e−nI(t) fort<1whereI(t):=t−1−logt.
+    Carry out the same program for \iid $\Exp(1)$ random variables and
+    deduce that $\P\set{S_n > nt} \le e^{-nI(t)}$ for $t > 1$ and
+    $\P\set{S_n < nt} \le e^{-nI(t)}$ for $t < 1$ where
+    $I(t) := t-1-\log t$.
+\end{problem*}
+\begin{solution}
+    \[
+        \E[e^{\lambda S_n}] = \prod_{k=1}^n \E[e^{\lambda X_k}]
+        = \frac1{(1-\lambda)^n}.
+    \] Thus for $t > 1$, \begin{align*}
+        \P\set{S_n > nt} &= \P\set{e^{\lambda S_n} > e^{n\lambda t}} \\
+            &\le e^{-n\lambda t} \E[e^{\lambda S_n}] \\
+            &= \ab(\frac{e^{-\lambda t}}{1-\lambda})^n.
+    \end{align*}
+    Optimizing over $\lambda$, \begin{align*}
+        0 &= \odv{}{\lambda} \frac{e^{-\lambda t}}{1 - \lambda} \\
+            &= \frac{-t e^{-\lambda t}(1 - \lambda) + e^{-\lambda t}}{(1-\lambda)^2} \\
+        \implies 1 &= t(1-\lambda) \\
+        \implies \lambda &= 1 - \frac1t.
+    \end{align*}
+    So $e^{-\lambda t} = e^{-t+1}$ and $\frac1{1-\lambda} = t$.
+    Thus \[
+        \P\set{S_n > nt} \le (e^{-t+1+\log t})^n = e^{-nI(t)}.
+    \] Similarly for $t < 1$.
+\end{solution}
+
+% Problem 8
+\begin{problem*}
+% Let (Ω,F,P) be a probability space.
+% (1) LetX,Y berandomvariablesonΩ.Defineafunctiond(X,Y)=E |X−Y| .Showthat
+% 1+|X−Y |
+% d is a metric on the set of all random variables and d(Xn, X) → 0 iff Xn →P X.
+% (2) Show that if Xn,X are random variables such that any subsequence of Xn has a further subsequence that converge almost surely to X then Xn →P X.
+    Let $(\Omega, \mcF, \P)$ be a probability space.
+    \begin{enumerate}
+        \item Let $X, Y$ be random variables on $\Omega$.
+        Define a function $d(X, Y) = \E\ab[\frac{\abs{X-Y}}{1+\abs{X-Y}}]$.
+        Show that $d$ is a metric on the set of all random variables and
+        $d(X_n, X) \to 0$ if and only if $X_n \pto X$.
+        \item Show that if $X_n, X$ are random variables such that any
+        subsequence of $X_n$ has a further subsequence that converges almost
+        surely to $X$ then $X_n \pto X$.
+    \end{enumerate}
+\end{problem*}
+\begin{solution} \leavevmode
+    \begin{enumerate}
+        \item Let $f(x, y) = \frac{\abs{x-y}}{1+\abs{x-y}}. $\begin{align*}
+            \E[f(X, Y)] &= \E[f(X, Y) \1{\abs{X - Y} < t}]
+                + \E[f(X, Y) \1{\abs{X - Y} \ge t}] \\
+                &\le t + \P\set{\abs{X - Y} \ge t}.
+        \end{align*}
+        Thus for any $\delta > 0$, \[
+            \E[f(X_n, X)]
+                \le \delta + \P\set{\abs{X_n - X} \ge \delta} \to \delta.
+        \]
+        \item Let $p_n = \P\set{\abs{X_n - X} > \delta}$.
+        Let $(p_{n_k})_k$ be a convergent subsequence.
+        Then $(p_{n_{k_j}})_j$ is a further subsequence that converges to
+        $0$, since $X_{n_{k_j}} \asto X$ implies $X_{n_{k_j}} \pto X$.
+        Thus $p_{n_k} \to 0$, so $\limsup p_n = 0$. \qedhere
+    \end{enumerate}
+\end{solution}
+
+% Problem 9
+\begin{problem*}
+% Let Xn, Yn, X, Y be random variables on a common probability space. If Xn →P X and Yn →P Y (all r.v.s on the same probability space), show that f(Xn,Yn) → f(X,Y) for any continuous f : R2 → R. In particular, this implies if Xn →P X,Yn →P Y then for any a,b ∈ R,aXn+bYn→P aX+bY.
+    Let $X_n, Y_n, X, Y$ be random variables on a common probability space.
+    If $X_n \pto X$ and $Y_n \pto Y$ (all random variables on the same
+    probability space), show that $f(X_n, Y_n) \pto f(X, Y)$ for any
+    continuous $f\colon \R^2 \to \R$.
+    In particular, this implies if $X_n \pto X$ and $Y_n \pto Y$ then for
+    any $a, b \in \R$, $aX_n + bY_n \pto aX + bY$.
+\end{problem*}
+\begin{solution}
+    Let $(n_k)_k$ be any subsequence of $\N$.
+    Then $X_{n_k} \pto X$ and $Y_{n_k} \pto Y$.
+    So there is a subsequence $(n_{k_j})_j$ such that
+    $X_{n_{k_j}} \asto X$ and $Y_{n_{k_j}} \asto Y$.
+    Then $f(X_{n_{k_j}}, Y_{n_{k_j}}) \asto f(X, Y)$ by continuity of $f$.
+    Thus every subsequence of $f(X_n, Y_n)$ has a further subsequence that
+    converges almost surely to $f(X, Y)$.
+    By the previous problem, $f(X_n, Y_n) \pto f(X, Y)$.
+\end{solution}
+
+% Problem 10
+\begin{problem*}
+% Give examples of two sequence of random variables Xn and Yn such that Xn →d X and Yn →d Y but Xn + Yn does not converge in distribution to X + Y.
+    Give examples of two sequences of random variables $X_n$ and $Y_n$ such
+    that $X_n \dto X$ and $Y_n \dto $ but $X_n + Y_n$ does not converge in
+    distribution to $X + Y$.
+\end{problem*}
+\begin{solution}
+    Let $X_n \sim \Ber(1/2)$ and $Y_n = 1 - X_n$.
+    Choose $X$, $Y$ \iid $\Ber(1/2)$.
+    Then $X_n \dto X$ and $Y_n \dto Y$, but $X_n + Y_n \sim \delta_1$.
+\end{solution}
+
+\end{document}

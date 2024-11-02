@@ -20,7 +20,7 @@
     Consider the uniform distribution on $[0, 1]^2$, with $\mcR$ being the
     collection of all axis-aligned rectangles.
     Then, for $\eps = 1/4$, the set \[
-        N = \set{(i/4, j/4) \mid i, j \in [3]}
+        N = \sset{(i/4, j/4)}{i, j \in [3]}
             \setminus \set{(1/2, 1/2)}
     \] is an $\eps$-net.
 \end{example}
@@ -47,7 +47,7 @@ For this to be bounded by $\delta$, we need \[
     Let $M$ be a set of $m$ independent samples from $X$ according to
     $\mcD$.
     Define \[
-        E_1 \coloneq \set{\exists S \in \mcR \mid \Pr_\mcD(S) \ge \eps
+        E_1 \coloneq \sset{\exists S \in \mcR}{\Pr_\mcD(S) \ge \eps
                     \land S \cap M = \O}
     \] We wish to have $\Pr[E_1] \le \delta$.
 
@@ -173,5 +173,5 @@ The range space is $(P, \mcR)$ where $P$ is the set of points inside the
 polygon,
 and $\mcR$ is the set of all visibility regions from a point in $P$.
 The \emph{visibility region} from a point $p$ is \[
-    V_P(p) = \set{q \in P \mid \wbar{pq} \subseteq P}.
+    V_P(p) = \sset{q \in P}{\wbar{pq} \subseteq P}.
 \]

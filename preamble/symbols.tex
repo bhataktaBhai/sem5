@@ -12,8 +12,6 @@
 \let\norm\relax
 
 \usepackage{mathtools} % for delimiters and \coloneqq
-\DeclarePairedDelimiter{\paren}{(}{)}
-\DeclarePairedDelimiter{\brk}{[}{]}
 \DeclarePairedDelimiter{\set}{\{}{\}}
 \DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
 \DeclarePairedDelimiter{\norm}{\lVert}{\rVert}
@@ -32,7 +30,8 @@
 \DeclarePairedDelimiterX{\braket}[3]{\langle}{\rangle}%
 {#1\,\delimsize\vert\,\mathopen{}#2\,\delimsize\vert\,\mathopen{}#3}
 \DeclarePairedDelimiterX{\sset}[2]{\{}{\}}%
-{#1\,\delimsize\vert\,\mathopen{}#2}
+{#1\;\delimsize\vert\;\mathopen{}#2}
+% {#1\delimsize\mid#2}
 
 \renewcommand\O{\ensuremath{\varnothing}}
 \newcommand\N{\ensuremath{\mathbb{N}}}
@@ -168,3 +167,6 @@
 \newcommand\xmark{\ding{55}}%
 \newcommand\Yes\cmark
 \newcommand\No\xmark
+
+% \newcommand\vdotsin[1]{\mathrel{\makebox
+\let\ds\displaystyle

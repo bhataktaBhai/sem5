@@ -19,7 +19,7 @@
     \]
 \end{definition*}
 
-\begin{corollary}
+\begin{corollary} \label{thm:pdvs:smooth}
     From \cref{thm:pdvs}, $f$ is smooth iff all partial derivatives of $f_i$
     of all orders exist and are continuous.
 \end{corollary}
@@ -106,7 +106,7 @@ If $f(x) = u(x) v(x)$, then $f'(a)(h) = u'(a)(h) v(a) + u(a) v'(a)(h)$.
         We know $f'(A)(H) = A^{-1}HA^{-1}$.
         We want $f'(A + K) - f'(A)$.
         We can evaluate this pointwise.
-        \TODO[WHY???] % TODO
+        \textcolor{Green}{We will see why in} \cref{TODO}.
         \begin{align*}
             f'(A+K)(H) - f'(A)(H)
                 &= (A+K)^{-1}H(A+K)^{-1} - A^{-1}HA^{-1} \\

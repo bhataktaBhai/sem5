@@ -51,3 +51,39 @@ than (for strict contractions) or equal to (for contractions) $1$.
         f'(x) = \frac{x}{\sqrt{x^2 + 1}} \implies \abs{f'(x)} < 1
     \] It is not a strict contraction since there are no fixed points.
 \end{examples}
+
+Tao states a consequence immediately after the Banach fixed-point theorem,
+which we cover as part of the inverse function theorem.
+\begin{lemma}
+    Let $B(0; r)$ be a ball in $\R^n$ centered at the origin, and let
+    $g\colon B(0; r) \to \R^n$ be a map such that $g(0) = 0$ and \[
+        \norm{g(x) - g(y)} \le k \norm{x - y}
+    \] for all $x, y \in B(0; r)$, for some $k < 1$.
+    Then the function $f\colon B(0; r) \to \R^n$ defined by
+    $f(x) = x + g(x)$ is injective, and furthermore the image $f(B(0; r))$
+    contains the ball $B(0; r - kr)$.
+\end{lemma}
+\begin{proof}
+    For $x, y \in B(0; r)$, $x + g(x) = y + g(y)$ implies
+    $\norm{x - y} = \norm{g(y) - g(x)} \le k \norm{x - y}$, so that
+    $x - y = 0$.
+
+    Fix a $y \in B(0; r - kr)$.
+    We need an $x$ such that $f(x) = y$, or $x = y - g(x)$.
+    Thus, we need a fixed point of the map $x \mapsto y - g(x)$.
+    Denote this map by $\phi_y$.
+    Then for $x \in B(0; r)$, \begin{equation}
+        \norm{\phi_y(x)} \le \norm{y} + \norm{g(x)}
+            \le r - kr + kr = r. \label{eq:phi-y}
+    \end{equation} Thus $\phi_y$ maps $B(0; r)$ to itself.
+    However, this is not complete, so we cannot apply the Banach fixed-point
+    theorem directly.
+    We must first restrict the domain to a smaller closed ball.
+    In fact, this also follows from \cref{eq:phi-y}, where
+    $\norm{\phi_y(x)} \le kr + \norm y < r$.
+
+    Thus $\phi_y$ is a strict contraction map on $B(0; kr + \norm y)$.
+    By the Banach fixed-point theorem, there is a unique fixed point $x$
+    such that $x = \phi_y(x)$.
+    This $x$ is the desired preimage of $y$.
+\end{proof}

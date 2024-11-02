@@ -11,10 +11,11 @@ We continue with examples.
 \end{examples}
 
 \section{Normal subgroups} \label{sec:normal}
-\begin{proposition} \label{thm:normal}
+\begin{proposition*} \label{thm:normal}
     Let $N \le G$.
     Consider the set of left cosets $G/N$ with the operation
     $(uN) \cdot (vN) = (uv)N$.
+    The following are equivalent.
     \begin{enumerate}
         \item \label{thm:normal:well}
             The above operation is well-defined.
@@ -25,7 +26,7 @@ We continue with examples.
     \end{enumerate}
     If the operation is well-defined, then $G/N$ is a group
     with identity $1N$ and inverse $(gN)^{-1} = g^{-1}N$.
-\end{proposition}
+\end{proposition*}
 \begin{proof}
     First notice that \labelcref{thm:normal:in} is equivalent to
     $gNg^{-1} \subseteq N$ for all $g \in G$.
@@ -47,18 +48,18 @@ We continue with examples.
     since $v_1^{-1}mv_1 \in N$.
 \end{proof}
 
-\begin{definition}[normal subgroup] \label{def:normal}
+\begin{definition*}[normal subgroup] \label{def:normal}
     A subgroup $N \le G$ is \emph{normal} if $gNg^{-1} = N$
     for all $g \in G$.
     We write $N \nsub G$.
-\end{definition}
+\end{definition*}
 
-\begin{definition}[normalizer] \label{def:normal:normalizer}
+\begin{definition*}[normalizer] \label{def:normal:normalizer}
     Let $S \subseteq G$.
     The \emph{normalizer} of $S$ in $G$ is the set \[
-        N_G(S) = \set{g \in G \mid gSg^{-1} = S}.
+        N_G(S) = \sset{g \in G}{gSg^{-1} = S}.
     \]
-\end{definition}
+\end{definition*}
 
 \begin{exercise}[self]
     When is the normalizer
@@ -94,7 +95,13 @@ We continue with examples.
     \end{enumerate}
 \end{exercise}
 \begin{proof}
-    
+    From \cref{thm:normal}\ref{thm:normal:well}, we have
+    \ref{thm:normal:prop:normal} $\iff$
+    \ref{thm:normal:prop:quotient}.
+
+    \ref{thm:normal:prop:normalizer} is just the definition of normality.
+    \ref{thm:normal:prop:conjugate} can be rewritten as $gNg^{-1} = N$
+    for all $g \in G$, which is again the definition.
 \end{proof}
 
 \begin{examples}
@@ -102,10 +109,10 @@ We continue with examples.
     Since $\det(gng^{-1}) = \det(n)$, we get $\SL_n(\R) \nsub \GL_n(\R)$.
 \end{examples}
 
-\begin{theorem} \label{thm:normal:kernel}
+\begin{theorem*} \label{thm:normal:kernel}
     $N \nsub G$ if and only if $N$ is the kernel of some homomorphism
     from $G$ to some group.
-\end{theorem}
+\end{theorem*}
 \begin{proof}
     Suppose $N = \ker \varphi$, where $\varphi\colon G \to H$ is
     a homomorphism.
@@ -121,9 +128,20 @@ We continue with examples.
     \] Moreover, $\ker(\pi) = N$ since
     $\pi(x) = 1N \iff xN = 1N \iff x \in N$.
 \end{proof}
+The map $\pi$ constructed in the proof has a name.
+\begin{definition}[canonical projection] \label{def:canon-proj}
+    Let $N \nsub G$.
+    The \emph{canonical projection} of $G$ onto $G/N$ is the map
+    \begin{align*}
+        \pi\colon G &\to G/N \\
+        g &\mapsto gN.
+    \end{align*}
+    If $H \le G/N$, the \emph{canonical lift} of $H$ is the preimage
+    of $H$ under $\pi$.
+\end{definition}
 
 \section{Products} \label{sec:products}
-We have already defined the direct product of two groups in \cref{TODO}.
+We have already defined the direct product of two groups in \TODO[where?]
 
 \begin{definition}[direct product] \label{def:products:direct-prod}
     Given any index set $I$ and for each $i \in I$ a group $A_i$,
@@ -132,33 +150,38 @@ We have already defined the direct product of two groups in \cref{TODO}.
     by defining the operation componentwise.
 \end{definition}
 
-\begin{definition}[direct sum] \label{def:products:direct-sum}
+\begin{definition*}[direct sum] \label{def:products:direct-sum}
     Given any index set $I$ and for each $i \in I$ a group $A_i$,
     we define the \emph{direct sum} of the groups $A_i$ as \[
         \bigoplus_{i \in I} A_i = \set*{(a_i) \in \prod_{i \in I} A_i
             \bigm\mid \text{ all but finitely many } a_i \text{ are } 1}.
     \]
-\end{definition}
+\end{definition*}
 This is a group since the union of two finite sets (the support) is finite.
+For finite $I$, $\prod$ and $\bigoplus$ coincide.
 
-\begin{exercise} \label{thm:products}
+\begin{exercise*} \label{thm:products}
     Suppose $H, K \le G$.
     When is $HK \le G$?
     When is $HK \cong H \times K$?
-\end{exercise}
-\begin{proof}
+\end{exercise*}
+\begin{solution}
     \begin{claim}
         $HK \le G$ if and only if $HK = KH$.
     \end{claim}
-    \begin{subproof}
+    \begin{subproof}[Proof]
         Suppose $HK \le G$.
         Note that $1 \in H, K$, so $H = H1, K = 1K \subseteq HK$.
         Thus for any $k \in K$, $h \in H$,
         $kh \in HK$ by closure under products.
 
+        Suppose $HK = KH$.
+        Let $hk, h_1k_1 \in HK$.
+        Then $h_1k_1(hk)^{-1} = h_1k_1k^{-1}h^{-1} \in HKH = HHK = HK$.
+        Thus $HK \le G$.
     \end{subproof}
 
-    Let $H, K$ intersect only in $\set{1}$.
+    Let $H$ and $K$ have trivial intersection $H \cap K = \set 1$.
     Suppose $hk = kh$ for all $h \in H$ and $k \in K$.
     Then the map \begin{align*}
         \theta\colon H \times K &\to HK \\
@@ -177,4 +200,4 @@ This is a group since the union of two finite sets (the support) is finite.
             &\implies h_1 h_2^{-1}, k_1 k_2^{-1} \in H \cap K \\
             &\implies h_1 = h_2 \text{ and } k_1 = k_2. \qedhere
     \end{align*}
-\end{proof}
+\end{solution}

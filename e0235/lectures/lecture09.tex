@@ -1,0 +1,68 @@
+\lecture[9]{2024-09-05}{}
+
+\textbf{Recap:}
+\begin{itemize}
+    \item Pseudorandomness and pseudorandom generators
+    \item An ind-secure secret key encryption and proof
+\end{itemize}
+
+Today, we will try to reduce our key size, and see if a key can be reused.
+
+\section{Multi-message security} \label{sec:sec:multi}
+
+We will prove that multi-message ind-security is stronger than
+single-message ind-security.
+
+The multi-message game is as follows:
+\begin{definition*}
+    An adversary $\mcA$ picks a vector $M_0$ of messages
+    $(m_0^{(1)}, \dots, m_0^{(q)})$ and a vector $M_1$ of messages
+    $(m_1^{(1)}, \dots, m_1^{(q)})$ of the same length,
+    where each $m_b^{(i)}$ has the same length.
+    The challenger chooses a $b \in \set{0, 1}$ uniformly at random,
+    encrypts each message in $M_b$ using the same key $k$ under the scheme
+    $\Pi$ and gives the resulting ciphertexts to $\mcA$.
+    $\mcA$ outputs a guess $b'$.
+
+    $\Pi$ is multi-ind-secure if for all PPT adversaries $\mcA$,
+    \[
+        \Pr[b = b'] \leq \frac{1}{2} + \negl(n),
+    \]
+\end{definition*}
+\begin{proposition}
+    Multi-ind-security is \emph{strictly} stronger than ind-security.
+\end{proposition}
+\begin{proof}
+    We know that the pseudo one-time pad is ind-secure.
+    However, the encryption algorithm is deterministic, so it fails
+    multi-ind-security.
+
+    Construct an adversary $\mcA$ that picks $M_0 = (a, a)$ and
+    $M_1 = (a, b)$ where $a \ne b \in \M$.
+    $\mcA$ will output $b'$ as $0$ if the two ciphertexts are the same,
+    and $1$ otherwise.
+    Then \[
+        \Pr[b = b'] = 1. \qedhere
+    \] 
+\end{proof}
+
+\section{Onion routing} \label{sec:onion}
+
+\section{PRG with poly expansion factor} \label{sec:prg-poly-exp}
+\begin{theorem}
+    If there exists a PRG with expansion factor $\ell(n) = n + 1$, then for
+    each polynomial $p(n)$, there exists a PRG with expansion factor
+    $\ell'(n) = n + p(n)$.
+\end{theorem}
+\begin{proof}
+    Let $G\colon 2^n \to 2^{n+1}$ be a PRG.
+    For any $s \in 2^n$, let $G(s) = (I(s), L(s))$ where
+    $I(s) \in 2^n$ and $L(s) \in 2$.
+
+    Starting with a seed $s \in 2^n$, \begin{align*}
+        s_1 &= (Is, Ls), \\
+        s_2 &= (IIs, LIs, Ls), \\
+        s_3 &= (IIIs, LIIs, LIs, Ls),
+    \end{align*} and so on,
+    where we apply $G$ to the first $n$ bits of the previous output.
+\end{proof}

@@ -1,9 +1,11 @@
 \lecture[7]{2024-08-19}{Group actions and cosets}
 
-\begin{definition*}[Action] \label{def:group:action}
+\section{Actions and cosets} \label{sec:action}
+
+\begin{definition*}[action] \label{def:action}
     We say that a group $(G, *)$ \emph{acts} on a set $X$ if there is a map
-    $\theta\colon G \times X \to X$, such that if we write $\theta(g, x)$
-    as $g \cdot x$ then for every $g_1, g_2 \in G$ and $x \in X$,
+    $\cdot\colon G \times X \to X$ such that the following hold for every
+    $g_1, g_2 \in G$ and $x \in X$:
     \begin{enumerate}
         \item $g_1 \cdot (g_2 \cdot x) = (g_1 * g_2) \cdot x$;
         \item $1_G \cdot x = x$.
@@ -28,7 +30,7 @@
 \begin{proposition}
     The set of actions of $G$ on $X$ is isomorphic to $\hom(G, S_X)$.
     The associated map is \[
-        \theta \mapsto (g \mapsto (x \mapsto \theta(g, x))).
+        \cdot \mapsto (g \mapsto (x \mapsto g \cdot x)).
     \]
 \end{proposition}
 \begin{proof}
@@ -50,16 +52,26 @@
     $(A, B) \to C$ and the set of curried functions $A \to B \to C$.
 \end{remark}
 
-\begin{definition*}[Orbits and stabilizers] \label{def:orbit}
+\begin{definition*}[orbits and stabilizers] \label{def:orbit}
     Let $G$ act on $X$.
     Then for $x \in X$, we define the \emph{orbit} of $x$ as \[
-        \mcO_x = G x = \set{g x \mid g \in G} \subseteq X,
+        \mcO_x = G x = \sset{g x}{g \in G} \subseteq X,
     \] and the \emph{stabilizer} of $x$ as \[
-        \stab_x = G_x = \set{g \in G \mid g \cdot x = x} \le G.
+        \stab_x = G_x = \sset{g \in G}{g \cdot x = x}.
     \] We say that the action is \emph{faithful} if \[
         \bigcap_{x \in X} G_x = \set 1.
     \]
 \end{definition*}
+\begin{exercise}
+    $G_x \le G$.
+\end{exercise}
+\begin{solution}
+    $1$ stabilizes $x$, so $G_x \ne \O$.
+    If $g, h \in G_x$, then \begin{align*}
+        g \cdot h \cdot x &= g \cdot x = x \\
+        g^{-1} \cdot x &= g^{-1} \cdot (g \cdot x) = x. \qedhere
+    \end{align*}
+\end{solution}
 \begin{examples}
     \item For the trivial action, $\mcO_x = \set{x}$ and $G_x = G$.
     \item For the action of $\GL_n(\R)$ on $\R^n$, the orbit of $x$ is \[
@@ -74,21 +86,21 @@
     \item For the left regular action of $G$ on itself,
         $\mcO_x = G$ and $G_x = \set{1}$.
     \item For the conjugating action of $G$ on itself,
-        $\mcO_x = \set{gxg^{-1} \mid g \in G}$ and
-        $G_x = \set{g \in G \mid gxg^{-1} = x}$.
+        $\mcO_x = \sset{gxg^{-1}}{g \in G}$ and
+        $G_x = \sset{g \in G}{gxg^{-1} = x}$.
         There is no simple description of either.
 \end{examples}
 
-\begin{definition}[Centralizer and center] \label{def:center}
+\begin{definition*}[centralizer and center] \label{def:center}
     For $x \in G$, the \emph{centralizer} of $x$ is \[
-        C_G(x) = \set{g \in G \mid gx = xg}.
+        C_G(x) = \sset{g \in G}{gx = xg}.
     \] The \emph{center} of $G$ is \[
         Z_G = \bigcap_{x \in G} C_G(x)
-            = \set{g \in G \mid \forall x \in G, gx = xg}.
+            = \sset{g \in G}{\forall x \in G, gx = xg}.
     \]
-\end{definition}
+\end{definition*}
 \begin{example}
-    $Z_{\GL_n(\R)} = \set{\lambda I \mid \lambda \in \R^\times}$.
+    $Z_{\GL_n(\R)} = \sset{\lambda I}{\lambda \in \R^\times}$.
 \end{example}
 
 \begin{definition}
@@ -108,14 +120,14 @@
     \]
 \end{proof}
 Notice that the equivalence class of $x \in G$ is \[
-    [x] = \set{y \in G \mid yx^{-1} \in H} = Hx.
+    [x] = \sset{y \in G}{x^{-1}y \in H} = xH.
 \]
-\begin{definition*}[Coset] \label{def:coset}
+\begin{definition*}[coset] \label{def:coset}
     Let $H \le G$.
     The \emph{left coset} of $x \in G$ is \[
-        xH = \set{xh \mid h \in H}.
+        xH = \sset{xh}{h \in H}.
     \] The \emph{right coset} of $x \in G$ is \[
-        Hx = \set{hx \mid h \in H}.
+        Hx = \sset{hx}{h \in H}.
     \]
 \end{definition*}
 We will only write left cosets, but the same results hold for right cosets.
@@ -129,7 +141,7 @@ We will only write left cosets, but the same results hold for right cosets.
 
 \begin{examples}
     \item $G$ acts on the power set $2^G$ by
-        $g \cdot A = gA = \set{ga \mid a \in A}$.
+        $g \cdot A = gA = \sset{ga}{a \in A}$.
     \item Restricting this is useful.
         Let $H \le G$.
         Then $G$ acts on the set of left cosets $G/H$ by
@@ -143,7 +155,7 @@ We will only write left cosets, but the same results hold for right cosets.
 
 \textbf{Question:} When and how can one make $G/H$ naturally a group?
 
-We would want $(xH) (yH) = \set{xh_1 yh_2 \mid h_1, h_2 \in H}$ to
+We would want $(xH) (yH) = \sset{xh_1 yh_2}{h_1, h_2 \in H}$ to
 be equal to $(xy)H$.
 This would require for all $h_1, h_2 \in H$ that $xh_1yh_2 = xyh_3$
 for some $h_3 \in H$.
@@ -153,7 +165,7 @@ $xh_1yh_2 = (xy)h_1h_2 \in (xy)H$.
 
 \begin{example}
     Let $\varphi\colon G \to H$ be a group homomorphism.
-    Let $K = \ker \varphi = \set{g \in G \mid \varphi(g) = 1}$.
+    Let $K = \ker \varphi = \sset{g \in G}{\varphi(g) = 1}$.
     Then $G/K$ is a group under the operation \[
         (xK) \cdot (yK) = (xy)K.
     \] This is well-defined, since $xK = x'K$ iff
@@ -169,5 +181,5 @@ $xh_1yh_2 = (xy)h_1h_2 \in (xy)H$.
     Associativity, identity, inverses are borrowed from $G$.
 
     Note that for any $x \nsim y$, $xK \ne yK$.
-    Thus $G = \bigsqcup_{xH \in G/H} xH$.
+    Thus $G = \bigsqcup\limits_{xH \in G/H} xH$.
 \end{example}

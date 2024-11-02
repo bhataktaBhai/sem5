@@ -12,7 +12,7 @@ This is tentative.
 
 \chapter{Groups} \label{chp:group}
 
-\begin{definition}[Binary operation] \label{def:binop}
+\begin{definition}[binary operation] \label{def:binop}
     A \emph{binary operation} $\cdot$ on a set $A$ is any map
     from $A \times A \to A$, written $(a, b) \mapsto a \cdot b$.
 
@@ -32,7 +32,7 @@ This is tentative.
         binary operation on $X^X$.
 \end{examples}
 
-\begin{definition*}[Group] \label{def:group}
+\begin{definition*}[group] \label{def:group}
     A \emph{group} is a set $G$ equipped with a binary operation $\cdot$
     satisfying the following properties:
     \begin{enumerate}[label=\small(G\arabic*)]
@@ -56,7 +56,7 @@ This is tentative.
     \item $(\Z, +)$, $(\Q, +)$, $(\R, +)$ and $(\C, +)$ are abelian groups.
     \item $(\R^\times, \cdot)$ is a group but $(\R, \cdot)$ is not.
     \item $(\GL_n(\R), \cdot)$ is a non-abelian group, where \[
-        \GL_n(\R) = \set{A \in M_n(\R) \mid \det A \neq 0}.
+        \GL_n(\R) = \sset{A \in M_n(\R)}{\det A \neq 0}.
     \]
     \item For any $n \in \N^+$, $(S_n, \circ)$ is a group, where \[
         S_n = \set{\sigma\colon [n] \to [n]
@@ -83,7 +83,7 @@ This is tentative.
     Then $H$ is an abelian subgroup of the non-abelian $\GL_2(\R)$.
 \end{examples}
 
-\begin{remarks}[New groups from old]
+\begin{remarks}[new groups from old]
     \item Let $(A, \cdot)$ and $(B, \ast)$ be groups.
         The cartesian product $A \times B$ is a group with respect to the
         operation \[
@@ -117,7 +117,7 @@ This is tentative.
             \]
         \item Suppose $y$ and $y'$ are both inverses of $x$.
             Then \[
-                xy = 1_G \implies y'xy = y' \implies y' = y.
+                xy = 1_G \implies y'xy = y' \implies y = y'.
             \]
         \item We have \[
             x \cdot x^{-1} = 1_G = x^{-1} \cdot x.
@@ -140,7 +140,7 @@ This is tentative.
     \end{enumerate}
 \end{proof}
 
-\begin{corollary}[Cancellation law] \label{thm:group:cancel}
+\begin{corollary}[cancellation law] \label{thm:group:cancel}
     Let $(G, \cdot)$ be a group.
     If $x, y, z \in G$ and $xy = xz$, then $y = z$.
 \end{corollary}

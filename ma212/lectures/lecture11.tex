@@ -1,0 +1,56 @@
+\lecture{2024-08-30}{}
+
+\begin{theorem*}[third isomorphism theorem] \label{thm:iso:3}
+    Let $H, K \nsub G$ with $K \subseteq H$.
+    Then $H/K \nsub G/K$ and \[
+        \frac{G/K}{H/K} \cong G/H.
+    \]
+\end{theorem*}
+\begin{proof}
+    Note that $K \nsub H$ implies $H/K$ is a group and
+    $H/K \subseteq G/K$, so that $H/K \le G/K$.
+    Since $H \nsub G$, we have $H/K \nsub G/K$. \[
+        (gK)(hK)(gK)^{-1} = (ghg^{-1})K = h'K \in H/K.
+    \]
+    Define \begin{align*}
+        \varphi\colon \frac{G/K}{H/K} &\to G/H \\
+        (gK)(H/K) &\mapsto gH.
+    \end{align*}
+    This is well-defined, since \begin{align*}
+        (gK)(H/K) = (g'K)(H/K) &\iff (g'K)(gK)^{-1} \in H/K \\
+            &\iff (g'g^{-1})K \in H/K \\
+            &\iff g'g^{-1} \in H \\
+            &\iff gH = g'H.
+    \end{align*}
+    This also proves injectivity.
+    For surjectivity, simply notice that for any $gH \in G/H$,
+    $(gK)(H/K) \in (G/K)/(H/K)$ maps to $gH$.
+\end{proof}
+\begin{remark}
+    $\nsub$ is not transitive.
+    For example, $\angled s \nsub \angled{r^2, s} \nsub D_8$,
+    but $\angled s \nnsub D_8$.
+\end{remark}
+
+\begin{theorem}[fourth isomorphism theorem] \label{thm:iso:4}
+    Let $N \nsub G$.
+    Then there is a one-to-one correspondence between the subgroups of
+    $G/N$ and the subgroups of $G$ containing $N$.
+\end{theorem}
+
+\section{Further tools} \label{sec:tools}
+\begin{definition}[conjugate] \label{def:conjugate}
+    Let $S \subseteq G$.
+    The \emph{conjugate} of $S$ by $g \in G$ is \[
+        gSg^{-1} = \sset{gsg^{-1}}{s \in S}.
+    \]
+\end{definition}
+\begin{proposition*}[class equation] \label{thm:tools:class}
+    The number of conjugates of a set $S \subseteq G$ is $(G : N_G(S))$.
+
+    In particular, the number of conjugacy classes of
+    $\set x$ is $(G : C_G(x))$.
+\end{proposition*}
+\begin{proof}
+    
+\end{proof}

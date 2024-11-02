@@ -1,0 +1,38 @@
+\lecture{2024-10-07}{}
+\begin{definition} \label{def:quadform}
+    Let $A \in M_n(\R)$ be symmetric.
+    We define $B_A\colon \R^n \times \R^n \to \R$ by \[
+        B_A(x, y) = \innerp{Ax}{y} = x^T A y
+    \] and $q_A\colon \R^n \to \R$ by \[
+        q_A(x) = B_A(x, x) = \innerp{Ax}{x} = x^T A x.
+    \]
+\end{definition}
+
+\begin{theorem}[Taylor's theorem] \label{thm:taylor}
+    Let $U \subopeneq \R^n$ be convex and $f \in C^m(U; \R)$.
+    Then for any $a, a + h \in U$, \[
+        f(a + h) = \sum_{k=0}^m \sum_{i_1, \dots, i_k} \frac1{k!}
+            (D_{i_1 \dots i_k} f(a)) h_{i_1} \dots h_{i_k}
+            + r(h)
+    \] where \[
+        r(h) = \frac1{m!} \sum_{i_1, \dots, i_m} \ab(
+                D_{i_1 \dots i_m} f(c) - D_{i_1 \dots i_m} f(a)
+            ) h_{i_1} \dots h_{i_m}
+    \] for some $c$ in the segment $a$--$(a + h)$ is $o(\norm h^m)$.
+\end{theorem}
+\begin{proof}
+    Let $\gamma(t) = a + th$ and $g = f \circ \gamma$.
+    If $f$ is $C^m$, then so is $g$.
+    By the $1$-dimensional Taylor's theorem, \[
+        g(1) = \sum_{k=0}^{m-1} \frac1{k!} g^{(k)}(0)
+            + \frac1{m!} g^{(m)}(\xi)
+    \] for some $\xi \in (0, 1)$.
+    By the composition rule, \begin{align*}
+        g'(t) &= f'(\gamma(t)) \gamma'(t)
+            = \sum_{i=1}^n D_i f(\gamma(t)) h_i \\
+        g''(t) &= \sum_{j=1}^n \sum_{i=1}^n D_{ji} f(\gamma(t)) h_i h_j \\
+            &\mathrel{\makebox[\widthof{=}]{\vdots}} \\
+        g^{(m)}(t) &= \sum_{i_1, \dots, i_m} D_{i_1 \dots i_m} f(\gamma(t))
+            h_{i_1} \dots h_{i_m} \qedhere
+    \end{align*}
+\end{proof}

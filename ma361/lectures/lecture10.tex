@@ -1,0 +1,192 @@
+\lecture[10]{2024-09-05}{}
+\begin{definition}
+    Let $(\Omega, \F)$ and $(\Lambda, \mcG)$ be measurable spaces
+    and $X\colon \Omega \to \Lambda$ be measurable.
+    We define \[
+        \sigma(X) = \sset{X^{-1}(A)}{A \in \mcG}.
+    \] This is the smallest $\sigma$-algebra on $\Omega$ with respect to
+    which $X$ is measurable.
+\end{definition}
+Let $(\Omega, \F, \P)$ be a probability space.
+\begin{definition}[Independence] \label{def:ind}
+    $\mcG_1, \dots, \mcG_n$ sub $\sigma$-algebras of $\F$ are
+    \emph{independent} if \begin{equation}
+        \P(A_1 \cap \dots \cap A_n) = \P(A_1) \dots \P(A_n)
+        \quad \text{for all } A_k \in \mcG_k \label{eq:ind}
+    \end{equation} Random variables $X_1, \dots, X_n$ are independent if
+    $\sigma(X_1), \dots, \sigma(X_n)$ are.
+\end{definition}
+Equivalently, $X_i$'s are independent if \[
+    \P\set{X_1 \in A_1, \dots, X_n \in A_n}
+    = \P\set{X_1 \in A_1} \dots \P\set{X_n \in A_n}
+\] for all $A_1, \dots, A_n \in \B(\R)$.
+\begin{lemma} \label{thm:ind:pi}
+    Let $\mcG_k = \sigma(\mcS_k)$ where $\mcS_k$ is a $\pi$-system
+    containing $\Omega$.
+    If \cref{eq:ind} folds for $A_k \in \mcS_k$, then $\mcG_k$ are
+    independent.
+\end{lemma}
+\begin{example}
+    If 
+\end{example}
+
+\begin{exercise}
+    If $(\mcH_i)_{i \in I}$ and $(\mcG_i)_{i \in I}$ are such that
+    $\mcH_i \subseteq \mcG_i$ for all $i \in I$, then
+    independence of $(\mcG_i)_{i \in I}$ implies independence of
+    $(\mcH_i)_{i \in I}$.
+\end{exercise}
+
+\begin{lemma} \label{thm:ind:partition}
+    Suppose $(\mcG_i)_{i \in I}$ are independent.
+    Let $I = \bigsqcup_{r \in R} I_r$ be a partition of $I$.
+    Define $\wtld \mcG_r = \sigma\ab(\bigcup_{i \in I_r} \mcG_i)$.
+    Then $(\wtld \mcG_r)_{r \in R}$ are independent.
+\end{lemma}
+\begin{proof}
+    For each $r \in R$, let $\mcS_r$ be the collection of all finite
+    intersections of elements in $\bigcup_{i \in I_r} \mcG_i$.
+    Then $\mcS_r$ is a $\pi$-system generating $\wtld\mcG_r$.
+    Furthermore, \cref{eq:ind} holds since \TODO % TODO
+\end{proof}
+\begin{example}
+    If $X_1, \dots, X_{10}$ are independent and \begin{align*}
+        Y_1 &= f_1(X_1, X_2, X_3), \\
+        Y_2 &= f_2(X_4, X_5), \\
+        Y_3 &= f_3(X_6, X_7), \\
+        Y_4 &= f_4(X_8, X_9, X_{10}),
+    \end{align*} where $f_i$'s are measurable.
+    Then $Y_1, Y_2, Y_3, Y_4$ are independent, since
+    $\sigma(Y_1) \subseteq \sigma(X_1 \cup X_2 \cup X_3)$, etc.
+\end{example}
+
+\begin{proposition}
+    $\mcG_1, \dots, \mcG_n$ are independent if and only if \[
+        \E[X_1 X_2 \dots X_n] = \E[X_1] \E[X_2] \dots \E[X_n]
+    \] for all random variables $X_k$ measurable with respect to $\mcG_k$.
+\end{proposition}
+\begin{proof}
+    ``if'' is trivial, setting $X_k = \1{A_k}$.
+
+    For ``only if'', we start with simple random variables.
+    Since both sides are multilinear in $X_k$'s and equality holds
+    for indicators, it holds for simple functions.
+
+    Now let $X_k$'s be positive random variables and choose simple
+    random variables $X_{k,m} \upto X_k$.
+    Then $X_{1,m} X_{2,m} \dots X_{n,m} \upto X_1 X_2 \dots X_n$
+    and by monotone convergence, \begin{align*}
+        \E[X_{1,m} X_{2,m} \dots X_{n,m}]
+            &= \E[X_{1,m}] \E[X_{2,m}] \dots \E[X_{n,m}] \\
+        \xRightarrow{\lim} \E[X_1 X_2 \dots X_n]
+            &= \E[X_1] \E[X_2] \dots \E[X_n].
+    \end{align*}
+\end{proof}
+
+\begin{corollary}
+    $X_1, \dots, X_n$ are independent if and only if \[
+        \E[f_1(X_1) f_2(X_2) \dots f_n(X_n)]
+             = \E[f_1(X_1)] \E[f_2(X_2)] \dots \E[f_n(X_n)]
+    \] for all $f_k\colon \R \to \R$ bounded and Borel measurable.
+\end{corollary}
+
+\begin{theorem*}[Daniell-Kolmogorov] \label{thm:d-k}
+    Given $\mu_1, \mu_2, \dots$ in $P(\R)$, there exists a probability
+    space $(\Omega, \F, \P)$ and random variables random variables
+    $X_1, X_2, \dots : \Omega \to \R$ such that
+    \begin{enumerate}
+        \item $X_n \sim \mu_n$, and
+        \item $X_1, X_2, \dots$ are independent.
+    \end{enumerate}
+\end{theorem*}
+\begin{proof} \leavevmode
+    \begin{casework}
+        \item $\mu_n = \frac12 \delta_0 + \frac12 \delta_1$.
+        Then $([0, 1], \mcB, \lambda)$ and \[
+            X_n(\omega) = n^{\text{th}} \text{ digit in the binary expansion
+                of } \omega
+        \] works. \TODO % TODO
+        \item $\mu_n = \Unif[0, 1]$.
+        \begin{claim}
+            Suppose $(\Omega, \F, \P)$ and $\eps_1, \eps_2, \dots$ are
+            independent $\Ber(\frac12)$ random variables.
+            Then $Y_n = \sum_{k=1}^n \frac{\eps_k}{2^k} \sim \Unif[0, 1]$.
+        \end{claim}
+        Choose $([0, 1], \mcB, \lambda)$ and $X_k$'s as before.
+        Let \[
+            M = \begin{pmatrix}
+                1 & 3 & 5 & 7 & \dots \\
+                2 & 6 & 10 & 14 & \dots \\
+                4 & 12 & 20 & 28 & \dots \\
+                8 & 24 & 40 & 56 & \dots \\
+                \vdots & \vdots & \vdots & \vdots & \ddots
+            \end{pmatrix}.
+        \]
+        By the claim, \[
+            Y_n = \sum_{i=1}^\infty \frac{m_{ni}}{2^i}
+        \]
+        are $\Unif[0, 1]$.
+        By \cref{thm:ind:partition}, they are independent.
+        \item $\mu_n \in P(\R)$.
+        Let $G_n$ be the generalized inverse of the CDF of $\mu_n$.
+        Set \[
+            Z_n = G_n(Y_n).
+        \] Then $Z_n \sim \mu_n$ and $Z_1, Z_2, \dots$ are independent.
+    \end{casework}
+\end{proof}
+
+Let $\mu_1, \mu_2, \mu_3 \in P(\R^2)$.
+Do there exist random variables $X_1, X_2, X_3$ on a common
+$(\Omega, \F, \P)$ such that \begin{align*}
+    (X, Y) &\sim \mu_1, \\
+    (Y, Z) &\sim \mu_2, \\
+    (Z, X) &\sim \mu_3?
+\end{align*}
+No, since $\mu_1(A \times \R) = \mu_3(\R \times A)$ for all $A \in \B(\R)$
+is necessary.
+
+\begin{fact*}[Kolmogorov's consistency theorem] \label{thm:kct}
+    For each $n$, let $\mu_n \in P(\R^n)$.
+    Suppose that $\set{\mu_n}_{n \ge 1}$ are consistent in the sense that
+    \[
+        \mu_n \circ (\pi_1, \dots, \pi_{n-1})^{-1} = \mu_{n-1}
+        \quad \text{for all } n \ge 2.
+    \] Then there exists a probability space $(\Omega, \F, \P)$ and
+    random variables $X_1, X_2, \dots$ such that \[
+        (X_1, \dots, X_n) \sim \mu_n
+    \] for all $n$.
+\end{fact*}
+
+\begin{example}
+    Given an infinite symmetric and positive semi-definite matrix \[
+        \Sigma = \begin{pmatrix}
+            \sigma_{11} & \sigma_{12} & \sigma_{13} & \dots \\
+            \sigma_{21} & \sigma_{22} & \sigma_{23} & \dots \\
+            \sigma_{31} & \sigma_{32} & \sigma_{33} & \dots \\
+            \vdots & \vdots & \vdots & \ddots
+        \end{pmatrix},
+    \] does there exist an $(\Omega, \F, \P)$ and random variables
+    $X_1, X_2, \dots$ such that \[
+        (X_1, \dots, X_n) \sim N_n(0, \Sigma_n)
+    \] for all $n$? (Where $\Sigma_n$ is the top-left $n \times n$ submatrix
+    of $\Sigma$.)
+    Kolmogorov's consistency theorem says yes.
+    Alternatively, we can construct them using iid standard normal random
+    variables, which would not require this theorem.
+
+    Let $Z_1, Z_2, \dots$ be iid standard normal random variables.
+    Write $\Sigma = L L^\top$ where $L$ is lower triangular.
+    Define $X_1, X_2, \dots$ by \[
+        \begin{pmatrix}
+            X_1 \\
+            X_2 \\
+            X_3 \\
+            \vdots
+        \end{pmatrix} = L \begin{pmatrix}
+            Z_1 \\
+            Z_2 \\
+            Z_3 \\
+            \vdots
+        \end{pmatrix}
+    \]
+\end{example}

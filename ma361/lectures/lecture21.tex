@@ -1,0 +1,176 @@
+\lecture[21]{2024-10-17}{}
+\begin{theorem}[strong law of large numbers] \label{thm:slln}
+    Let $X_1, X_2, \dots$ be i.i.d with $\E[X_i] = 0$.
+    Then $\frac{S_n}{n} \asto 0$
+\end{theorem}
+\begin{proof}
+    First reduce this to the case when all $X_i \ge 0$.
+
+    If $\lambda > 1$ and $n_k = \floor{\lambda^k}$, then \[
+        \frac{S_{n_k}}{n_k} \asto \E[X_1].
+    \]
+
+    If $X_i \ge 0$ and $n_k \le n < n_{k+1}$, then \[
+        S_{n_k} \le S_n \le S_{n_{k+1}}, \text{ so }
+        \frac{S_{n_k}}{n_{k+1}} \le \frac{S_n}n \le \frac{S_{n_{k+1}}}{n_k}.
+    \]
+    Thus for all $\lambda > 1$,
+    \[
+        \frac{\mu}{\lambda}
+            \le \liminf \frac{S_n}n
+            \le \limsup \frac{S_n}n
+            \le \lambda \mu \text{ a.s.}
+    \] Take intersection over $\lambda = 1 + \frac1j$ to get \[
+        \lim \frac{S_n}n = \mu \text{ a.s.} \qedhere
+    \]
+\end{proof}
+
+\subsection{Two extensions in different directions} \label{sec:slln:extend}
+\begin{enumerate}
+    \item Let $X_1, X_2, \dots$ be i.i.d. with $\E[X_i] = 0$.
+        For which $\alpha$ does $\frac{S_n}{n^\alpha} \asto 0$?
+        For which $f$ does $\frac{S_n}{f(n)} \asto 0$?
+        What more assumptions are needed?
+    \item In the same setting with any more assumptions necessary,
+        what is the rate of convergence of $\frac{S_n}{n}$?
+        How does $\P\set*{\abs{\frac{S_n}{n}} > \delta}$ go to $0$?
+        Chebyshev gives a $\frac1n$ convergence assuming second moment.
+        Can we do better?
+\end{enumerate}
+Recall the M\"obius function \[
+    \mu(n) = \begin{cases}
+        1 & n = p_1p_2\dots p_{2k} \text{ distinct primes}, \\
+        -1 & n = p_1p_2\dots p_{2k+1} \text{ distinct primes}, \\
+        0 & n \text{ is not square-free}.
+    \end{cases}
+\]
+\begin{claim}[Riemann hypothesis] \label{thm:riemann}
+    $\sum_{i=1}^n \mu(i) = O(n^{1/2 + \eps})$ for all $\eps > 0$.
+\end{claim}
+
+We will prove this in the next lecture.
+Let $X_1, X_2, \dots$ be i.i.d.\ $\Ber_\pm(\frac12)$.
+Since $X_i$ is bounded, all moments exist.
+
+Let $S_n = X_1 + \dots + X_n$.
+We have seen \begin{align*}
+    \E[S_n^2] &= n \\
+    \implies \P\set*{\abs*{\frac{S_n}n} \ge \delta}
+        &\le \frac1{n\delta^2}. \\
+    \E[S_n^4] &= 3n(n-1) \\
+    \implies \P\set*{\abs*{\frac{S_n}n} \ge \delta}
+        &\le \frac{3n(n-1) + n}{n^4 \delta^4}. \\
+    \shortintertext{More generally,} \\
+    \P\set*{\abs*{\frac{S_n}{n^\alpha}} \ge \delta}
+        &\le \frac{3n(n-1) + n}{n^{4\alpha} \delta^4}
+        \le \frac{C}{\delta^4 n^{4\alpha - 2}}.
+\end{align*}
+This is summable for $\alpha > \frac 34$.
+What if we use higher moments?
+\begin{align*}
+    \E[S_n^6] &= 5!! n(n-1)(n-2) + O(n^2) \\
+    \implies \P\set*{\abs*{\frac{S_n}n} \ge \delta}
+        &\le \frac{5!! n(n-1)(n-2) + O(n^2)}{n^6 \delta^6} \\
+        &\le \frac{C}{\delta^6 n^{6\alpha - 3}},
+    \shortintertext{which is summable for $\alpha > \frac 23$.}
+    \E[S_n^8] &= 7!! n(n-1)(n-2)(n-3) + O(n^3) \\
+    \implies \P\set*{\abs*{\frac{S_n}n} \ge \delta}
+        &\le \frac{7!! n(n-1)(n-2)(n-3) + O(n^3)}{n^8 \delta^8} \\
+        &\le \frac{C}{\delta^8 n^{8\alpha - 4}},
+    \shortintertext{which is summable for $\alpha > \frac 58$.
+    More generally,} \\
+    \E[S_n^{2p}] &= (2p-1)!! n^p + O(n^{p-1}) \\
+    \implies \P\set*{\abs*{\frac{S_n}n} \ge \delta}
+        &\le  \frac{C_p}{\delta^{2p} n^{2p\alpha - p}},
+    \shortintertext{Which is summable for $\alpha > \frac{1+p}{2p}$.}
+\end{align*}
+Thus for any $\alpha > \frac12$, $\frac{S_n}{n^\alpha} \asto 0$.
+
+\begin{exercise*}
+    $\alpha = \frac12$ does not work.
+\end{exercise*}
+
+We can do better using Hoeffding's inequality.
+Recall that if $\abs{X_i} \le d_i$ are independent with zero mean, then \[
+    \P\set{S_n \ge t} \le \exp\ab(-\frac{t^2}{2 \sum d_i^2}).
+\]
+Thus \[
+    \P\set*{\abs*{\frac{S_n}{n^\alpha}} \ge \delta}
+        \le 2 \exp\ab(-\frac{n^{2\alpha} \delta^2}{2n})
+        = 2 \exp\ab(-\frac{\delta^2}{2} n^{2\alpha - 1}).
+\] This is summable for $\alpha > \frac12$.
+All the moment crunching in one shot.
+Do better!
+\begin{align*}
+    \P\set*{\abs*{\frac{S_n}{\sqrt{n h(n)}}} \ge \delta}
+        &\le 2 \exp\ab(-\frac{\delta^2}{2} h(n)) \\
+\end{align*}
+This is summable for $h(n) \ge (\log n)^{1+\eps}$.
+Thus \[
+    \frac{S_n}{\sqrt{n (\log n)^{1+\eps}}} \asto 0.
+\]
+In fact, this proof works for all bounded $X_i$.
+
+\begin{fact*}[Khinchin's law of the iterated logarithm] \label{thm:loglog}
+    Let $X_1, X_2, \dots$ be \iid with mean $0$ and variance $1$.
+    Then \[
+        \limsup_{n\to\infty} \frac{S_n}{\sqrt{n \log\log n}} = \sqrt2
+            \text{ a.s.}
+    \]
+\end{fact*}
+\begin{remark}
+    Khinchin only proved this for Bernoullis.
+    The general case is due to Hartman and Wintner.
+\end{remark}
+
+Suppose $A_1, A_2, \dots$ are independent events.
+Then \[
+    \P\set{A_n \text{ i.o}} = \begin{cases}
+        0 & \text{if } \sum \P(A_n) < \infty, \\
+        1 & \text{if } \sum \P(A_n) = \infty.
+    \end{cases}
+\] Let $B_1, B_2, \dots$ be such that \begin{align*}
+    B_1 &= A_1, \\
+    B_2 = B_3 &= A_2, \\
+    B_4 = B_5 = B_6 &= A_3, \\
+    &\vdotswithin{=} \\
+\end{align*}
+Then $\set{B_n \text{ i.o.}} = \set{A_n \text{ i.o.}}$.
+Borel-Cantelli gives that if $\sum n \P(A_n) < \infty$, then $B_n$ occur
+infinitely often with probability $0$.
+This is a weaker conclusion that Borel-Cantelli on the $A_n$'s.
+
+Khinchin proved his thoerem by reverse engineering this.
+$S_n$'s barely change with neighbouring $n$'s.
+Khinchin managed to create blocks of $n$'s where $S_n$'s are almost constant
+and independent of each other.
+    \vspace{1em} \hrule \vspace{1em}
+We want bounds for $\P\set*{\abs*{\frac{S_n}n - \mu} \ge \delta}$.
+\begin{example}
+    Let $X_i$ be iid $\Ber(\frac12)$.
+    Fix a $k \in n+1$.
+    Then $\P\set{S_n = k} = \binom nk \frac1{2^n}$
+    By the Strirling approximation, \[
+        m! \sim \sqrt{2\pi m} \ab(\frac me)^m.
+    \] That is, $\frac{m!}{\sqrt{2\pi} m^{m+\frac12} e^{-m}} \to 1$.
+    Assume $1 \ll k \ll n$ ($n \to \infty$ and $n-k \to \infty$).
+    Then \begin{align*}
+        \P\set{S_n = k} &\sim \frac1{\sqrt{2\pi} 2^n}
+            \frac{n^{n+\frac12} e^{-n}}
+                {k^{k+\frac12} e^{-k} (n-k)^{n-k+\frac12} e^{-(n-k)}} \\
+            &\sim \frac{\sqrt n}{\sqrt{2\pi} \sqrt k \sqrt{n-k}}
+                \frac{n^n}{k^k (n-k)^{n-k} 2^n} \\
+            &= \frac{\sqrt n}{\sqrt{2\pi k(n-k)}}
+                e^{-n\ab[\log 2 + \frac nk \log \frac nk +
+                    \ab(1-\frac kn) \log \ab(1-\frac kn)]}
+    \end{align*}
+    Let $H(p) = -p\log p - (1-p)\log(1-p)$.
+    Then $\P\set{S_n = k} = C_{n,k} e^{-n H(\frac kn)}$, where $C_{n,k}$
+    is polynomially bounded in $n$ and $k$.
+
+    If $\frac12 < p < 1$, then \[
+        \P\set{\frac{S_n}n \ge p} = \sum_{k=np} \P\set{S_n = k}.
+    \] This is lower-bounded by the first term, and upper-bounded by
+    $n$ times the first term.
+    Taking logarithms, 
+\end{example}

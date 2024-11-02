@@ -1,0 +1,332 @@
+\documentclass[12pt]{article}
+\input{../preamble}
+\newcommand\highlight[1]{\textcolor{blue}{#1}}
+
+\title{Homework 8}
+\author{Naman Mishra (22223)}
+\date{8 October, 2024}
+
+\begin{document}
+\maketitle
+
+% Problem 1
+\begin{problem*}
+    Let $X_n$ be independent random variables with $X_n \sim \Ber(p_n)$.
+    For $k \ge 1$, find a sequence $(p_n)$ so that almost surely, the
+    sequence $X_1, X_2, \dots$ has infinitely many segments of ones of
+    length $k$ but only finitely many segments of ones of length $k + 1$.
+    By a segment of length $k$ we mean a consecutive sequence
+    $X_i, X_{i+1}, \dots, X_{i+k-1}$.
+\end{problem*}
+\begin{solution}
+    Let $p_n = 0$ if $n$ is a multiple of $k + 1$ and $1$ otherwise.
+    That is, $(p_1, p_2, \dots, p_k, p_{k+1}) = (1, 1, \dots, 1, 0)$
+    and $(p_n)$ is periodic with period $k + 1$.
+    Any $k+1$ consecutive indices $i, i+1, \dots, i+k$ must contain
+    a multiple of $k+1$, so \[
+        \P\set{X_i = X_{i+1} = \dots = X_{i+k} = 1} = 0.
+    \] By the union bound, the probability that there is \emph{any} segment
+    of ones of length $k+1$ is $0$.
+
+    The event that there are infinitely many segments of ones of length
+    $k$ is a subset of the event \[
+        A \coloneq \set{X_n = 1 \text{ whenever } (k + 1) \nmid n}.
+    \] This has probability $1$, since \[
+        A = \bigcap_{(k + 1) \nmid n} \set{X_n = 1}
+    \] is the intersection of almost sure events.\footnotemark
+\end{solution}
+\footnotetext{In case this cannot be assumed, $\P(A) = 1$ since
+$A^c$ is a countable union of zero-probability events.}
+
+% Problem 2
+\begin{problem*}
+    Let $A_1, A_2, \dots$ be a sequence of $M$ dependent events
+    (i.e., $A_i$ and $A_j$ are independent iff $\abs{i - j} > M$).
+    Prove that $\P(A_n \io) = 0$ or $1$.
+\end{problem*}
+\begin{solution}
+    Let $N = M + 1$ for convenience.
+    Consider the $N$ subsequences \begin{gather*}
+        A_1, A_{1+N}, A_{1+2N}, \dots \\
+        A_2, A_{2+N}, A_{2+2N}, \dots \\
+        \vdots \\
+        A_N, A_{N+N}, A_{N+2N}, \dots
+    \end{gather*}
+    Then $A_n \io$ iff infinitely many events from at least
+    one of these subsequences occur.
+    But $A_k, A_{k+N}, A_{k+2N}, \dots$ are independent for any $k$,
+    so by Kolmogorov's zero-one law, $\P(A_{k+nN} \io) = 0$ or $1$
+    (where $k$ is fixed and $n$ varies).
+    \[
+        \set{A_n \io} = \bigcup_{k=1}^N \set{A_{k+nN} \io}.
+    \]
+    \begin{itemize}
+        \item If $\P(A_{k+nN} \io) = 0$ for all $k$, then $\P(A_n \io) = 0$
+        by the union bound.
+        \item If $\P(A_{k+nN} \io) = 1$ for some $k$,
+        then $\P(A_n \io) \ge \P(A_{k+nN} \io) = 1$.
+    \end{itemize}
+    Thus $\P(A_n \io) = 0$ or $1$.
+\end{solution}
+
+% Problem 3
+\begin{problem*}
+% Let A1, A2, . . . be a sequence of events. Let nk be any sequence and Ck := Snk≤n<nk+1 An. Show that if Pn P(Cn) < ∞ then P(An i.o.) = 0.
+    Let $A_1, A_2, \dots$ be a sequence of events.
+    Let $(n_k)_k$ be any sequence and
+    $C_k \coloneq \bigcup_{n_k \le n < n_{k+1}} A_n$.
+    Show that if $\sum_n \P(C_n) < \infty$ then $\P(A_n \io) = 0$.
+\end{problem*}
+\begin{solution}
+    It is assumed that $n_k$ are increasing.
+    $\set{A_n \io} = \set{C_n \io}$, so by the first Borel-Cantelli lemma,
+    $\P\set{A_n \io} = 0$.
+\end{solution}
+
+% Problem 4
+\begin{problem*}
+% Let A1, A2, . . . be a sequence of events in (Ω, F, P). Let pk be the probability that at least one of the events Ak, Ak+1, . . . occurs.
+% (1) If inf pk > 0, then show that An occurs infinitely often, w.p.p (with positive probability). k
+% (2) If pk → 0, then show that only finitely many An occur, w.p.1 (with probability 1).
+    Let $A_1, A_2, \dots$ be a sequence of events in $(\Omega, \F, \P)$.
+    Let $p_k$ be the probability that at least one of the events
+    $A_k, A_{k+1}, \dots$ occcurs.
+    \begin{enumerate}
+        \item If $\inf p_k > 0$, then show that $A_n$ occurs infinitely
+        often, w.p.p (with positive probability).
+        \item If $p_k \to 0$, then show that only finitely many $A_n$
+        occur, w.p.1 (with probability $1$).
+    \end{enumerate}
+\end{problem*}
+\begin{solution} \leavevmode
+    Let $B_k$ be the event that no $A_n$ occurs for $n \ge k$,
+    and $B$ be the event that only finitely many $A_n$ occur.
+    Then $B_1 \subseteq B_2 \subseteq \dots$ and $B = \bigcup_k B_k$.
+    Thus $\P(B) = \lim_k \P(B_k) = \lim_k (1 - p_k)$.
+    \begin{enumerate}
+        \item $\P(B) < 1$.
+        \item $\P(B) = 1$. \qedhere
+    \end{enumerate}
+\end{solution}
+
+\begin{problem*}
+% Let An be a sequence of independent events with P(An) < 1 for all n. Show that
+% P(∪nAn) = 1 implies Pn P(An) = ∞.
+    Let $A_n$ be a sequence of independent events with $\P(A_n) < 1$ for all
+    $n$.
+    Show that $\P\ab(\bigcup_n A_n) = 1$ implies $\sum_n \P(A_n) = \infty$.
+\end{problem*}
+\begin{solution}
+    Let $B_n = \bigcup_{k \ge n} A_k$.
+    We know that $A_1, \dots, A_{n-1}, B_n$ are independent.
+    Thus \[
+        \P(A_1^c \cap \dots \cap A_{n-1}^c \cap B_n^c)
+            = \prod_{k=1}^{n-1} (1 - p_k) (1 - \P(B_n))
+    \] If this were positive, then $\P\ab(\bigcup_n A_n) < 1$.
+    Thus $\P(B_n) = 1$.
+    Then $\set{A_n \io} = \cap_n B_n$ almost surely, so $\P(A_n \io) = 1$.
+    By the first Borel-Cantelli lemma, $\sum_n p_n = \infty$.
+\end{solution}
+
+\begin{problem*}
+% Let Xn and X are random variables and for all δ > 0,Pn P(|Xn − X| > δ) < ∞.
+% Show that Xn → X almost surely.
+    Let $X_n$ and $X$ be random variables such that for all $\delta > 0$,
+    $\sum_n \P(\abs{X_n - X} > \delta) < \infty$.
+    Show that $X_n \asto X$.
+\end{problem*}
+\begin{solution}
+    Let $A_n = \set{\abs{X_n - X} > \frac1n \text{ finitely often}}$.
+    By the first Borel-Cantelli lemma, $\P(A_n) = 1$.
+    Then $\P\ab(\cap_n A_n) = 1$ gives that for each $\frac1n$, there exists
+    $N$ such that $\abs{X_n - X} \le \frac1n$ for all $n \ge N$,
+    almost surely.
+    Thus $X_n \asto X$.
+\end{solution}
+
+\begin{problem*}
+% Let Xn be any sequence of random variables such that Xn < ∞ almost surely. Show
+% that there are constants cn → ∞ such that Xn/cn → 0 almost surely.
+    Let $X_n$ be any sequence of random variables such that $X_n < \infty$
+    almost surely.
+    Show that there are constants $c_n \to \infty$ such that
+    $X_n/c_n \to 0$ almost surely.
+\end{problem*}
+\begin{solution}
+    Let $c_n$ be such that $\P\set{nX_n \ge c_n} < \frac1{2^n}$.
+    Then $\sum_n \P\set{X_n/c_n \ge \frac1n} < \infty$,
+    so $X_n/c_n \asto 0$.
+\end{solution}
+
+\begin{problem*}
+% Let X1, X2, . . . be i.i.d. Exp(1) random variables and Mn = max1≤m≤n Xm. Show that
+% (1) lim supn→∞ Xn/log n = 1 almost surely. (2) Mn/log n → 1 almost surely.
+    Let $X_1, X_2, \dots$ be \iid $\Exp(1)$ random variables and
+    $M_n = \max_{1 \le m \le n} X_m$.
+    Show that
+    \begin{enumerate}
+        \item $\limsup_{n \to \infty} X_n/\log n = 1$ almost surely.
+        \item $M_n/\log n \to 1$ almost surely.
+    \end{enumerate}
+\end{problem*}
+\begin{solution} \leavevmode
+    \begin{enumerate}
+        \item $\P\set{X_i \ge t} = e^{-t}$.
+        Thus $\P\set{X_n \ge k \log n} = \frac1{n^k}$
+        is summable iff $k > 1$.
+        Thus $X_n/\log n \ge 1$ infinitely often a.s.,
+        so $\limsup X_n/\log n \ge 1$ almost surely.
+        For any $\eps > 0$, $X_n/\log n \ge 1 + \eps$ only finitely often
+        a.s., so $\limsup X_n/\log n \le 1$ almost surely.
+        \item $M_n/\log n = \max_{1 \le m \le n} X_m/\log n$.
+        If $X_m/\log m \ge 1 + \eps$ only finitely often, then
+        $M_n/\log n < 1 + \eps$ for large enough $n$.
+        (when $X_k/\log k$ is bounded by $1 + \eps$ and $\log n$ is large
+        enough to make $X_m/\log n$ small even when $X_m/\log m$ is large).
+
+        Now $M_n \le 1-\eps$ iff $X_k \le (1 - \eps) \log n$ for
+        $k \in [n]$.
+        \begin{align*}
+            \P\set{M_n \le 1 - \eps}
+                &= \prod_{k=1}^n \ab(1-e^{-(1-\eps)\log n}) \\
+                &= \ab(1 - \frac1{n^{1-\eps}})^n \\
+                &\le e^{-\frac1{n^{1-\eps}} n} \\
+                &= e^{-n^\eps}.
+        \end{align*}
+        Let $\eps = \frac1m$.
+        Then $\lim_{n \to \infty} \frac{n^2}{e^{n^\eps}}
+        = \lim_{u \to \infty} \frac{u^{2m}}{e^2} = 0$.
+        Thus $e^{-n^\eps}$ is summable.
+        $M_n \le 1 - \eps$ finitely often a.s. for each $\eps$.
+        Intersecting these events gives $M_n/\log n \to 1$ almost surely.
+        \qedhere
+    \end{enumerate}
+\end{solution}
+
+\begin{problem*}
+% Let X1, X2, . . . be independent. Show that sup Xn < ∞ almost surely iff Pn P(Xn > A) < ∞ for some A.
+    Let $X_1, X_2, \dots$ be independent.
+    Show that $\sup X_n < \infty$ almost surely iff
+    $\sum_n \P(X_n > A) < \infty$ for some $A$.
+\end{problem*}
+\begin{solution}
+    If $X_n > A$ only finitely often, say only for some $n \le N$,
+    then $\sup X_n \le \max\set{X_1, \dots, X_N} \vee A$.
+
+    Conversely, suppose for all $A$, $X_n > A$ infinitely often.
+    Then $\sup X_n = \infty$.
+
+    Thus $\sup X_n < \infty$ iff there is some $A$ such that
+    $X_n > A$ only finitely often.
+    The two Borel-Cantelli lemmas give the result.
+\end{solution}
+
+\begin{problem*}
+% Let ξ, ξn be i.i.d. random variables with E[log+ ξ] < ∞ and P(ξ = 0) < 1.
+% (1) Show that the radius of convergence of the random power series P∞n=0 ξnzn is almost surely
+% a constant.
+% (2) Show that the radius of convergence is 1 almost surely by showing limsup|ξn|n = 1 a.s.
+% n→∞
+    Let $\xi, \xi_n$ be \iid random variables with $\E[\log_+ \xi] < \infty$
+    and $\P(\xi = 0) < 1$.
+    \begin{enumerate}
+        \item Show that the radius of convergence of the random power series
+        $\sum_{n=0}^\infty \xi_n z^n$ is almost surely a constant.
+        \item Show that the radius of convergence is $1$ almost surely by
+        showing $\limsup_{n \to \infty} \abs{\xi_n}^{\frac1n} = 1$ almost
+        surely.
+    \end{enumerate}
+\end{problem*}
+\begin{solution} \leavevmode
+    \begin{enumerate}
+        \item Kolmogorov.
+        \item 
+    \end{enumerate}
+\end{solution}
+
+\begin{problem*}
+% Consider the Bernoulli bond percolation on Zd as defined in the class. Determine which of the following events are tail events: there exists a unique infinite cluster, 0 belongs to a infinite cluster, there are infinitely many infinite clusters, there are finitely many infinite clusters.
+    Consider the Bernoulli bond percolation on $\Z^d$ as defined in class.
+    Determine which of the following events are tail events:
+        there exists a unique infinite cluster,
+        $0$ belongs to a infinite cluster,
+        there are infinitely many infinite clusters,
+        there are finitely many infinite clusters.
+\end{problem*}
+\begin{solution} \leavevmode
+    \begin{itemize}
+        \item Whether there exists a unique infinite cluster is \emph{not}
+        a tail event.
+        Even in $\Z^1$, assume all edges except possibly $(-1, 0)$ and
+        $(0, 1)$ are retained.
+        Then there is either $1$ infinite cluster or $2$, depending on
+        these $2$ edges.
+        \item Whether $0$ belongs to an infinite cluster is \emph{not} a
+        tail event.
+        Same counterexample as before.
+        \item Whether there are infinitely many infinite clusters \emph{is}
+        a tail event.
+        Finitely many edges can only affect finitely many clusters.
+        \item Whether there are finitely many infinite clusters is the
+        complement of the previous one, so also a tail event. \qedhere
+    \end{itemize}
+\end{solution}
+
+\begin{problem*}
+% Consider the Bernoulli bond percolation on Zd as defined in the class and consider the critical probability pc(Zd). Show that pc(Zd) > 0 for all d ≥ 1.
+    Consider the Bernoulli bond percolation on $\Z^d$ as defined in class
+    and consider the critical probability $p_c(\Z^d)$.
+    Show that $p_c(\Z^d) > 0$ for all $d \ge 1$.
+\end{problem*}
+\begin{solution}
+    We need to show that there is some $p > 0$ such that $G_p$ doesn't
+    have an infinite cluster almost surely.
+
+    % Fix a point $x \in \Z^d$ and let $B_n$ be the set of points at an
+    % $L^\infty$ distance of $n$ from $x$.
+    % Let $p_n$ be the probability that $x$ is connected to some point in
+    % $B_n$.
+    % Then \[
+    %     p_n \le p_{n-1} \ab(1-(1-p)^{4k_n}), \quad p_0 = 1,
+    % \] where $k_n = (2n+1)^{d-1}$.
+    % Thus $p_n \le 4(2n+1)^{d-1} p p_{n-1}$,
+    For $x \in \Z^d$, let $C_x$ be the event that $0$ is connected to $x$
+    via a path contained entirely in the region
+    $\sset{y \in \Z^d}{\norm y_1 \le \norm x_1}$.
+    Let $p_n = \max_{\norm x_1 = n} \P(C_x)$.
+    Then $p_n \le d p_{n-1} p$, so that $p_n \le d^n p^n$.
+    If $A_n = \bigcup_{\norm x_1 = n} C_x$, then
+    $\P(A_n) \le K n^d d^n p^n$ for some constant $K$.
+    By the ratio test, this is summable for $p < \frac1d$.
+    The Borel-Cantelli lemma gives $\P(A_n \io) = 0$.
+
+    But for there to be an infinite cluster containing $0$,
+    $0$ must be connected to some point in each $\set{\norm x_1 = n}$.
+    For each of these sets, at least one point will be reachable from $0$
+    without passing through any point with a larger Manhattan norm.
+    Thus $\P(A_n \io) = 0$ gives that
+    $\P(0 \text{ is in an infinite cluster}) = 0$.
+    By the union bound, $\P(\text{there is an infinite cluster}) = 0$.
+\end{solution}
+\begin{figure}
+    \centering
+    \begin{tikzpicture}
+        \draw[gray, thin] (-4.9, -4.9) grid (4.9, 4.9);
+        \foreach \x in {-4, -3, ..., 4} {
+        \foreach \y in {-4, -3, ..., 4} {
+            \pgfmathsetmacro{\col}{ifthenelse(abs(\x)+abs(\y)==2,"red",
+                ifthenelse(abs(\x)+abs(\y)==3,"blue",
+                ifthenelse(abs(\x)+abs(\y)==4,"Green","none"))}
+            \ifx\col{none}
+            \else
+                \node[circle,inner sep=1.2pt,fill=\col] at (\x,\y) {};
+            \fi
+        }}
+        \draw[->, thick] (1, 2.4) -- (1, 2.8);
+        \draw[->, thick] (.4, 3) -- (.8, 3);
+    \end{tikzpicture}
+    \caption{The green region must be reached first via the blue,
+    from one of the $d$ possible directions.}
+\end{figure}
+
+\end{document}

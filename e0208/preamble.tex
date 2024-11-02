@@ -1,9 +1,13 @@
-\input{~/IISc/sem5/preamble}
+\input{~/IISc/sem5/preamble/common}
+\input{~/IISc/sem5/preamble/lecture}
+\input{~/IISc/sem5/preamble/theorems}
+\input{~/IISc/sem5/preamble/symbols}
 \input{~/IISc/sem5/preamble/algorithm}
 \usepackage[bitstream-charter]{mathdesign}
 \usepackage{booktabs}
 \renewcommand{\P}{\ensuremath{\mathsf{P}}}
 \newcommand{\NP}{\ensuremath{\mathsf{NP}}}
+\usepackage{multicol}
 
 \usepackage{tikz}
 \usepackage{pgfplots}
@@ -12,5 +16,53 @@
 
 \let\onm\operatorname
 
-\linespread{1.0}
+\linespread{1.08}
 \usepackage{forest}
+\usepackage{tikz}
+\usetikzlibrary{calc}
+\usetikzlibrary{shapes}
+\usetikzlibrary{shapes.geometric, arrows}
+\usetikzlibrary{positioning}
+\tikzstyle{tnode} = [
+    circle,
+    minimum height=0.8cm,
+    draw=black,
+    % fill=black!80!white,
+    % text=white,
+]
+\tikzstyle{subtree} = [
+    fill = blue,
+    isosceles triangle,
+    draw=,
+    thick,
+    shape border rotate=90,
+    isosceles triangle stretches=true,
+    minimum height=20mm,
+    minimum width=15mm,
+    inner sep=0,
+    yshift={-10mm},
+]
+\tikzstyle{point} = [
+    circle,
+    inner sep=1pt,
+    draw=black,
+    fill=black,
+]
+
+% \newcommand\randompoints[3]{
+%     \tikzmath{\maxX = #1; \maxY = #2;}
+%     \ifnum#3>0
+%         {(rnd * \maxX, rnd * \maxY), \randompoints{\maxX}{\maxY}{#3-1}}
+%     \fi
+% }
+\newcommand\drawrandompoints[4][Red,circle,inner sep=1pt,fill]{
+    \tikzmath{\maxX = #2; \maxY = #3;}
+    \foreach \i in {1,...,#4}{
+        \node[draw,#1] at (\maxX * rnd, \maxY * rnd) {};
+    }
+}
+
+\newcommand\stab\odot
+\DeclareMathOperator\CH{CH}
+\DeclareMathOperator\CCW{CCW}
+\DeclareMathOperator\dist{dist}

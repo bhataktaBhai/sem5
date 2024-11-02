@@ -1,0 +1,121 @@
+\lecture{2024-10-09}{}
+\begin{solution}[Graham's variant]
+    Sort the points by $x$-coordinate.
+    Perform a Graham's scan from left to right.
+    This gives the lower hull.
+    Similarly compute the upper hull
+    (either use $\neg \Callp{CCW}$ in place of $\Callp{CCW}$, or
+    scan from right to left).
+    Concatenate the two hulls to get the convex hull.
+
+    Again, the time is $O(n \log n)$ for sorting and $O(n)$ for scanning.
+\end{solution}
+
+\begin{proof}[Proof of correctness -- sketch]
+    Sorting the points as $p_1, p_2, \dots, p_n$, we start with the initial
+    curve joining each $p_i$ to $p_{i+1}$.
+    The invariant is that each point lies on or above this curve.
+\end{proof}
+
+\begin{solution}[Divide and conquer]
+    Partition $P$ into $P_\ell$ and $P_r$ by $x$-coordinate.
+    Compute the convex hull of each half recursively.
+    Merge them by computing the upper and lower common tengents.
+    \TODO[Exercise]
+\end{solution}
+
+\begin{solution}[Incremental]
+    Sort the points by $x$-coordinate.
+    Compute the convex hull for $p_1, \dots, p_i$.
+    When encountering the point $p_{i+1}$, compute the upper and lower
+    tangents in $O(\log n)$ time (\TODO[exercise]) and remove vertices in
+    between.
+\end{solution}
+
+\section{Lower time bound} \label{sec:hull:lower-bound}
+\begin{theorem}
+    The general convex hull problem cannot be solved in time $o(n \log n)$.
+\end{theorem}
+See \emph{algebraic decision tree}.
+\begin{proof}
+    Given a set $X \subseteq \R$ of $n$ points, map it under the squaring
+    map to place them on a convex curve.
+    Compute the hull of these points.
+    The points must be in (a cyclic permutation of) their sorted $x$ values.
+    We can recover the sorted sequence in $O(n)$ time.
+    Since sorting requires $O(n \log n)$ time, computing the convex hull
+    cannot be done in less.
+\end{proof}
+
+\section{Chan's $O(n \log h)$ algorithm} \label{sec:hull:chan}
+
+Guess $\hat h = 2^{2^k}$
+Divide $P$ into $\frac nh$ groups $S_1, S_2, \dots, S_{n/\hat h}$ with
+$\hat h$ points
+each, completely arbitrarily.
+Compute $\CH(S_i)$ for each $i$ using an $O(n \log n)$ algorithm.
+This takes $\frac nh \times \hat h \log \hat h = n \log \hat h$ time.
+
+Start with the bottom-most point.
+Compute the next point using the incremental algorithm idea:
+\begin{itemize}
+    \item the next point from a point in $\CH(S_i)$ is either the next point
+        in $\CH(S_i)$,
+    \item or from some $\CH(S_j)$.
+        We can compute the only candidate from each $S_j$ in $\log \hat h$
+        time per $S_j$, for total time $\frac{n}{\hat h} \log \hat h$.
+\end{itemize}
+We determine the best of these candidates in $O(\hat h)$ time.
+
+Doing this for $\hat h$ points gives
+$\hat h \cdot \frac{n}{\hat h} \log \hat h = n \log \hat h$ time.
+If we return to the starting point, we report the hull.
+Otherwise, continue with the guess $\hat h = 2^{2^{k+1}}$.
+
+The total time taken is \[
+    \sum_{k=1}^{\log \log h} O(n 2^k) = O(n \log h).
+\]
+
+\begin{theorem} \label{thm:hull:chan:lower-bound}
+    $O(n \log h)$ is the lower bound.
+\end{theorem}
+\begin{proof}
+    Reduction to multiset problem (read up).
+\end{proof}
+
+\chapter{Delaunay triangulation} \label{chp:delaunay}
+\begin{align*}
+    n - e + f &= 1 \\
+    e &= \frac{3f}{2} + \frac h2 \\
+    \implies n - \frac f2 - \frac h2 &= 1 \\
+    \implies f &= 2n - 2 - h \\
+    \implies e &= 3n - 3 - h
+\end{align*}
+
+\begin{definition}[Delaunay triangulation] \label{def:delaunay}
+    Given a finite point set $P \subseteq \R^2$, a Delaunay triangulation of
+    $P$ is such a triangulation such that the circumcircle of any triangle
+    contains no point from $P$ in its interior.
+\end{definition}
+We will assume that
+\begin{itemize}
+    \item no three points are collinear;
+    \item no four points are cocircular.
+\end{itemize}
+
+\begin{question*}
+    Given a set $P$ on $n$ points in $\R^2$, compute its Delaunay
+    triangulation.
+\end{question*}
+
+\begin{solution}
+    Start with any triangulation.
+    Pick any triangle $abc$, and check if any point lies in the interior.
+    If no, be happy.
+    If yes, call it $d$.
+    Split the quadrilateral $abcd$ into $2$ triangles via the \textsc{Flip}
+    operation---WLOG let $ac$ be the diagonal of $abcd$.
+    Flip this to be $bd$.
+    $abcd$ is now partitioned into two triangles $abd$ and $cbd$.
+    The circumcircles of either of these don't contain the fourth point.
+\end{solution}

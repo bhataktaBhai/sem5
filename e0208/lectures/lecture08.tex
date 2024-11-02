@@ -30,9 +30,12 @@ The construction time is $O(n \log n)$. \[
 We can do this for any number of dimensions.
 \begin{algo}
     \Fn{Kd-tree}{$d, P, a$}
-        \State $m \gets \Call{median}{\set{p.a \mid p \in P}}$
-        \State $P_\ell \gets \set{p \in P \mid p.a \le m}$
-        \State $P_r \gets \set{p \in P \mid p.a > m}$
+        \If{$\abs{P} = 1$}
+            \State \Return \Call{leaf}{$P$}
+        \EndIf
+        \State $m \gets \Call{median}{\sset{p.a}{p \in P}}$
+        \State $P_\ell \gets \sset{p \in P}{p.a \le m}$
+        \State $P_r \gets \sset{p \in P}{p.a > m}$
         \State $T_\ell \gets \Call{Kd-tree}{d, P_\ell, a + 1 \bmod d}$
         \State $T_r \gets \Call{Kd-tree}{d, P_r, a + 1 \bmod d}$
         \State \Return $\Call{node}{a, m, T_\ell, T_r}$
@@ -61,7 +64,7 @@ We can do this for any number of dimensions.
         \end{enumerate}
     \end{itemize}
     \begin{algo}
-        \Fn{Kd-query}{$v, Q, R$}
+        \Fn{Kd-query}{$v, Q, R=[x_1, x_2] \times [y_1, y_2]$}
             \If{$v$ is a leaf}
                 \State report $v$ if $v \in Q$ and \Return
             \EndIf
@@ -69,14 +72,14 @@ We can do this for any number of dimensions.
                 \State \Return
             \EndIf
             \If{$v$ splits by $x$-coordinate}
-                \State $R_\ell \gets R \cap [-\infty, v.m] \times \R$
-                \State $R_r \gets R \cap [v.m, +\infty] \times \R$
+                \State $R_\ell \gets [x_1, v_x] \times [y_1, y_2]$
+                \State $R_r \gets [v_x, x_2] \times [y_1, y_2]$
             \Else
-                \State $R_\ell \gets R \cap \R \times [-\infty, v.m]$
-                \State $R_r \gets R \cap \R \times [v.m, +\infty]$
+                \State $R_\ell \gets [x_1, x_2] \times [y_1, v_y]$
+                \State $R_r \gets [x_1, x_2] \times [v_y, y_2]$
             \EndIf
-            \State \Call{Kd-query}{$v.\ell, Q, R_\ell$}
-            \State \Call{Kd-query}{$v.r, Q, R_r$}
+            \State \Call{Kd-query}{$v_\ell, Q, R_\ell$}
+            \State \Call{Kd-query}{$v_r, Q, R_r$}
         \EndFn
     \end{algo}
 \end{solution}

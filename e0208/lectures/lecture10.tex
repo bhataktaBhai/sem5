@@ -1,0 +1,116 @@
+\chapter{Point location} \label{chp:point-loc}
+\lecture{2024-09-09}{Interval stabbing}
+
+\section{Interval stabbing} \label{sec:stab-1d}
+\begin{question*}
+    Let $\mcI$ be a set of $n$ intervals in $\R$.
+    Process queries of the form $x \in \R$, reporting all intervals which
+    contain $x$.
+\end{question*}
+
+Look at a special case first.
+\begin{question*}
+    Let $\mcI$ be a set of $n$ intervals in $\R$ with
+    $\bigcap \mcI \ne \O$.
+    Process queries of the form $x \in \R$, reporting all intervals which
+    contain $x$.
+\end{question*}
+\begin{solution}
+    Let $p \in \bigcap \mcI$, and define \begin{align*}
+        \mcI_\ell &= \sset{I \cap (-\infty, p]}{I \in \mcI}, \\
+        \mcI_r &= \sset{I \cap [p, +\infty)}{I \in \mcI}.
+    \end{align*}
+    Note that $\subseteq$ is a total order on each of
+    $\mcI_\ell$ and $\mcI_r$.
+    Sort both of them in descending order under $\subseteq$.
+    WLOG let a query $x$ be to the right of $p$.
+    Report from $\mcI_r$ until the first interval
+    which does not contain $x$.
+
+    This takes $O(n)$ space and only $O(1 + k)$ query time.
+\end{solution}
+
+Generalize this via a binary search tree.
+\begin{solution}
+    Let $P$ be the set of endpoints of the intervals.
+    Let $x_m$ be the median $x$-coordinate in $P$.
+
+    Partition $\mcI$ into $\mcI_\cap$, $\mcI_L$, and $\mcI_R$
+    as follows:
+    \begin{enumerate}
+        \item $\mcI_\cap = \sset{I \in \mcI}{I \ni x_m}$
+        \item $\mcI_L = \sset{I \in \mcI}{I \subseteq (-\infty, x_m)}$
+        \item $\mcI_R = \sset{I \in \mcI}{I \subseteq (x_m, \infty)}$
+    \end{enumerate}
+    Use the special case for $\mcI_\cap$
+    (this requires storing sorted $\mcI_\cap^\ell$ and $\mcI_\cap^r$).
+    Recurse on $\mcI_L$ and $\mcI_R$.
+
+    The height of the tree is $O(\log n)$, since $\mcI_L$ and $\mcI_R$
+    both contain at most $n$ endpoints, and hence $n/2$ intervals.
+    \[
+        H(n) \le 1 + H(n/2) \le \log n + 1
+    \] The space requirement is $O(n)$, and the query time is
+    $O(\log n + k)$. \begin{align*}
+        S(n) &\le O(k_v) + 2S(n/2) \\
+        T(n) &\le T(n/2) + O(1 + k_v)
+    \end{align*} where $\sum_v k_v = n$.
+    The preprocessing time is $O(n \log n)$ (\TODO[exercise]).
+\end{solution}
+
+We move on to $2$ dimensions.
+\begin{question*}
+    Let $\mcR$ be a set of $n$ \textbf{disjoint} rectangles in $\R^2$.
+    Process queries of the form $x \in \R$, reporting the rectangle
+    containing $x$, if any.
+\end{question*}
+
+Again consider the special case.
+This time, there is no simple total order.
+\begin{question*}
+    Let $\mcR$ be a set of $n$ \textbf{disjoint} rectangles in $\R^2$ such
+    that $\bigcap \pi_x(\mcR) \ne \O$.
+    Process queries of the form $x \in \R$, reporting the rectangle
+    containing $x$, if any.
+\end{question*}
+\begin{solution}
+    Let $L$ be a vertical line passing through each rectangle.
+    Define \[
+        \mcI = \sset{\pi_y(R)}{R \in \mcR}
+    \]
+    Any two intervals in $\mcI$ are disjoint, since
+    $\pi_y(R_1) \cap \pi_y(R_2) \cong (R_1 \cap L) \cap (R_2 \cap L) = \O$
+    Thus $\mcI$ can be totally ordered by their lower endpoints.
+    Sort it.
+
+    For any query $q = (x, y)$,
+    binary search through $\mcI$ to find any interval $I = \pi_y(R) \ni y$.
+    At most one such interval exists, and the corresponding rectangle $R$
+    is the only possible candidate.
+
+    This takes $O(n)$ space and $O(\log n)$ query time.
+\end{solution}
+
+Generalize.
+\begin{solution}
+    Let $P$ be the set of $x$-endpoints of the rectangles.
+    Choose the median.
+    Partition $\mcR$ into $\mcR_\cap$, $\mcR_L$, and $\mcR_R$
+    as before.
+    Use the special case for $\mcR_\cap$.
+    Recurse on $\mcR_L$ and $\mcR_R$.
+
+    The height of the tree is $O(\log n)$.
+    The space requirement is $O(n)$.
+    The query time is $O(\log n)$ at each level, for a total of
+    $O(\log^2 n)$.
+    However, the $O(\log n)$ is only a binary search, with the same query
+    at each node.
+    We can apply fractional cascading yet again!
+    This gives $O(\log n)$ query time.
+
+    In general, we reduce $d$-dimensional orthogonal point location to
+    $d-1$ dimensions.
+    The space requirement is $O(n)$ per level, and the query time is
+    $O(\log^{d-1} n)$.
+\end{solution}

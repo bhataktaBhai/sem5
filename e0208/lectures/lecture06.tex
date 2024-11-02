@@ -36,7 +36,7 @@ some preprocessing we can better this to $O(\log n + t)$.
         L_3' &= \begin{bmatrix}
             5 & 10 & 17 & 20 & 27 & 50
         \end{bmatrix} \\
-        L_2 &= \begin{bmatrix}
+        L_2' &= \begin{bmatrix}
             10 & 15 & 20 & 25 & 27 & 30 & 35 & 40 & 45
         \end{bmatrix} \\
         L_1' &= \begin{bmatrix}
@@ -98,5 +98,13 @@ some preprocessing we can better this to $O(\log n + t)$.
     \end{center}
 \end{solution}
 
-\section{Back to 2-D range trees} \label{sec:back-to-2-d-range-trees}
-% TODO
+\section{Back to range trees} \label{sec:back-to-2-d-range-trees}
+$2$-D range trees store a sorted list or balanced binary search tree
+at each node.
+We can adapt fractional cascading to $2$-D range trees.
+Since all internal lists are to be queried by the same $y$-coordinates
+$y_1$ and $y_2$, this allows us to shave off one log factor.
+
+For $d$-dimensional range trees, which ultimately contain $2$-D range trees
+at some level, this still reduces one log factor.
+Thus the total time complexity is $O(\log^{d-1} n + k)$.

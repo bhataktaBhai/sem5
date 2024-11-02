@@ -1,0 +1,41 @@
+\section{Rectangle stabbing} \label{sec:stab}
+\lecture{2024-09-18}{Applications of segment trees}
+
+\begin{question*}
+    Given a set $\mcR$ of $n$ axis-aligned cells in $\R^d$, process
+    queries of the form $q \in \R^d$, reporting all $R \in \mcR$ that
+    contain $q$.
+\end{question*}
+We will write $\sset{R \in \mcR}{q \in R}$ as $q \stab \mcR$
+Consider the 2D case first.
+\begin{question*}
+    Given a set $\mcR$ of $n$ axis-aligned rectangles in $\R^2$, process
+    queries of the form $q \in \R^2$, reporting all $R \in \mcR$ that
+    contain $q$.
+\end{question*}
+\begin{solution}
+    
+\end{solution}
+
+\section{Vertical ray shooting} \label{sec:vrs}
+\begin{question*}
+    Given a set $\mcS$ of $n$ interior-disjoint (might have common
+    endpoints) segments in $\R^2$, process queries of the form
+    $q \in \R^2$, reporting the first segment hit by a vertical ray
+    emanating upwards from $q$.
+\end{question*}
+\begin{solution}
+    Define $\mcS_x = \sset{\pi_x(S)}{S \in \mcS}$.
+    Build a segment tree $T$ on $\mcS_x$.
+    For any node $v \in T$, let $\mcS(v)$ denote the segments stored at $v$.
+
+    For any query $q = (x, y)$, query $T$ with $x$ and let $\Pi$ be the
+    search path.
+    We can solve the problem at each node $v \in \Pi$ in $O(\log n)$ time
+    by binary searching through $\mcS(v)$.
+    Since they span the range of $v$, the segments in $\mcS(v)$ are totally
+    ordered by their $y$-coordinates.
+
+    Doing this for each node in $\Pi$ and picking the lowest of these gives
+    an $O(\log^2 n)$ query time.
+\end{solution}

@@ -1,0 +1,153 @@
+\section{Bootstrapping} \label{sec:boot}
+\lecture{2024-09-04}{Bootstrapping}
+Start with a basic data structure and keep obtaining an improved data
+structure.
+Our goal is to obtain, for each $\eps > 0$, a data structure for
+2D orthogonal range reporting that consumes $O(n)$ space and processes
+queries in $O(n^\eps + k)$ time.
+
+\begin{lemma*} \label{thm:boot}
+    Suppose there is a structure $\mcT$ which solves 2D orthogonal range
+    reporting with space $S(n)$ and query time $Q(n) + O(k)$.
+    Then, for any integer $\lambda \in [2, \frac{n}{2}]$, there exists a
+    structure which uses \begin{align*}
+        \text{space} &\le \lambda S\ab(\ceil*{\frac n\lambda}) + O(n) \\
+        \text{query time} &\le 2 Q\ab(\ceil*{\frac n\lambda})
+            + \lambda O\ab(\log\frac n\lambda) + O(k)
+    \end{align*}
+\end{lemma*}
+\begin{proof}
+    Divide the points $P$ into $\lambda$ vertical slabs
+    $P_1, P_2, \dots, P_\lambda$ of size $\le \ceil{\frac{n}{\lambda}}$.
+    Build a structure $\mcT_i$ for each slab $P_i$.
+    Furthermore, sort the points in each slab by their $y$-coordinates.
+
+    To query, we locate the overlapping slabs $P_i, P_{i+1}, \dots, P_{i'}$.
+    We query $P_i$ and $P_{i'}$ using $\mcT_i$ and $\mcT_{i'}$,
+    and for each $P_j$ in between, we query using the sorted list.
+    This takes \[
+        O(\log \lambda) + 2 Q\ab(\ceil*{\frac n\lambda}) +
+            \lambda O\ab(\log\frac n\lambda) + O(k)
+    \] time.
+\end{proof}
+
+\begin{question*}
+    Given a set of $n$ points in the plane and an $\eps > 0$, process
+    queries of the form $[x_1, x_2] \times [y_1, y_2]$ using
+    $O(n)$ space and $O(n^\eps + k)$ query time.
+\end{question*}
+\begin{solution}
+    Use \cref{thm:boot}.
+    We know that Kd-trees solve the problem with $O(n)$ space and
+    $O(\sqrt n + k)$ query time.
+    Choosing $\lambda = n^{1/3}$ gives the existence of a structure
+    $D_1$ with \begin{align*}
+        \text{query time} &\le 2 O\ab(\ab(\frac n\lambda)^{\frac12})
+            + \lambda O(\log \frac n\lambda) + O(k) \\
+        &= O(n^{\frac13} + n^{\frac13} \log n^{\frac13} + k) \\
+        &= \wtld{O}(n^{\frac13} + k)
+    \end{align*} where $\wtld{O}$ hides logarithmic factors.
+
+    We can now choose $\lambda = n^{1/4}$ to obtain a structure $D_2$
+    with \[
+        \text{query time} \le \wtld O(n^{\frac14} + k).
+    \] Iterating this process $1 + \ceil{\frac 1\eps}$ times gives the
+    desired structure.
+    If $Q(n) = \wtld O(n^{\frac1\mu})$ for some $\mu \in \N^+$, then
+    choosing $\lambda = n^{\frac1{\mu+1}}$ gives a structure with
+    $Q(n) = \wtld O(n^{\frac1{\mu+1}})$.
+    At each iteration, space occupied stays $O(n)$.
+\end{solution}
+We can analyze the space in terms of both $n$ and $\eps$.
+\begin{lemma}
+    The space occupied by $D_t$ is $O(nt)$.
+\end{lemma}
+\begin{proof}
+    The space occupied by $D_1$ is $O(n)$.
+    If $S_t(n) \le Cnt$, then \begin{align*}
+        S_{t+1}(n) &\le \sum_{i=1}^\lambda S_t(n_i) + C'n \\
+        &\le Cnt + C'n \\
+        &= Cn\ab(t + \frac{C'}{C}).
+    \end{align*} Choosing $C > C'$ gives the claim by induction.
+\end{proof}
+In our case, we get space $O(n/\eps)$.
+
+\begin{exercise*} \label{thm:boot-ors}
+    Generalise this to $d$ dimensions.
+\end{exercise*}
+
+\begin{lemma}[Bootstrapping]
+    Suppose there is a structure $\mcT$ which solves $d$-dimensional
+    orthogonal range reporting with space $S(n)$ and query time
+    $Q(n) + O(k)$,
+    and a structure $\mcT'$ which solves $(d-1)$-dimensional orthogonal
+    range reporting with space $S'(n)$ and query time $Q'(n) + O(k)$.
+    Then for each $\lambda \in [2, \frac n2]$,
+    there exists an algorithm which solves $d$-dimensional
+    range reporting with \begin{align*}
+        \text{space} &\le \lambda S\ab(\ceil*{\frac n\lambda})
+            + \lambda S'\ab(\ceil*{\frac n\lambda}) \\
+        \text{query time} &\le 2 Q\ab(\ceil*{\frac n\lambda})
+            + \lambda Q'\ab(\ceil*{\frac n\lambda}) + O(k)
+    \end{align*}
+\end{lemma}
+\begin{proof}
+    Divide the points $P$ into $\lambda$ vertical slabs
+    $P_1, P_2, \dots, P_\lambda$ of size $\le \ceil{\frac n\lambda}$.
+    Build structures $\mcT_i$ and $\mcT'_i$ for each slab $P_i$.
+
+    To query, we locate the overlapping slabs $P_i, P_{i+1}, \dots, P_{i'}$.
+    We query $P_i$ and $P_{i'}$ using $\mcT_i$ and $\mcT_{i'}$,
+    and for each $P_j$ in between, we query using $\mcT'_j$.
+    This takes up \begin{align*}
+        \text{space} &\le \lambda (S + S')\ab(\ceil*{\frac n\lambda}) \\
+        \text{query time} &\le 2 Q\ab(\ceil*{\frac n\lambda})
+            + (\lambda - 2) Q'\ab(\ceil*{\frac n\lambda}) + O(k)
+            \qedhere
+    \end{align*}
+\end{proof}
+Note that \cref{thm:boot} is a special case of this for
+$d = 2$,
+$\mcT'$ being a sorted list,
+$S'(n) = O(n)$, and
+$Q'(n) = O(\log n)$.
+
+\begin{solution}[Solution to \cref{thm:boot-ors}]
+    Suppose that for each $\eps > 0$
+    we have a structure $\mcT'$ which solves $(d-1)$-dimensional
+    orthogonal range reporting with space $O(n)$ and query time
+    $O(n^\eps + k)$.
+
+    We know that Kd-trees solve the problem with $O(n)$ space and
+    $O(n^{\frac{d-1}{d}} + k)$ query time, for $d$ dimensions.
+    Call this structure $D_0$.
+
+    Fix an $\eps > 0$.
+    Using bootstrapping with $\lambda_i = n^{\frac{d-1}{d + (d-1)i}}$,
+    we obtain structures $D_1, D_2, \dots$ with \begin{align*}
+        S_n(D_i) &= O(n) \\
+        Q_n(D_i) &= O(n^{\frac{d-1}{d + (d-1)i} + \frac \eps 2})
+    \end{align*}
+    The proof is by induction.
+    This clearly holds for $D_0$.
+    Suppose it holds for $D_{i-1}$, $i \ge 1$.
+    Then, \begin{align*}
+        S_i(n) &\le \lambda_i S_{i-1}\ab(\ceil*{\frac n{\lambda_i}})
+            + \lambda_i O(n) \\
+        &= O(n) \\
+        Q_i(n) &\le 2 Q_{i-1}\ab(\ceil*{\frac n{\lambda_i}})
+            + \lambda_i O(n^{\frac \eps 2}) + O(k) \\
+        &= O\ab(\ab(\frac n{\lambda_i})^{\frac{d-1}{d + (d-1)(i-1)} + \frac \eps 2})
+            + \lambda_i O(n^{\frac \eps 2}) \\
+        &= O\ab(\ab(n^{\frac{d + (d-1)(i-1)}{d + (d-1)i}})
+                ^{\frac{d-1}{d + (d-1)(i-1)} + \frac \eps 2})
+            + O(n^{\frac{d-1}{d + (d-1)i} + \frac \eps 2}) \\
+        &= O\ab(n^{\frac{d-1}{d + (d-1)i} + \frac \eps 2})
+    \end{align*}
+    For large enough $i$, $Q_i(n) = O(n^\eps)$, giving total query time
+    $O(n^\eps + k)$.
+    The space remains $O(n)$.
+
+    By induction on $d$, we can obtain such a structure for any
+    dimension $d$.
+\end{solution}

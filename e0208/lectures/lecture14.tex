@@ -1,0 +1,70 @@
+\lecture{2024-09-25}{}
+\section{Planar point location} \label{sec:ppl}
+We are given a rectangle $R = [x_1, x_2] \times [y_1, y_2]$ and a set of
+$n$ non-intersecting (except at the endpoints) line segments in $R$ such
+that they partition $R$ into $O(n)$ cells.
+We are given a query point $q \in R$ and need to report the cell containing
+$q$.
+
+If the line segments were all horizontal, we could perform binary search on
+the $y$-coordinate of $q$ to find the cell containing $q$.
+Less specifically, even if the line segments are not horizontal but they
+span all of $[x_1, x_2]$, we can still perform binary search, since the line
+segments are still totally ordered by their $y$-coordinates.
+
+For the general setting, we can partition $R$ into $O(n)$ slabs at each of
+the vertices.
+We perform binary search on the $x$-coordinate to locate the slab, and
+binary search on the $y$-coordinate to locate the cell within the slab.
+
+However, storing sorted arrays for each slab requires $O(n^2)$ space.
+
+\section{Persistent balancing search trees} \label{sec:pbst}
+(Sarnak and Tarjan, 1986)
+We wish to make modifications to a balanced search tree while maintaining
+its history.
+A naive approach would be to store a copy of the tree after each
+modification (for planar point location, this would correspond to storing
+the sorted arrays for each slab).
+For more complicated techniques, we'll only consider insertion.
+
+One better technique is \emph{path copying}.
+\begin{itemize}
+    \item When inserting a node, create a copy of the path from the root to
+        the new node.
+\end{itemize}
+This requires $O(\log n)$ additional space per insertion, and so takes
+$O(n + t \log n)$ space for $t$ insertions.
+
+Another technique is using \emph{fat nodes}.
+\begin{itemize}
+    \item For each node, store its children as vectors instead of pointers.
+    \item When inserting a node $v$ at time $t$, append $(v, t)$ to the
+        appropriate vector of $\pi(v)$.
+\end{itemize}
+This only requires $O(1)$ additional space per insertion, so only
+$O(n + t)$ space overall.
+However, searching is broken.
+In the case that each node along the path to a node $v$ has been modified
+$t / \log n$ times, the search time is $O(\log n \log t)$.
+
+We can combine the two techniques.
+We will use a slightly fat node to store modifications efficiently, but we
+will resort to copying the path when the node becomes too fat so that the
+search time remains $O(\log n)$.
+
+\subsection{Aggregate analysis for dynamic arrays} \label{sec:agg}
+Suppose we start with an empty array of size $1$ and double its size
+whenever there isn't space for an insertion.
+The first append operation takes $O(1)$ time.
+In general, the operation $A_i$ takes $O(1)$ time when $i$ is not a power
+of $2$, and $A_{2^k}$ takes $O(2^k)$ time.
+Then the total time for $n$ appends is \begin{align*}
+    \sum_{i=0}^n 1 + \sum_{k = 0}^{\log n} 2^k = O(n + n) = O(n).
+\end{align*}
+Thus the amortized append time is $O(n) / n = O(1)$.
+
+\subsection{Amortized space analysis} \label{sec:pbst:space}
+Define the potential function $\Phi$ to be the number of live nodes that
+have been modified, ``live'' meaning they are reachable from the current
+root.

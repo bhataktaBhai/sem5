@@ -53,31 +53,7 @@ The second half focuses on geometric optimization queries.
 \chapter{Skyline points} \label{chp:skyline}
 % \begin{center}
 %     \begin{tikzpicture}
-%         \begin{axis}[
-%             xlabel=$x_1$,
-%             ylabel=$x_2$,
-%             xmin=-1, xmax=9,
-%             ymin=-1, ymax=9,
-%             axis lines=middle,
-%             % legend pos=north west,
-%             ]
-%             \addplot[only marks, mark=*, Red] table {
-%                 1 4
-%                 2 5
-%                 2.5 5.5
-%                 3 4.2
-%                 2.6 4.8
-%                 3.2 5.2
-%                 1.6 3.6
-%                 5 2.5
-%                 5.5 3
-%                 6 3.2
-%                 5.3 3.4
-%                 5.8 2.3
-%                 6.2 3.5
-%             };
-%             \addplot[domain=-1:10, samples=2, blue] {0.7*x+1};
-%         \end{axis}
+%         \tikzmath{\maxX
 %     \end{tikzpicture}
 % \end{center}
 
@@ -140,18 +116,62 @@ The second half focuses on geometric optimization queries.
     \end{align*}
     \begin{algo}
         \Fn{3DSkyline}{$P$}
+            \State $P \gets P \cup \set{(-\infty, +\infty, -\infty),
+                            (+\infty, -\infty, -\infty)}$
             \State sort $P$ by decreasing $z$-coordinate
-            \State $S \gets \O$, $T \gets \O$
+            \State $S \gets \O$, $T \gets \Callp{create}{P}$
             \For{$p \in P$}
-                \State $p^+ \gets \operatorname{next}(T, p)$
-                \If{$(p^+)_y < p_y$}
+                \If{$\Callp{succ}{T, p}_y < p_y$}
+                    \State $S \gets S \cup \{p\}$
+                    \State $\Callp{add}{T, p}$
                 \EndIf
+                \While{$(q \coloneq \Callp{pred}{T, p})_y < p_y$}
+                    \State $\Callp{remove}{T, q}$
+                \EndWhile
             \EndFor
+            \State \Return $S$
         \EndFn
     \end{algo}
-    \begin{algo}
-        \Fn{create}{$P$}
-            \State huh
-        \EndFn
-    \end{algo}
+    % \begin{minipage}{0.32\textwidth}
+    %     \begin{algo}[1]
+    %         \Fn{create}{$P$}
+    %             \If{$P = \set p$}
+    %                 \State \Return $(p, -\infty)$
+    %             \EndIf
+    %             \State $P_\ell, P_r \gets \Call{split}{P}$
+    %             \State $T_\ell \gets \Call{create}{P_\ell}$
+    %             \State $T_r \gets \Call{create}{P_r}$
+    %             \State \Return $(T_\ell, T_r, -\infty)$
+    %         \EndFn
+    %     \end{algo}
+    % \end{minipage} \begin{minipage}{0.33\textwidth}
+    %     \begin{algo}[1]
+    %         \Fn{add}{$T$, $p$}
+    %             \State $T.\Varr{max} \gets T.\Varr{max} \vee p_x$
+    %             \If{$T$ is a leaf}
+    %                 \State \Return
+    %             \EndIf
+    %             \If{$p_x < T.k$}
+    %                 \State $\Call{add}{T_\ell, p}$
+    %             \Else
+    %                 \State $\Call{add}{T_r, p}$
+    %             \EndIf
+    %         \EndFn
+    %     \end{algo}
+    % \end{minipage} \begin{minipage}{0.34\textwidth}
+    %     \begin{algo}[1]
+    %         \Fn{succ}{$T$, $p$}
+    %             \If{$T$ is a leaf}
+    %                 \State \Return $T$
+    %             \EndIf
+    %             \If{$p_x < T_\ell.\Varr{max}$}
+    %                 \State \Return $\Call{succ}{T_\ell, p}$
+    %             \ElsIf{$p_x < T_r.\Varr{max}$}
+    %                 \State \Return $\Call{succ}{T_r, p}$
+    %             \Else
+    %                 \State \Return $\bot$
+    %             \EndIf
+    %         \EndFn
+    %     \end{algo}
+    % \end{minipage}
 \end{solution}

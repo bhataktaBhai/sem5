@@ -1,1 +1,41 @@
-\lecture{2024-08-26}{}
+\lecture{2024-08-26}{Top $k$ and colored reporting}
+
+\begin{question*}
+    Given a set of colors $\mcC$ and a set of points in $\R$ each labeled
+    with a color, process queries of the form $[x_1, x_2]$,
+    reporting all colors of points in the interval.
+\end{question*}
+
+Let $t$ be the number of points in $[x_1, x_2]$, and $k$ be the number of
+distinct colors of these $t$ points.
+\begin{solution}[Naive]
+    Go through each point in $[x_1, x_2]$ and store the colors in a set.
+    Complexity: $O(\log n + t)$.
+\end{solution}
+This is bad if $t \gg k$.
+Our goal is to achieve $O(\log n + k)$ time.
+We will try to check only one point per color in $[x_1, x_2]$.
+We will do this by only getting the first point.
+
+\begin{solution}
+    For each point $x$ with color $c$, define $\Callp{pred}{p}$ to be the
+    immediate predecessor of $x$ with color $c$.
+    The map \[
+        x \mapsto (x, \Callp{pred}{x})
+    \] reduces this to the 2-D unbounded range searching problem.
+    All we need to do is report every point in
+    $[x_1, x_2] \times (-\infty, x_1)$.
+
+    This takes $O(\log n + k)$ query time, $O(n)$ space, and requires
+    $O(n \log n)$ time for preprocessing.
+    \begin{itemize}
+        \item Partitioning by colors takes $O(n)$ time.
+        \item Sorting and computing predecessors takes
+            $\sum_{c \in \mcC} O(n_c \log n_c) = O(n \log n)$ time.
+        \item Constructing the priority search tree takes
+            $O(n \log n)$ time.
+    \end{itemize}
+\end{solution}
+
+\section{Top $k$ reporting} \label{sec:ors:topk}
+\TODO[AAAAAA] % TODO

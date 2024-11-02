@@ -1,0 +1,137 @@
+\lecture{2024-10-14}{}
+\begin{center}
+    \begin{tikzpicture}
+        % \coordinate (p) at (3, 0);
+        % \coordinate (q) at (0, -2);
+        % \coordinate (r) at (-2, 1);
+        % \coordinate (s) at (.5, 4);
+        \node[draw, circle, inner sep=1pt, black, fill]  at (3, 0) {$p$};
+        \node[point] (q) at (0, -2) {$q$};
+        \node[point] (r) at (-2, 1) {$r$};
+        \node[point] (s) at (.5, 4) {$s$};
+    \end{tikzpicture}
+\end{center}
+
+\begin{definition}
+    Let $T$ be a triangulation of a set of points $P$.
+    We say that an edge $e = t_1 \cap t_2$ is \emph{locally Delaunay} if
+    $C(t_1)^\circ \cap t_2 \cap P = \O$.
+    We say that $T$ is \emph{locally Delaunay} if every edge in $T$
+    is locally Delaunay.
+\end{definition}
+
+\begin{algo}
+    \Fn{Delaunay}{$P$}
+        \State $T \gets$ any triangulation of $P$
+        \While{some edge $e$ is not locally Delaunay}
+            \State flip $e$
+        \EndWhile
+    \EndFn
+\end{algo}
+
+\begin{proposition}[edge characterization] \label{thm:delaunay:edge}
+    A triangulation $T$ is a Delaunay triangulation iff for every
+    $p, q \in P$, there is some circle $C$ passing through $p$ and $q$ such
+    that $C^\circ \cap P = \O$.
+\end{proposition}
+
+\begin{definition}[angle vector] \label{def:angle-vector}
+    The angle vector of a triangulation $T$ is the vector of all angles of
+    each triangle in $T$, listed in increasing order.
+    We denote this by $\alpha(T)$.
+\end{definition}
+\begin{proposition} \label{thm:delaunay:angle-vector}
+    Let $T_1 \xrightarrow{\textsc{Flip}} T_2$.
+    Then $\alpha(T_1) < \alpha(T_2)$ under the lexicographic order.
+\end{proposition}
+
+\begin{corollary} \label{thm:delaunay:term}
+    The algorithm \textsc{Delaunay} terminates.
+\end{corollary}
+\begin{proof}
+    There are finitely many triangulations and the angle vector is strictly
+    increasing.
+\end{proof}
+
+\begin{fact}
+    An edge $pq$ once flipped by the \textsc{Delaunay} algorithm will never
+    be flipped again.
+\end{fact}
+This is not easy to prove.
+
+\begin{theorem}
+    A locally Delaunay triangulation is a Delaunay triangulation.
+\end{theorem}
+\begin{proof}
+    Let $T$ be a locally Delaunay triangulation that is \emph{not} Delaunay.
+    That is, there is some $t \in T$ such that $C(t)^\circ \cap P$ contains
+    some point $p$.
+
+    Iteratively construct triangles $t_1, t_2, \ldots$ approaching $p$
+    such that $p \in C(t_i)^\circ$ for all $i$.
+    Each iteration, visits one new point, so eventually this is $p$.
+    This violates local Delaunity.
+\end{proof}
+Read proof from David Mount.
+
+\begin{corollary}
+    The \textsc{Delaunay} algorithm computes the Delaunay triangulation.
+\end{corollary}
+
+\begin{corollary}
+    The Delaunay triangulation is the unique triangulation which maximizes
+    the angle vector.
+\end{corollary}
+\begin{proof}
+    Start the \textsc{Delaunay} algorithm with any tiangulation.
+    Then by \cref{thm:delaunay:angle-vector}, the Delaunay triangulation
+    has a larger angle vector.
+\end{proof}
+
+\subsection{Incremental algorithm} \label{sec:delaunay:incremental}
+Maintain a Delaunay triangulation.
+For any new point $p_i$ inside the convex hull of the current set of points,
+Let $abc$ be the triangle containing $p_i$.
+Draw new edges $p_ia$, $p_ib$, $p_ic$.
+The local Delaunay property can only be false for the edges $ab$, $bc$ and
+$ca$.
+
+\begin{algo}
+    \Fn{Delaunay-Incremental}{$P$}
+        \State shuffle $P$
+        \State $T \gets \O$
+        \For{$i \gets 1$ to $n$}
+            \State find $\triangle^{abc} \in T$ containing $p_i$
+            \State add the edges $p_ia$, $p_ib$, $p_ic$
+            \For{$e \in \set{ab, bc, ca}$}
+                \State \Call{Legalize-Edge}{$p_i$, $ab$}
+            \EndFor
+        \EndFor
+        \State \Return $T$
+    \EndFn
+\end{algo}
+\begin{algo}
+    \Fn{Legalize-Edge}{$p$, $xy$}
+        \State $z \gets$ vertex opposite to $p$
+        \If{$xy$ isn't locally Delaunay}
+            \State flip $xy$ to $pz$
+            \State \Call{Legalize-Edge}{$p$, $xz$}
+            \State \Call{Legalize-Edge}{$p$, $yz$}
+        \EndIf
+    \EndFn
+\end{algo}
+Each flip in \textsc{Legalize-Edge} connects a new point to $p$.
+Thus \textsc{Legalize-Edge} runs in $O(n)$ time.
+The total running time is thus $O(n^2)$.
+
+\begin{fact}
+    The expected degree of any vertex in the Delaunay triangulation is
+    constant.
+\end{fact}
+Thus the expected running time of the incremental algorithm is $O(n \log n)$,
+where the $\log n$ is required for searching $\triangle^{abc}$.
+
+To ensure that points are only added inside the convex hull, add far away
+dummy points before the incremental algorithm.
+\TODO[Show that the edges from the dummy points in the Delaunay
+triangulation of this only connect to the convex hull.]

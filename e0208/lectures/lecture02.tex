@@ -54,23 +54,21 @@ We will first solve the following decision problem:
     exhausted our time budget.)
 
     Visit each slab in order of decreasing $x$-coordinate.
-    \begin{algo}
+    \begin{algo}[.7]
         \Fn{Chan-Decision-2D}{$P$, $\what{k}$}
-            \State $P_1, \ldots, P_{\what{k}} \gets \Call{partition}{P}$
+            \State $P_1, \ldots, P_{\hat{k}} \gets \Call{partition}{P}$
             \State $S \gets \O$
             \State $y(p^*) \gets -\infty$
             \For{$i = \what{k}$ downto $1$}
+                \State $P_i' \gets \sset{p \in P_i}{y(p) > y(p^*)}$
+                \State $S(P_i') \gets \Call{Skyline}{P_i'}$
+                    \Comment{using the slow algorithm}
+                \State report $S(P_i')$
+                \State $S \gets S \cup S(P_i')$
                 \If{$\abs{S} > \what{k}$}
-                    \State \Return Failure
-                \Else
-                    \State $P_i' \gets \set{p \in P_i \mid y(p) > y(p^*)}$
-                    \State $S(P_i') \gets \Call{Skyline}{P_i'}$
-                        \Comment{using the slow algorithm}
-                    \State report $S(P_i')$
-                    \State $S \gets S \cup S(P_i')$
+                    \State \Return $\bot$
                 \EndIf
             \EndFor
-            \State \Return $S$
         \EndFn
     \end{algo}
     Failure is not because of our inability to output the correct answer,
@@ -110,7 +108,7 @@ We are now prepared to solve the original problem.
             \State $\what{k} \gets 2$
             \For{ever}
                 \State $S \gets \Call{Chan-Decision-2D}{P, \what{k}}$
-                \If{$S \ne \text{Failure}$}
+                \If{$S \ne \bot$}
                     \State \Return $S$
                 \EndIf
                 \State square $\what{k}$
@@ -141,24 +139,21 @@ It suffices to generalize the decision problem.
     We now run the slow algorithm and report the elements added to $S_i$.
     This takes $O(n)$ time, and they are naturally reported in decreasing
     order of the $y$-coordinates.
-    \begin{algo}
+    \begin{algo}[.7]
         \Fn{Chan-Decision}{$P$, $\what{k}$}
-            \State $P_1, \ldots, P_{\what{k}} \gets
+            \State $P_1, \ldots, P_{\hat{k}} \gets
                 \Call{partition}{P}$
             \State $S \gets \O$, $S^{yz} \gets \O$
-            \State $y(p^*) \gets -\infty$
             \For{$i = \what{k}$ downto $1$}
+                \State $P_i' \gets \Call{filter}{P_i, S^{yz}}$
+                \State $S(P_i') \gets \Call{Skyline}{P_i'}$
+                    \Comment{using the slow algorithm}
+                \State report $S(P_i')$
+                \State $S \gets S \cup S(P_i')$
                 \If{$\abs{S} > \what{k}$}
-                    \State \Return Failure
-                \Else
-                    \State $P_i' \gets \Call{filter}{P_i, S^{yz}}$
-                    \State $S(P_i') \gets \Call{Skyline}{P_i'}$
-                        \Comment{using the slow algorithm}
-                    \State report $S_(P_i')$
-                    \State $S \gets S \cup S(P_i')$
+                    \State \Return $\bot$
                 \EndIf
             \EndFor
-            \State \Return $S$
         \EndFn
     \end{algo}
 \end{solution}

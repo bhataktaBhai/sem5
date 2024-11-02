@@ -1,6 +1,7 @@
 \lecture[7]{2024-08-28}{Orthogonal range reporting -- optimal space}
 
-\textbf{Only one midterm, in the middle of September.} \\
+\textbf{Only one midterm, in the middle of September.}
+Retcon: Midterm 1 is on September 30th.
 
 In the pointer machine model, memory is organised in a graph.
 Chazelle (1990) showed that in a pointer machine model, any algorithm
@@ -69,7 +70,7 @@ Let us look at the special case \cref{que:ors:special} first.
     Any query $[x_1, x_2] \times [y_1, y_2]$ will overlap with
     $L_i, \dots, L_j$ for some $i < j$.
     Run the 3-sided range reporting algorithm on each of these slabs.
-    This takes $O(n)$ space and $O(F \log n + k)$.
+    This takes $O(n)$ space and $O(F \log n + k)$ query time.
     Oops!
 \end{solution}
 (diagram) The range is three-sided only in the slabs $L_i$ and $L_j$.

@@ -1,0 +1,151 @@
+\lecture{2024-09-11}{Segment trees}
+
+In the next few lectures, we will study segment trees and cover 2D rectangle
+stabbing, 2D general point location, and maximum enclosing rectangle
+(hotspot detection).
+
+\section{Segment tree} \label{sec:segtree}
+\begin{definition}[elementary intervals] \label{def:segtree:el}
+    Let $\mcI$ be a set of $n$ intervals.
+    Let $p_1 < p_2 < \dots < p_m$ be the distinct endpoints of $\mcI$
+    ($m \le 2n$).
+    They partition the real line into $2m+1$ \emph{elementary intervals}, \[
+        (-\infty, p_1), \set{p_1}, (p_1, p_2), \set{p_2}, \dots,
+            \set{p_m}, (p_m, \infty).
+    \]
+\end{definition}
+Given a set of intervals $\mcI$, we can associate each elementary interval
+with the set of intervals that contain it.
+This takes $O(n^2)$ space, but $O(\log n + k)$ query time.
+Why would a tree be useful here?
+
+Store the elementary intervals at the leaves of a balanced binary tree.
+What do we store in the internal nodes?
+We will store a list of some intervals.
+\begin{center}
+    \begin{forest}
+        [{$v$}, tnode
+            [, circle, draw
+                [{$v_1$}, tnode]
+                [{$v_2$}, tnode]
+            ]
+            [, circle, draw
+                [{$v_3$}, tnode]
+                [{$v_4$}, tnode]
+            ]
+        ]
+        % \node at (current bounding box.south)
+        %     [below=1ex, anchor=north] {Range: $I$};
+    \end{forest}
+\end{center}
+
+We define the \emph{range} of a node $v$ as follows:
+\begin{itemize}
+    \item If $v$ is a leaf, $\onm{range}(v)$ is the elementary interval
+        stored at $v$.
+    \item If $v$ is an internal node, $\onm{range}(v)$ is the union of the
+        ranges of its children.
+\end{itemize}
+For each interval $I \in \mcI$, we store $I$ at $v$ iff
+\begin{itemize}
+    \item $\onm{range}(v) \subseteq I$, and
+    \item $\onm{range}(\pi(v)) \nsubseteq I$.
+\end{itemize}
+
+\begin{center}
+    \scalebox{.75}{
+    \begin{forest}
+        [{$a$}, tnode
+            [{$b_1$}, tnode
+                [{$c_1$}, tnode
+                    [{$d_1$}, tnode
+                        [{$e_1$}, tnode]
+                        [{$e_2$}, tnode]
+                    ]
+                    [{$d_2$}, tnode
+                        [{$e_3$}, tnode]
+                        [{$e_4$}, tnode]
+                    ]
+                ]
+                [{$c_2$}, tnode
+                    [{$d_3$}, tnode
+                        [{$e_5$}, tnode]
+                        [{$e_6$}, tnode]
+                    ]
+                    [{$d_4$}, tnode
+                        [{$e_7$}, tnode]
+                        [{$e_8$}, tnode]
+                    ]
+                ]
+            ]
+            [{$b_2$}, tnode
+                [{$c_3$}, tnode
+                    [{$d_5$}, tnode
+                        [{$e_9$}, tnode]
+                        [{$e_{10}$}, tnode]
+                    ]
+                    [{$d_6$}, tnode
+                        [{$e_{11}$}, tnode]
+                        [{$e_{12}$}, tnode]
+                    ]
+                ]
+                [{$c_4$}, tnode
+                    [{$d_7$}, tnode
+                        [{$e_{13}$}, tnode]
+                        [{$e_{14}$}, tnode]
+                    ]
+                    [{$d_8$}, tnode]
+                ]
+            ]
+        ]
+    \end{forest}}
+\end{center}
+\begin{lemma}
+    An interval gets stored at most $O(\log n)$ times.
+\end{lemma}
+\begin{proof}
+    We will show that each level of the tree stores an interval at most
+    twice.
+    Suppose $v_1 < v_2 < v_3$ store the same interval $I$ at the same depth.
+    WLOG suppose $v_2$ is a right child.
+    $v_1 \le \text{sibling of } v_2$.
+    Since $I$ covers both $v_1$ and $v_2$, $I$ covers the sibling of $v_2$.
+    But then $I$ covers $\pi(v_2)$, a contradiction.
+\end{proof}
+
+\subsection{Construction} \label{sec:segtree:construction}
+Sort the elementary intervals in $O(n \log n)$ time.
+Build the skeleton of the tree in $O(n)$ time.
+
+Pick any interval $I$.
+Start at the root.
+\begin{itemize}
+    \item If $I$ covers the range of the current node $v$,
+        store $I$ and stop.
+    \item If $I \cap \onm{range}(v_\ell) \ne \O$, recurse into $v_\ell$.
+    \item If $I \cap \onm{range}(v_r) \ne \O$, recurse into $v_r$.
+\end{itemize}
+If $v_1$ and $v_2$ are nodes on the same level that intersect $I$ partially,
+each node in between them will be covered by $I$.
+Thus only the children of these may be considered for recursion.
+This proves that only $4$ nodes may be visited at each level.
+The construction time is therefore $O(n \log n)$.
+
+\begin{exercise*}
+    Consider any path $\Pi$ from the root to a leaf.
+    Prove that an interval cannot be stored at more than one node in $\Pi$.
+\end{exercise*}
+\begin{solution}
+    Fix a path $\Pi = (v_1, v_2, \dots, v_m)$ and an interval $I$.
+    Suppose $I$ is stored at nodes $v_i$ and $v_j$ with $i < j$.
+    Then $I$ covers $\onm{range}(v_i)$.
+    Thus $I$ covers $\onm{range}(v_{i+1})$.
+    By induction, $I$ covers $\onm{range}(v_{j-1})$.
+    Thus $v_j$ fails the condition that
+    $\onm{range}(\pi(v_j)) \nsubseteq I$.
+\end{solution}
+
+\subsection{Querying} \label{sec:segtree:querying}
+Given a $q \in \R$, search for $q$ in the tree.
+Report all intervals stored along that path.
+This takes $O(\log n + k)$ time, by the exercise.

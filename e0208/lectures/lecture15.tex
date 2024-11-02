@@ -1,0 +1,97 @@
+\chapter{Convex hulls} \label{chp:hull}
+\lecture{2024-10-07}{Convex hulls}
+
+\begin{definition}[convex hull] \label{def:hull}
+    Given a set $P$ of points in $\R^2$, the \emph{convex hull} of $P$
+    is the smallest convex set containing all of $P$.
+    We denote it by $\CH(P)$.
+\end{definition}
+\begin{figure}
+    \centering
+    \begin{tikzpicture}
+        \drawrandompoints{5}{5}{10}
+    \end{tikzpicture}
+    \caption{Convex hull of a set of points}
+    \label{fig:hull}
+\end{figure}
+
+\begin{theorem} \label{thm:hull}
+    The convex hull of a finite set is a convex polygon.
+\end{theorem}
+
+We will represent a convex hull as a counter-clockwise ordering of vertices,
+starting from the bottom-most vertex, and ignoring any degeneracies.
+
+Assumptions:
+\begin{itemize}
+    \item No three points are collinear.
+    \item All $x$- and $y$-coordinates are distinct.
+\end{itemize}
+
+\begin{question*}
+    Given a set $P$ of $n$ points in $\R^2$, compute $\CH(P)$.
+\end{question*}
+\begin{solution}[Naivest]
+    An edge of the convex hull can be characterized by the fact that all
+    other points lie on one side of it.
+    Check all line segments between pairs of points.
+    This takes $O(n^3)$ time.
+    Post-processing to order them in counter-clockwise order takes
+    $O(n)$ time.
+\end{solution}
+For ease of use, we define the primitive operation
+$\Callp{CCW}{p, q, r}$, which returns $\top$ if
+$p \to q \to r$ is a counter-clockwise turn, and $\bot$ otherwise.
+
+\begin{solution}[Naive -- Jarvis' march]
+    The bottom-most point $p_0$ is on the convex hull.
+    The next vertex can be characterized as the point which makes the
+    smallest angle with the horizontal drawn through $p_0$.
+
+    Once $p_{i-1}$ and $p_i$ have been computed, the next vertex $p_{i+1}$
+    is the vertex $p_j$ such that $\angle p_{i-1} p_i p_j$ is maximized.
+    Continue this until $p_i = p_0$.
+
+    This takes $O(n^2)$ time.
+    In terms of the size of the hull, the time taken is $O(nh)$.
+    \begin{algo}
+        \Fn{Hull-Angle}{$P$}
+            \State $p_0 \gets$ bottom-most point in $P$
+            \State $p \gets \Call{Next-Point}{p_0}$
+            \State report $p_0$, $p$
+            \While{$p \neq p_0$}
+                \State $p \gets \Call{Next-Point}{P \setminus \set p, p}$
+                \State report $p$
+            \EndWhile
+        \EndFn
+    \end{algo}
+\end{solution}
+\begin{exercise}
+    Write the $\textsc{Next-Point}$ function using only the \textsc{CCW}
+    primitive (do not compute angles/inner products).
+\end{exercise}
+\begin{solution}
+    \begin{algo}
+        \Fn{Next-Point}{$P'$, $p$}
+            \State $q \gets$ any point from $P'$
+            \For{$q' \in P'$}
+                \If{not $\Call{CCW}{p, q, q'}$}
+                    \State $q \gets q'$
+                \EndIf
+            \EndFor
+            \State \Return $q$
+        \EndFn
+    \end{algo}
+\end{solution}
+
+\begin{solution}[Graham's scan]
+    Pick an arbitrary point $p_0$.
+    Sort the points by angle with $p_0$.
+    Traverse the sorted list, adding points to the hull if they make a
+    counter-clockwise turn with the last two points on the hull.
+    Otherwise, remove points from the hull until the turn is
+    counter-clockwise.
+
+    The sorting step takes $O(n \log n)$ time.
+    The scan step takes $O(n)$ time.
+\end{solution}

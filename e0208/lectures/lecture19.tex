@@ -1,0 +1,76 @@
+\lecture[19]{2024-10-23}{Point-line duality}
+
+\section{Point-line duality} \label{sec:duality}
+Let $\mcL$ be the set of lines in $\R^2$ that are not parallel to the
+vertical axis.
+
+Then $\varphi\colon (a, b) \mapsto \set{y = ax - b}$ is a bijection from
+$\R^2$ to $\mcL$.
+Let $\varphi(\text{any point})$ be its dual line,
+and $\varphi^{-1}(\text{any line})$ be its dual point.
+
+For any two non-parallel lines $\ell_1, \ell_2 \in \mcL$, write
+$\ell_1 \land \ell_2$ for their intersection point.
+For any two points $p_1, p_2 \in \R^2$, write $p_1 \lor p_2$ for the
+line passing through $p_1$ and $p_2$.
+\begin{proposition}
+    Let $(p_1, \ell_1)$, $(p_2, \ell_2)$, \dots be primal-dual pairs.
+    \begin{enumerate}
+        \item (incidence preserving) $p_1 \in \ell_2 \implies
+        p_2 \in \ell_1$.
+        \item (order reversal) $p_1$ lies above $\ell_2$ iff $p_2$ lies
+        above $\ell_1$.
+        \item If $\ell_1$ and $\ell_2$ are not parallel, then
+        $\ell_1 \land \ell_2$ is the dual of $p_1 \lor p_2$.
+        \item If $p_1, p_2, p_3$ lie on $\ell_4$, then
+        $\ell_1, \ell_2, \ell_3$ intersect at $p_4$.
+    \end{enumerate}
+\end{proposition}
+\begin{proof} \leavevmode
+    \begin{enumerate}
+        \item Let $p_1 = (a_1, b_1)$ and $p_2 = (a_2, b_2)$.
+        Then $p_1 \in \ell_2$ iff $b_1 = a_2 a_1 - b_2$.
+        This is symmetric in the indices.
+        \item Let $p_i = (a_i, b_i)$.
+        Then $p_1$ lies above $\ell_2$ iff $b_1 > a_2 a_1 - b_2$.
+        This is symmetric in the indices.
+        \item Let $p_1 = (a_1, b_1)$ and $p_2 = (a_2, b_2)$.
+        Then $\ell_1\colon y = a_1x - b_1$ and
+        $\ell_2\colon y = a_2x - b_2$.
+        These intersect at
+        $\ab(\frac{b_1-b_2}{a_1-a_2}, a_1 \frac{b_1-b_2}{a_1-a_2} - b_1)$.
+        The line joining $p_1$ and $p_2$ has slope $\frac{b_2-b_1}{a_2-a_1}$,
+        and $y$-intercept $b_1 - a_1 \frac{b_1-b_2}{a_1-a_2}$.
+
+        Better: directly from incidence preservation.
+        Since $\ell_1 \land \ell_2$ lies on both $\ell_1$ and $\ell_2$,
+        its dual point passes through both $p_1$ and $p_2$.
+        \item Direct from incidence preservation.
+    \end{enumerate}
+\end{proof}
+
+\begin{definition*}[envelope] \label{def:duality:envelope}
+    Let $L = \set{\ell_1, \dots, \ell_n} \subseteq \mcL$,
+    and let $H^- = \set{h_1^-, \dots, h_n^-} \subseteq 2^{\R^2}$ be the set
+    of lower half-spaces bounded by the lines in $L$.
+    Then the \emph{lower envelope} of $L$ is the set $\bigcap H^-$.
+    The upper envelope is the intersection of all upper half-spaces.
+\end{definition*}
+
+\begin{lemma}
+    Given a finite set of points in $\R^2$, the lower envelope of the duals
+    is given by the duals of the upper convex hull.
+\end{lemma}
+\begin{proof}
+    Relabel the points so that $p_0, p_2, \dots, p_m$ are the vertices on
+    the upper hull, listed right to left.
+    Let $\ell_i$ be the line joining $p_{i-1}$ and $p_i$, for $i \in [m]$.
+    Since every point lies below $\ell_i$, every dual line passes above the
+    dual of $\ell_i$, say $\ell_i^*$.
+    Thus $\ell_i^*$ is a vertex in the lower envelope.
+    Since the lower envelope is convex, the edges between these are also
+    part of the lower envelope.
+    This gives the complete envelope.
+
+    The lines $\varphi(p_1)$ and $\varphi(p_m)$ are left as edge cases.
+\end{proof}

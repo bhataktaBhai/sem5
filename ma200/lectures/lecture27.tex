@@ -1,0 +1,107 @@
+\lecture{2024-10-16}{}
+
+\begin{examples}
+    \item Let $f\colon \begin{aligned}
+        \R^2 &\to \R \\
+        (x, y) &\mapsto x^2 + y^2
+    \end{aligned}$. Then $(0, 0)$ is the only critical point.
+    For any $(x, y) \ne (0, 0)$, $f(x, y) > f(0, 0)$.
+    Thus it is a global minimum.
+    \item Let $f\colon \begin{aligned}
+        \R^2 &\to \R \\
+        (x, y) &\mapsto -(x^2 + y^2)
+    \end{aligned}$. Then $(0, 0)$ is the only critical point.
+    For any $(x, y) \ne (0, 0)$, $f(x, y) < f(0, 0)$.
+    Thus it is a global maximum.
+    \item Let $f\colon \begin{aligned}
+        \R^2 &\to \R \\
+        (x, y) &\mapsto x^2 - y^2
+    \end{aligned}$. Then $(0, 0)$ is the only critical point.
+    But this is neither a local minimum nor a local maximum.
+    To see this, let $\eps > 0$ be arbitrary.
+    Then $f(\eps, 0) > f(0, 0) > f(0, \eps)$.
+    Thus, $(0, 0)$ is a saddle point.
+\end{examples}
+
+Let $f\colon S \subseteq \R^n \to \R$ and $a \in S^\circ$.
+Suppose $a$ is a critical point of $f$.
+We want a criterion to determine whether $a$ is a local minimum,
+local maximum, or neither.
+Recall that for single-variable functions, the second derivative provides
+such a criterion.
+\begin{itemize}
+    \item If $f''(a) > 0$, then $a$ is a local minimum.
+    \item If $f''(a) < 0$, then $a$ is a local maximum.
+    \item If $f''(a) = 0$, the test is inconclusive.
+\end{itemize}
+
+\begin{proposition}
+    Let $f\colon B(a, r) \to \R$ be $C^2$.
+    Suppose $f'(a) = 0$.
+    If $H_f(a)$ is $\left\{\begin{aligned}
+        &\text{positive definite} \\
+        &\text{negative definite} \\
+        &\text{indefinite}
+    \end{aligned}\right.$, then $a$ is a $\left\{\begin{aligned}
+        &\text{local minimum} \\
+        &\text{local maximum} \\
+        &\text{saddle point}
+    \end{aligned}\right.$.
+\end{proposition}
+If $H_f$ is semi-definite, then the test is inconclusive.
+\begin{proof}
+    Let $\abs h < r$.
+    Since $B(a, r)$ is open and convex, Taylor's theorem yields \[
+        f(a + h) = f(a) + f'(a)(h) + \frac12 q_{f, a}(h) + r(h),
+    \] where $r(h) = o(\norm h^2)$ and $q_{f, a} = q_{H_f(a)}$ is the
+    quadratic form associated to the Hessian of $f$ evaluated at $a$.
+
+    If $H_f(a) \succ 0$ then $q_{f, a}(h) \ge \lambda \norm h^2$ for some
+    $\lambda > 0$.
+    If $f'(a) = 0$, then $\frac{f(a+h) - f(a)}{\norm h^2} \ge \lambda +
+    \frac{o(\norm h^2)}{\norm h^2} \xrightarrow{h \to 0} \lambda > 0$.
+    Thus for small enough $h$, $f(a + h) > f(a)$ and $a$ is a local minimum.
+    Symmetrically, if $H_f(a) \prec 0$, then $a$ is a local maximum.
+
+    If $H_f(a)$ is indefinite, then there exist $h_1, h_2$ of unit norm such
+    that $q_{f, a}(h_1) = \lambda_1 > 0$ and
+    $q_{f, a}(h_2) = \lambda_2 < 0$.
+    Then \begin{align*}
+        \frac{f(a+th_1) - f(a)}{t^2}
+            &= \lambda_1 + \frac{o(t^2)}{t^2}
+                \xrightarrow{t \to 0} \lambda_1 > 0, \\
+        \frac{f(a+th_2) - f(a)}{t^2}
+            &= \lambda_2 + \frac{o(t^2)}{t^2}
+                \xrightarrow{t \to 0} \lambda_2 < 0.
+    \end{align*}
+    Thus there are points arbitrarily close to $a$ where $f$ is greater than
+    $f(a)$, as well as points where $f$ is less than $f(a)$.
+\end{proof}
+\begin{examples}
+    \item $f(x, y) = x^2 + y^4$.
+    The only critical point is $(0, 0)$.
+    The Hessian is $\begin{pmatrix}
+        2 & 0 \\
+        0 & 12y^2
+    \end{pmatrix}$, which when evaluated at $(0, 0)$ is $\begin{pmatrix}
+        2 & 0 \\
+        0 & 0
+    \end{pmatrix}$.
+    This is positive semi-definite, so our test is inconclusive.
+    It is easy to see that $(0, 0)$ is the global minimum.
+    \item For $f(x, y) = -(x^2 + y^4)$, the Hessian at $(0, 0)$ is
+    negative semi-definite.
+    Again the test is inconclusive, but $(0, 0)$ is the global maximum.
+    \item For $f(x, y) = x^2 - y^4$, the critical point is $(0, 0)$
+    and the Hessian there is the same as for $x^2 + y^4$.
+    The test is inconclusive, but this time $(0, 0)$ is a saddle point.
+    \item For $f(x, y) = x^4 - y^2$, the Hessian is negative semi-definite,
+    and again $(0, 0)$ is a saddle point.
+\end{examples}
+
+% \begin{theorem}
+%     Let $S \subseteq \R^n$ and $a \in S^\circ$.
+%     Let $f\colon S \to \R$ be $C^2$ in an open neighbourhood of $a$.
+%     Suppose $f'(a) = 0$.
+%     Then SAME THING AGAIN?
+% \end{theorem}

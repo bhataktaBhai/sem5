@@ -1,0 +1,70 @@
+\lecture{2024-10-11}{}
+
+Throughout this lecture, let $S \subseteq \R^n$ and $f\colon S \to \R$.
+\begin{definition}[critical point] \label{def:crit}
+    Let $a \in S^\circ$ be such that $f$ is differentiable at $a$.
+    We say that $a$ is a \emph{critical point} of $f$ if $f'(a) = 0$.
+\end{definition}
+
+\begin{definition}[extrema] \label{def:extrema}
+    We say that $a \in S$ is a
+    \begin{enumerate}
+        \item \emph{local maximum} (resp. \emph{local minimum}) of $f$
+            if there exists an $r > 0$ such that $f(x) \le f(a)$
+            (resp. $f(x) \ge f(a)$) for all $x \in S \cap B(a, r)$.
+        \item \emph{global maximum} (resp. \emph{global minimum}) of $f$
+            if $f(x) \le f(a)$ (resp. $f(x) \ge f(a)$) for all $x \in S$.
+        \item \emph{local extremum} if it is a local maximum or minimum.
+        \item \emph{saddle point} if it is neither a local maximum nor
+            a local minimum.
+            \TODO[Confirm equality signs]
+    \end{enumerate}
+\end{definition}
+
+\begin{proposition}
+    Let $a \in S^\circ$ be such that $f$ is differentiable at $a$, and
+    $a$ is a local extremum of $f$.
+    Then $a$ is a critical point of $f$.
+\end{proposition}
+\begin{proof}
+    For $i \in [n]$ let $g_i\colon (-\eps, \eps) \to \R$ be given by
+    $g_i(t) = f(a + t e_i)$, where $\eps$ is chosen so that everything is
+    defined.
+    Then $g_i$ is differentiable at $0$ and $g_i'(0) = D_i f(a)$.
+    Moreover, $0$ is a local extremum of $g_i$.
+    Thus by the $1$-dimensional result, $g_i'(0) = 0$, so that
+    $f'(a) = \begin{bmatrix} D_1 f(a) & \cdots & D_n f(a) \end{bmatrix}
+    = 0$.
+\end{proof}
+
+\begin{examples}
+    \item Find the maximum volume of an axes-parallel cuboid that can be
+    inscribed in the ellipsoid \[
+        E = \sset{(x, y, z) \in \R^3}
+            {x^2 + \frac{y^2}{2} + \frac{z^2}{4} = 1}.
+    \]
+    Geometrically, it only makes sense to keep the cuboid symmetric about
+    the origin in each direction, and to keep its vertices on the ellipsoid.
+    Thus let its vertices be $(\pm x, \pm y, \pm z)$, where $x, y, z > 0$.
+    The volume is $V = 8xyz$, and
+    $z = 2 \sqrt{1 - x^2 - \frac{y^2}{2}}$.
+    Thus $V(x, y) = 16 xy \sqrt{1 - x^2 - \frac{y^2}{2}}$.
+    Let $S = \sset{(x, y) \in \R^2}
+    {x^2 + \frac{y^2}{2} \le 1, x \ge 0, y \ge 0}$.
+    $S$ is compact, and $f \equiv 0$ on $\partial S$.
+    The only possible local extrema are the critical points.
+    In the interior,
+    \begin{align*}
+        D_1 V(x, y) &= 16 y \cdot \frac1{2 \sqrt{x^2 - x^4 - \frac{x^2y^2}{2}}}
+            \cdot (2x - 4x^3 - xy^2) = 0 \\
+        \implies x &= \frac12 \sqrt{2 - y^2}. \\
+        D_2 V(x, y) &= 16 x \cdot \frac1{2 \sqrt{y^2 - x^2 y^2 - \frac{y^4}{2}}}
+            \cdot (2y - 2x^2y - 2y^3) = 0 \\
+        \implies y &= \sqrt{1 - x^2}.
+    \end{align*}
+    Together, these imply $x = \frac12 \sqrt{2 - 1 + x^2}$, so
+    $3x^2 = 1$ or $x = \frac1{\sqrt3}$.
+    This gives $y = \frac{\sqrt2}{\sqrt3}$, and
+    $z = \frac 2{\sqrt3}$.
+    The corresponding volume is $V = \frac{16}{3\sqrt3}$.
+\end{examples}

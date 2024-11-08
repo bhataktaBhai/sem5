@@ -53,3 +53,27 @@ all $i \in [n]$.
         D_{12}f(a, b) = D_{21}f(a, b).
     \]
 \end{theorem}
+\begin{proof}
+    Define the function \begin{align*}
+        \Delta(h, k) &\coloneq f(a + h, b + k) - f(a + h, b)
+            + f(a, b) - f(a, b + k) \\
+            &= [f(a + h, b + k) - f(a + h, b)] - [f(a, b + k) - f(a, b)].
+    \end{align*}
+    Define $f(t, b + k) - f(t, b)$ to be $u(t)$.
+    Then \begin{align*}
+        \Delta(h, k) &= u(a + h) - u(a) \\
+            &= h u'(a + \theta_1 h)
+                \quad \text{for some $\theta_1 \in (0, 1)$} \\
+            &= h [D_1f(a + \theta_1 h, b + k) - D_1f(a + \theta_1 h, b)] \\
+            &= h k D_{21}f(a + \theta_1 h, b + \theta_2 k)
+                \quad \text{for some $\theta_2 \in (0, 1)$}.
+    \end{align*}
+    Since $D_{21}f$ is continuous at $(a, b)$, we have that
+    \begin{align*}
+        D_2f(a + h, b) - D_2f(a, b) &= \lim_{k \to 0} \frac{\Delta(h, k)}{k} \\
+            &= h D_{21} f(a + \theta_1 h, b),
+        \shortintertext{so that}
+        D_{12}f(a, b) &= \lim_{h \to 0}\frac{D_2f(a + h, b) - D_2f(a, b)}{h} \\
+            &= D_{21} f(a, b). \qedhere
+    \end{align*}
+\end{proof}

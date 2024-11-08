@@ -1,0 +1,67 @@
+\lecture{2024-10-14}{}
+
+\begin{examples}
+    \item Find the maximum volume of an open rectangular garbage box which
+    has surface area $\SI{3}{\meter^3}$.
+
+    Let the dimensions of the box be $x, y, z$,
+    with volume $xyz$ and surface area $xy + 2yz + 2zx = 3$.
+    Then $z = \frac{3 - xy}{2(x + y)}$, so that the volume \[
+        V(x, y) = \frac{xy(3 - xy)}{2(x + y)}.
+    \] The domain of interest is $S = \sset{(x, y) \in \R^2}
+    {x > 0, y > 0, xy < 3}$.
+    This is open and unbounded.
+    We'll fix that later.
+
+    For critical points, notice that $V(x, y) = V(y, x)$, and \begin{align*}
+        D_1 V(x, y) = 0
+            &\implies (3y - 2xy^2)(x + y) - xy(3 - xy) = 0 \\
+            &\implies 3y^2 - x^2y^2 - 2xy^3 = 0 \\
+            &\implies 3 - x^2 - 2xy = 0.
+    \end{align*}
+    Symmetrically, $D_2 V(x, y) = 0 \implies 3 - y^2 - 2xy = 0$.
+    Thus $x = y$, so $x = y = 1$.
+    The volume at $(1, 1)$ is $\frac12$.
+    We claim that this is the maximum volume.
+
+    To see this, observe that \[
+        V(x,y) = \frac{3xy}{2(x+y)} < \frac32 \min(x, y).
+    \] Thus whenever $x < \frac13$ or $y < \frac13$, we have
+    $V(x, y) < \frac12$.
+    Thus we can restrict our view to the compact set \[
+        K = \sset{(x, y) \in \R^2}{x \ge \frac13, y \ge \frac13, xy \le 3}.
+    \]
+    For $xy = 3$, $z = 0$ so $V(x, y) = 0$.
+    For $x = \frac13$ or $y = \frac13$, $V(x, y) < \frac12$.
+    Thus the maximum volume is attained at $(x, y) = (1, 1)$ as computed
+    above.
+\end{examples}
+
+\begin{definition}
+    We will denote the set of symmetric $n \times n$ matrices by $S(n)$.
+    Alternatively, $S(n)$ is the disjoint union of the sets of
+    positive definite, negative definite, indefinite and semi-definite
+    matrices.
+\end{definition}
+\begin{exercise*}
+    Let $A \in S(n)$.
+    Then
+    \begin{enumerate}
+        \item $A$ is positive (resp. negative) definite iff all eigenvalues
+        of $A$ are strictly positive (resp. negative).
+        \item $A$ is indefinite iff $A$ has both positive and negative
+        eigenvalues.
+        \item $A$ is positive (resp. negative) semi-definite iff all
+        eigenvalues of $A$ are non-negative (resp. non-positive)
+        and $A$ is singular.
+    \end{enumerate}
+\end{exercise*}
+
+\begin{exercise*}
+    Let $A = \begin{pmatrix}
+        a & b \\
+        b & c
+    \end{pmatrix} \in S(2)$.
+    Under what conditions is $A$ positive definite, negative definite,
+    indefinite and semi-definite?
+\end{exercise*}

@@ -1,0 +1,170 @@
+\lecture{2024-10-23}{}
+\section{The method of Lagrange multipliers} \label{sec:lm}
+We will first consider the case of two variables.
+\begin{proposition*} \label{thm:lm:2}
+    Let $f, g \in C^1(\R^2, \R)$.
+    Let $(x_0, y_0)$ be an extremum of $f$ subject to the constraint
+    $g(x, y) = 0$.
+    Assume also that $\nabla g \ne 0$.
+    Then there exists $\lambda \in \R$ such that \[
+        \nabla(f + \lambda g)(x_0, y_0) = 0.
+    \]
+\end{proposition*}
+\begin{remark}
+    This is NOT a sufficient condition.
+\end{remark}
+The method is then to find $x, y$ that satisfy \[
+    \left\{\begin{aligned}f_x + \lambda g_x &= 0, \\
+    f_y + \lambda g_y &= 0, \\
+    g &= 0.
+    \end{aligned}\right.
+\] These are $3$ equations in $3$ unknowns.
+
+\begin{example}
+    Find the extrema of $f(x, y) = x^2 + y^2 - x - y - xy$ in the domain
+    $D = \sset{(x, y)}{x + y \le 3, x \ge 0, y \ge 0}$.
+    \begin{description}
+        \item[Step 1] Find the critical points in the interior of $D$.
+        \begin{align*}
+            f_x(x, y) &= 2x - y - 1 \overset{!}{=} 0, \\
+            f_y(x, y) &= 2y - x - 1 \overset{!}{=} 0.
+        \end{align*}
+        This has unique solution $x = y = 1$.
+        \item[Step 2] Find the critical points on the boundary of $D$.
+        \begin{description}
+            \item[($x = 0$)] $f(0, y) = y^2 - y$, with critical point
+            $y = \frac12$.
+            \item[($y = 0$)] $f(x, 0) = x^2 - x$, with critical point
+            $x = \frac12$.
+            \item[($x + y = 3$)] Here we will use Lagrange multipliers.
+            (I think this is overkill.)
+            \begin{align*}
+                (2x - y - 1) + \lambda(1) &= 0, \\
+                (2y - x - 1) + \lambda(1) &= 0, \\
+                x + y - 3 &= 0.
+            \end{align*}
+            Again by symmetry, $x = y$, so $x = y = \frac 32$ and
+            $\lambda = -\frac12$ is the unique solution.
+            \item[endpoints] $(0, 0)$, $(0, 3)$, $(3, 0)$.
+        \end{description}
+        \item[Step 3] Compute all critical values.
+        \begin{align*}
+            f(1, 1) &= -1 \\
+            f(0, \frac12) &= -\frac14 \\
+            f(\frac12, 0) &= -\frac14 \\
+            f(\frac32, \frac32) &= -\frac 34 \\
+            f(0, 0) &= 0 \\
+            f(0, 3) &= 6 \\
+            f(3, 0) &= 6
+        \end{align*}
+    \end{description}
+    Thus $f$ attains a global minimum at $(1, 1)$, and global maxima at
+    $(0, 3)$ and $(3, 0)$.
+\end{example}
+
+\begin{example}
+    Find the highest and lowest point of the ellipse that lies in the
+    intersection of the cylinder $x^2 + y^2 = 1$ and the plane
+    $x + y + 2z = 2$.
+
+    We wish to extremize $z$ over the given constraints.
+    Let \begin{align*}
+        f(x, y, z) &= z, \\
+        g(x, y, z) &= \begin{pmatrix}
+            x^2 + y^2 - 1 \\
+            x + y + 2z - 2
+        \end{pmatrix}.
+    \end{align*}
+    Computing the derivatives, \begin{align*}
+        f'(x, y, z) &= \begin{pmatrix}
+            0 & 0 & 1
+        \end{pmatrix}, \\
+        g'(x, y, z) &= \begin{pmatrix}
+            2x & 2y & 0 \\
+            1 & 1 & 2
+        \end{pmatrix}.
+    \end{align*}
+    Clearly $g'$ has full rank everywhere (except the origin, which we are
+    not concerned with).
+    We wish to solve \begin{align*}
+        f'(x, y, z) &= \begin{pmatrix}
+            \lambda_1 & \lambda_2
+        \end{pmatrix} g'(x, y, z) \\
+        \begin{pmatrix}
+            0 & 0 & 1
+        \end{pmatrix} &= \begin{pmatrix}
+            2x \lambda_1 + \lambda_2 & 2y \lambda_1 + \lambda_2 & 2 \lambda_2
+        \end{pmatrix} \\
+        \implies \lambda_2 &= \frac12 \\
+        \implies x = y &= - \frac1{4\lambda_1}.
+    \end{align*}
+    Since $(x, y, z)$ must satisfy the constraints, we have \[
+        \frac1{16\lambda_1^2} + \frac1{16\lambda_1^2} = 1,
+        \text{ so } \lambda_1 = \pm\frac1{2\sqrt 2}.
+    \] The corresponding $x$ and $y$ are $\mp \frac1{\sqrt 2}$.
+    The highest point is
+    $(-\frac1{\sqrt 2}, -\frac1{\sqrt 2}, 1 + \frac1{\sqrt 2})$
+    and the lowest is
+    $(\frac1{\sqrt 2}, \frac1{\sqrt 2}, 1 - \frac1{\sqrt 2})$.
+\end{example}
+
+\begin{example}
+    Find the operator norm of $A = \begin{pmatrix}
+        1 & 2 \\
+        0 & 1
+    \end{pmatrix}$.
+
+    We wish to maximize $\norm{Ax}^2$ subject to $\norm x^2 = 1$.
+    Let \begin{align*}
+        f(x, y) &= \norm*{\begin{pmatrix}
+            1 & 2 \\
+            0 & 1
+        \end{pmatrix} \begin{pmatrix}
+            x
+            \\ y
+        \end{pmatrix}}^2 = \norm*{\begin{pmatrix}
+            x + 2y
+            \\ y
+        \end{pmatrix}}^2 = x^2 + 4xy + 5y^2, \\
+        g(x, y) &= x^2 + y^2 - 1.
+    \end{align*}
+    Following the method, \begin{align*}
+        f'(x, y) &= \begin{pmatrix}
+            2x + 4y &
+            4x + 10y
+        \end{pmatrix}, \\
+        g'(x, y) &= \begin{pmatrix}
+            2x & 2y
+        \end{pmatrix} \ne 0 \\
+        2x + 4y &\overset{!}{=} 2\lambda x, \\
+        4x + 10y &\overset{!}{=} 2\lambda y,
+        \shortintertext{Rearranging gives}
+        (1 - \lambda)x + 2y &= 0, \\
+        2x + (5 - \lambda)y &= 0.
+    \end{align*}
+    For these to have non-trivial solutions, we must have \[
+        (1 - \lambda)(5 - \lambda) - 4 = 0,
+    \] which gives $\lambda = 3 \pm 2\sqrt 2$.
+    Then the equations simplify to $x = -(1 \pm \sqrt 2)y$.
+    Let $u = -(1 \pm \sqrt2)$.
+    The corresponding $x$ and $y$ on the unit circle are given by \begin{align*}
+        y^2 + (1 \pm \sqrt 2)^2 y^2 &= 1, \\
+        \iff (4 \pm 2\sqrt 2)y^2 &= 1, \\
+        \iff y &= \pm \frac1{\sqrt{4 \pm 2\sqrt 2}} \\
+        \iff x &= \mp \frac{1 \pm \sqrt 2}{\sqrt{4 \pm 2\sqrt 2}}.
+    \end{align*}
+    Then \begin{align*}
+        f(x, y) &= x^2 + 4xy + 5y^2 \\
+        &= (u^2 + 4u + 5)y^2 \\
+        &= \frac{3 \pm 2\sqrt 2 - 4 \mp 4 \sqrt 2 + 5}{4 \pm 2\sqrt 2} \\
+        &= \frac{4 \mp 2\sqrt 2}{4 \pm 2\sqrt 2} \\
+        &= \frac{2 \mp \sqrt 2}{2 \pm \sqrt 2} \\
+        &= \frac12 (6 \mp 4\sqrt 2) \\
+        &= 3 \mp 2\sqrt 2.
+    \end{align*}
+    Thus the maximum is $3 + 2\sqrt 2$, and so the operator norm is \[
+        \sqrt{3 + 2\sqrt 2}
+        = \sqrt{1 + 2 \sqrt 2 + \sqrt 2^2}
+        = 1 + \sqrt 2.
+    \]
+\end{example}

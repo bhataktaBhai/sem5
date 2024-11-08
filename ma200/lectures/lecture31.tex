@@ -1,0 +1,91 @@
+\lecture{2024-10-25}{}
+\begin{example}
+    Let $a > b > c > 0$.
+    Find the minimum and maximum $f(x, y, z) = x^2 + y^2 + z^2$ sucject to
+    $\frac{x^2}{a^2} + \frac{y^2}{b^2} + \frac{z^2}{c^2} = 1$.
+    Obviously the minimum is $c$ and maximum is $a$.
+
+    Let $g$ be the constraint.
+    \begin{align*}
+        f'(x, y, z) &= \begin{pmatrix}
+            2x & 2y & 2z
+        \end{pmatrix}, \\
+        g'(x, y, z) &= \begin{pmatrix}
+            \frac{2x}{a^2} & \frac{2y}{b^2} & \frac{2z}{c^2}
+        \end{pmatrix}. \\
+        \ab(1 - \frac{\lambda}{a^2}) x &= 0, \\
+        \ab(1 - \frac{\lambda}{b^2}) y &= 0, \\
+        \ab(1 - \frac{\lambda}{c^2}) z &= 0.
+    \end{align*}
+    At least one of $x, y, z$ is non-zero on the ellipsoid.
+    Thus $\lambda = a^2, b^2$ or $c^2$, with corresponding solutions
+    $(\pm a, 0, 0)$, $(0, \pm b, 0)$ and $(0, 0, \pm c)$.
+    Inspection gives the result.
+\end{example}
+
+\begin{proof}[Proof of \cref{thm:lm:2} (2 variables)]
+    Let $f, g\colon \R^2 \to \R$ be $C^1$ and $(x_0, y_0)$ be a local
+    extremum of $f$ subject to $g(x, y) = 0$.
+    Further assume that $\nabla g(x_0, y_0) \ne 0$.
+    WLOG, we can assume $\pdv{g}{y}(x_0, y_0) \ne 0$.
+
+    By the implicit function theorem, there exists a $C^1$ function
+    $y\colon \R \to \R$ such that $g(x, y(x)) = 0$ near $(x_0, y_0)$.
+    Furthermore, \[
+        y'(x_0) = -\ab(\pdv{g}{y}(x_0, y_0))^{-1}\ab(\pdv{g}{x}(x_0, y_0)).
+    \]
+
+    At $(x_0, y_0)$, $f$ has a local extremum subject to $g = 0$.
+    Thus $\varphi\colon x \in \R \mapsto f(x, y(x)) \in \R$ has a local
+    extremum at $x_0$.
+    Differentiating using the chain rule gives \[
+        f_x(x_0, y_0) + f_y(x_0, y_0)y'(x_0) = 0.
+    \] Substituting $y'(x_0)$ gives that $\nabla f$ and $\nabla g$ are
+    parallel at $(x_0, y_0)$.
+\end{proof}
+
+\begin{proof}[Proof of \cref{thm:lm} (the general case)]
+    Assume all hypotheses of the theorem are satisfied.
+    Since $g'(a)\colon \R^n \to \R^m$ has rank $m$, we must have $m \le n$.
+    If $n = m$, then $g'(a)$ is invertible.
+    Thus by the inverse function theorem, $g$ is a local diffeomorphism
+    around $a$, and since $\nabla g_1(a)$, $\nabla g_2(a)$, \dots,
+    $\nabla g_m(a)$ are linearly independent, they span $\R^n$.
+    Thus $\nabla f(a) \in \R^n$ is trivially a linear combination of
+    the $\nabla g_i(a)$.
+
+    Now assume $m < n$.
+    Permute the $g_i$ such that the last $m$ rows of $g'(a)$ are linearly
+    independent, and view $g$ as a $C^1$ map from $\R^{n-m} \times \R^m$
+    to $\R^m$.
+    Let $a = (a_x, a_y)$.
+    By the implicit function theorem, there is a $C^1$ map
+    $y\colon U' \to \R^m$ such that $g(x, y(x)) = 0$ for $x \in U'$,
+    where $U'$ is a neighbourhood of $a_x$.
+    Define $\psi(x) = (x, y(x))$.
+    {\small(Keep in mind that $\psi(a_x) = a$.)}
+    Then \[
+        \R^{n-m} \supseteq U'
+            \xrightarrow{\psi} \R^n \supseteq U
+            \xrightarrow{f} \R
+    \] Since $a$ is an extremum of $f$ subject to $g = 0$,
+    $a_x$ is an extremum of $f \circ \psi$ on $U'$.
+    Thus \begin{align*}
+        (f \circ \psi)'(a_x) &= 0 \\
+        \implies f'(\psi(a_x))\psi'(a_x) &= 0 \\
+        \implies f'(a) \psi'(a_x) &= 0 \\
+        \implies [f'(a)]_{1 \times n} [\psi'(a_x)]_{n \times (n-m)} &= 0.
+    \end{align*}
+    That is, $[f'(a)]$ is orthogonal to each column of $[\psi'(a_x)]$.
+    Since $(g \circ \psi)(x) = 0$ for all $x \in U'$, we have
+    $g'(a)\psi'(a_x) = 0$.
+    Thus each row of $g'(a)$ is orthogonal to each column of $\psi'(a_x)$.
+
+    But $\psi'(a_x)(h) = (h, y'(a_x)(h))$, so the first $n-m$ rows of
+    $[\psi'(a_x)]$ are the identity matrix.
+    The columns of $[\psi'(a_x)]$ are linearly independent!
+    $g'(a)$ has rank $m$ and $\psi'(a_x)$ has rank $n-m$.
+    Thus the row space of $g'(a)$ is the orthogonal complement of the
+    column space of $\psi'(a_x)$.
+    Then $\nabla f(a)$ is a linear combination of the $\nabla g_i(a)$.
+\end{proof}

@@ -1,0 +1,99 @@
+\lecture{2024-10-21}{}
+\begin{exercise*}
+    Compute $\det'$.
+\end{exercise*}
+\begin{solution}
+    We know that $\odv{}{t} \det(I + At) = \Tr(A)$.
+    \TODO[Why?]
+
+    Thus $\det(I + At) = 1 + \Tr(A)t + o(t)$.
+    So \begin{align*}
+        \det(X + H) &= \det(X) \det(I + X^{-1}H) \\
+        &= \det(X) (1 + \Tr(X^{-1}H) + o(\norm H)) \\
+        &= \det(X) + \Tr(X^{-1}H) \det(X) + o(\norm H) \\
+        \implies \det{}'(X)(H) &= \Tr(X^{-1}H) \det(X)
+    \end{align*}
+    \TODO[What about non-invertible matrices?]
+\end{solution}
+
+
+\begin{theorem*}[Lagrange multipliers] \label{thm:lm}
+    Let $U \subseteq \R^n$ be open and $f\colon U \to \R$ be differentiable.
+    Let $g\colon U \to \R^m$ be $C^1$ and $S$ be the level zero set of $g$.
+    Let $a \in S$ be a local extremum of $f$ in $S$ and $g'(a)$ have rank
+    $m$.
+    Then there exist scalars $\lambda_1, \lambda_2, \dots, \lambda_m$ such
+    that \[
+        \nabla f(a) = \sum_{i=1}^m \lambda_i \nabla g_i(a).
+    \]
+\end{theorem*}
+\begin{remarks}
+    \item $[f'(a)] = \nabla f(a)$ and $[g_i'(a)] = \nabla g_i(a)$.
+    Thus the theorem can be written as \begin{align*}
+        [f'(a)] &= \sum_{i=1}^m \lambda_i [g_i'(a)] \\
+        \implies f'(a) &= \sum_{i=1}^m \lambda_i g_i'(a).
+    \end{align*}
+    \item $[g'(a)] = \begin{pmatrix}
+        \nabla g_1(a) \\
+        \nabla g_2(a) \\
+        \vdots \\
+        \nabla g_m(a)
+    \end{pmatrix}$.
+    Then $g'(a)$ has rank $m$ iff $\grad g_1(a)$, $\grad g_2(a)$, \dots,
+    $\grad g_m(a)$ are linearly independent.
+    \item $\lambda_1, \lambda_2, \dots, \lambda_m$ are called the
+    Lagrange multipliers.
+\end{remarks}
+
+\begin{examples}
+    \item Find the maximum value of $x_1^2x_2^2\dots x_n^2$ subject to the
+    condition $x_1^2 + x_2^2 + \dots + x_n^2 = \alpha^2$.
+
+    Here, $g\colon \R^n \to \R$ and $g(x) = x_1^2 + x_2^2 + \dots + x_n^2
+    - \alpha^2$.
+    $f$ is obviously $\R^n \to \R$ with $f(x) = x_1^2x_2^2\dots x_n^2$.
+    \begin{align*}
+        f'(x) &= \begin{pmatrix}
+            2x_1x_2^2\dots x_n^2
+            & 2x_1^2x_2\dots x_n^2
+            & \dots
+            & 2x_1^2x_2^2\dots x_{n-1}
+        \end{pmatrix} \\
+        g'(x) &= \begin{pmatrix}
+            2x_1 & 2x_2 & \dots & 2x_n
+        \end{pmatrix}
+    \end{align*}
+    By the Lagrange multipliers theorem, there exists a $\lambda$ such that
+    \begin{align*}
+        x_1 x_2^2 \dots x_n^2 &= \lambda x_1 \\
+        x_1^2 x_2 \dots x_n^2 &= \lambda x_2 \\
+        &\vdotswithin{=} \\
+        x_1^2 x_2^2 \dots x_{n-1} &= \lambda x_n
+    \end{align*}
+    In other words, \[
+        x_1^2 x_2^2 \dots x_{n-1}^2 = \lambda x_1^2 = \lambda x_2^2 = \dots
+        = \lambda x_n^2.
+    \] If any $x_i$ is zero, then $\lambda$ is zero (since some $x_i$ must
+    be non-zero everywhere on the sphere).
+    This is one possible solution.
+    Indeed, any point where any $x_i$ is zero is a (global) minimum.
+
+    Otherwise, we must have \[
+        \abs x_1 = \abs x_2 = \dots = \abs x_n = \frac{\alpha}{\sqrt n},
+    \] for which $f(x) = \frac{\alpha^{2n}}{n^n}$.
+    This is obviously the global maximum by the AM-GM inequality.
+    % In fact, this can be viewed as a proof for the generalized AM-GM
+    % inequality (recall how ugly the induction was!) once we prove this
+    % method works.
+\end{examples}
+
+Let $W \subseteq \R^n$.
+Then $W^\perp = \sset{x \in \R^n}{\forall y \in W, \innerp xy = 0}$.
+\begin{exercise*} \leavevmode
+    \begin{enumerate}
+        \item $W^\perp$ is a subspace of $\R^n$.
+        \item If $W$ is a subspace of $\R^n$, then $(W^\perp)^\perp = W$
+        and $\R^n = W \oplus W^\perp$ (orthogonal direct sum).
+        \item If $V \subseteq W$ then $W^\perp \subseteq V^\perp$.
+    \end{enumerate}
+\end{exercise*}

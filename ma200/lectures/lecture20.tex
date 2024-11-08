@@ -59,19 +59,60 @@ $\phi\colon D(S) \to \R^m$.
     $y = -\sqrt{1 - x^2}$ locally.
 \end{examples}
 
-\begin{theorem}[implicit function theorem] \label{thm:imft}
-    Let $k \ge 1$, $U \subopeneq \R \times \R$ and $f \in C^k(U, \R)$.
+% \begin{theorem}[implicit function theorem] \label{thm:imft}
+%     Let $k \ge 1$, $U \subopeneq \R \times \R$ and $f \in C^k(U, \R)$.
+%     Suppose $(a, b) \in U$ is such that $f(a, b) = 0$ and
+%     $\pdv{f}{y}(a, b) \ne 0$.
+%     Let $S_1 = \sset{(x, y)}{f(x, y) = 0}$.
+%     Then there exists a neighbourhood $V$ of $(a, b)$ and a function
+%     $\phi\colon D(S_1) \to \R$ such that
+%     \begin{enumerate}
+%         \item $(x, \phi(x)) \in V$ for all $x \in D(S_1)$,
+%         \item $\phi(a) = b$,
+%         \item $f(x, \phi(x)) = 0$ for all $x \in D(S_1)$.
+%         \item If $f(x, y) = 0$ for $x \in D(S_1)$ and $(x, y) \in V$,
+%             then $y = \phi(x)$.
+%     \end{enumerate}
+%     Then there exists an open neighbourhood $V$ of $(a, b)$ and an open
+%     neighbourhood $W$ of $a$ such that
+% \end{theorem}
+\begin{theorem*}[implicit function theorem] \label{thm:imft}
+    Let $k \ge 1$, $U \subopeneq \R^m \times \R^n$ and $f \in C^k(U, \R^m)$.
     Suppose $(a, b) \in U$ is such that $f(a, b) = 0$ and
-    $\pdv{f}{y}(a, b) \ne 0$.
-    Then there exists a neighbourhood $V$ of $(a, b)$ and a function
-    $\phi\colon D(S_1) \to \R$ such that
+    $\pdv{f}{y}(a, b)$ is invertible.
+    Then there exists a neighbourhood $V$ of $(a, b)$ and $W$ of $a$,
+    and a function $\phi\colon W \to \R^n$ such that
     \begin{enumerate}
-        \item $(x, \phi(x)) \in V$ for all $x \in D(S_1)$,
+        \item $(x, \phi(x)) \in V$ for all $x \in W$,
         \item $\phi(a) = b$,
-        \item $f(x, \phi(x)) = 0$ for all $x \in D(S_1)$.
-        \item If $f(x, y) = 0$ for $x \in D(S_1)$ and $(x, y) \in V$,
+        \item $f(x, \phi(x)) = 0$ for all $x \in W$.
+        \item If $f(x, y) = 0$ for $x \in W$ and $(x, y) \in V$,
             then $y = \phi(x)$.
+        \item $\phi'(a) = -\ab({\pdv fy(a, b)})^{-1} \pdv fx(a, b)$.
     \end{enumerate}
-    Then there exists an open neighbourhood $V$ of $(a, b)$ and an open
-    neighbourhood $W$ of $a$ such that
-\end{theorem}
+\end{theorem*}
+\begin{proof}
+    Define $F\colon U \to \R^{n+m}$ by $F(x, y) = (x, f(x, y))$.
+    Obviously $F$ is $C^k$ on $U$.
+    Then $F'(x, y)(h, k) = (h, f'(x, y)(h, k))$ is zero iff $h = 0$ and
+    $f'(x, y)(0, k) = \pdv fy(x, y)(k) = 0$.
+    Since $\pdv fy(a, b)$ is invertible, $F'(a, b)(h, k) = 0$ iff $h = 0$
+    and $k = 0$.
+    Thus $F'(a, b)$ is invertible.
+
+    By the inverse function theorem, there exist open sets
+    $V_1 \ni (a, b)$ and $W_1 \ni (a, 0)$ such that $F\colon V_1 \to W_1$
+    is a $C^k$-diffeomorphism.
+    Let $W \ni a$ be an open set such that $(x, 0) \in W_1$
+    for all $x \in W$.
+    Then there exists a function $\phi\colon W \to \R^n$ given by
+    $\phi(x) = \pi_2(F^{-1}(x, 0))$ such that
+    \begin{enumerate}
+        \item $(x, \phi(x)) \in V_1$ for all $x \in W$
+            (since $\pi_1(F^{-1}(x, 0)) = x$),
+        \item $\phi(a) = \pi_2(F^{-1}(a, 0)) = \pi_2(a, b) = b$,
+        \item $F(x, \phi(x)) = F(x, \pi_2(F^{-1}(x, 0))) = (x, 0)$, so that
+            $f(x, \phi(x)) = 0$ for all $x \in W$.
+        \item yada yada \qedhere
+    \end{enumerate}
+\end{proof}

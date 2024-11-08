@@ -1,4 +1,15 @@
 \lecture{2024-10-07}{}
+
+\begin{corollary}
+    Let $U \subopeneq \R^n$ and $f\colon U \to \R$.
+    Suppose $f \in C^k(U)$.
+    Tgeb $D_{i_1 \dots i_m} f = D_{i_{\sigma(1)} \dots i_{\sigma(m)}} f$
+    for all $1 \le m \le k$, $i_j \in [n]$ and $\sigma \in S_m$.
+\end{corollary}
+\begin{proof}
+    \TODO[Exercise] % TODO: induct
+\end{proof}
+
 \begin{definition} \label{def:quadform}
     Let $A \in M_n(\R)$ be symmetric.
     We define $B_A\colon \R^n \times \R^n \to \R$ by \[
@@ -31,7 +42,8 @@
         g'(t) &= f'(\gamma(t)) \gamma'(t)
             = \sum_{i=1}^n D_i f(\gamma(t)) h_i \\
         g''(t) &= \sum_{j=1}^n \sum_{i=1}^n D_{ji} f(\gamma(t)) h_i h_j \\
-            &\mathrel{\makebox[\widthof{=}]{\vdots}} \\
+            % &\mathrel{\makebox[\widthof{=}]{\vdots}} \\
+            &\vdotswithin{=} \\
         g^{(m)}(t) &= \sum_{i_1, \dots, i_m} D_{i_1 \dots i_m} f(\gamma(t))
             h_{i_1} \dots h_{i_m} \qedhere
     \end{align*}

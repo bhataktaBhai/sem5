@@ -1,0 +1,37 @@
+\lecture{2024-10-18}{}
+
+\begin{definition}[level set] \label{def:level}
+    Let $U \subseteq \R^n$ and $f\colon U \to \R$.
+    The set \[
+        L_c(f) = \sset{x \in U}{f(x) = c}
+    \] is the \emph{level set} of $f$ with level $c$.
+\end{definition}
+\begin{remark}
+    For $n = 2$ and $3$, we call these level curves and level surfaces.
+    Note that they need not be curves or surfaces, as in the case of
+    constant functions.
+\end{remark}
+\begin{examples}
+    \item $f(x, y) = x^2 + y^2$ has level sets $L_c(f) = \O$ if $c < 0$,
+    $L_0(f) = \set{(0, 0)}$, and $L_c(f) = $ the circle of radius $\sqrt c$
+    centered at the origin when $c > 0$.
+    \item $f(x, y) = xy$ has level sets $L_c(f) = \sset{(x, y) \in \R^2}
+    {xy = c}$ which are axis-aligned rectangular hyperbolas.
+\end{examples}
+
+Suppose $U \subseteq \R^n$ and $f\colon U \to \R$ is $C^1$.
+Let $a \in L_c$ and $f'(a) \ne 0$ (that is, $D_if(a) \ne 0$ for some $i$).
+Let $g = f - f(a)$, so that $g(a) = 0$.
+$D_ig(a) = D_if(a) \ne 0$.
+
+By the implicit function theorem, $L_c$ can be parameterized by $n-1$
+coordinates in an open neighborhood of $a$.
+If $\nabla f \ne 0$ at any point of $L_c$, then $L_c$ can be parameterized
+locally by $n-1$ coordinates at each point.
+In other words, $L_c$ is an $(n-1)$-dimensional manifold.
+
+\begin{definition}[regularity] \label{def:regular}
+    Given a $C^1$-function $f\colon U \to \R$, a value $c \in \R$ is
+    \emph{regular} if $L_c(f) \ne \O$ and $\nabla f(x) \ne 0$ for every
+    $x \in L_c(f)$.
+\end{definition}
